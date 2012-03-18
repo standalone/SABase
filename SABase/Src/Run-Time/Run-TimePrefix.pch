@@ -1,0 +1,18 @@
+//
+
+#define							DEBUG						1
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import <UIKit/UIKit.h>
+	
+	#import "SA_Base.h"
+#endif
+
+
+#define RUN_TIME_TESTS
+
+
+#define	SenTestCase				NSObject
+#define	STAssertTrue			SA_Assert
+

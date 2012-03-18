@@ -1,0 +1,281 @@
+//
+//  SA_ConnectionQueue.h
+//
+//  Created by Ben Gottlieb on 3/29/09.
+//  Copyright 2009 Stand Alone, Inc.. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "SA_Utilities.h"
+#import <SystemConfiguration/SCNetworkReachability.h>
+
+#ifdef LOG_CONNECTION_PROGRESS
+	#define					LOG_CONNECTION_START(c)				NSLog(@"Starting: <0x%X> %@ (%@)", c, [[[c url] absoluteString] truncateToLength: 40], c.delegate)
+	#define					LOG_CONNECTION_PHASE(phase, conn)	NSLog(@"%@: <0x%X>", phase, [conn url])
+#else
+	#define					LOG_CONNECTION_START(c)	
+	#define					LOG_CONNECTION_PHASE(phase, conn)
+#endif
+
+#if DEBUG
+	#define			LOG_CONNECTION(connection)				LOG_DATA(connection.uploadedDataStream, connection.tag) 
+	#define			LOG_UPLOAD(connection, name)			[connection.uploadedDataStream writeToFile: [[NSString stringWithFormat: @"~/Library/Downloads/%@ up.txt", name] stringByExpandingTildeInPath] options: 0 error: nil]
+	#define			LOG_DOWNLOAD(connection, name)			[connection.downloadedDataStream writeToFile: [[NSString stringWithFormat: @"~/Library/Downloads/%@ down.txt", name] stringByExpandingTildeInPath] options: 0 error: nil]
+#else
+	#define			LOG_CONNECTION(connection)
+	#define			LOG_UPLOAD(connection, name)
+	#define			LOG_DOWNLOAD(connection, nam)
+#endif
+
+#if !TARGET_OS_IPHONE
+	typedef int				UIBackgroundTaskIdentifier;
+#endif
+
+#define			HTTP_STATUS_CODE_IS_ERROR(c)				(c >= 400)
+
+#define			kUIBackgroundTaskInvalid				0
+
+@class SA_Connection;
+
+typedef void (^connectionFinished)(SA_Connection *incoming, int resultCode, id error);
+
+typedef enum {
+	connection_dontRecord,				//default behavior
+	connection_record,					//record all transactions
+	connection_playback,				//playback pre-recorded transactions, fail others
+	connection_playbackAndFetch			//playback pre-recorded transactions, run others as normal
+} connection_record_setting;
+
+
+@protocol SA_ConnectionRouter <NSObject>
+- (BOOL) shouldProcessSuccessfulConnection: (SA_Connection *) connection;
+- (BOOL) shouldProcessFailedConnection: (SA_Connection *) connection;
+@end
+
+//use VALIDATE_XML_UPLOADS to turn on XML validation
+
+/***********************************************************************************************************************
+
+ Requires:		SystemConfiguration.framework, libsqlite3 (for Persistance)
+
+
+
+
+***********************************************************************************************************************/
+
+@class SA_Connection;
+
+@protocol SA_ConnectionDelegate <NSObject>
+@optional
+- (void) connectionWillBegin: (SA_Connection *) connection;
+- (void) connectionDidFinish: (SA_Connection *) connection;
+- (void) connectionFailed: (SA_Connection *) connection withError: (NSError *) error;
+- (BOOL) connectionFailed: (SA_Connection *) connection withStatusCode: (int) statusCode;			//return YES to continue the connection anyway
+- (void) connectionCancelled: (SA_Connection *) connection;
+- (NSString *) persistantIdentifier;					//used when persisting
+
+//please wait support
+- (NSString *) pleaseWaitMajorStringForConnection: (SA_Connection *) connection;
+- (NSString *) pleaseWaitMinorStringForConnection: (SA_Connection *) connection;
+- (BOOL) pleaseWaitShowProgressValueForConnection: (SA_Connection *) connection;	
+- (float) pleaseWaitProgressValueForConnection: (SA_Connection *) connection;
+@end
+
+
+@interface SA_Connection : NSObject <NSCopying> {
+	NSURL						*_url;
+	NSData						*_payload;
+	NSString					*_method;
+	NSMutableData				*_data;
+	NSString					*_filename;
+	NSFileHandle				*_file;
+	NSString					*_tag;
+	id <SA_ConnectionDelegate>	_delegate;
+	int							_priority, _order;
+	NSURLConnection				*_connection;
+	BOOL						_persists, _canceled, _replaceOlder, _ignoreLater;
+	NSMutableDictionary			*_headers;
+	int							_persistantID;
+	NSDictionary				*_responseHeaders;
+	int							_statusCode;
+	BOOL						_showsPleaseWait, _resumable, _completeInBackground, _prefersFileStorage, _suppressConnectionAlerts, _inProgress, _discardIfOffline;
+	NSMutableDictionary			*_extraKeyValues;
+	BOOL						_allowRepeatedKeys;
+	NSURLRequest				*_request;
+	
+	#if DEBUG
+		NSDate					*_requestStartedAt, *_responseReceivedAt, *_finishedLoadingAt;
+		NSString				*_requestLogFileName;
+	#endif
+
+	connectionFinished		_connectionFinishedBlock;
+}
+
+@property (nonatomic, readwrite, retain) NSURL *url;								//the URL to be hit
+@property (nonatomic, readwrite, retain) NSData *payload;						//data to be pushed up, usually with a PUT or POST call
+@property (nonatomic, readwrite, retain) NSURLRequest *request;					//for pre-configured requests
+@property (nonatomic, readonly) NSURLRequest *generatedRequest;					//takes the configured values and returns an NSURLRequest
+@property (nonatomic, readwrite, retain) NSData *data;							//the data returned by the server
+@property (nonatomic, readonly) NSFileHandle *file;								//if storing in a file, the file
+@property (nonatomic, readwrite, retain) NSString *filename;						//if storing in a file, the filenamel this can be set if a known filename is desired
+@property (nonatomic, readwrite, retain) NSString *method;						//what HTTP method should be used? Defaults to GET 
+@property (nonatomic, readwrite, retain) id <SA_ConnectionDelegate> delegate;	//where completed/failed messages are sent
+@property (nonatomic, readwrite, retain) NSString *tag;							//a tag, broken down into different.segment.types, for filtering and identification
+@property (nonatomic, readwrite) int priority;									//where in the pending queue should this transaction fall?
+@property (nonatomic, readwrite) BOOL persists;									//should this transaction be freeze-dried for later retrieval and restart?  Defaults to YES
+@property (readwrite) int persistantID;
+@property (nonatomic, readwrite) int order;
+@property (nonatomic, readonly) NSDictionary *allResponseHeaders;
+@property (nonatomic, readonly) int statusCode;
+@property (nonatomic, readwrite) BOOL replaceOlder, ignoreLater;					//should older connections be deleted if they match the tag, or should this be tossed?
+@property (nonatomic, readwrite) BOOL showsPleaseWait, resumable, completeInBackground, prefersFileStorage, suppressConnectionAlerts;
+@property (nonatomic, readonly) NSData *downloadedData;
+@property (nonatomic, readonly) BOOL completed, alreadyStarted, canceled;
+@property (nonatomic, readwrite, copy) NSDictionary *submissionParameters;
+@property (nonatomic, readonly) BOOL inProgress;
+@property (nonatomic, readwrite) BOOL allowRepeatedKeys, discardIfOffline;
+@property (nonatomic, readonly) NSString *dataString, *payloadString;
+@property (nonatomic) NSTimeInterval timeoutInterval;
+
+@property (nonatomic, readwrite, copy) connectionFinished connectionFinishedBlock;
+
+#if DEBUG
+	@property (nonatomic, readwrite, retain) NSDate *requestStartedAt, *responseReceivedAt, *finishedLoadingAt;
+	@property (nonatomic, readwrite, retain) NSString *requestLogFileName;
+#endif
+
+@property(nonatomic, readonly) NSData *uploadedDataStream, *downloadedDataStream;
+
++ (id) connectionWithURL: (NSURL *) url completionBlock: (connectionFinished) completionBlock;
++ (id) connectionWithURL: (NSURL *) url payload: (NSData *) payload method: (NSString *) method priority: (int) priority completionBlock: (connectionFinished) completionBlock;
+
++ (id) connectionWithURL: (NSURL *) url tag: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate;
++ (id) connectionWithURL: (NSURL *) url payload: (NSData *) payload method: (NSString *) method priority: (int) priority tag: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate;
++ (id) connectionWithURLRequest: (NSURLRequest *) request completionBlock: (connectionFinished) completionBlock;
+
+- (id) initWithURL: (NSURL *) url payload: (NSData *) payload method: (NSString *) method priority: (int) priority tag: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate;
+
+- (void) addHeader: (NSString *) header label: (NSString *) label;
+- (void) removeHeader: (NSString *) label;
+- (BOOL) start;
+- (void) reset;
+- (void) cancel: (BOOL) clearDelegate;
+- (void) cancelIfNotInProgress: (BOOL) clearDelegate;
+- (void) switchToFileStorage;
+- (void) setUsername: (NSString *) username password: (NSString *) password;
+
+- (NSString *) responseHeader: (NSString *) key;
+- (void) connectionDidFinishLoading: (NSURLConnection *) connection;
+- (void) connection: (NSURLConnection *) connection didReceiveResponse: (NSURLResponse *) response;
+- (void) queue;
+@end
+
+
+
+@interface SA_ConnectionQueue : NSObject <SA_ConnectionRouter> {
+	NSMutableArray					*_pending, *_pleaseWaitConnections;
+	NSMutableSet					*_active;
+	NSMutableDictionary				*_headers;
+	
+	BOOL							_offline, _showProgressInPleaseWaitDisplay;
+	int								_maxSimultaneousConnections;
+	NSArray							*_connectionSortDescriptors;
+	int								_defaultPriorityLevel, _minimumIndicatedPriorityLevel;
+	float							_highwaterMark;
+	
+	void							*_db;
+	NSString						*_dbPath;
+	
+@protected
+	BOOL							_wifiAvailable, _wlanAvailable, _managePleaseWaitDisplay;
+	int								_fileSwitchOverLimit;
+	
+	BOOL							_dontProcessFailedStatusCodes;
+
+	SA_Connection					*_currentTopPleaseWaitConnection;				//not retained, simply the address of the connection that currently has the please wait 'focus'
+	BOOL							_suppressPleaseWaitDisplay;						//if the app wants to show it's own 'please wait', set this to true
+	BOOL							_offlineAlertShown, _suppressOfflineAlerts;
+	NSInvocation					*_backOnlineInvocation;
+	NSInteger						_activityIndicatorCount;
+	
+	UIBackgroundTaskIdentifier		_backgroundTaskID;
+	NSThread						*_backgroundThread;
+	SCNetworkReachabilityRef		_reachabilityRef;
+	#if DEBUG
+		connection_record_setting		_recordSetting;
+	#endif
+}
+
+@property (readwrite) BOOL offline, showProgressInPleaseWaitDisplay;
+@property (readonly) BOOL wifiAvailable, wlanAvailable;
+@property (readwrite) int maxSimultaneousConnections;
+@property (nonatomic, readwrite, retain) NSString *dbPath;				//used for persistance
+@property (nonatomic, readwrite) int defaultPriorityLevel, minimumIndicatedPriorityLevel, fileSwitchOverLimit;
+@property (nonatomic, readonly) int connectionCount;
+@property (nonatomic, readwrite) BOOL dontProcessFailedStatusCodes;
+@property (nonatomic, readwrite) BOOL suppressPleaseWaitDisplay;
+@property (nonatomic, readonly) BOOL shouldPleaseWaitBeVisible;					//used to check if a pleaseWait SHOLD be shown, regardless of whether _suppressPleaseWaitDisplay is set 
+@property (nonatomic, readonly) BOOL connectionsArePending;
+@property (nonatomic, readwrite, retain) NSInvocation *backOnlineInvocation;
+@property (nonatomic, readwrite, retain) NSThread *backgroundThread;
+@property (nonatomic, readwrite) BOOL managePleaseWaitDisplay, suppressOfflineAlerts;
+@property (nonatomic, assign) id <SA_ConnectionRouter> router;
+@property (readwrite) NSInteger activityIndicatorCount;
+#if DEBUG
+	@property (nonatomic, readwrite) connection_record_setting recordSetting;
+#endif
+
++ (SA_ConnectionQueue *) sharedQueue;
+- (BOOL) queueConnection: (SA_Connection *) connection;
+- (BOOL) queueConnection: (SA_Connection *) connection andPromptIfOffline: (BOOL) prompt;
+- (BOOL) performInvocationIfOffline: (NSInvocation *) invocation;
+- (void) processQueue;
+- (void) resetOfflineAlerts;
+- (void) attempToGoOnline;
+
+- (void) determineConnectionLevelAvailable;
+- (void) resetHighwaterMark;								//call this to clear out the 'highwater mark', used when displaying progress
+
+- (void) addHeader: (NSString *) header label: (NSString *) label;
+- (void) removeHeader: (NSString *) label;
+- (void) removeAllHeaders;
+- (BOOL) isExistingConnectionsTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate;
+- (BOOL) isExistingConnectionSimilar: (SA_Connection *) targetConnection;
+- (int) removeConnectionsTaggedWith: (NSString *) tag;
+- (int) removeConnectionsWithDelegate: (id) delegate;
+- (int) removeConnectionsTaggedWith: (NSString *) tag delegate: (id) delegate;
+- (void) cancelAllConnections;
+- (SA_Connection *) existingConnectionsTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate;
+
+- (void) connectionFailed: (SA_Connection *) connection withError: (NSError *) error;
+- (float) remainingConnectionsAboveMinimum;
+- (void) dequeueConnection: (SA_Connection *) connection;
+- (void) updatePleaseWaitDisplay;
+- (void) hideActivityIndicator;
+
++ (NSString *) nextPrefixed: (NSString *) prefix pathForTag: (NSString *) tag;
++ (NSString *) logDirectoryPath;
+@end
+
+@interface NSError (SA_ConnectionQueue)
+- (BOOL) internetConnectionFailed;
+@end
+
+extern NSString *kConnectionNotification_Queued;
+extern NSString *kConnectionNotification_ConnectionStarted;
+
+extern NSString *kConnectionNotification_Dequeued;
+extern NSString *kConnectionNotification_ConnectionFinished, *kConnectionNotification_ConnectionCancelled, *kConnectionNotification_ConnectionFailed;
+extern NSString *kConnectionNotification_ConnectionStateChanged;
+
+
+
+extern NSString *kConnectionNotification_NotConnectedToInternet, *kConnectionNotification_ConnectionFailedToStart, *kConnectionNotification_ConnectionReturnedBadStatus, *kConnectionNotification_AllConnectionsCompleted;
+
+
+@interface NSDictionary (SA_Connection)
+- (NSData *) postDataByEncoding: (BOOL) encode;
+- (NSData *) encodedPostData;
+- (NSData *) postData;
++ (NSDictionary *) dictionaryWithPostData: (NSData *) data;
+@end
