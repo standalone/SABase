@@ -22,13 +22,16 @@
 	#define		IF_PRODUCTION(...)					{__VA_ARGS__;}
 #endif
 
+#if BUILD_USER_ben && (DEBUG || AD_HOC)
+	#define		IF_IS_BENS_BUILD(...)					{__VA_ARGS__;}
+#else
+	#define		IF_IS_BENS_BUILD(...)					{}
+#endif
 
 #if DEBUG
 	#define		IF_DEBUG(...)							{__VA_ARGS__;}
-	#define		IF_IS_BENS_BUILD(...)					if (IS_DEVELOPER_BUILD) {__VA_ARGS__;}
 #else
-	#define		IF_DEBUG(...)
-	#define		IF_IS_BENS_BUILD(...)
+	#define		IF_DEBUG(...)							{}
 #endif
 
 #if TARGET_IPHONE_SIMULATOR
@@ -269,8 +272,10 @@ void					MailDataWithTitle(NSData *data, NSString *title);
 	typedef void (^idArgumentBlock)(id arg);
 	typedef void (^idErrorArgumentBlock)(id arg, NSError *error);
 	typedef id (^idArgumentBlockReturningID)(id arg);
+	typedef void (^simpleImageBlock)(UIImage *image);
+	typedef void (^simpleArrayBlock)(NSArray *array);
 
-#define				$BW(b)					([SA_BlockWrapper wrapperWithBlock: (simpleBlock) b])
+	#define				$BW(b)					([SA_BlockWrapper wrapperWithBlock: (simpleBlock) b])
 #endif
 
 #define SINGLETON_INTERFACE_FOR_CLASS_AND_METHOD(classname, methodName)			+ (classname *) methodName;
