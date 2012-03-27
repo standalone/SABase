@@ -61,6 +61,7 @@ static SA_ConnectionQueue		*g_queue = nil;
 
 @interface SA_ConnectionQueue () 
 - (void) fireReachabilityStatus;
+- (void) reorderPendingConnectionsByPriority;
 @end
 
 //=============================================================================================================================
@@ -173,7 +174,10 @@ static SA_ConnectionQueue		*g_queue = nil;
 	//LOG(@"Queuing: %@", connection);
 	if (connection == nil) return NO;
 	if (connection.ignoreLater) {
-		if ([self isExistingConnectionSimilar: connection]) return YES;		//already queued, ignroe it
+		if ([self isExistingConnectionSimilar: connection]) {		//already queued, ignore it
+			[self reorderPendingConnectionsByPriority];
+			return YES;
+		}
 	} else if (connection.replaceOlder) {
 		[self removeConnectionsTaggedWith: connection.tag delegate: connection.delegate];
 	}
@@ -186,11 +190,10 @@ static SA_ConnectionQueue		*g_queue = nil;
 			if (connection.completeInBackground) {LOG(@"Trying to persist a background connection. This is not allowed. (%@)", connection);}
 			else [(id) self persistConnection: connection];
 		}
-		if (_pending.count > 1) [_pending sortUsingDescriptors: _connectionSortDescriptors];
 	}
+	[self reorderPendingConnectionsByPriority];
 	if (self.managePleaseWaitDisplay && connection.showsPleaseWait) {
 		[_pleaseWaitConnections addObject: connection];
-		[_pleaseWaitConnections sortUsingDescriptors: _connectionSortDescriptors];
 	}
 	
 	#if TARGET_OS_IPHONE
@@ -234,6 +237,11 @@ static SA_ConnectionQueue		*g_queue = nil;
 	
 	_offlineAlertShown = YES;
 	return NO;
+}
+
+- (void) reorderPendingConnectionsByPriority {
+	if (_pending.count > 1) [_pending sortUsingDescriptors: _connectionSortDescriptors];
+	//[_pending sortUsingSelector: @selector(comparePriorities:)];
 }
 
 - (BOOL) performInvocationIfOffline: (NSInvocation *) invocation {
@@ -849,6 +857,10 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	}	
 }
 
+- (NSComparisonResult) comparePriorities: (SA_Connection *) other {
+	return self.priority - other.priority;
+}
+
 - (NSURLRequest *) generatedRequest {
 	NSMutableURLRequest				*request = 	[NSMutableURLRequest requestWithURL: self.url];
 
@@ -1117,6 +1129,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 - (NSString *) description {
 	NSMutableString				*desc = [NSMutableString stringWithFormat: @"<0x%X>%@", (int) self, NSStringFromClass([self class])];
 	if (self.tag) [desc appendFormat: @", tag: %@", self.tag];
+	[desc appendFormat: @", Pri: %d", _priority];
 	if (self.delegate) [desc appendFormat: @", delegate: <0x%X> %@", (int) self.delegate, NSStringFromClass([self.delegate class])];
 	
 	[desc appendFormat: @"\nHeaders:\n"];
