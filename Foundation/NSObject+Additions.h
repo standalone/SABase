@@ -9,7 +9,8 @@
 
 
 @interface NSObject (SA_Additions)
-- (void) cancelAndPerformSelector: (SEL)aSelector withObject: (id)anArgument afterDelay: (NSTimeInterval)delay;
+- (void) cancelAndPerformSelector: (SEL)aSelector withObject: (id)anArgument afterDelay: (NSTimeInterval) delay;
+- (void) cancelPendingSelector: (SEL) selector withObject: (id) anArgument;
 - (void) associateValue: (id) value forKey: (id) key;
 - (id) associatedValueForKey: (id) key;
 - (id) performSelector: (SEL) selector withObject: (id) arg1 withObject: (id) arg2 withObject: (id) arg3;

@@ -12,6 +12,10 @@
 
 @implementation NSObject (SA_Additions)
 
+- (void) cancelPendingSelector: (SEL) aSelector withObject: (id) anArgument {
+	[NSObject cancelPreviousPerformRequestsWithTarget: self selector: aSelector object: anArgument];
+}
+
 - (void) cancelAndPerformSelector: (SEL) aSelector withObject: (id) anArgument afterDelay: (NSTimeInterval) delay {
 	if (GCD_AVAILABLE) {
 		dispatch_async(dispatch_get_main_queue(), ^{
