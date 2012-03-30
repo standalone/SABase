@@ -123,7 +123,7 @@ NSMutableArray			*s_displayedAlerts = nil;
 
 - (void) setAlertButtonHitBlock: (booleanArgumentBlock) alertButtonHitBlock {
 	if (_alertButtonHitBlock) Block_release(_alertButtonHitBlock);
-	_alertButtonHitBlock = Block_copy(alertButtonHitBlock);
+	_alertButtonHitBlock = alertButtonHitBlock ? Block_copy(alertButtonHitBlock) : nil;
 	self.delegate = self;
 }
 #endif
