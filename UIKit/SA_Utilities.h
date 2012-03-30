@@ -272,9 +272,10 @@ void					MailDataWithTitle(NSData *data, NSString *title);
 	typedef void (^idArgumentBlock)(id arg);
 	typedef void (^idErrorArgumentBlock)(id arg, NSError *error);
 	typedef id (^idArgumentBlockReturningID)(id arg);
-	typedef void (^simpleImageBlock)(UIImage *image);
 	typedef void (^simpleArrayBlock)(NSArray *array);
-
+	#if TARGET_OS_IPHONE
+		typedef void (^simpleImageBlock)(UIImage *image);
+	 #endif
 	#define				$BW(b)					([SA_BlockWrapper wrapperWithBlock: (simpleBlock) b])
 #endif
 
