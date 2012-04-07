@@ -49,7 +49,7 @@ static NSMutableArray *s_fireAndForgetNotificationBlocks = nil;
 - (id) addFireAndForgetBlockFor: (NSString *) name object: (id) object block: (notificationArgumentBlock) block {
 	NSMutableDictionary					*notificationInfo = [NSMutableDictionary dictionary];
 	@synchronized (self) {
-		if (s_fireAndForgetNotificationBlocks == nil) s_fireAndForgetNotificationBlocks = [[NSMutableArray array] retain];
+		if (s_fireAndForgetNotificationBlocks == nil) s_fireAndForgetNotificationBlocks = [[NSMutableArray alloc] init];
 		[s_fireAndForgetNotificationBlocks addObject: notificationInfo];
 	}
 
