@@ -61,6 +61,25 @@
 	return threadFormatter;
 }
 
++ (NSDate *) dateWithHTTPHeaderString: (NSString *) string {
+	THREAD_SAFE_STATIC_WTIH_INITIALIZER(NSLocale, enUSPOSIXLocale, initWithLocaleIdentifier, @"en_US");
+	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
+	
+	//	NSDateFormatter			*formatter = [[NSDateFormatter alloc] init];
+	[formatter setLocale: enUSPOSIXLocale];
+	[formatter setDateFormat: @"EEE, dd MMM yyyy HH:mm:ss ZZZ"];
+	return [formatter dateFromString: string];
+}
+
+- (NSString *) HTTPHeaderString {
+	THREAD_SAFE_STATIC_WTIH_INITIALIZER(NSLocale, enUSPOSIXLocale, initWithLocaleIdentifier, @"en_US");
+	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
+	
+	[formatter setLocale: enUSPOSIXLocale];
+	[formatter setDateFormat: @"EEE, dd MMM yyyy HH:mm:ss ZZZ"];
+	return [formatter stringFromDate: self];
+}
+
 + (NSDate *) SA_dateWithNaturalLanguageString: (NSString *) date {
 	if (date == nil) return nil;
 	return [NSDate dateWithNaturalLanguageString: date andFormatHint: nil];
