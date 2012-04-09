@@ -305,7 +305,7 @@
 		B583072D1516548600CC57DE /* NSURL Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = B58307051516548600CC57DE /* NSURL Tests.m */; };
 		B583072E1516548600CC57DE /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = B58307071516548600CC57DE /* MainWindow.xib */; };
 		B583072F1516548600CC57DE /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = B58307071516548600CC57DE /* MainWindow.xib */; };
-		B58307301516548600CC57DE /* RunTimeAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B58307081516548600CC57DE /* RunTimeAppDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B58307301516548600CC57DE /* RunTimeAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B58307081516548600CC57DE /* RunTimeAppDelegate.h */; settings = {ATTRIBUTES = (); }; };
 		B58307311516548600CC57DE /* RunTimeAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B58307081516548600CC57DE /* RunTimeAppDelegate.h */; };
 		B58307341516548600CC57DE /* RunTimeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B58307091516548600CC57DE /* RunTimeAppDelegate.m */; };
 		B58307351516548600CC57DE /* RunTimeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B58307091516548600CC57DE /* RunTimeAppDelegate.m */; };
@@ -787,7 +787,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B58307181516548600CC57DE /* SA_Base.h in Headers */,
-				B58307301516548600CC57DE /* RunTimeAppDelegate.h in Headers */,
 				B55E0888151660DD0097CC69 /* dispatch_additions.h in Headers */,
 				B55E088E151660DD0097CC69 /* NSBundle+Additions.h in Headers */,
 				B55E0894151660DD0097CC69 /* NSData+Additions.h in Headers */,
@@ -833,6 +832,7 @@
 				B55E0990151661920097CC69 /* NSUserDefaults+Additions.h in Headers */,
 				B55E0998151661C10097CC69 /* NSArray+Additions.h in Headers */,
 				B583071C1516548600CC57DE /* NSData Tests.h in Headers */,
+				B58307301516548600CC57DE /* RunTimeAppDelegate.h in Headers */,
 				B58307221516548600CC57DE /* NSDate Tests.h in Headers */,
 				B58307281516548600CC57DE /* NSURL Tests.h in Headers */,
 				B58307361516548600CC57DE /* TestController.h in Headers */,
