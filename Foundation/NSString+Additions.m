@@ -446,4 +446,23 @@
     return outputString;
 }
 
+- (BOOL) isValidEmail {
+	if ([self rangeOfCharacterFromSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]].location != NSNotFound) return NO;
+	if (![self containsCString: "@"]) return NO;
+	if (![self containsCString: "."]) return NO;
+	if (self.length < 5) return NO;
+	
+	NSArray				*majors = [self componentsSeparatedByString: @"@"];
+	
+	if (majors.count != 2) return NO;
+	
+	NSArray				*domain = [[majors objectAtIndex: 1] componentsSeparatedByString: @"."];
+	
+	if (domain.count < 2) return NO;
+	
+	NSString			*tld = domain.lastObject;
+	
+	if (tld.length < 2) return NO;
+	return YES;
+}
 @end

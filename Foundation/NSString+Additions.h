@@ -45,6 +45,7 @@
 - (NSInteger) numberOfOccurrencesOfString: (NSString *) string;
 - (char *) UTF8StringCopy;
 - (NSString *) md5Hash;
+- (BOOL) isValidEmail;
 
 #if TARGET_OS_IPHONE
 	- (NSString *) stringTruncatedToWidth: (float) width usingFont: (UIFont *) font addingElipsis: (BOOL) addingElipsis;
