@@ -156,6 +156,8 @@ static void NSFileManagerKQueueCallback(CFFileDescriptorRef kqRef, CFOptionFlags
 
 + (NSURL *) documentsDirectory { return [[[NSFileManager defaultManager] URLsForDirectory: NSDocumentDirectory inDomains: NSUserDomainMask] lastObject]; }
 + (NSURL *) libraryDirectory { return [[[NSFileManager defaultManager] URLsForDirectory: NSLibraryDirectory inDomains: NSUserDomainMask] lastObject]; }
++ (NSURL *) cachesDirectory { return [[[NSFileManager defaultManager] URLsForDirectory: NSCachesDirectory inDomains: NSUserDomainMask] lastObject]; }
++ (NSURL *) applicationSupportDirectory { return [[[NSFileManager defaultManager] URLsForDirectory: NSApplicationSupportDirectory inDomains: NSUserDomainMask] lastObject]; }
 
 
 //=============================================================================================================================

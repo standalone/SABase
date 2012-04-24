@@ -20,5 +20,7 @@
 
 + (NSURL *) libraryDirectory;
 + (NSURL *) documentsDirectory;
++ (NSURL *) cachesDirectory;
++ (NSURL *) applicationSupportDirectory;
 + (void) setFileAtURLNotBackedUp: (NSURL *) url;
 @end
