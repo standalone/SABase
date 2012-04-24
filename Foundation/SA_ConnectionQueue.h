@@ -153,6 +153,8 @@ typedef enum {
 + (id) connectionWithURL: (NSURL *) url payload: (NSData *) payload method: (NSString *) method priority: (int) priority tag: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate;
 + (id) connectionWithURLRequest: (NSURLRequest *) request completionBlock: (connectionFinished) completionBlock;
 
++ (SA_Connection *) downloadURL: (NSURL *) url withCompletionBlock: (connectionFinished) completionBlock;
+
 - (id) initWithURL: (NSURL *) url payload: (NSData *) payload method: (NSString *) method priority: (int) priority tag: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate;
 
 - (void) addHeader: (NSString *) header label: (NSString *) label;

@@ -756,6 +756,13 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	return connection;
 }
 
++ (SA_Connection *) downloadURL: (NSURL *) url withCompletionBlock: (connectionFinished) completionBlock {
+	SA_Connection			*connection = [self connectionWithURL: url payload: nil method: @"GET" priority: 5 completionBlock: completionBlock];
+	
+	[[SA_ConnectionQueue sharedQueue] performSelector: @selector(queueConnection:) withObject: connection afterDelay: 0.0];
+	return connection;
+}
+
 - (void) dealloc {
 	[_responseHeaders release];
 	[_extraKeyValues release];
