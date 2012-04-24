@@ -7,6 +7,8 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^barButtonItemArgumentBlock)(id arg);
+
 
 @interface UIBarButtonItem (Additions)
 
@@ -18,10 +20,21 @@
 + (id) borderlessItemWithSystemItem: (UIBarButtonSystemItem) item target: (id) target action: (SEL) action;
 + (id) borderlessItemWithImage: (UIImage *) image target: (id) target action: (SEL) action;
 
-+ (id) itemWithTitle: (NSString *) title block: (idArgumentBlock) block;
-+ (id) itemWithSystemItem: (UIBarButtonSystemItem) item block: (idArgumentBlock) block;
-+ (id) itemWithImage: (UIImage *) image block: (idArgumentBlock) block;
++ (id) itemWithTitle: (NSString *) title block: (barButtonItemArgumentBlock) block;
++ (id) itemWithSystemItem: (UIBarButtonSystemItem) item block: (barButtonItemArgumentBlock) block;
++ (id) itemWithImage: (UIImage *) image block: (barButtonItemArgumentBlock) block;
 
++ (id) doneItemWithTitle: (NSString *) title target: (id) target action: (SEL) action;
++ (id) doneItemWithSystemItem: (UIBarButtonSystemItem) item target: (id) target action: (SEL) action;
++ (id) doneItemWithImage: (UIImage *) image target: (id) target action: (SEL) action;
+
++ (id) doneItemWithTitle: (NSString *) title block: (barButtonItemArgumentBlock) block;
++ (id) doneItemWithSystemItem: (UIBarButtonSystemItem) item block: (barButtonItemArgumentBlock) block;
++ (id) doneItemWithImage: (UIImage *) image block: (barButtonItemArgumentBlock) block;
+
++ (id) itemWithTitle: (NSString *) title target: (id) target action: (SEL) action block: (barButtonItemArgumentBlock) block style: (UIBarButtonItemStyle) style;
++ (id) itemWithSystemItem: (UIBarButtonSystemItem) item target: (id) target action: (SEL) action block: (barButtonItemArgumentBlock) block style: (UIBarButtonItemStyle) style;
++ (id) itemWithImage: (UIImage *) image target: (id) target action: (SEL) action block: (barButtonItemArgumentBlock) block style: (UIBarButtonItemStyle) style;
 
 + (id) flexibleSpacer;
 + (id) spacer;

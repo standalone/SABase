@@ -9,37 +9,75 @@
 #import "NSObject+Additions.h"
 
 @interface SA_BarButtonItem : UIBarButtonItem
-@property (nonatomic, copy) idArgumentBlock block;
+@property (nonatomic, copy) barButtonItemArgumentBlock block;
 @end
 
 @implementation UIBarButtonItem (Additions)
-+ (id) borderlessItemWithSystemItem: (UIBarButtonSystemItem) item target: (id) target action: (SEL) action {
-	UIBarButtonItem				*barItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem: item target: target action: action] autorelease];
-	barItem.style = UIBarButtonItemStylePlain;
+
+//standard items
++ (id) itemWithSystemItem: (UIBarButtonSystemItem) item target: (id) target action: (SEL) action { return [UIBarButtonItem itemWithSystemItem: item target: target action: action block: nil style: UIBarButtonItemStyleBordered]; }
++ (id) itemWithTitle: (NSString *) title target: (id) target action: (SEL) action { return [UIBarButtonItem itemWithTitle: title target: target action: action block: nil style: UIBarButtonItemStyleBordered]; }
++ (id) itemWithImage: (UIImage *) image target: (id) target action: (SEL) action { return [UIBarButtonItem itemWithImage: image target: target action: action block: nil style: UIBarButtonItemStyleBordered]; }
+
++ (id) itemWithSystemItem: (UIBarButtonSystemItem) item block: (barButtonItemArgumentBlock) block { return [UIBarButtonItem itemWithSystemItem: item target: nil action: nil block: block style: UIBarButtonItemStyleBordered]; }
++ (id) itemWithTitle: (NSString *) title block: (barButtonItemArgumentBlock) block { return [UIBarButtonItem itemWithTitle: title target: nil action: nil block: block style: UIBarButtonItemStyleBordered]; }
++ (id) itemWithImage: (UIImage *) image block: (barButtonItemArgumentBlock) block { return [UIBarButtonItem itemWithImage: image target: nil action: nil block: block style: UIBarButtonItemStyleBordered]; }
+
+//borderless items
++ (id) borderlessItemWithSystemItem: (UIBarButtonSystemItem) item target: (id) target action: (SEL) action { return [UIBarButtonItem itemWithSystemItem: item target: target action: action block: nil style: UIBarButtonItemStylePlain]; }
++ (id) borderlessItemWithTitle: (NSString *) title target: (id) target action: (SEL) action { return [UIBarButtonItem itemWithTitle: title target: target action: action block: nil style: UIBarButtonItemStylePlain]; }
++ (id) borderlessItemWithImage: (UIImage *) image target: (id) target action: (SEL) action { return [UIBarButtonItem itemWithImage: image target: target action: action block: nil style: UIBarButtonItemStylePlain]; }
+
+
+//done items
++ (id) doneItemWithSystemItem: (UIBarButtonSystemItem) item target: (id) target action: (SEL) action { return [UIBarButtonItem itemWithSystemItem: item target: target action: action block: nil style: UIBarButtonItemStyleDone]; }
++ (id) doneItemWithTitle: (NSString *) title target: (id) target action: (SEL) action { return [UIBarButtonItem itemWithTitle: title target: target action: action block: nil style: UIBarButtonItemStyleDone]; }
++ (id) doneItemWithImage: (UIImage *) image target: (id) target action: (SEL) action { return [UIBarButtonItem itemWithImage: image target: target action: action block: nil style: UIBarButtonItemStyleDone]; }
+
++ (id) doneItemWithSystemItem: (UIBarButtonSystemItem) item block: (barButtonItemArgumentBlock) block { return [UIBarButtonItem itemWithSystemItem: item target: nil action: nil block: block style: UIBarButtonItemStyleDone]; }
++ (id) doneItemWithTitle: (NSString *) title block: (barButtonItemArgumentBlock) block { return [UIBarButtonItem itemWithTitle: title target: nil action: nil block: block style: UIBarButtonItemStyleDone]; }
++ (id) doneItemWithImage: (UIImage *) image block: (barButtonItemArgumentBlock) block { return [UIBarButtonItem itemWithImage: image target: nil action: nil block: block style: UIBarButtonItemStyleDone]; }
+
+
+
+//actual creators
++ (id) itemWithTitle: (NSString *) title target: (id) target action: (SEL) action block: (barButtonItemArgumentBlock) block style: (UIBarButtonItemStyle) style {
+	Class						factory = block ? [SA_BarButtonItem class] : [UIBarButtonItem class];
+	SA_BarButtonItem			*barItem = [[[factory alloc] initWithTitle: title style: style target: target action: action] autorelease];
+
+	if (block) {
+		barItem.target = barItem;
+		barItem.block = block;
+		barItem.action = @selector(__evaluateBlockAsAction);
+	}
 	return barItem;
 }
 
-+ (id) itemWithSystemItem: (UIBarButtonSystemItem) item target: (id) target action: (SEL) action {
-	UIBarButtonItem				*barItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem: item target: target action: action] autorelease];
-	barItem.style = UIBarButtonItemStyleBordered;
++ (id) itemWithSystemItem: (UIBarButtonSystemItem) item target: (id) target action: (SEL) action block: (barButtonItemArgumentBlock) block style: (UIBarButtonItemStyle) style {
+	Class						factory = block ? [SA_BarButtonItem class] : [UIBarButtonItem class];
+	SA_BarButtonItem				*barItem = [[[factory alloc] initWithBarButtonSystemItem: item target: target action: action] autorelease];
+	barItem.style = style;
+
+	if (block) {
+		barItem.target = barItem;
+		barItem.block = block;
+		barItem.action = @selector(__evaluateBlockAsAction);
+	}
 	return barItem;
 }
 
-+ (id) borderlessItemWithTitle: (NSString *) title target: (id) target action: (SEL) action {
-	return [[[UIBarButtonItem alloc] initWithTitle: title style: UIBarButtonItemStylePlain target: target action: action] autorelease];
++ (id) itemWithImage: (UIImage *) image target: (id) target action: (SEL) action block: (barButtonItemArgumentBlock) block style: (UIBarButtonItemStyle) style {
+	Class						factory = block ? [SA_BarButtonItem class] : [UIBarButtonItem class];
+	SA_BarButtonItem				*barItem = [[[factory alloc] initWithImage: image style: style target: target action: action] autorelease];
+
+	if (block) {
+		barItem.target = barItem;
+		barItem.block = block;
+		barItem.action = @selector(__evaluateBlockAsAction);
+	}
+	return barItem;
 }
 
-+ (id) itemWithTitle: (NSString *) title target: (id) target action: (SEL) action {
-	return [[[UIBarButtonItem alloc] initWithTitle: title style: UIBarButtonItemStyleBordered target: target action: action] autorelease];
-}
-
-+ (id) borderlessItemWithImage: (UIImage *) image target: (id) target action: (SEL) action {
-	return [[[UIBarButtonItem alloc] initWithImage: image style: UIBarButtonItemStylePlain target: target action: action] autorelease];	
-}
-
-+ (id) itemWithImage: (UIImage *) image target: (id) target action: (SEL) action {
-	return [[[UIBarButtonItem alloc] initWithImage: image style: UIBarButtonItemStyleBordered target: target action: action] autorelease];	
-}
 
 + (id) flexibleSpacer {
 	return [self itemWithSystemItem: UIBarButtonSystemItemFlexibleSpace target: nil action: nil];
@@ -70,29 +108,6 @@
 	[indicator startAnimating];
 	return [UIBarButtonItem itemWithView: holder];	
 }
-
-+ (id) itemWithTitle: (NSString *) title block: (idArgumentBlock) block {
-	SA_BarButtonItem				*barItem = [[[SA_BarButtonItem alloc] initWithTitle: title style: UIBarButtonItemStyleBordered target: nil action: @selector(__evaluateBlockAsAction)] autorelease];
-	barItem.target = barItem;
-	barItem.block = block;
-	return barItem;
-}
-
-+ (id) itemWithSystemItem: (UIBarButtonSystemItem) item block: (idArgumentBlock) block {
-	SA_BarButtonItem				*barItem = [[[SA_BarButtonItem alloc] initWithBarButtonSystemItem: item target: nil action: @selector(__evaluateBlockAsAction)] autorelease];
-	barItem.style = UIBarButtonItemStyleBordered;
-	barItem.target = barItem;
-	barItem.block = block;
-	return barItem;
-}
-
-+ (id) itemWithImage: (UIImage *) image block: (idArgumentBlock) block {
-	SA_BarButtonItem				*barItem = [[[SA_BarButtonItem alloc] initWithImage: image style: UIBarButtonItemStyleBordered target: nil action: @selector(__evaluateBlockAsAction)] autorelease];
-	barItem.target = barItem;
-	barItem.block = block;
-	return barItem;
-}
-
 
 @end
 
