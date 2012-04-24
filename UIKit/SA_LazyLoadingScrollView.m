@@ -240,8 +240,8 @@
 //=============================================================================================================================
 #pragma mark Properties
 - (void) setDataSource: (id <SA_LazyLoadingScrollViewDataSource>) newDataSource {
-    if (dataSource != newDataSource) {
-        dataSource = newDataSource;
+    if (self.dataSource != newDataSource) {
+        self.dataSource = newDataSource;
         [self reloadData];
     }
 }
