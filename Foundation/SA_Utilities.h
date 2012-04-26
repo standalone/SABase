@@ -35,11 +35,13 @@
 #endif
 
 #if TARGET_IPHONE_SIMULATOR
-	#define		IF_SIM(...) __VA_ARGS__
+	#define		IF_SIM(...)								{__VA_ARGS__;}
 	#define		DISABLE_CORRECTIONS_FOR_TEXTFIELD_IN_SIM(tv)	{tv.autocapitalizationType = UITextAutocapitalizationTypeNone;tv.autocorrectionType = UITextAutocorrectionTypeNo;}
+	#define		IF_DEVICE(...)							{}
 #else
 	#define		DISABLE_CORRECTIONS_FOR_TEXTFIELD_IN_SIM(tv)
-	#define		IF_SIM(...)
+	#define		IF_SIM(...)								{}
+	#define		IF_DEVICE(...)							{__VA_ARGS__;}
 #endif
 
 #define				TRY(...)					@try {__VA_ARGS__;} @catch (id e) {LOG(@"Got exception: %@", e);}

@@ -154,6 +154,7 @@ typedef enum {
 + (id) connectionWithURLRequest: (NSURLRequest *) request completionBlock: (connectionFinished) completionBlock;
 
 + (SA_Connection *) downloadURL: (NSURL *) url withCompletionBlock: (connectionFinished) completionBlock;
++ (SA_Connection *) downloadURLRequest: (NSURLRequest *) urlRequest withCompletionBlock: (connectionFinished) completionBlock;
 
 - (id) initWithURL: (NSURL *) url payload: (NSData *) payload method: (NSString *) method priority: (int) priority tag: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate;
 
