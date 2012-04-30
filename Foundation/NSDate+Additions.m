@@ -632,6 +632,7 @@
 - (int) minute {time_t mySeconds = [self timeIntervalSince1970]; return localtime(&mySeconds)->tm_min;}
 - (int) second {time_t mySeconds = [self timeIntervalSince1970]; return localtime(&mySeconds)->tm_sec;}
 - (int) weekday {time_t mySeconds = [self timeIntervalSince1970]; return localtime(&mySeconds)->tm_wday + 1;}
+- (NSTimeInterval) fractionalSecond { return fmod(self.timeIntervalSince1970, 1.0); }
 
 - (NSString *) weekdayAsShortString {int weekday = self.weekday; if (weekday < 1 || weekday > 7) return @""; return [[[NSDate formatterForKey: NSStringFromSelector(_cmd)] veryShortWeekdaySymbols] objectAtIndex: weekday - 1];}
 - (NSString *) weekdayAsMediumString {int weekday = self.weekday; if (weekday < 1 || weekday > 7) return @""; return [[[NSDate formatterForKey: NSStringFromSelector(_cmd)] shortWeekdaySymbols] objectAtIndex: weekday - 1];}

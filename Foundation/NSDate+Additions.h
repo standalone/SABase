@@ -23,7 +23,7 @@ typedef enum {
 @property(readonly) int hour, minute, second, nearestHour, nextNearestHour;
 @property(readonly) int year, month, day, weekday, numberOfDaysInMonth; 
 @property(readonly) NSString *weekdayAsLongString, *weekdayAsMediumString, *weekdayAsShortString, *monthName, *shortMonthName;
-@property(readonly) NSTimeInterval absoluteTimeIntervalFromNow;
+@property(readonly) NSTimeInterval absoluteTimeIntervalFromNow, fractionalSecond;
 
 - (NSDate *) dateByAddingTimeIntervalAmount: (NSTimeInterval) interval;
 
