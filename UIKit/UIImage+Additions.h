@@ -10,6 +10,8 @@
 
 @interface UIImage (UIImage_Additions)
 
++ (UIImage *) uncachedImageNamed: (NSString *) name;
+
 - (UIImage *) scaledImageOfSize: (CGSize) newSize;
 - (NSString *) description;
 - (void) drawInRect: (CGRect) rect withContentMode: (UIViewContentMode) mode blendMode: (CGBlendMode) blendMode alpha: (CGFloat) alpha;

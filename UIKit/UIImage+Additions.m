@@ -10,6 +10,17 @@
 
 @implementation UIImage (UIImage_Additions)
 
++ (UIImage *) uncachedImageNamed: (NSString *) name {
+	NSString		*path = [[NSBundle mainBundle] pathForResource: name ofType: nil];
+	
+	if (path == nil) return nil;
+	
+	NSData			*data = [[NSData alloc] initWithContentsOfFile: path];
+	UIImage			*image = [[[UIImage alloc] initWithData: data] autorelease];
+	[data release];
+	return image;
+}
+
 - (UIImage *) scaledImageOfSize: (CGSize) newSize {
 	UIGraphicsBeginImageContext(newSize);
 	CGContextRef					context = UIGraphicsGetCurrentContext();
