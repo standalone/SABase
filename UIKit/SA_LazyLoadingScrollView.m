@@ -23,7 +23,7 @@
 
 
 @implementation SA_LazyLoadingScrollView
-@synthesize unusedPageViews, visiblePageViews, mainPageIndex, dataSource, numberOfPageViews, exteriorDelegate;
+@synthesize unusedPageViews, visiblePageViews, mainPageIndex, dataSource = _dataSource, numberOfPageViews, exteriorDelegate;
 @synthesize interPageSpacing, pageWidth = _pageWidth, customPageWidth;
 
 - (void) dealloc {
@@ -240,8 +240,8 @@
 //=============================================================================================================================
 #pragma mark Properties
 - (void) setDataSource: (id <SA_LazyLoadingScrollViewDataSource>) newDataSource {
-    if (self.dataSource != newDataSource) {
-        self.dataSource = newDataSource;
+    if (_dataSource != newDataSource) {
+        _dataSource = newDataSource;
         [self reloadData];
     }
 }
