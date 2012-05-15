@@ -70,4 +70,14 @@ static NSMutableArray *s_fireAndForgetNotificationBlocks = nil;
 	[s_fireAndForgetNotificationBlocks removeObject: notificationInfo]; 
 }
 
++ (void) postNotificationNamed: (NSString *) name object: (id) object {
+	[[NSNotificationCenter defaultCenter] postNotificationName: name object: object];
+}
+
++ (void) postNotificationNamed: (NSString *) name {
+	[[NSNotificationCenter defaultCenter] postNotificationName: name object: nil];
+}
+
+
+
 @end

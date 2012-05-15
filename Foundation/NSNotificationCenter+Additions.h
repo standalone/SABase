@@ -12,6 +12,9 @@ typedef void (^notificationArgumentBlock)(NSNotification *note);
 
 @interface NSNotificationCenter (NSNotificationCenter_Additions)
 
++ (void) postNotificationNamed: (NSString *) name;
++ (void) postNotificationNamed: (NSString *) name object: (id) object;
+
 - (void) postNotificationOnMainThreadName: (NSString *) name object: (id) object;
 - (void) postDeferredNotificationOnMainThreadName: (NSString *) name object: (id) object;
 - (void) postNotificationOnMainThreadName: (NSString *) name object: (id) object info: (NSDictionary *) info;
