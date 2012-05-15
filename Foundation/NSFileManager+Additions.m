@@ -177,7 +177,9 @@ static void NSFileManagerKQueueCallback(CFFileDescriptorRef kqRef, CFOptionFlags
 - (NSString *) documentsFolder { return [self systemFolderPath: NSDocumentDirectory]; }
 
 + (void) setFileAtURLNotBackedUp: (NSURL *) url {
-	u_int8_t b = 1;
-    setxattr([[url path] fileSystemRepresentation], "com.apple.MobileBackup", &b, 1, 0, 0);
+	u_int8_t		attr_value = 1;
+	const char		*attrName = "com.apple.MobileBackup";
+	
+    setxattr([[url path] fileSystemRepresentation], attrName, &attr_value, 1, 0, 0);
 }
 @end
