@@ -285,6 +285,16 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 	[self deleteObjectsOfType: entityName matchingPredicate: predicate withFetchLimit: 0];
 }
 
+- (NSArray *) objectsWithIDs: (NSArray *) objectIDs {
+	NSMutableArray			*objects = [NSMutableArray array];
+	
+	for (NSManagedObjectID *objectID in objectIDs) {
+		NSManagedObject		*object = [self objectWithID: objectID];
+		if (object) [objects addObject: object];
+	}
+	return objects;
+}
+
 - (void) deleteObjectsOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate withFetchLimit: (int) fetchLimit {
 	NSFetchRequest						*allObjects = [[NSFetchRequest alloc] init];
 	NSEntityDescription					*entity = [NSEntityDescription entityForName: entityName inManagedObjectContext: self];

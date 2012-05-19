@@ -20,6 +20,7 @@ extern NSString *kNotification_PersistentStoreResetDueToSchemaChange;
 - (void) setObjectInPrimaryStoreMetadata: (id) object forKey: (id) key;
 - (id) objectInPrimaryStoreMetadataForKey: (id) key;
 - (NSURL *) primaryStoreURL;
+- (NSArray *) objectsWithIDs: (NSArray *) objectIDs;
 
 + (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator;
 + (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator concurrencyType: (int) type;
