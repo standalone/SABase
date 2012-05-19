@@ -92,7 +92,10 @@
 
 + (void) performBlock: (simpleBlock) block {
 	block();
-	Block_release(block);
+}
+
++ (void) performBlockOnMainThread: (simpleBlock) block {
+	dispatch_async(dispatch_get_main_queue(), block);
 }
 
 #endif

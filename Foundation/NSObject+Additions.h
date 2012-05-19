@@ -24,6 +24,7 @@
 + (void) performBlock: (simpleBlock) block onThread: (NSThread *) thread waitUntilDone: (BOOL) waitUntilDone;
 - (void) sa_callBlock;
 + (void) performBlock: (simpleBlock) block;
++ (void) performBlockOnMainThread: (simpleBlock) block;
 #endif
 
 @end
