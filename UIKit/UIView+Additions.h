@@ -24,6 +24,8 @@ typedef enum {
 @property (nonatomic, readwrite) CGRect normalizedFrame;
 @property (nonatomic, readonly) UIView *firstScrollviewChild;
 @property (nonatomic, readonly) CGPoint contentCenter;
+@property (nonatomic, readonly) UIViewController *viewController;
+@property (nonatomic, readonly) UITableViewCell *tableViewCell;
 //@property (nonatomic, readwrite) CGSize size;
 
 + (UIView *) firstResponderView;

@@ -415,6 +415,27 @@
 		}];
 	}];
 }
+
+- (UIViewController *) viewController {
+	id nextResponder = [self nextResponder];
+	
+	while (nextResponder) {
+		if ([nextResponder isKindOfClass:[UIViewController class]]) return nextResponder;
+		nextResponder = [nextResponder nextResponder];
+	}
+	return nil;
+}
+
+- (UITableViewCell *) tableViewCell {
+	UIView			*view = self.superview;
+	
+	while (view) {
+		if ([view isKindOfClass: [UITableViewCell class]]) return (id) view;
+		view = view.superview;
+	}
+	return nil;
+}
+
 @end
 
 
