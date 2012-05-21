@@ -24,6 +24,25 @@
 	return [self.tableView indexPathForCell: self];
 }
 
+- (void) setDividerImage: (UIImage *) image {
+	UIImageView					*divider = (id) [self viewWithTag: kDividerViewTag];
+	
+	if (divider) [divider removeFromSuperview];
+	
+	
+	divider = [[[UIImageView alloc] initWithFrame: CGRectMake(0, self.bounds.size.height - image.size.height, self.bounds.size.width, image.size.height)] autorelease];
+	divider.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+	divider.tag = kDividerViewTag;
+	divider.image = image;
+	[self addSubview: divider];
+}
+- (UIImage *) dividerImage {
+	UIImageView					*divider = (id) [self viewWithTag: kDividerViewTag];
+	
+	if ([divider isKindOfClass: [UIImageView class]]) return divider.image;
+	return nil;
+}
+
 - (UIView *) dividerView {
 	UIView					*divider = [self viewWithTag: kDividerViewTag];
 	

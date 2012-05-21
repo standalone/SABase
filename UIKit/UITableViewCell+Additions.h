@@ -12,7 +12,9 @@
 @interface UITableViewCell (UITableViewCell_Additions) 
 @property (nonatomic, readonly) UITableView *tableView;
 @property (nonatomic, readonly) NSIndexPath *indexPath;
+@property (nonatomic, retain) UIImage *dividerImage;
 
 @property (nonatomic, readonly) UIView *dividerView;
 @property (nonatomic, retain) UIColor *backgroundViewColor, *dividerViewColor;
+
 @end
