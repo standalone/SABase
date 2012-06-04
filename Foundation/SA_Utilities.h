@@ -143,10 +143,19 @@ void		ClearConsoleLog(void);
 	#define			SA_TRY(a)										@try {a;} @catch (id e) {}
 #endif
 
-#if DEBUG || AD_HOC
+#ifdef DDLogError
+	#define		LOG				DDLogVerbose
+	#define		LOG_ERR			DDLogError
+#elif DEBUG || ADHOC
 	#define		LOG				NSLog
 	#define		LOG_ERR			NSLog
+#else
+	#define			LOG(...)					{}
+	#define			LOG_ERR(...)				{}
+#endif
 
+
+#if DEBUG || AD_HOC
 	#define			INIT_COUNT(_X_)				static int g_##_X_##_objectCount = 0;
 	#define			INCR_COUNT(_X_)				if (g_##_X_##_objectCount++ > 0) NSLog(@"%d %@ objects created", g_##_X_##_objectCount, [_X_ class]);
 	#define			DECR_COUNT(_X_)				g_##_X_##_objectCount--;
@@ -164,9 +173,6 @@ void		ClearConsoleLog(void);
 
 	#define			INCR_COUNT_LABELED(_X_, l)
 	#define			DECR_COUNT_RELEASE(_X_, o)	RELEASE(o)
-
-	#define			LOG(...)					{}
-	#define			LOG_ERR(...)				{}
 
 	#define			LOG_DATA(...)				{}
 	#define			DISPLAY_ALERT(...)			{}

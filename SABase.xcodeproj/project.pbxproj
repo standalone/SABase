@@ -294,15 +294,12 @@
 		B583071C1516548600CC57DE /* NSData Tests.h in Headers */ = {isa = PBXBuildFile; fileRef = B58307001516548600CC57DE /* NSData Tests.h */; settings = {ATTRIBUTES = (); }; };
 		B583071D1516548600CC57DE /* NSData Tests.h in Headers */ = {isa = PBXBuildFile; fileRef = B58307001516548600CC57DE /* NSData Tests.h */; };
 		B58307201516548600CC57DE /* NSData Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = B58307011516548600CC57DE /* NSData Tests.m */; };
-		B58307211516548600CC57DE /* NSData Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = B58307011516548600CC57DE /* NSData Tests.m */; };
 		B58307221516548600CC57DE /* NSDate Tests.h in Headers */ = {isa = PBXBuildFile; fileRef = B58307021516548600CC57DE /* NSDate Tests.h */; settings = {ATTRIBUTES = (); }; };
 		B58307231516548600CC57DE /* NSDate Tests.h in Headers */ = {isa = PBXBuildFile; fileRef = B58307021516548600CC57DE /* NSDate Tests.h */; };
 		B58307261516548600CC57DE /* NSDate Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = B58307031516548600CC57DE /* NSDate Tests.m */; };
-		B58307271516548600CC57DE /* NSDate Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = B58307031516548600CC57DE /* NSDate Tests.m */; };
 		B58307281516548600CC57DE /* NSURL Tests.h in Headers */ = {isa = PBXBuildFile; fileRef = B58307041516548600CC57DE /* NSURL Tests.h */; settings = {ATTRIBUTES = (); }; };
 		B58307291516548600CC57DE /* NSURL Tests.h in Headers */ = {isa = PBXBuildFile; fileRef = B58307041516548600CC57DE /* NSURL Tests.h */; };
 		B583072C1516548600CC57DE /* NSURL Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = B58307051516548600CC57DE /* NSURL Tests.m */; };
-		B583072D1516548600CC57DE /* NSURL Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = B58307051516548600CC57DE /* NSURL Tests.m */; };
 		B583072E1516548600CC57DE /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = B58307071516548600CC57DE /* MainWindow.xib */; };
 		B583072F1516548600CC57DE /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = B58307071516548600CC57DE /* MainWindow.xib */; };
 		B58307301516548600CC57DE /* RunTimeAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B58307081516548600CC57DE /* RunTimeAppDelegate.h */; settings = {ATTRIBUTES = (); }; };
@@ -326,6 +323,7 @@
 		B5A12A22152FEF4A0081FAAD /* SA_Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = B5A12A1F152FEF4A0081FAAD /* SA_Utilities.h */; };
 		B5A12A23152FEF4A0081FAAD /* SA_Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */; };
 		B5A12A24152FEF4A0081FAAD /* SA_Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */; };
+		B5A1764F157D7AD200BA3FEC /* SA_Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1150,9 +1148,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B58307151516548600CC57DE /* main.m in Sources */,
-				B58307211516548600CC57DE /* NSData Tests.m in Sources */,
-				B58307271516548600CC57DE /* NSDate Tests.m in Sources */,
-				B583072D1516548600CC57DE /* NSURL Tests.m in Sources */,
 				B58307351516548600CC57DE /* RunTimeAppDelegate.m in Sources */,
 				B583073B1516548600CC57DE /* TestController.m in Sources */,
 				B55E088D151660DD0097CC69 /* dispatch_additions.m in Sources */,
@@ -1198,6 +1193,7 @@
 				B55E0995151661920097CC69 /* NSUserDefaults+Additions.m in Sources */,
 				B55E099D151661C10097CC69 /* NSArray+Additions.m in Sources */,
 				B55E09A715166D3C0097CC69 /* SA_BackgroundThread.m in Sources */,
+				B5A1764F157D7AD200BA3FEC /* SA_Utilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1468,10 +1464,11 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Src/Run-Time/Run-TimePrefix.pch";
-				INFOPLIST_FILE = "Tests/Run-Time Tests-Info.plist";
+				GCC_PREFIX_HEADER = "SABase/Src/Run-Time/Run-TimePrefix.pch";
+				INFOPLIST_FILE = "SABase/Tests/Run-Time Tests-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1492,10 +1489,11 @@
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Src/Run-Time/Run-TimePrefix.pch";
-				INFOPLIST_FILE = "Tests/Run-Time Tests-Info.plist";
+				GCC_PREFIX_HEADER = "SABase/Src/Run-Time/Run-TimePrefix.pch";
+				INFOPLIST_FILE = "SABase/Tests/Run-Time Tests-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,

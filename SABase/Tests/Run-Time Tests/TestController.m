@@ -7,8 +7,8 @@
 //
 
 #import "TestController.h"
-#import "SA_ConnectionQueue.h"
-
+#import "NSDate+Additions.h"
+#import "SA_Base.h"
 
 @implementation TestController
 
@@ -56,8 +56,15 @@
 }
 
 - (void) viewDidAppear: (BOOL) animated {
+	NSDate			*date = [NSDate dateWithXMLString: @"2012-05-15"];
+	LOG(@"Date: %@", date);
 	
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+		NSDate			*date2 = [NSDate dateWithXMLString: @"2012-05-15"];
+		LOG(@"Date2: %@", date2);
 
+	});
+																			 
 	[super viewDidAppear: animated];
 	[SA_PleaseWaitDisplay showPleaseWaitDisplayWithMajorText: @"Please" 
 												   minorText: @"Minor Text Label" cancelLabel: @"Cancel Button" showProgressBar: NO delegate: nil];
