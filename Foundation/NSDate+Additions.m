@@ -17,7 +17,7 @@
 		variable = static_##variable;\
 	} else {\
 		variable = [[[NSThread currentThread] threadDictionary] objectForKey: @"type##variable"];\
-		if (variable) {\
+		if (variable == nil) {\
 			variable = [[[type alloc] init] autorelease];\
 			[[[NSThread currentThread] threadDictionary] setObject: variable forKey: @"type##variable"];\
 		}\
