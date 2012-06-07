@@ -35,7 +35,7 @@
 		if (strlen(raw) == 8) alpha = CharToInteger(raw[5]) * 16 + CharToInteger(raw[6]);
 	} 
 	
-	return [self initWithRed: values[0] / 255.0 green: values[1] / 255.0 blue: values[2] / 255.0 alpha: 1.0];	
+	return [self initWithRed: values[0] / 255.0 green: values[1] / 255.0 blue: values[2] / 255.0 alpha: alpha];	
 }
 
 - (NSString *) hexString {
