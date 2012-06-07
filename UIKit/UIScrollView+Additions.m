@@ -54,14 +54,12 @@
 - (void) keyboardWillShow: (NSNotification *) note {
 	UIView					*firstResponder = [UIView firstResponderView];
 	CGRect					keyboardFrame;
-	BOOL					os3Device = NO;
 	
 	if ([note.userInfo objectForKey: @"UIKeyboardFrameEndUserInfoKey"]) {
 		keyboardFrame = [[note.userInfo objectForKey: UIKeyboardFrameEndUserInfoKey] CGRectValue];
 	} else {
 		keyboardFrame = [[note.userInfo objectForKey: @"UIKeyboardBoundsUserInfoKey"] CGRectValue];
 		keyboardFrame.origin.y = [[note.userInfo objectForKey: @"UIKeyboardCenterEndUserInfoKey"] CGPointValue].y - keyboardFrame.size.height / 2;
-		os3Device = YES;
 	}
 	
 	keyboardFrame = [self convertRect: keyboardFrame fromView: [UIApplication sharedApplication].keyWindow];
