@@ -132,7 +132,7 @@
 	
 	if ([self respondsToSelector: @selector(title)]) text = [(id) self title];
 	else if ([self respondsToSelector: @selector(text)]) text = [(id) self text];
-	[results appendFormat: @"[%@, 0x%X], %@ [%@]", [self class], self, NSStringFromCGRect(self.frame), text];
+	[results appendFormat: @"[%@, 0x%X], %@ [%@]", [self class], (int) self, NSStringFromCGRect(self.frame), text];
 	for (UIView *child in self.subviews) {
 		[results appendFormat: @"%@", [child hierarchyToStringWithLevel: level + 1]];
 	}

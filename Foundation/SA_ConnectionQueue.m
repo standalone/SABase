@@ -1169,7 +1169,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	[desc appendString: self.dataString ?: @"## no_data_received ##"];
 	return desc;
 	
-	return [NSString stringWithFormat: @"<0x%X>[%d.%d] %@ [%@]%@", self, _priority, _order, [self.url absoluteString], _tag, self.alreadyStarted ? @" (started)" : @""];
+	return [NSString stringWithFormat: @"<0x%X>[%d.%d] %@ [%@]%@", (int) self, _priority, _order, [self.url absoluteString], _tag, self.alreadyStarted ? @" (started)" : @""];
 }
 
 - (void) setFilename: (NSString *) newFilename {

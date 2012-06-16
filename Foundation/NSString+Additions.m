@@ -30,12 +30,16 @@
 	minutes %= 60;
 	seconds %= 60;
 	
-	if (showHours || hours > 0) 
-		return [NSString stringWithFormat: showSeconds ? @"%d:%s%d:%s%d" : @"%d:%s%d", hours, minutes < 10 ? "0" : "", minutes, seconds < 10 ? "0" : "", seconds];	
-	else if (showMinutes || minutes > 0) 
-		return [NSString stringWithFormat: showSeconds ? @"%d:%s%d" : @"%d", minutes, seconds < 10 ? "0" : "", seconds];	
+	NSString				*timeString = nil;
 	
-	return [NSString stringWithFormat: showSeconds ? @"%d:%s%d" : @"%d", minutes, seconds < 10 ? "0" : "", seconds];
+	if (showHours || hours > 0) {
+		timeString = [NSString stringWithFormat: @"%02d:%02d", hours, minutes];
+	} else if (showMinutes || minutes > 0) {
+		timeString = [NSString stringWithFormat: @"%d", minutes];
+	}
+	
+	if (showSeconds) return [timeString stringByAppendingFormat: @":%02d", seconds];
+	return timeString;
 }
 
 + (NSString *) stringWithCGSize: (CGSize) size {
