@@ -14,10 +14,10 @@
 #define		kLabelBackgroundColor				[UIColor clearColor]
 
 static SA_PleaseWaitDisplay *g_display = nil;
-static NSString *g_cancelButtonImageName = @"custombuttonblacknormal.png";
-static NSString *g_cancelButtonImagePressedName = @"custombuttonblackpressed.png";
-static NSString *g_auxButtonImageName = @"custombuttonblacknormal.png";
-static NSString *g_auxButtonImagePressedName = @"custombuttonblackpressed.png";
+static NSString *g_cancelButtonImageName = @"black-button.png";
+static NSString *g_cancelButtonImagePressedName = @"black-button-highlight.png";
+static NSString *g_auxButtonImageName = @"black-button.png";
+static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 
 @implementation SA_PleaseWaitDisplay
 @synthesize cancelTitle = _cancelTitle, auxTitle = _auxTitle, minorText = _minorText, majorText = _majorText, delegate = _delegate, view = _view, spinnerHidden = _spinnerHidden, progressBarHidden = _progressBarHidden, majorFont = _majorFont, minorFont = _minorFont;
