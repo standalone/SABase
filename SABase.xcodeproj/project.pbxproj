@@ -176,7 +176,6 @@
 		B55E0927151660DD0097CC69 /* UIBarButtonItem+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E086B151660DD0097CC69 /* UIBarButtonItem+Additions.m */; };
 		B55E0928151660DD0097CC69 /* UIBarButtonItem+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E086B151660DD0097CC69 /* UIBarButtonItem+Additions.m */; };
 		B55E0929151660DD0097CC69 /* UIBarButtonItem+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E086B151660DD0097CC69 /* UIBarButtonItem+Additions.m */; };
-		B55E092A151660DD0097CC69 /* UIButton+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E086C151660DD0097CC69 /* UIButton+Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B55E092B151660DD0097CC69 /* UIButton+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E086C151660DD0097CC69 /* UIButton+Additions.h */; };
 		B55E092C151660DD0097CC69 /* UIButton+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E086D151660DD0097CC69 /* UIButton+Additions.m */; };
 		B55E092D151660DD0097CC69 /* UIButton+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E086D151660DD0097CC69 /* UIButton+Additions.m */; };
@@ -324,6 +323,10 @@
 		B5A12A23152FEF4A0081FAAD /* SA_Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */; };
 		B5A12A24152FEF4A0081FAAD /* SA_Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */; };
 		B5A1764F157D7AD200BA3FEC /* SA_Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */; };
+		B5EBEC2715917A63004EFDBA /* UIButton+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B5EBEC2515917A63004EFDBA /* UIButton+Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B5EBEC2815917A63004EFDBA /* UIButton+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B5EBEC2515917A63004EFDBA /* UIButton+Additions.h */; };
+		B5EBEC2915917A63004EFDBA /* UIButton+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B5EBEC2615917A63004EFDBA /* UIButton+Additions.m */; };
+		B5EBEC2A15917A63004EFDBA /* UIButton+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B5EBEC2615917A63004EFDBA /* UIButton+Additions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -444,6 +447,8 @@
 		B5A12A1F152FEF4A0081FAAD /* SA_Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SA_Utilities.h; path = ../Foundation/SA_Utilities.h; sourceTree = "<group>"; };
 		B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SA_Utilities.m; sourceTree = "<group>"; };
 		B5E39B72123BA9EE00FC1FE7 /* Run-Time Tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Run-Time Tests.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B5EBEC2515917A63004EFDBA /* UIButton+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Additions.h"; sourceTree = "<group>"; };
+		B5EBEC2615917A63004EFDBA /* UIButton+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Additions.m"; sourceTree = "<group>"; };
 		D2AAC07E0554694100DB518D /* libSABase.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSABase.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -588,6 +593,8 @@
 				B55E0883151660DD0097CC69 /* UIToolbar+Additions.m */,
 				B55E0885151660DD0097CC69 /* UIView+Additions.m */,
 				B55E0887151660DD0097CC69 /* UIViewController+Additions.m */,
+				B5EBEC2515917A63004EFDBA /* UIButton+Additions.h */,
+				B5EBEC2615917A63004EFDBA /* UIButton+Additions.m */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -777,6 +784,7 @@
 				B55E0999151661C10097CC69 /* NSArray+Additions.h in Headers */,
 				B55E09A315166D3C0097CC69 /* SA_BackgroundThread.h in Headers */,
 				B5A12A22152FEF4A0081FAAD /* SA_Utilities.h in Headers */,
+				B5EBEC2815917A63004EFDBA /* UIButton+Additions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -810,7 +818,6 @@
 				B55E0912151660DD0097CC69 /* SA_StackedScrollView.h in Headers */,
 				B55E091E151660DD0097CC69 /* UIActionSheet+Additions.h in Headers */,
 				B55E0924151660DD0097CC69 /* UIBarButtonItem+Additions.h in Headers */,
-				B55E092A151660DD0097CC69 /* UIButton+Additions.h in Headers */,
 				B55E0930151660DD0097CC69 /* UIColor+Additions.h in Headers */,
 				B55E0936151660DD0097CC69 /* UIDevice+Additions.h in Headers */,
 				B55E093C151660DD0097CC69 /* UIImage+Additions.h in Headers */,
@@ -824,6 +831,7 @@
 				B55E0972151660DD0097CC69 /* UIView+Additions.h in Headers */,
 				B55E09A215166D3C0097CC69 /* SA_BackgroundThread.h in Headers */,
 				B55E0978151660DD0097CC69 /* UIViewController+Additions.h in Headers */,
+				B5EBEC2715917A63004EFDBA /* UIButton+Additions.h in Headers */,
 				B55E0980151661110097CC69 /* SA_BlockButton.h in Headers */,
 				B55E0988151661790097CC69 /* NSTimer+Additions.h in Headers */,
 				B5A12A21152FEF4A0081FAAD /* SA_Utilities.h in Headers */,
@@ -836,6 +844,7 @@
 				B58307361516548600CC57DE /* TestController.h in Headers */,
 				B58307161516548600CC57DE /* Run-TimePrefix.pch in Headers */,
 				B583071A1516548600CC57DE /* SABase_Prefix.pch in Headers */,
+				B5EBEC2715917A63004EFDBA /* UIButton+Additions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1085,6 +1094,7 @@
 				B55E099B151661C10097CC69 /* NSArray+Additions.m in Sources */,
 				B55E09A515166D3C0097CC69 /* SA_BackgroundThread.m in Sources */,
 				B5A12A24152FEF4A0081FAAD /* SA_Utilities.m in Sources */,
+				B5EBEC2A15917A63004EFDBA /* UIButton+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1245,6 +1255,7 @@
 				B55E099A151661C10097CC69 /* NSArray+Additions.m in Sources */,
 				B55E09A415166D3C0097CC69 /* SA_BackgroundThread.m in Sources */,
 				B5A12A23152FEF4A0081FAAD /* SA_Utilities.m in Sources */,
+				B5EBEC2915917A63004EFDBA /* UIButton+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

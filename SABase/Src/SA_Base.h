@@ -29,6 +29,7 @@
 #import "UISegmentedControl+Additions.h"
 #import "UIButton+Additions.h"
 #import "UILabel+Additions.h"
+#import "UIButton+Additions.h"
 
 #import "NSSortDescriptor+Additions.h"
 #import "NSBundle+Additions.h"
