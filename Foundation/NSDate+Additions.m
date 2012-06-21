@@ -16,10 +16,10 @@
 		if (static_##variable == nil) static_##variable = [[type alloc] init];\
 		variable = static_##variable;\
 	} else {\
-		variable = [[[NSThread currentThread] threadDictionary] objectForKey: @"type##variable"];\
+		variable = [[[NSThread currentThread] threadDictionary] objectForKey: $S(@"%s: %s", #type, #variable)];\
 		if (variable == nil) {\
 			variable = [[[type alloc] init] autorelease];\
-			[[[NSThread currentThread] threadDictionary] setObject: variable forKey: @"type##variable"];\
+			[[[NSThread currentThread] threadDictionary] setObject: variable forKey: $S(@"%s: %s", #type, #variable)];\
 		}\
 	}
 
@@ -30,10 +30,10 @@
 		if (static_##variable == nil) static_##variable = [[type alloc] initializer: arg];\
 		variable = static_##variable;\
 	} else {\
-		variable = [[[NSThread currentThread] threadDictionary] objectForKey: @"type##variable"];\
-		if (variable) {\
+		variable = [[[NSThread currentThread] threadDictionary] objectForKey: $S(@"%s: %s", #type, #variable)];\
+		if (variable == nil) {\
 			variable = [[[type alloc] initializer: arg] autorelease];\
-			[[[NSThread currentThread] threadDictionary] setObject: variable forKey: @"type##variable"];\
+			[[[NSThread currentThread] threadDictionary] setObject: variable forKey: $S(@"%s: %s", #type, #variable)];\
 		}\
 	}
 
