@@ -235,8 +235,8 @@
 		}
 	}
 
-	CLEANUP_THREAD_SAFE_STATIC(enUSPOSIXLocale);
-	CLEANUP_THREAD_SAFE_STATIC(rfc3339DateFormatter);
+	//CLEANUP_THREAD_SAFE_STATIC(enUSPOSIXLocale);
+	//CLEANUP_THREAD_SAFE_STATIC(rfc3339DateFormatter);
 	
 	if (offsetAmount) date = [date dateByAddingTimeIntervalAmount: -1 * offsetAmount];
 	return date;
