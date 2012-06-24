@@ -177,9 +177,17 @@ static void NSFileManagerKQueueCallback(CFFileDescriptorRef kqRef, CFOptionFlags
 - (NSString *) documentsFolder { return [self systemFolderPath: NSDocumentDirectory]; }
 
 + (void) setFileAtURLNotBackedUp: (NSURL *) url {
-	u_int8_t		attr_value = 1;
-	const char		*attrName = "com.apple.MobileBackup";
-	
-    setxattr([[url path] fileSystemRepresentation], attrName, &attr_value, 1, 0, 0);
+    NSError		*error = nil;
+    BOOL		success = [url setResourceValue: (id) kCFBooleanTrue forKey: NSURLIsExcludedFromBackupKey error: &error];
+ 
+	if (!success){
+        NSLog(@"Error excluding %@ from backup %@", [url lastPathComponent], error);
+    }
+//    return success;
+//
+//	u_int8_t		attr_value = 1;
+//	const char		*attrName = "com.apple.MobileBackup";
+//	
+//    setxattr([[url path] fileSystemRepresentation], attrName, &attr_value, 1, 0, 0);
 }
 @end
