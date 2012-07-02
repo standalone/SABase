@@ -278,6 +278,7 @@ void					MailDataWithTitle(NSData *data, NSString *title);
 	typedef void (^intArgumentBlock)(int integer);
 	typedef void (^simpleBlock)(void);
 	typedef void (^idArgumentBlock)(id arg);
+	typedef void (^stringArgumentBlock)(NSString *arg);
 	typedef void (^idErrorArgumentBlock)(id arg, NSError *error);
 	typedef id (^idArgumentBlockReturningID)(id arg);
 	typedef void (^simpleArrayBlock)(NSArray *array);
