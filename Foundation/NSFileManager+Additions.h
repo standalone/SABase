@@ -22,5 +22,7 @@
 + (NSURL *) documentsDirectory;
 + (NSURL *) cachesDirectory;
 + (NSURL *) applicationSupportDirectory;
-+ (void) setFileAtURLNotBackedUp: (NSURL *) url;
+#if TARGET_OS_IPHONE
+	+ (void) setFileAtURLNotBackedUp: (NSURL *) url;
+#endif
 @end

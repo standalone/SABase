@@ -176,6 +176,7 @@ static void NSFileManagerKQueueCallback(CFFileDescriptorRef kqRef, CFOptionFlags
 - (NSString *) applicationSupportFolder { return [self systemFolderPath: NSApplicationSupportDirectory]; }
 - (NSString *) documentsFolder { return [self systemFolderPath: NSDocumentDirectory]; }
 
+#if TARGET_OS_IPHONE
 + (void) setFileAtURLNotBackedUp: (NSURL *) url {
     NSError		*error = nil;
     BOOL		success = [url setResourceValue: (id) kCFBooleanTrue forKey: NSURLIsExcludedFromBackupKey error: &error];
@@ -190,4 +191,5 @@ static void NSFileManagerKQueueCallback(CFFileDescriptorRef kqRef, CFOptionFlags
 //	
 //    setxattr([[url path] fileSystemRepresentation], attrName, &attr_value, 1, 0, 0);
 }
+#endif
 @end
