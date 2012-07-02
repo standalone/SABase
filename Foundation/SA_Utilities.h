@@ -66,7 +66,7 @@
 	#define			CFBridgingRetain(p)			(p)
 	#define			CFBridgingRelease(p)		(p)
 	#define         RELEASE(p)                  {[p release]; p = nil;}
-	#if !OS_50_BUILD 
+	#if !OS_50_BUILD && TARGET_OS_IPHONE
 		#define         objc_retainedObject(p)      ((id) (p))
 		#define			objc_unretainedObject(o)			((id) o) 
 	#endif

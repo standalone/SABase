@@ -11,7 +11,7 @@
 @implementation NSUserDefaults (Additions)
 
 - (BOOL) isSetting: (NSString *) settingKey upToVersion: (int) properVersion updatingIfNeeded: (BOOL) update {
-	int				currentVersion = [self integerForKey: settingKey];
+	NSUInteger				currentVersion = [self integerForKey: settingKey];
 	
 	if (currentVersion >= properVersion) return YES;
 	

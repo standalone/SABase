@@ -214,7 +214,7 @@ typedef enum {
 @property (readwrite) int maxSimultaneousConnections;
 @property (nonatomic, readwrite, retain) NSString *dbPath;				//used for persistance
 @property (nonatomic, readwrite) int defaultPriorityLevel, minimumIndicatedPriorityLevel, fileSwitchOverLimit;
-@property (nonatomic, readonly) int connectionCount;
+@property (nonatomic, readonly) NSUInteger connectionCount;
 @property (nonatomic, readwrite) BOOL dontProcessFailedStatusCodes;
 @property (nonatomic, readwrite) BOOL suppressPleaseWaitDisplay;
 @property (nonatomic, readonly) BOOL shouldPleaseWaitBeVisible;					//used to check if a pleaseWait SHOLD be shown, regardless of whether _suppressPleaseWaitDisplay is set 
