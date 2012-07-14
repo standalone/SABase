@@ -36,6 +36,7 @@
 - (SA_LazyLoadingScrollViewPage *) visiblePageViewAtIndex: (int) index;
 - (void) setMainPageIndex: (NSInteger) index animated:(BOOL) animated;
 - (void) hideOffscreenPagesForRotation;
+- (void) scrollViewDidScroll: (UIScrollView *) scrollView;
 @end
 
 
