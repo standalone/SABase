@@ -38,11 +38,11 @@
 - (NSArray *) arrayWithIndexesFromSet: (NSIndexSet *) indexeSet {
 	if ([indexeSet count] == 0) return [NSArray array];
 	
-	int					first = [indexeSet firstIndex], last = [indexeSet lastIndex], index;
+	NSUInteger			first = [indexeSet firstIndex], last = [indexeSet lastIndex];
 	NSMutableArray		*results = [NSMutableArray arrayWithObject: [self objectAtIndex: first]];
 	
 	if (first != last) {
-		for (index = first + 1; index <= last; index++) {
+		for (NSInteger index = first + 1; index <= last; index++) {
 			if ([indexeSet containsIndex: index]) [results addObject: [self objectAtIndex: index]];
 		}
 	}
@@ -75,7 +75,7 @@
 }
 
 - (NSMutableArray *) deepMutableCopy {
-	int					i, count = [self count];
+	NSInteger			i, count = [self count];
 	id					obj;
 	NSMutableArray		*result = [[NSMutableArray alloc] initWithCapacity: [self count]];
 	

@@ -122,8 +122,8 @@ static SA_ConnectionQueue		*g_queue = nil;
 	NSFileManager				*mgr = [NSFileManager defaultManager];
 	
 	while (index < 10000) {
-		NSString					*path = [root stringByAppendingPathComponent: [NSString stringWithFormat: @"%@; %@_%d.txt", prefix, tag, index]];
-		
+		NSString					*path = [root stringByAppendingPathComponent: [NSString stringWithFormat: @"%@; %@_%ld.txt", prefix, tag, index]];
+
 		if (![mgr fileExistsAtPath: path]) return path;
 		index++;
 	}
@@ -483,8 +483,8 @@ static SA_ConnectionQueue		*g_queue = nil;
 }
 
 - (void) setMaxSimultaneousConnections: (int) max { _maxSimultaneousConnections = max; }
-- (BOOL) connectionsArePending { return _pending.count > 0 || _active.count > 0; }
-- (int) connectionCount { return _active.count + _pending.count; }
+- (BOOL) connectionsArePending { return (_pending.count > 0 || _active.count > 0); }
+- (NSUInteger) connectionCount { return _active.count + _pending.count; }
 
 //=============================================================================================================================
 #pragma mark Activity Indicator
@@ -693,13 +693,13 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 - (NSString *) description {
 	NSMutableString				*results = [NSMutableString string];
 	
-	[results appendFormat: @"\nActive (%d):\n", _active.count];
+	[results appendFormat: @"\nActive (%ld):\n", _active.count];
 	for (SA_Connection *connection in _active) {
 		[results appendFormat: @"\t\t%@\n", connection];
 	}
 	
 	if (_active.count && _pending.count) [results appendString: @"\n"];
-	[results appendFormat: @"Pending (%d):\n", _pending.count];
+	[results appendFormat: @"Pending (%ld):\n", _pending.count];
 	for (SA_Connection *connection in _pending) {
 		[results appendFormat: @"\t\t%@\n", connection];
 	}
@@ -907,11 +907,11 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	if (self.prefersFileStorage) {
 		[self switchToFileStorage];
 		if (self.resumable) {
-			int						offset = [_file seekToEndOfFile];
+			NSUInteger						offset = [_file seekToEndOfFile];
 			
 			if (offset) {
 				if (_headers == nil) _headers = [[NSMutableDictionary alloc] init];
-				[_headers setObject: [NSString stringWithFormat: @" bytes=%d-", offset] forKey: @"Range"];
+				[_headers setObject: [NSString stringWithFormat: @" bytes=%ld-", offset] forKey: @"Range"];
 			}
 		}
 	} else
@@ -1120,7 +1120,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	
 	if ([response isKindOfClass: [NSHTTPURLResponse class]]) {
 		_responseHeaders = [[(id) response allHeaderFields] retain];
-		_statusCode = [(NSHTTPURLResponse *) response statusCode];
+		_statusCode = (int) [(NSHTTPURLResponse *) response statusCode];
 
 		if (HTTP_STATUS_CODE_IS_ERROR(_statusCode)) {
 //			if ([_delegate respondsToSelector: @selector(connectionFailed:withStatusCode:)] && ![_delegate connectionFailed: self withStatusCode: _statusCode]) {

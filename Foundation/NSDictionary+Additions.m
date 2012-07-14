@@ -13,7 +13,7 @@
 
 - (NSMutableDictionary *) deepMutableCopy {
 	NSArray				*keys = [self allKeys];
-	int					i, count = [keys count];
+	NSUInteger			i, count = [keys count];
 	id					obj, key;
 	NSMutableDictionary	*result = [[NSMutableDictionary alloc] initWithCapacity: [self count]];
 	
