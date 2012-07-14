@@ -35,7 +35,7 @@ typedef enum {
 + (NSDate *) SA_dateWithNaturalLanguageString: (NSString *) date;
 - (NSString *) descriptionWithCalendarFormat: (NSString *) format;
 + (NSDate *) dateWithNaturalLanguageString: (NSString *) date andFormatHint: (NSString *) formatHint;
-+ (NSDate *) dateWithUNIXString: (NSString *) string;
++ (NSDate *) dateWithUNIXString: (NSString *) string;	//@"YYYY-mm-ddTHH:mm:ss zzzz"
 + (NSDate *) dateWithXMLString: (NSString *) string;
 + (NSDate *) dateWithHTTPHeaderString: (NSString *) string;
 
