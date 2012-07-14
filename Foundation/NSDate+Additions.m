@@ -148,7 +148,7 @@
 	return result;
 }
 
-+ (NSDate *) dateWithUNIXString: (NSString *) string {			//@"YYYY-mm-ddTHH:mm:ss zzzz"
++ (NSDate *) dateWithUNIXString: (NSString *) string {			//@" YYYY-mm-ddTHH:mm:ss zzzz"
 	if (![string isKindOfClass: [NSString class]]) return nil;
 	NSInteger		intComponents[7];						//month, day, year, hours, minutes, seconds, timezone
 	char			*raw = (char *) [string UTF8String];
