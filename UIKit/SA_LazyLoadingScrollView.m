@@ -18,7 +18,7 @@
 - (void) resetVisiblePageViews;
 - (void) setupPages;
 - (SA_LazyLoadingScrollViewPage *) dequeuePageViewAtIndex: (int) index;
-- (void) configurePageView: (SA_LazyLoadingScrollViewPage *) view forIndex: (int) index;
+- (void) configureIndexedPageView: (SA_LazyLoadingScrollViewPage *) view forIndex: (int) index;
 @end
 
 
@@ -127,7 +127,7 @@
 			[view removeFromSuperview];
 		} else {
 			// Update frame of visible pages in case view has been rotated.
-			[self configurePageView: view forIndex: view.pageIndex];
+			[self configureIndexedPageView: view forIndex: view.pageIndex];
 		}
 
 	}
@@ -141,7 +141,7 @@
 			if (view == nil) view = [self.dataSource pageViewAtIndex: index];
 			if (view == nil) continue;
             
-			[self configurePageView: view forIndex: index];
+			[self configureIndexedPageView: view forIndex: index];
 			[self addSubview: view];
 			[self.visiblePageViews addObject: view];
 		}
@@ -176,7 +176,7 @@
     return foundPage;
 }
 
-- (void) configurePageView: (SA_LazyLoadingScrollViewPage *) view forIndex: (int) index {
+- (void) configureIndexedPageView: (SA_LazyLoadingScrollViewPage *) view forIndex: (int) index {
     view.frame = [self frameForViewAtIndex: index];
 	
 	if ([self.dataSource respondsToSelector: @selector(configurePageView:forIndex:)]) {
