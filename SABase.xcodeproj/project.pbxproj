@@ -26,6 +26,10 @@
 /* Begin PBXBuildFile section */
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 		B50260B411CC68DE00417EA6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
+		B542238F15B64FB8001776BA /* UIGestureRecognizer+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B542238D15B64FB8001776BA /* UIGestureRecognizer+Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B542239015B64FB8001776BA /* UIGestureRecognizer+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B542238D15B64FB8001776BA /* UIGestureRecognizer+Additions.h */; };
+		B542239115B64FB8001776BA /* UIGestureRecognizer+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B542238E15B64FB8001776BA /* UIGestureRecognizer+Additions.m */; };
+		B542239215B64FB8001776BA /* UIGestureRecognizer+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B542238E15B64FB8001776BA /* UIGestureRecognizer+Additions.m */; };
 		B55E0888151660DD0097CC69 /* dispatch_additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0835151660DD0097CC69 /* dispatch_additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B55E0889151660DD0097CC69 /* dispatch_additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0835151660DD0097CC69 /* dispatch_additions.h */; };
 		B55E088A151660DD0097CC69 /* dispatch_additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0836151660DD0097CC69 /* dispatch_additions.m */; };
@@ -333,6 +337,8 @@
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B50260B811CC68DE00417EA6 /* libSABase.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSABase.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B50261D711CD233E00417EA6 /* Unit Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B542238D15B64FB8001776BA /* UIGestureRecognizer+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+Additions.h"; sourceTree = "<group>"; };
+		B542238E15B64FB8001776BA /* UIGestureRecognizer+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+Additions.m"; sourceTree = "<group>"; };
 		B55E0835151660DD0097CC69 /* dispatch_additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dispatch_additions.h; path = ../Foundation/dispatch_additions.h; sourceTree = "<group>"; };
 		B55E0836151660DD0097CC69 /* dispatch_additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = dispatch_additions.m; sourceTree = "<group>"; };
 		B55E0837151660DD0097CC69 /* NSBundle+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSBundle+Additions.h"; path = "../Foundation/NSBundle+Additions.h"; sourceTree = "<group>"; };
@@ -570,6 +576,7 @@
 		B55E0855151660DD0097CC69 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
+				B542238E15B64FB8001776BA /* UIGestureRecognizer+Additions.m */,
 				B55E097F151661110097CC69 /* SA_BlockButton.m */,
 				B55E0859151660DD0097CC69 /* SA_AlertView.m */,
 				B55E085B151660DD0097CC69 /* SA_LazyLoadingScrollView.m */,
@@ -593,7 +600,6 @@
 				B55E0883151660DD0097CC69 /* UIToolbar+Additions.m */,
 				B55E0885151660DD0097CC69 /* UIView+Additions.m */,
 				B55E0887151660DD0097CC69 /* UIViewController+Additions.m */,
-				B5EBEC2515917A63004EFDBA /* UIButton+Additions.h */,
 				B5EBEC2615917A63004EFDBA /* UIButton+Additions.m */,
 			);
 			path = UIKit;
@@ -602,6 +608,7 @@
 		B55E099F1516682A0097CC69 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				B542238D15B64FB8001776BA /* UIGestureRecognizer+Additions.h */,
 				B5A12A1F152FEF4A0081FAAD /* SA_Utilities.h */,
 				B55E09A015166D3C0097CC69 /* SA_BackgroundThread.h */,
 				B55E0996151661C10097CC69 /* NSArray+Additions.h */,
@@ -638,6 +645,7 @@
 				B55E0870151660DD0097CC69 /* UIDevice+Additions.h */,
 				B55E0872151660DD0097CC69 /* UIImage+Additions.h */,
 				B55E0874151660DD0097CC69 /* UIImageView+Additions.h */,
+				B5EBEC2515917A63004EFDBA /* UIButton+Additions.h */,
 				B55E0876151660DD0097CC69 /* UILabel+Additions.h */,
 				B55E087A151660DD0097CC69 /* UIPopoverController+Additions.h */,
 				B55E087C151660DD0097CC69 /* UIScrollView+Additions.h */,
@@ -785,6 +793,7 @@
 				B55E09A315166D3C0097CC69 /* SA_BackgroundThread.h in Headers */,
 				B5A12A22152FEF4A0081FAAD /* SA_Utilities.h in Headers */,
 				B5EBEC2815917A63004EFDBA /* UIButton+Additions.h in Headers */,
+				B542239015B64FB8001776BA /* UIGestureRecognizer+Additions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -837,6 +846,7 @@
 				B5A12A21152FEF4A0081FAAD /* SA_Utilities.h in Headers */,
 				B55E0990151661920097CC69 /* NSUserDefaults+Additions.h in Headers */,
 				B55E0998151661C10097CC69 /* NSArray+Additions.h in Headers */,
+				B542238F15B64FB8001776BA /* UIGestureRecognizer+Additions.h in Headers */,
 				B583071C1516548600CC57DE /* NSData Tests.h in Headers */,
 				B58307301516548600CC57DE /* RunTimeAppDelegate.h in Headers */,
 				B58307221516548600CC57DE /* NSDate Tests.h in Headers */,
@@ -1095,6 +1105,7 @@
 				B55E09A515166D3C0097CC69 /* SA_BackgroundThread.m in Sources */,
 				B5A12A24152FEF4A0081FAAD /* SA_Utilities.m in Sources */,
 				B5EBEC2A15917A63004EFDBA /* UIButton+Additions.m in Sources */,
+				B542239215B64FB8001776BA /* UIGestureRecognizer+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1256,6 +1267,7 @@
 				B55E09A415166D3C0097CC69 /* SA_BackgroundThread.m in Sources */,
 				B5A12A23152FEF4A0081FAAD /* SA_Utilities.m in Sources */,
 				B5EBEC2915917A63004EFDBA /* UIButton+Additions.m in Sources */,
+				B542239115B64FB8001776BA /* UIGestureRecognizer+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
