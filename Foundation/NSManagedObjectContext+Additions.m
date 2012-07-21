@@ -515,4 +515,12 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 }
 #endif
 
+- (NSManagedObjectContext *) createChildContext {
+	if (!RUNNING_ON_50) return nil;
+	
+	NSManagedObjectContext			*moc = [[[NSManagedObjectContext alloc] init] autorelease];
+	
+	moc.parentContext = self;
+	return moc;
+}
 @end
