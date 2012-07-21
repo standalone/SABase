@@ -133,3 +133,22 @@
 }
 
 @end
+
+#if RUNNING_UNDER_ARC
+@implementation SA_WeakWrapper
+@synthesize object;
++ (id) wrappedObject: (id) object {
+	SA_WeakWrapper			*wrapper = [[SA_WeakWrapper alloc] init];
+	
+	wrapper.object = object;
+	return wrapper;
+}
+
+- (id) copy { return [[self class] wrappedObject: self.object]; }
+- (BOOL) isEqual: (id) other {
+	if ([self class] != [other class]) return NO;
+	if (self.object == nil || [other object] == nil) return NO;
+	return self.object == [other object]; 
+}
+@end
+#endif
