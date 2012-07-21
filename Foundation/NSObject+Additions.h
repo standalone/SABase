@@ -40,3 +40,10 @@
 - (void) evaluate: (id) arg;
 @end
 #endif
+
+#if RUNNING_UNDER_ARC
+@interface SA_WeakWrapper : NSObject
+@property (nonatomic, weak) id object;
++ (id) wrappedObject: (id) object;
+@end
+#endif
