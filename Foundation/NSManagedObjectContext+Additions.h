@@ -48,6 +48,7 @@ extern NSString *kNotification_PersistentStoreResetDueToSchemaChange;
 - (Class) classFromEntityName: (NSString *) entityName;
 - (void) saveIfNeccesary;
 - (id) delegateWithIdentifier: (NSString *) identifier;
+- (NSManagedObjectContext *) createChildContext;
 
 #if NS_BLOCKS_AVAILABLE
 	- (void) unregisterForContextUpdates: (NSString *) tag;
