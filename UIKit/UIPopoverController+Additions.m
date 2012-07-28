@@ -37,24 +37,26 @@ static NSMutableArray					*s_activePopovers = nil;
 	return NO;
 }
 
-+ (void) presentSAPopoverForViewController: (UIViewController *) controller fromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
-	if (controller.onlyAllowOneInstanceInAPopover && [self didCloseExistingPopoverWithClass: [controller class]]) return;
++ (UIPopoverController *) presentSAPopoverForViewController: (UIViewController *) controller fromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
+	if (controller.onlyAllowOneInstanceInAPopover && [self didCloseExistingPopoverWithClass: [controller class]]) return nil;
 	
 	UIPopoverController			*pc = [self SAPopoverControllerWithContentController: controller];
 	
 	[controller willAppearInPopover: pc animated: animated];
 	[pc presentPopoverFromRect: rect inView: view permittedArrowDirections: arrowDirections animated:animated];
 	[controller didAppearInPopover: pc animated: animated];
+	return pc;
 }
 
-+ (void) presentSAPopoverForViewController: (UIViewController *) controller fromBarButtonItem: (UIBarButtonItem *) item permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
-	if (controller.onlyAllowOneInstanceInAPopover && [self didCloseExistingPopoverWithClass: [controller class]]) return;
++ (UIPopoverController *) presentSAPopoverForViewController: (UIViewController *) controller fromBarButtonItem: (UIBarButtonItem *) item permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
+	if (controller.onlyAllowOneInstanceInAPopover && [self didCloseExistingPopoverWithClass: [controller class]]) return nil;
 
 	UIPopoverController			*pc = [self SAPopoverControllerWithContentController: controller];
 	
 	[controller willAppearInPopover: pc animated: animated];
 	[pc presentPopoverFromBarButtonItem: item permittedArrowDirections: arrowDirections animated: animated];
 	[controller didAppearInPopover: pc animated: animated];
+	return pc;
 }
 
 + (BOOL) popoverControllerShouldDismissPopover: (UIPopoverController *) popoverController {
