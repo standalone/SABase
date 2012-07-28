@@ -215,6 +215,7 @@ BOOL		EQUAL(id obj1, id obj2);
 
 #define		CGRectCenter(r)					(CGPointMake(CGRectGetMidX(r), CGRectGetMidY(r)))
 #define		CGRectScale(r, xF, yF)			(CGRectMake(r.origin.x * xF, r.origin.y * yF, r.size.width * xF, r.size.height * yF))
+#define		CGRectScaleAndCenter(r, xF, yF)	(CGRectMake(r.origin.x * xF + r.size.width * (1.0 - xF) * 0.5, r.origin.y * yF + r.size.height * (1.0 - yF) * 0.5, r.size.width * xF, r.size.height * yF))
 #define		CGPointScale(p, xF, yF)			(CGPointMake(p.x * xF, p.y * yF))
 #define		CGSizeScale(p, xF, yF)			(CGSizeMake(p.width * xF, p.height * yF))
 #define		CGDistanceBetweenPoints(a, b)	(sqrt(pow(a.x - b.x, 2) + (pow(a.y - b.y, 2))))
