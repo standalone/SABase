@@ -13,7 +13,7 @@
 	#import <CommonCrypto/CommonDigest.h> // Need to import for CC_MD5 access
 
 	@implementation NSData (MD5)
-	- (NSString*) md5Hash
+	- (NSString*) MD5
 	{
 		unsigned char result[16];
 		CC_MD5( self.bytes, self.length, result ); // This is the md5 call
@@ -30,7 +30,7 @@
 	#import "NSString+Additions.h"
 
 	@implementation NSData (MD5)
-	- (NSString *) md5Hash {
+	- (NSString *) MD5 {
 		NSString					*path = [NSString tempFileNameWithSeed: @"md5" ofType: @"txt"];
 		
 		[self writeToFile: path atomically: YES];

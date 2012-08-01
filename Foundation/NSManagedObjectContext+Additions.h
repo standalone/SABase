@@ -46,7 +46,6 @@ extern NSString *kNotification_PersistentStoreResetDueToSchemaChange;
 - (void) queueSaveIn: (float) seconds;
 - (void) cancelQueuedSave;
 - (Class) classFromEntityName: (NSString *) entityName;
-- (void) saveIfNeccesary;
 - (id) delegateWithIdentifier: (NSString *) identifier;
 - (NSManagedObjectContext *) createChildContext;
 

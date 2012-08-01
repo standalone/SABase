@@ -14,14 +14,14 @@
 
 
 @implementation NSString (MD5)
-	- (NSUInteger) md5HashInteger {
+	- (NSUInteger) MD5Integer {
 		const char *cStr = [self UTF8String];
 		NSUInteger result[4];
 		CC_MD5( cStr, strlen(cStr), (unsigned char *) result ); // This is the md5 call
 		
 		return result[0];
 	}
-	- (NSString *) md5Hash
+	- (NSString *) MD5
 	{
 		const char *cStr = [self UTF8String];
 		unsigned char result[16];
@@ -55,7 +55,7 @@
 	#import "NSString+Additions.h"
 
 	@implementation NSString (MD5)
-	- (NSString *) md5Hash {
+	- (NSString *) MD5 {
 		NSString					*path = [NSString tempFileNameWithSeed: @"md5" ofType: @"txt"];
 		NSError						*error;
 		
@@ -72,8 +72,8 @@
 		return md5;	
 	}
 
-	- (NSUInteger) md5HashInteger {
-		return self.md5Hash.hash;		//FIX THIS
+	- (NSUInteger) MD5Integer {
+		return self.md5.hash;		//FIX THIS
 	}
 #endif
 @end
