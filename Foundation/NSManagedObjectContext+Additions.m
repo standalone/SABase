@@ -123,7 +123,14 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 	NSFetchRequest					*request = [self fetchRequestWithEntityName: entityName predicate: predicate sortBy: nil fetchLimit: 1];
 	if (request == nil) return nil;
 	NSError							*error = nil;
-	NSArray							*results = [[[self executeFetchRequest: request error: &error] retain] autorelease];
+	NSArray							*results = nil;
+	
+	@try {
+		results = [[[self executeFetchRequest: request error: &error] retain] autorelease];
+	} @catch (NSException *e) {
+		[[NSNotificationCenter defaultCenter] postNotificationName: kNotification_SA_ErrorWhileGeneratingFetchRequest object: e userInfo: [NSDictionary dictionaryWithObjectsAndKeys: entityName, @"entity", predicate, @"predicate", nil]];
+	}
+
 	if (error) LOG(@"Error while attempting to fetch %@ matching (%@): %@", entityName, predicate, error);
 	
 	if (results.count) return [results objectAtIndex: 0];
@@ -134,7 +141,15 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 	NSFetchRequest					*request = [self fetchRequestWithEntityName: entityName predicate: predicate sortBy: sortDescriptors fetchLimit: 1];
 	if (request == nil) return nil;
 	NSError							*error = nil;
-	NSArray							*results = [[[self executeFetchRequest: request error: &error] retain] autorelease];
+
+	NSArray							*results = nil;
+	
+	@try {
+		results = [[[self executeFetchRequest: request error: &error] retain] autorelease];
+	} @catch (NSException *e) {
+		[[NSNotificationCenter defaultCenter] postNotificationName: kNotification_SA_ErrorWhileGeneratingFetchRequest object: e userInfo: [NSDictionary dictionaryWithObjectsAndKeys: entityName, @"entity", predicate, @"predicate", sortDescriptors, @"sortBy", nil]];
+	}
+
 	if (error) LOG(@"Error while attempting to fetch %@ matching (%@): %@", entityName, predicate, error);
 	
 	if (results.count) return [results objectAtIndex: 0];
@@ -145,7 +160,14 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 	NSFetchRequest					*request = [self fetchRequestWithEntityName: entityName predicate: predicate sortBy: sortDescriptors fetchLimit: fetchLimit];
 	if (request == nil) return nil;
 	NSError							*error = nil;
-	NSArray							*results = [[[self executeFetchRequest: request error: &error] retain] autorelease];
+
+	NSArray							*results = nil;
+	
+	@try {
+		results = [[[self executeFetchRequest: request error: &error] retain] autorelease];
+	} @catch (NSException *e) {
+		[[NSNotificationCenter defaultCenter] postNotificationName: kNotification_SA_ErrorWhileGeneratingFetchRequest object: e userInfo: [NSDictionary dictionaryWithObjectsAndKeys: entityName, @"entity", predicate, @"predicate", sortDescriptors, @"sortBy", nil]];
+	}
 
 	if (error) LOG(@"Error while attempting to fetch %@ matching (%@): %@", entityName, predicate, error);
 	
@@ -160,11 +182,17 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 		return nil;
 	}
 	
-	NSFetchRequest					*request = [[NSFetchRequest alloc] init];
-	[request setEntity: entityDescription];
-	if (predicate) [request setPredicate: predicate];
-	if (sortBy) [request setSortDescriptors: sortBy];
-	if (fetchLimit) [request setFetchLimit: fetchLimit];	
+	NSFetchRequest					*request = nil;
+	
+	@try {
+		request = [[NSFetchRequest alloc] init];
+		[request setEntity: entityDescription];
+		if (predicate) [request setPredicate: predicate];
+		if (sortBy) [request setSortDescriptors: sortBy];
+		if (fetchLimit) [request setFetchLimit: fetchLimit];
+	} @catch (NSException *e) {
+		[[NSNotificationCenter defaultCenter] postNotificationName: kNotification_SA_ErrorWhileGeneratingFetchRequest object: e userInfo: [NSDictionary dictionaryWithObjectsAndKeys: entityName, @"entity", predicate, @"predicate", sortBy, @"sortBy", nil]];
+	}
 	
 	return [request autorelease];
 }
@@ -296,13 +324,13 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 }
 
 - (void) deleteObjectsOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate withFetchLimit: (int) fetchLimit {
-	NSFetchRequest						*allObjects = [[NSFetchRequest alloc] init];
-	NSEntityDescription					*entity = [NSEntityDescription entityForName: entityName inManagedObjectContext: self];
+	NSFetchRequest						*allObjects = [self fetchRequestWithEntityName: entityName predicate: predicate sortBy: nil fetchLimit: fetchLimit];
+//	NSEntityDescription					*entity = [NSEntityDescription entityForName: entityName inManagedObjectContext: self];
 	int									deleteCount = 0;
 	
-	if (fetchLimit) [allObjects setFetchLimit: fetchLimit];
-	[allObjects setEntity: entity];
-	if (predicate) [allObjects setPredicate: predicate];
+//	if (fetchLimit) [allObjects setFetchLimit: fetchLimit];
+//	[allObjects setEntity: entity];
+//	if (predicate) [allObjects setPredicate: predicate];
 	[allObjects setIncludesPropertyValues: NO]; //only fetch the managedObjectID
 	
 	while (true) {
