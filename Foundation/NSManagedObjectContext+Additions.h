@@ -7,6 +7,8 @@
 
 #import <CoreData/CoreData.h>
 
+#define kNotification_SA_ErrorWhileGeneratingFetchRequest			@"kNotification_SA_ErrorWhileGeneratingFetchRequest"
+
 #if NS_BLOCKS_AVAILABLE
 	typedef void (^managedObjectBlock)(NSManagedObject *object);
 	typedef void (^contextUpdatedBlock)(NSManagedObjectContext *context, NSString *tag);
@@ -46,7 +48,6 @@ extern NSString *kNotification_PersistentStoreResetDueToSchemaChange;
 - (void) queueSaveIn: (float) seconds;
 - (void) cancelQueuedSave;
 - (Class) classFromEntityName: (NSString *) entityName;
-- (void) saveIfNeccesary;
 - (id) delegateWithIdentifier: (NSString *) identifier;
 - (NSManagedObjectContext *) createChildContext;
 
