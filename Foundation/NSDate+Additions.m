@@ -255,14 +255,14 @@
 	NSDateComponents		*myComponents = [[NSCalendar currentCalendar] components: NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSYearCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit fromDate: self];
 	NSInteger				secondsOff = [[NSTimeZone localTimeZone] secondsFromGMT];
 	
-	return [NSString stringWithFormat: @"%ld-%02ld-%02ld %02ld:%02ld:%02ld %c%02ld%02ld", myComponents.year, myComponents.month, myComponents.day, myComponents.hour, myComponents.minute, myComponents.second, secondsOff < 0 ? '-' : '+', ABS(secondsOff / 3600), ABS(secondsOff % 3600) / 60];
+	return [NSString stringWithFormat: @"%d-%02d-%02d %02d:%02d:%02d %c%02d%02d", myComponents.year, myComponents.month, myComponents.day, myComponents.hour, myComponents.minute, myComponents.second, secondsOff < 0 ? '-' : '+', ABS(secondsOff / 3600), ABS(secondsOff % 3600) / 60];
 }
 
 - (NSString *) internetFormattedTDateTimeString {
 	NSDateComponents		*myComponents = [[NSCalendar currentCalendar] components: NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSYearCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit fromDate: self];
 	NSInteger				secondsOff = [[NSTimeZone localTimeZone] secondsFromGMT];
 	
-	return [NSString stringWithFormat: @"%ld-%02ld-%02ldT%02ld:%02ld:%02ld%c%02ld:%02ld", myComponents.year, myComponents.month, myComponents.day, myComponents.hour, myComponents.minute, myComponents.second, secondsOff < 0 ? '-' : '+', ABS(secondsOff / 3600), ABS(secondsOff % 3600) / 60]; 
+	return [NSString stringWithFormat: @"%d-%02d-%02dT%02d:%02d:%02d%c%02d:%02d", myComponents.year, myComponents.month, myComponents.day, myComponents.hour, myComponents.minute, myComponents.second, secondsOff < 0 ? '-' : '+', ABS(secondsOff / 3600), ABS(secondsOff % 3600) / 60];
 }
 
 - (BOOL) isAfter: (NSDate *) date {
@@ -286,7 +286,7 @@
 		if (hour == 0) hour = 12;
 	}
 	
-	return [NSString stringWithFormat: @"%ld:%02d", hour, self.minute];
+	return [NSString stringWithFormat: @"%d%02d", hour, self.minute];
 }
 
 - (NSString *) shortTimeString {
@@ -299,12 +299,12 @@
 	if (pmSymbol.length == 0) moddedHour = hour;
 	
 	if (minute == 0) {
-		if (pmSymbol.length == 0) return [NSString stringWithFormat: @"%ld", hour];
+		if (pmSymbol.length == 0) return [NSString stringWithFormat: @"%d", hour];
 		
-		return [NSString stringWithFormat: @"%ld %@", moddedHour, (hour < 12) ? [formatter AMSymbol] : [formatter PMSymbol]];
+		return [NSString stringWithFormat: @"%d %@", moddedHour, (hour < 12) ? [formatter AMSymbol] : [formatter PMSymbol]];
 	}
 	
-	return [NSString stringWithFormat: @"%ld:%02ld %@", moddedHour, minute, (hour < 12) ? [formatter AMSymbol] : [formatter PMSymbol]];
+	return [NSString stringWithFormat: @"%d:%02d %@", moddedHour, minute, (hour < 12) ? [formatter AMSymbol] : [formatter PMSymbol]];
 }
 
 - (NSString *) dateStringWithFormat: (NSDateFormatterStyle) dateFormat timeFormat: (NSDateFormatterStyle) timeFormat {
@@ -571,24 +571,24 @@
 	BOOL					contentFound = NO;
 	
 	if (days) {
-		base = [base stringByAppendingFormat: @"%ld %@ ", days, days == 1 ? NSLocalizedString(@"day", @"day") : NSLocalizedString(@"days", @"days")];
+		base = [base stringByAppendingFormat: @"%d %@ ", days, days == 1 ? NSLocalizedString(@"day", @"day") : NSLocalizedString(@"days", @"days")];
 		contentFound = YES;
 	}
 	if (contentFound && depth) depth--;
 
 	if (hours && depth > 0) {
-		base = [base stringByAppendingFormat: @"%ld %@ ", hours, hours == 1 ? NSLocalizedString(@"hr", @"hr") : NSLocalizedString(@"hrs", @"hrs")];
+		base = [base stringByAppendingFormat: @"%d %@ ", hours, hours == 1 ? NSLocalizedString(@"hr", @"hr") : NSLocalizedString(@"hrs", @"hrs")];
 		contentFound = YES;
 	}
 	if (contentFound && depth) depth--;
 
 	if (minutes && depth > 0) {
-		base = [base stringByAppendingFormat: @"%ld %@ ", minutes, minutes == 1 ? NSLocalizedString(@"min", @"min") : NSLocalizedString(@"mins", @"mins")];
+		base = [base stringByAppendingFormat: @"%d %@ ", minutes, minutes == 1 ? NSLocalizedString(@"min", @"min") : NSLocalizedString(@"mins", @"mins")];
 		contentFound = YES;
 	}
 	if (contentFound && depth) depth--;
 	if (seconds && depth > 0 && initialDepth >= extactRelativeTimeDepth_maximum) {
-		base = [base stringByAppendingFormat: @"%ld %@ ", seconds, seconds == 1 ? NSLocalizedString(@"sec", @"sec") : NSLocalizedString(@"secs", @"secs")];
+		base = [base stringByAppendingFormat: @"%d %@ ", seconds, seconds == 1 ? NSLocalizedString(@"sec", @"sec") : NSLocalizedString(@"secs", @"secs")];
 	}
 	
 	return [base stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
@@ -601,9 +601,9 @@
 	NSInteger				days = (delta / (24 * 3600));
 	NSString				*base = @"";
 	
-	if (days) return [base stringByAppendingFormat: @"%ld %@ ", days + 1, days == 0 ? NSLocalizedString(@"day", @"day") : NSLocalizedString(@"days", @"days")];
-	if (hours) base = [base stringByAppendingFormat: @"%ld %@ ", hours, hours == 1 ? NSLocalizedString(@"hr", @"hr") : NSLocalizedString(@"hrs", @"hrs")];
-	if (minutes && hours < 3) base = [base stringByAppendingFormat: @"%ld %@ ", minutes, minutes == 1 ? NSLocalizedString(@"min", @"min") : NSLocalizedString(@"mins", @"mins")];
+	if (days) return [base stringByAppendingFormat: @"%d %@ ", days + 1, days == 0 ? NSLocalizedString(@"day", @"day") : NSLocalizedString(@"days", @"days")];
+	if (hours) base = [base stringByAppendingFormat: @"%d %@ ", hours, hours == 1 ? NSLocalizedString(@"hr", @"hr") : NSLocalizedString(@"hrs", @"hrs")];
+	if (minutes && hours < 3) base = [base stringByAppendingFormat: @"%d %@ ", minutes, minutes == 1 ? NSLocalizedString(@"min", @"min") : NSLocalizedString(@"mins", @"mins")];
 	if (minutes == 0 && hours == 0 && days == 0) base = NSLocalizedString(@"< 1 min", @"less than 1 min");
 	
 	return [base stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
@@ -618,9 +618,9 @@
 	NSInteger				weeks = days / 7;
 	NSInteger				months = days / 30;
 	
-	if (months > 1) return [NSString stringWithFormat: @"%ld %@", months, NSLocalizedString(@"months", @"months")];
-	if (weeks > 1) return [NSString stringWithFormat: @"%ld %@", weeks, NSLocalizedString(@"weeks", @"weeks")];
-	return [NSString stringWithFormat: @"%ld %@ ", days + 1, days == 0 ? NSLocalizedString(@"day", @"day") : NSLocalizedString(@"days", @"days")];
+	if (months > 1) return [NSString stringWithFormat: @"%d %@", months, NSLocalizedString(@"months", @"months")];
+	if (weeks > 1) return [NSString stringWithFormat: @"%d %@", weeks, NSLocalizedString(@"weeks", @"weeks")];
+	return [NSString stringWithFormat: @"%d %@ ", days + 1, days == 0 ? NSLocalizedString(@"day", @"day") : NSLocalizedString(@"days", @"days")];
 }
 
 //=============================================================================================================================
@@ -694,13 +694,13 @@
 - (NSString *) monthDayYearDateString: (BOOL) addLeadingZeroes {
 	NSDateComponents	*components = [[NSCalendar currentCalendar] components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate: self];
 	
-	return [NSString stringWithFormat: addLeadingZeroes ? @"%02ld/%02ld/%ld" : @"%ld/%ld/%ld", [components month], [components day], [components year]];
+	return [NSString stringWithFormat: addLeadingZeroes ? @"%02d/%02d/%d" : @"%d/%d/%d", [components month], [components day], [components year]];
 }
 
 - (NSString *) yearMonthDayDateString: (BOOL) addLeadingZeroes {
 	NSDateComponents	*components = [[NSCalendar currentCalendar] components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate: self];
 	
-	return [NSString stringWithFormat: addLeadingZeroes ? @"%ld/%02ld/%02ld" : @"%ld/%ld/%ld", [components year], [components month], [components day]];
+	return [NSString stringWithFormat: addLeadingZeroes ? @"%d/%02d/%02d" : @"%d/%d/%d", [components year], [components month], [components day]];
 }
 
 - (NSComparisonResult) compareTimes: (NSDate *) date {
