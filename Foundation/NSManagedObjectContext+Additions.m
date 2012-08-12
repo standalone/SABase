@@ -324,13 +324,13 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 }
 
 - (void) deleteObjectsOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate withFetchLimit: (int) fetchLimit {
-	NSFetchRequest						*allObjects = [self fetchRequestWithEntityName: entityName predicate: predicate sortBy: nil fetchLimit: fetchLimit];
-//	NSEntityDescription					*entity = [NSEntityDescription entityForName: entityName inManagedObjectContext: self];
+	NSFetchRequest						*allObjects = [[NSFetchRequest alloc] init];
+	NSEntityDescription					*entity = [NSEntityDescription entityForName: entityName inManagedObjectContext: self];
 	int									deleteCount = 0;
 	
-//	if (fetchLimit) [allObjects setFetchLimit: fetchLimit];
-//	[allObjects setEntity: entity];
-//	if (predicate) [allObjects setPredicate: predicate];
+	if (fetchLimit) [allObjects setFetchLimit: fetchLimit];
+	[allObjects setEntity: entity];
+	if (predicate) [allObjects setPredicate: predicate];
 	[allObjects setIncludesPropertyValues: NO]; //only fetch the managedObjectID
 	
 	while (true) {
