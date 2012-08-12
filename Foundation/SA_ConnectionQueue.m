@@ -122,7 +122,7 @@ static SA_ConnectionQueue		*g_queue = nil;
 	NSFileManager				*mgr = [NSFileManager defaultManager];
 	
 	while (index < 10000) {
-		NSString					*path = [root stringByAppendingPathComponent: [NSString stringWithFormat: @"%@; %@_%ld.txt", prefix, tag, index]];
+		NSString					*path = [root stringByAppendingPathComponent: [NSString stringWithFormat: @"%@; %@_%d.txt", prefix, tag, index]];
 
 		if (![mgr fileExistsAtPath: path]) return path;
 		index++;
@@ -693,13 +693,13 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 - (NSString *) description {
 	NSMutableString				*results = [NSMutableString string];
 	
-	[results appendFormat: @"\nActive (%ld):\n", _active.count];
+	[results appendFormat: @"\nActive (%d):\n", _active.count];
 	for (SA_Connection *connection in _active) {
 		[results appendFormat: @"\t\t%@\n", connection];
 	}
 	
 	if (_active.count && _pending.count) [results appendString: @"\n"];
-	[results appendFormat: @"Pending (%ld):\n", _pending.count];
+	[results appendFormat: @"Pending (%d):\n", _pending.count];
 	for (SA_Connection *connection in _pending) {
 		[results appendFormat: @"\t\t%@\n", connection];
 	}
@@ -911,7 +911,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 			
 			if (offset) {
 				if (_headers == nil) _headers = [[NSMutableDictionary alloc] init];
-				[_headers setObject: [NSString stringWithFormat: @" bytes=%ld-", offset] forKey: @"Range"];
+				[_headers setObject: [NSString stringWithFormat: @" bytes=%d-", offset] forKey: @"Range"];
 			}
 		}
 	} else
