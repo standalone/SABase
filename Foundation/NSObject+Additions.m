@@ -55,6 +55,8 @@
 		}
 	}
 	free(props);
+	
+	if ([self respondsToSelector: @selector(objectForKey:)]) return [(id) self objectForKey: key] != nil;
 	return NO;
 }
 
