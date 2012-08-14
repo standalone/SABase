@@ -253,16 +253,16 @@
 
 - (NSString *) internetFormattedDateTimeString {
 	NSDateComponents		*myComponents = [[NSCalendar currentCalendar] components: NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSYearCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit fromDate: self];
-	NSInteger				secondsOff = [[NSTimeZone localTimeZone] secondsFromGMT];
+	int						secondsOff = [[NSTimeZone localTimeZone] secondsFromGMT];
 	
-	return [NSString stringWithFormat: @"%d-%02d-%02d %02d:%02d:%02d %c%02d%02d", myComponents.year, myComponents.month, myComponents.day, myComponents.hour, myComponents.minute, myComponents.second, secondsOff < 0 ? '-' : '+', ABS(secondsOff / 3600), ABS(secondsOff % 3600) / 60];
+	return [NSString stringWithFormat: @"%d-%02d-%02d %02d:%02d:%02d %c%02d%02d", (int) myComponents.year, (int) myComponents.month, (int) myComponents.day, (int) myComponents.hour, (int) myComponents.minute, (int) myComponents.second, secondsOff < 0 ? '-' : '+', ABS(secondsOff / 3600), ABS(secondsOff % 3600) / 60];
 }
 
 - (NSString *) internetFormattedTDateTimeString {
 	NSDateComponents		*myComponents = [[NSCalendar currentCalendar] components: NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSYearCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit fromDate: self];
-	NSInteger				secondsOff = [[NSTimeZone localTimeZone] secondsFromGMT];
+	int						secondsOff = [[NSTimeZone localTimeZone] secondsFromGMT];
 	
-	return [NSString stringWithFormat: @"%d-%02d-%02dT%02d:%02d:%02d%c%02d:%02d", myComponents.year, myComponents.month, myComponents.day, myComponents.hour, myComponents.minute, myComponents.second, secondsOff < 0 ? '-' : '+', ABS(secondsOff / 3600), ABS(secondsOff % 3600) / 60];
+	return [NSString stringWithFormat: @"%d-%02d-%02dT%02d:%02d:%02d%c%02d:%02d", (int) myComponents.year, (int) myComponents.month, (int) myComponents.day, (int) myComponents.hour, (int) myComponents.minute, (int) myComponents.second, secondsOff < 0 ? '-' : '+', ABS(secondsOff / 3600), ABS(secondsOff % 3600) / 60];
 }
 
 - (BOOL) isAfter: (NSDate *) date {
@@ -286,7 +286,7 @@
 		if (hour == 0) hour = 12;
 	}
 	
-	return [NSString stringWithFormat: @"%d%02d", hour, self.minute];
+	return [NSString stringWithFormat: @"%d%02d", (int) hour, (int) self.minute];
 }
 
 - (NSString *) shortTimeString {
@@ -299,12 +299,12 @@
 	if (pmSymbol.length == 0) moddedHour = hour;
 	
 	if (minute == 0) {
-		if (pmSymbol.length == 0) return [NSString stringWithFormat: @"%d", hour];
+		if (pmSymbol.length == 0) return [NSString stringWithFormat: @"%d", (int) hour];
 		
-		return [NSString stringWithFormat: @"%d %@", moddedHour, (hour < 12) ? [formatter AMSymbol] : [formatter PMSymbol]];
+		return [NSString stringWithFormat: @"%d %@", (int) moddedHour, (hour < 12) ? [formatter AMSymbol] : [formatter PMSymbol]];
 	}
 	
-	return [NSString stringWithFormat: @"%d:%02d %@", moddedHour, minute, (hour < 12) ? [formatter AMSymbol] : [formatter PMSymbol]];
+	return [NSString stringWithFormat: @"%d:%02d %@", (int) moddedHour, (int) minute, (hour < 12) ? [formatter AMSymbol] : [formatter PMSymbol]];
 }
 
 - (NSString *) dateStringWithFormat: (NSDateFormatterStyle) dateFormat timeFormat: (NSDateFormatterStyle) timeFormat {
@@ -562,13 +562,13 @@
 
 - (NSString *) exactRelativeStringWithDepth: (extactRelativeTimeDepth) depth  {
 	extactRelativeTimeDepth	initialDepth = depth;
-	NSInteger				delta = ABS([self timeIntervalSinceNow]);
-	NSInteger				seconds = delta % 60;
-	NSInteger				minutes = (delta / 60) % 60;
-	NSInteger				hours = (delta / 3600) % 24;
-	NSInteger				days = (delta / (24 * 3600));
-	NSString				*base = @"";
-	BOOL					contentFound = NO;
+	int				delta = ABS([self timeIntervalSinceNow]);
+	int				seconds = delta % 60;
+	int				minutes = (delta / 60) % 60;
+	int				hours = (delta / 3600) % 24;
+	int				days = (delta / (24 * 3600));
+	NSString		*base = @"";
+	BOOL			contentFound = NO;
 	
 	if (days) {
 		base = [base stringByAppendingFormat: @"%d %@ ", days, days == 1 ? NSLocalizedString(@"day", @"day") : NSLocalizedString(@"days", @"days")];
@@ -595,11 +595,11 @@
 }
 
 - (NSString *) roughRelativeString  {
-	NSInteger				delta = ABS([self timeIntervalSinceNow]);
-	NSInteger				minutes = (delta / 60) % 60;
-	NSInteger				hours = (delta / 3600) % 24;
-	NSInteger				days = (delta / (24 * 3600));
-	NSString				*base = @"";
+	int				delta = ABS([self timeIntervalSinceNow]);
+	int				minutes = (delta / 60) % 60;
+	int				hours = (delta / 3600) % 24;
+	int				days = (delta / (24 * 3600));
+	NSString		*base = @"";
 	
 	if (days) return [base stringByAppendingFormat: @"%d %@ ", days + 1, days == 0 ? NSLocalizedString(@"day", @"day") : NSLocalizedString(@"days", @"days")];
 	if (hours) base = [base stringByAppendingFormat: @"%d %@ ", hours, hours == 1 ? NSLocalizedString(@"hr", @"hr") : NSLocalizedString(@"hrs", @"hrs")];
@@ -613,10 +613,10 @@
 	if ([self isToday]) return NSLocalizedString(@"Today", @"Today");
 	if ([self isTomorrow]) return NSLocalizedString(@"Tomorrow", @"Tomorrow");
 	
-	NSInteger				delta = ABS([self timeIntervalSinceNow]);
-	NSInteger				days = round(delta / (24.0 * 3600.0));
-	NSInteger				weeks = days / 7;
-	NSInteger				months = days / 30;
+	int				delta = ABS([self timeIntervalSinceNow]);
+	int				days = round(delta / (24.0 * 3600.0));
+	int				weeks = days / 7;
+	int				months = days / 30;
 	
 	if (months > 1) return [NSString stringWithFormat: @"%d %@", months, NSLocalizedString(@"months", @"months")];
 	if (weeks > 1) return [NSString stringWithFormat: @"%d %@", weeks, NSLocalizedString(@"weeks", @"weeks")];
@@ -694,13 +694,13 @@
 - (NSString *) monthDayYearDateString: (BOOL) addLeadingZeroes {
 	NSDateComponents	*components = [[NSCalendar currentCalendar] components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate: self];
 	
-	return [NSString stringWithFormat: addLeadingZeroes ? @"%02d/%02d/%d" : @"%d/%d/%d", [components month], [components day], [components year]];
+	return [NSString stringWithFormat: addLeadingZeroes ? @"%02d/%02d/%d" : @"%d/%d/%d", (int) [components month], (int) [components day], (int) [components year]];
 }
 
 - (NSString *) yearMonthDayDateString: (BOOL) addLeadingZeroes {
 	NSDateComponents	*components = [[NSCalendar currentCalendar] components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate: self];
 	
-	return [NSString stringWithFormat: addLeadingZeroes ? @"%d/%02d/%02d" : @"%d/%d/%d", [components year], [components month], [components day]];
+	return [NSString stringWithFormat: addLeadingZeroes ? @"%d/%02d/%02d" : @"%d/%d/%d", (int) [components year], (int) [components month], (int) [components day]];
 }
 
 - (NSComparisonResult) compareTimes: (NSDate *) date {

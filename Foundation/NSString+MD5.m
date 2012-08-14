@@ -73,7 +73,7 @@
 	}
 
 	- (NSUInteger) MD5Integer {
-		return self.md5.hash;		//FIX THIS
+		return self.md5Hash.hash;		//FIX THIS
 	}
 #endif
 @end
