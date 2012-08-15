@@ -279,6 +279,7 @@ static SA_ConnectionQueue		*g_queue = nil;
 	[NSObject cancelPreviousPerformRequestsWithTarget: self selector: @selector(processQueue) object: nil];
 	#if TARGET_OS_IPHONE
 		@synchronized (_active) {
+			if (_active.count == 0 && _pending.count == 0 && _backgroundTaskID == kUIBackgroundTaskInvalid) return;
 			if (_active.count == 0 && MULTITASKING_AVAILABLE && _backgroundTaskID == kUIBackgroundTaskInvalid) {
 				//LOG(@"Beginning background task");
 				_backgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler: ^{
