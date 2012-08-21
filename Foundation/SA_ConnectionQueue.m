@@ -218,6 +218,23 @@ static SA_ConnectionQueue		*g_queue = nil;
 	[self fireReachabilityStatus];
 }
 
+- (void) showOfflineAlertAllowingRetry: (BOOL) allowingRetry {
+	#if TARGET_OS_IPHONE
+		NSString		*title = NSLocalizedString(@"Connection Error", @"Connection Error");
+		NSString		*body = NSLocalizedString(@"Unable to connect. Please try again later.", @"Unable to connect. Please try again later.");
+		
+		SA_AlertView	*alert = [[[SA_AlertView alloc] initWithTitle: title
+															  message: body
+															 delegate: self
+													cancelButtonTitle: NSLocalizedString(@"Cancel", nil)
+												 otherButtonTitles: allowingRetry ? NSLocalizedString(@"Retry", nil) : nil, nil] autorelease];
+		
+		[alert show];
+	#endif
+	
+	_offlineAlertShown = YES;
+}
+
 - (BOOL) queueConnection: (SA_Connection *) connection andPromptIfOffline: (BOOL) prompt {
 	if (connection && [self queueConnection: connection]) return YES;
 	
@@ -225,17 +242,7 @@ static SA_ConnectionQueue		*g_queue = nil;
 	
 	[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_NotConnectedToInternet object: self];
 	if (_offlineAlertShown || self.suppressOfflineAlerts) return NO;
-	#if TARGET_OS_IPHONE
-		NSString						*title = NSLocalizedString(@"Connection Error", @"Connection Error");
-		NSString						*body = NSLocalizedString(@"Unable to connect. Please try again later.", @"Unable to connect. Please try again later.");
-				
-		SA_AlertView					*alert = [[[SA_AlertView alloc] initWithTitle: title message: body delegate: self cancelButtonTitle: NSLocalizedString(@"Cancel", nil) otherButtonTitles: connection.discardIfOffline ? nil : NSLocalizedString(@"Retry", nil), nil] autorelease];
-		
-		[alert show];
-	#endif
-	
-	
-	_offlineAlertShown = YES;
+	if (prompt) [self showOfflineAlertAllowingRetry: !connection.discardIfOffline];
 	return NO;
 }
 
@@ -246,15 +253,7 @@ static SA_ConnectionQueue		*g_queue = nil;
 
 - (BOOL) performInvocationIfOffline: (NSInvocation *) invocation {
 	self.backOnlineInvocation = invocation;
-
-	#if TARGET_OS_IPHONE
-		NSString						*title = NSLocalizedString(@"Connection Error", @"Connection Error");
-		NSString						*body = NSLocalizedString(@"Unable to connect. Please try again later.", @"Unable to connect. Please try again later.");
-				
-		SA_AlertView					*alert = [[[SA_AlertView alloc] initWithTitle: title message: body delegate: self cancelButtonTitle: NSLocalizedString(@"Cancel", nil) otherButtonTitles: NSLocalizedString(@"Retry", nil), nil] autorelease];
-		
-		[alert show];
-	#endif
+	[self showOfflineAlertAllowingRetry: YES];
 	
 	return NO;
 }
