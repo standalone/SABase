@@ -21,8 +21,8 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 
 @implementation SA_PleaseWaitDisplay
 @synthesize cancelTitle = _cancelTitle, auxTitle = _auxTitle, minorText = _minorText, majorText = _majorText, delegate = _delegate, view = _view, spinnerHidden = _spinnerHidden, progressBarHidden = _progressBarHidden, majorFont = _majorFont, minorFont = _minorFont;
-@synthesize currentOrientation = _currentOrientation;
-+ (id) showPleaseWaitDisplayWithMajorText: (NSString *) major minorText: (NSString *) minor cancelLabel: (NSString *) cancel showProgressBar: (BOOL) showProgressBar delegate: (id <SA_PleaseWaitDisplayDelegate>) delegate {
+@synthesize currentOrientation = _currentOrientation, cancelBlock;
++ (SA_PleaseWaitDisplay *) showPleaseWaitDisplayWithMajorText: (NSString *) major minorText: (NSString *) minor cancelLabel: (NSString *) cancel showProgressBar: (BOOL) showProgressBar delegate: (id <SA_PleaseWaitDisplayDelegate>) delegate {
 	if (g_display == nil) {
 		g_display = [[self alloc] init];
 		g_display.currentOrientation = [UIDevice currentDevice].userInterfaceOrientation;
@@ -205,6 +205,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 	[_cancelButton release];
 	[_auxButton release];
 	
+	self.cancelBlock = nil;
 	self.majorText = nil;
 	self.minorText = nil;
 	self.cancelTitle = nil;
@@ -543,7 +544,10 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 //=============================================================================================================================
 #pragma mark Actions
 - (void) cancel: (id) sender {
-	if ([_delegate respondsToSelector: @selector(pleaseWaitCancelPressed)]) [_delegate pleaseWaitCancelPressed];
+	if (self.cancelBlock)
+		self.cancelBlock();
+	else if ([_delegate respondsToSelector: @selector(pleaseWaitCancelPressed)])
+		[_delegate pleaseWaitCancelPressed];
 }
 
 - (void) auxAction: (id) sender {
