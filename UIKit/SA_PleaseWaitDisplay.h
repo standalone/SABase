@@ -41,10 +41,11 @@
 @property (nonatomic, readonly) UIView *sibling;
 @property (nonatomic, readwrite) UIInterfaceOrientation currentOrientation;
 @property (nonatomic, readonly) CGRect majorLabelBounds, minorLabelBounds, contentBounds, contentFrame, auxButtonFrame, spinnerFrame, progressIndicatorFrame;
+@property (nonatomic, copy) simpleBlock cancelBlock;
 
 @property(nonatomic, readonly) UIView *view;
 
-+ (id) showPleaseWaitDisplayWithMajorText: (NSString *) major minorText: (NSString *) minor cancelLabel: (NSString *) cancel showProgressBar: (BOOL) showProgressBar delegate: (id <SA_PleaseWaitDisplayDelegate>) delegate;
++ (SA_PleaseWaitDisplay *) showPleaseWaitDisplayWithMajorText: (NSString *) major minorText: (NSString *) minor cancelLabel: (NSString *) cancel showProgressBar: (BOOL) showProgressBar delegate: (id <SA_PleaseWaitDisplayDelegate>) delegate;
 + (void) hidePleaseWaitDisplay;
 + (SA_PleaseWaitDisplay *) pleaseWaitDisplay;
 
