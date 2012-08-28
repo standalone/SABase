@@ -168,7 +168,7 @@ static SA_ConnectionQueue		*g_queue = nil;
 #pragma mark Actions
 - (BOOL) queueConnection: (SA_Connection *) connection {
 	if (![NSThread isMainThread]) {
-		[self performSelectorOnMainThread: @selector(queueConnection:) withObject: connection waitUntilDone: YES];
+		[self performSelectorOnMainThread: @selector(queueConnection:) withObject: connection waitUntilDone: NO];
 		return !_offline;
 	}
 	//LOG(@"Queuing: %@", connection);
