@@ -253,7 +253,7 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 		maxFailsBeforeReset = 1;
 	#endif
 
-	[self cancelQueuedSave];
+	[self cancelQueuedSave]; 
 	@try {
 		[self save: &error];
 	} @catch (id e) {
