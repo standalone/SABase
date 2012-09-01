@@ -281,4 +281,5 @@ extern NSString *kConnectionNotification_NotConnectedToInternet, *kConnectionNot
 - (NSData *) encodedPostData;
 - (NSData *) postData;
 + (NSDictionary *) dictionaryWithPostData: (NSData *) data;
++ (NSDictionary *) dictionaryWithParameterString: (NSString *) string;
 @end

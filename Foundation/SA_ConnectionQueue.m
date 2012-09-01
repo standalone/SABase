@@ -1331,8 +1331,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	return [string dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
 }
 
-+ (NSDictionary *) dictionaryWithPostData: (NSData *) data {
-	NSString				*string = [[NSString alloc] initWithData: data encoding: NSASCIIStringEncoding];
++ (NSDictionary *) dictionaryWithParameterString: (NSString *) string {
 	NSArray					*array = [string componentsSeparatedByString: @"&"];
 	NSMutableDictionary		*dict = [NSMutableDictionary dictionary];
 	
@@ -1344,8 +1343,15 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 		if (value && key) [dict setObject: [value stringByReplacingPercentEscapesUsingEncoding: NSASCIIStringEncoding] forKey: [key stringByReplacingPercentEscapesUsingEncoding: NSASCIIStringEncoding]];
 	}
 	
-	[string release];
 	return dict;
+}
+
++ (NSDictionary *) dictionaryWithPostData: (NSData *) data {
+	NSString				*string = [[NSString alloc] initWithData: data encoding: NSASCIIStringEncoding];
+	NSDictionary			*results = [self dictionaryWithParameterString: string];
+	
+	[string release];
+	return results;
 }
 
 @end
