@@ -240,8 +240,12 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 	return context;
 }
 
-- (void) saveIfNeccesary {
-	if (self.insertedObjects.count || self.deletedObjects.count || self.updatedObjects.count) [self save];
+- (BOOL) isSaveNecessary {
+	return (self.insertedObjects.count || self.deletedObjects.count || self.updatedObjects.count);
+}
+
+- (void) saveIfNecessary {
+	if (self.isSaveNecessary) [self save];
 }
 
 - (void) save {

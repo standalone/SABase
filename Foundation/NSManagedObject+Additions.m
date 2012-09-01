@@ -80,7 +80,7 @@
 }
 
 - (id) objectForContext: (NSManagedObjectContext *) context {
-	[self.managedObjectContext performSelectorOnMainThread: @selector(saveIfNeccesary) withObject: nil waitUntilDone: YES];
+	if (self.moc.isSaveNecessary) [self.managedObjectContext save];
 	
 	return [context objectWithID: self.objectID];
 }
