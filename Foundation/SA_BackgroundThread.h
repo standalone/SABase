@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NSObject+Additions.h"
+#import "NSObject+SA_Additions.h"
 
 @interface SA_BackgroundThread : NSObject {
 	NSThread				*_thread;

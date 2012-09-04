@@ -27,7 +27,7 @@
 	}
 #else
 	#import "NSTask+Synchronicity.h"
-	#import "NSString+Additions.h"
+	#import "NSString+SA_Additions.h"
 
 	@implementation NSData (MD5)
 	- (NSString *) MD5 {

@@ -8,7 +8,7 @@
 
 #import "SA_BlockButton.h"
 #import "SA_Utilities.h"
-#import "NSObject+Additions.h"
+#import "NSObject+SA_Additions.h"
 
 @interface SA_BlockButton ()
 @property (nonatomic, retain) NSMutableArray *actionBlocks;

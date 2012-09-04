@@ -6,7 +6,7 @@
 //
 
 #import "SA_StackedScrollView.h"
-#import "UIView+Additions.h"
+#import "UIView+SA_Additions.h"
 
 @interface SA_StackedScrollView ()
 

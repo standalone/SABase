@@ -7,16 +7,16 @@
 
 #import "SA_ConnectionQueue.h"
 //#import "SA_ConnectionQueue+Persistance.h"
-#import "NSString+Additions.h"
-#import "NSData+Additions.h"
-#import "NSNotificationCenter+Additions.h"
+#import "NSString+SA_Additions.h"
+#import "NSData+SA_Additions.h"
+#import "NSNotificationCenter+SA_Additions.h"
 #import "SA_Utilities.h"
-#import "NSObject+Additions.h"
+#import "NSObject+SA_Additions.h"
 #if TARGET_OS_IPHONE
-	#import "UIDevice+Additions.h"
+	#import "UIDevice+SA_Additions.h"
 #endif
 
-#import "NSBundle+Additions.h"
+#import "NSBundle+SA_Additions.h"
 
 #if VALIDATE_XML_UPLOADS
 	#import "SA_XMLGenerator.h"

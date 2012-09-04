@@ -11,7 +11,7 @@
 #import <mach/mach_host.h>
 
 #if TARGET_OS_IPHONE
-	#import "UIDevice+Additions.h"
+	#import "UIDevice+SA_Additions.h"
 	#import "SA_AlertView.h"
 #endif
 

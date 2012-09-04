@@ -6,8 +6,8 @@
 //
 
 #import "SA_PleaseWaitDisplay.h"
-#import "UIView+Additions.h"
-#import "UIDevice+Additions.h"
+#import "UIView+SA_Additions.h"
+#import "UIDevice+SA_Additions.h"
 
 #import <QuartzCore/QuartzCore.h>
 
