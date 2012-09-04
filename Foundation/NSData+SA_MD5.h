@@ -8,6 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSData (MD5)
+@interface NSData (SA_MD5)
 - (NSString *) MD5;
 @end

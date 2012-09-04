@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface NSString (MD5)
+@interface NSString (SA_MD5)
 
 - (NSUInteger) MD5Integer;
 - (NSString *) MD5;

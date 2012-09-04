@@ -6,14 +6,14 @@
 //  Copyright 2010 Stand Alone, Inc. All rights reserved.
 //
 
-#import "NSString+MD5.h"
+#import "NSString+SA_MD5.h"
 
 
 #if TARGET_OS_IPHONE
 	#import <CommonCrypto/CommonDigest.h> // Need to import for CC_MD5 access
 
 
-@implementation NSString (MD5)
+@implementation NSString (SA_MD5)
 	- (NSUInteger) MD5Integer {
 		const char *cStr = [self UTF8String];
 		NSUInteger result[4];
@@ -54,7 +54,7 @@
 	#import "NSTask+Synchronicity.h"
 	#import "NSString+SA_Additions.h"
 
-	@implementation NSString (MD5)
+	@implementation NSString (SA_MD5)
 	- (NSString *) MD5 {
 		NSString					*path = [NSString tempFileNameWithSeed: @"md5" ofType: @"txt"];
 		NSError						*error;

@@ -34,6 +34,7 @@
 		B542239015B64FB8001776BA /* UIGestureRecognizer+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B542238D15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.h */; };
 		B542239115B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B542238E15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m */; };
 		B542239215B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B542238E15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m */; };
+		B55A94CF15F62442000F8992 /* UIButton+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E086C151660DD0097CC69 /* UIButton+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B55E0888151660DD0097CC69 /* dispatch_additions_SA.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0835151660DD0097CC69 /* dispatch_additions_SA.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B55E0889151660DD0097CC69 /* dispatch_additions_SA.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0835151660DD0097CC69 /* dispatch_additions_SA.h */; };
 		B55E088A151660DD0097CC69 /* dispatch_additions_SA.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0836151660DD0097CC69 /* dispatch_additions_SA.m */; };
@@ -52,12 +53,12 @@
 		B55E0897151660DD0097CC69 /* NSData+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E083A151660DD0097CC69 /* NSData+SA_Additions.m */; };
 		B55E0898151660DD0097CC69 /* NSData+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E083A151660DD0097CC69 /* NSData+SA_Additions.m */; };
 		B55E0899151660DD0097CC69 /* NSData+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E083A151660DD0097CC69 /* NSData+SA_Additions.m */; };
-		B55E089A151660DD0097CC69 /* NSData+MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E083B151660DD0097CC69 /* NSData+MD5.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B55E089B151660DD0097CC69 /* NSData+MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E083B151660DD0097CC69 /* NSData+MD5.h */; };
-		B55E089C151660DD0097CC69 /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E083C151660DD0097CC69 /* NSData+MD5.m */; };
-		B55E089D151660DD0097CC69 /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E083C151660DD0097CC69 /* NSData+MD5.m */; };
-		B55E089E151660DD0097CC69 /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E083C151660DD0097CC69 /* NSData+MD5.m */; };
-		B55E089F151660DD0097CC69 /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E083C151660DD0097CC69 /* NSData+MD5.m */; };
+		B55E089A151660DD0097CC69 /* NSData+SA_MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E083B151660DD0097CC69 /* NSData+SA_MD5.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55E089B151660DD0097CC69 /* NSData+SA_MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E083B151660DD0097CC69 /* NSData+SA_MD5.h */; };
+		B55E089C151660DD0097CC69 /* NSData+SA_MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E083C151660DD0097CC69 /* NSData+SA_MD5.m */; };
+		B55E089D151660DD0097CC69 /* NSData+SA_MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E083C151660DD0097CC69 /* NSData+SA_MD5.m */; };
+		B55E089E151660DD0097CC69 /* NSData+SA_MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E083C151660DD0097CC69 /* NSData+SA_MD5.m */; };
+		B55E089F151660DD0097CC69 /* NSData+SA_MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E083C151660DD0097CC69 /* NSData+SA_MD5.m */; };
 		B55E08A0151660DD0097CC69 /* NSDate+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E083D151660DD0097CC69 /* NSDate+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B55E08A1151660DD0097CC69 /* NSDate+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E083D151660DD0097CC69 /* NSDate+SA_Additions.h */; };
 		B55E08A2151660DD0097CC69 /* NSDate+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E083E151660DD0097CC69 /* NSDate+SA_Additions.m */; };
@@ -106,12 +107,12 @@
 		B55E08CD151660DD0097CC69 /* NSString+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E084C151660DD0097CC69 /* NSString+SA_Additions.m */; };
 		B55E08CE151660DD0097CC69 /* NSString+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E084C151660DD0097CC69 /* NSString+SA_Additions.m */; };
 		B55E08CF151660DD0097CC69 /* NSString+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E084C151660DD0097CC69 /* NSString+SA_Additions.m */; };
-		B55E08D0151660DD0097CC69 /* NSString+MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E084D151660DD0097CC69 /* NSString+MD5.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B55E08D1151660DD0097CC69 /* NSString+MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E084D151660DD0097CC69 /* NSString+MD5.h */; };
-		B55E08D2151660DD0097CC69 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E084E151660DD0097CC69 /* NSString+MD5.m */; };
-		B55E08D3151660DD0097CC69 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E084E151660DD0097CC69 /* NSString+MD5.m */; };
-		B55E08D4151660DD0097CC69 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E084E151660DD0097CC69 /* NSString+MD5.m */; };
-		B55E08D5151660DD0097CC69 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E084E151660DD0097CC69 /* NSString+MD5.m */; };
+		B55E08D0151660DD0097CC69 /* NSString+SA_MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E084D151660DD0097CC69 /* NSString+SA_MD5.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55E08D1151660DD0097CC69 /* NSString+SA_MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E084D151660DD0097CC69 /* NSString+SA_MD5.h */; };
+		B55E08D2151660DD0097CC69 /* NSString+SA_MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E084E151660DD0097CC69 /* NSString+SA_MD5.m */; };
+		B55E08D3151660DD0097CC69 /* NSString+SA_MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E084E151660DD0097CC69 /* NSString+SA_MD5.m */; };
+		B55E08D4151660DD0097CC69 /* NSString+SA_MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E084E151660DD0097CC69 /* NSString+SA_MD5.m */; };
+		B55E08D5151660DD0097CC69 /* NSString+SA_MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E084E151660DD0097CC69 /* NSString+SA_MD5.m */; };
 		B55E08D6151660DD0097CC69 /* NSString+UniqueStrings.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E084F151660DD0097CC69 /* NSString+UniqueStrings.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B55E08D7151660DD0097CC69 /* NSString+UniqueStrings.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E084F151660DD0097CC69 /* NSString+UniqueStrings.h */; };
 		B55E08D8151660DD0097CC69 /* NSString+UniqueStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0850151660DD0097CC69 /* NSString+UniqueStrings.m */; };
@@ -347,8 +348,8 @@
 		B55E0838151660DD0097CC69 /* NSBundle+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+SA_Additions.m"; sourceTree = "<group>"; };
 		B55E0839151660DD0097CC69 /* NSData+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+SA_Additions.h"; path = "../Foundation/NSData+SA_Additions.h"; sourceTree = "<group>"; };
 		B55E083A151660DD0097CC69 /* NSData+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+SA_Additions.m"; sourceTree = "<group>"; };
-		B55E083B151660DD0097CC69 /* NSData+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+MD5.h"; path = "../Foundation/NSData+MD5.h"; sourceTree = "<group>"; };
-		B55E083C151660DD0097CC69 /* NSData+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MD5.m"; sourceTree = "<group>"; };
+		B55E083B151660DD0097CC69 /* NSData+SA_MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+SA_MD5.h"; path = "../Foundation/NSData+SA_MD5.h"; sourceTree = "<group>"; };
+		B55E083C151660DD0097CC69 /* NSData+SA_MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+SA_MD5.m"; sourceTree = "<group>"; };
 		B55E083D151660DD0097CC69 /* NSDate+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+SA_Additions.h"; path = "../Foundation/NSDate+SA_Additions.h"; sourceTree = "<group>"; };
 		B55E083E151660DD0097CC69 /* NSDate+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+SA_Additions.m"; sourceTree = "<group>"; };
 		B55E083F151660DD0097CC69 /* NSFileManager+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSFileManager+SA_Additions.h"; path = "../Foundation/NSFileManager+SA_Additions.h"; sourceTree = "<group>"; };
@@ -365,8 +366,8 @@
 		B55E084A151660DD0097CC69 /* NSSortDescriptor+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSSortDescriptor+SA_Additions.m"; sourceTree = "<group>"; };
 		B55E084B151660DD0097CC69 /* NSString+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+SA_Additions.h"; path = "../Foundation/NSString+SA_Additions.h"; sourceTree = "<group>"; };
 		B55E084C151660DD0097CC69 /* NSString+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SA_Additions.m"; sourceTree = "<group>"; };
-		B55E084D151660DD0097CC69 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+MD5.h"; path = "../Foundation/NSString+MD5.h"; sourceTree = "<group>"; };
-		B55E084E151660DD0097CC69 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
+		B55E084D151660DD0097CC69 /* NSString+SA_MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+SA_MD5.h"; path = "../Foundation/NSString+SA_MD5.h"; sourceTree = "<group>"; };
+		B55E084E151660DD0097CC69 /* NSString+SA_MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SA_MD5.m"; sourceTree = "<group>"; };
 		B55E084F151660DD0097CC69 /* NSString+UniqueStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+UniqueStrings.h"; path = "../Foundation/NSString+UniqueStrings.h"; sourceTree = "<group>"; };
 		B55E0850151660DD0097CC69 /* NSString+UniqueStrings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UniqueStrings.m"; sourceTree = "<group>"; };
 		B55E0851151660DD0097CC69 /* NSURL+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURL+SA_Additions.h"; path = "../Foundation/NSURL+SA_Additions.h"; sourceTree = "<group>"; };
@@ -558,7 +559,7 @@
 				B55E0836151660DD0097CC69 /* dispatch_additions_SA.m */,
 				B55E0838151660DD0097CC69 /* NSBundle+SA_Additions.m */,
 				B55E083A151660DD0097CC69 /* NSData+SA_Additions.m */,
-				B55E083C151660DD0097CC69 /* NSData+MD5.m */,
+				B55E083C151660DD0097CC69 /* NSData+SA_MD5.m */,
 				B55E083E151660DD0097CC69 /* NSDate+SA_Additions.m */,
 				B55E0840151660DD0097CC69 /* NSFileManager+SA_Additions.m */,
 				B55E0842151660DD0097CC69 /* NSManagedObject+SA_Additions.m */,
@@ -567,7 +568,7 @@
 				B55E0848151660DD0097CC69 /* NSObject+SA_Additions.m */,
 				B55E084A151660DD0097CC69 /* NSSortDescriptor+SA_Additions.m */,
 				B55E084C151660DD0097CC69 /* NSString+SA_Additions.m */,
-				B55E084E151660DD0097CC69 /* NSString+MD5.m */,
+				B55E084E151660DD0097CC69 /* NSString+SA_MD5.m */,
 				B55E0850151660DD0097CC69 /* NSString+UniqueStrings.m */,
 				B55E0852151660DD0097CC69 /* NSURL+SA_Additions.m */,
 				B55E0854151660DD0097CC69 /* SA_ConnectionQueue.m */,
@@ -618,7 +619,7 @@
 				B55E0835151660DD0097CC69 /* dispatch_additions_SA.h */,
 				B55E0837151660DD0097CC69 /* NSBundle+SA_Additions.h */,
 				B55E0839151660DD0097CC69 /* NSData+SA_Additions.h */,
-				B55E083B151660DD0097CC69 /* NSData+MD5.h */,
+				B55E083B151660DD0097CC69 /* NSData+SA_MD5.h */,
 				B55E083D151660DD0097CC69 /* NSDate+SA_Additions.h */,
 				B55E083F151660DD0097CC69 /* NSFileManager+SA_Additions.h */,
 				B55E0841151660DD0097CC69 /* NSManagedObject+SA_Additions.h */,
@@ -627,7 +628,7 @@
 				B55E0847151660DD0097CC69 /* NSObject+SA_Additions.h */,
 				B55E0849151660DD0097CC69 /* NSSortDescriptor+SA_Additions.h */,
 				B55E084B151660DD0097CC69 /* NSString+SA_Additions.h */,
-				B55E084D151660DD0097CC69 /* NSString+MD5.h */,
+				B55E084D151660DD0097CC69 /* NSString+SA_MD5.h */,
 				B55E084F151660DD0097CC69 /* NSString+UniqueStrings.h */,
 				B55E0851151660DD0097CC69 /* NSURL+SA_Additions.h */,
 				B55E0853151660DD0097CC69 /* SA_ConnectionQueue.h */,
@@ -751,7 +752,7 @@
 				B55E0889151660DD0097CC69 /* dispatch_additions_SA.h in Headers */,
 				B55E088F151660DD0097CC69 /* NSBundle+SA_Additions.h in Headers */,
 				B55E0895151660DD0097CC69 /* NSData+SA_Additions.h in Headers */,
-				B55E089B151660DD0097CC69 /* NSData+MD5.h in Headers */,
+				B55E089B151660DD0097CC69 /* NSData+SA_MD5.h in Headers */,
 				B55E08A1151660DD0097CC69 /* NSDate+SA_Additions.h in Headers */,
 				B55E08A7151660DD0097CC69 /* NSFileManager+SA_Additions.h in Headers */,
 				B55E08AD151660DD0097CC69 /* NSManagedObject+SA_Additions.h in Headers */,
@@ -760,7 +761,7 @@
 				B55E08BF151660DD0097CC69 /* NSObject+SA_Additions.h in Headers */,
 				B55E08C5151660DD0097CC69 /* NSSortDescriptor+SA_Additions.h in Headers */,
 				B55E08CB151660DD0097CC69 /* NSString+SA_Additions.h in Headers */,
-				B55E08D1151660DD0097CC69 /* NSString+MD5.h in Headers */,
+				B55E08D1151660DD0097CC69 /* NSString+SA_MD5.h in Headers */,
 				B55E08D7151660DD0097CC69 /* NSString+UniqueStrings.h in Headers */,
 				B55E08DD151660DD0097CC69 /* NSURL+SA_Additions.h in Headers */,
 				B55E08E3151660DD0097CC69 /* SA_ConnectionQueue.h in Headers */,
@@ -805,16 +806,17 @@
 				B55E0888151660DD0097CC69 /* dispatch_additions_SA.h in Headers */,
 				B55E088E151660DD0097CC69 /* NSBundle+SA_Additions.h in Headers */,
 				B55E0894151660DD0097CC69 /* NSData+SA_Additions.h in Headers */,
-				B55E089A151660DD0097CC69 /* NSData+MD5.h in Headers */,
+				B55E089A151660DD0097CC69 /* NSData+SA_MD5.h in Headers */,
 				B55E08A0151660DD0097CC69 /* NSDate+SA_Additions.h in Headers */,
 				B55E08A6151660DD0097CC69 /* NSFileManager+SA_Additions.h in Headers */,
 				B55E08AC151660DD0097CC69 /* NSManagedObject+SA_Additions.h in Headers */,
 				B55E08B2151660DD0097CC69 /* NSManagedObjectContext+SA_Additions.h in Headers */,
 				B55E08B8151660DD0097CC69 /* NSNotificationCenter+SA_Additions.h in Headers */,
+				B55A94CF15F62442000F8992 /* UIButton+SA_Additions.h in Headers */,
 				B55E08BE151660DD0097CC69 /* NSObject+SA_Additions.h in Headers */,
 				B55E08C4151660DD0097CC69 /* NSSortDescriptor+SA_Additions.h in Headers */,
 				B55E08CA151660DD0097CC69 /* NSString+SA_Additions.h in Headers */,
-				B55E08D0151660DD0097CC69 /* NSString+MD5.h in Headers */,
+				B55E08D0151660DD0097CC69 /* NSString+SA_MD5.h in Headers */,
 				B55E08D6151660DD0097CC69 /* NSString+UniqueStrings.h in Headers */,
 				B55E08DC151660DD0097CC69 /* NSURL+SA_Additions.h in Headers */,
 				B55E08E2151660DD0097CC69 /* SA_ConnectionQueue.h in Headers */,
@@ -1062,7 +1064,7 @@
 				B55E088B151660DD0097CC69 /* dispatch_additions_SA.m in Sources */,
 				B55E0891151660DD0097CC69 /* NSBundle+SA_Additions.m in Sources */,
 				B55E0897151660DD0097CC69 /* NSData+SA_Additions.m in Sources */,
-				B55E089D151660DD0097CC69 /* NSData+MD5.m in Sources */,
+				B55E089D151660DD0097CC69 /* NSData+SA_MD5.m in Sources */,
 				B55E08A3151660DD0097CC69 /* NSDate+SA_Additions.m in Sources */,
 				B55E08A9151660DD0097CC69 /* NSFileManager+SA_Additions.m in Sources */,
 				B55E08AF151660DD0097CC69 /* NSManagedObject+SA_Additions.m in Sources */,
@@ -1071,7 +1073,7 @@
 				B55E08C1151660DD0097CC69 /* NSObject+SA_Additions.m in Sources */,
 				B55E08C7151660DD0097CC69 /* NSSortDescriptor+SA_Additions.m in Sources */,
 				B55E08CD151660DD0097CC69 /* NSString+SA_Additions.m in Sources */,
-				B55E08D3151660DD0097CC69 /* NSString+MD5.m in Sources */,
+				B55E08D3151660DD0097CC69 /* NSString+SA_MD5.m in Sources */,
 				B55E08D9151660DD0097CC69 /* NSString+UniqueStrings.m in Sources */,
 				B55E08DF151660DD0097CC69 /* NSURL+SA_Additions.m in Sources */,
 				B55E08E5151660DD0097CC69 /* SA_ConnectionQueue.m in Sources */,
@@ -1120,7 +1122,7 @@
 				B55E088C151660DD0097CC69 /* dispatch_additions_SA.m in Sources */,
 				B55E0892151660DD0097CC69 /* NSBundle+SA_Additions.m in Sources */,
 				B55E0898151660DD0097CC69 /* NSData+SA_Additions.m in Sources */,
-				B55E089E151660DD0097CC69 /* NSData+MD5.m in Sources */,
+				B55E089E151660DD0097CC69 /* NSData+SA_MD5.m in Sources */,
 				B55E08A4151660DD0097CC69 /* NSDate+SA_Additions.m in Sources */,
 				B55E08AA151660DD0097CC69 /* NSFileManager+SA_Additions.m in Sources */,
 				B55E08B0151660DD0097CC69 /* NSManagedObject+SA_Additions.m in Sources */,
@@ -1129,7 +1131,7 @@
 				B55E08C2151660DD0097CC69 /* NSObject+SA_Additions.m in Sources */,
 				B55E08C8151660DD0097CC69 /* NSSortDescriptor+SA_Additions.m in Sources */,
 				B55E08CE151660DD0097CC69 /* NSString+SA_Additions.m in Sources */,
-				B55E08D4151660DD0097CC69 /* NSString+MD5.m in Sources */,
+				B55E08D4151660DD0097CC69 /* NSString+SA_MD5.m in Sources */,
 				B55E08DA151660DD0097CC69 /* NSString+UniqueStrings.m in Sources */,
 				B55E08E0151660DD0097CC69 /* NSURL+SA_Additions.m in Sources */,
 				B55E08E6151660DD0097CC69 /* SA_ConnectionQueue.m in Sources */,
@@ -1173,7 +1175,7 @@
 				B55E088D151660DD0097CC69 /* dispatch_additions_SA.m in Sources */,
 				B55E0893151660DD0097CC69 /* NSBundle+SA_Additions.m in Sources */,
 				B55E0899151660DD0097CC69 /* NSData+SA_Additions.m in Sources */,
-				B55E089F151660DD0097CC69 /* NSData+MD5.m in Sources */,
+				B55E089F151660DD0097CC69 /* NSData+SA_MD5.m in Sources */,
 				B55E08A5151660DD0097CC69 /* NSDate+SA_Additions.m in Sources */,
 				B55E08AB151660DD0097CC69 /* NSFileManager+SA_Additions.m in Sources */,
 				B55E08B1151660DD0097CC69 /* NSManagedObject+SA_Additions.m in Sources */,
@@ -1182,7 +1184,7 @@
 				B55E08C3151660DD0097CC69 /* NSObject+SA_Additions.m in Sources */,
 				B55E08C9151660DD0097CC69 /* NSSortDescriptor+SA_Additions.m in Sources */,
 				B55E08CF151660DD0097CC69 /* NSString+SA_Additions.m in Sources */,
-				B55E08D5151660DD0097CC69 /* NSString+MD5.m in Sources */,
+				B55E08D5151660DD0097CC69 /* NSString+SA_MD5.m in Sources */,
 				B55E08DB151660DD0097CC69 /* NSString+UniqueStrings.m in Sources */,
 				B55E08E1151660DD0097CC69 /* NSURL+SA_Additions.m in Sources */,
 				B55E08E7151660DD0097CC69 /* SA_ConnectionQueue.m in Sources */,
@@ -1224,7 +1226,7 @@
 				B55E088A151660DD0097CC69 /* dispatch_additions_SA.m in Sources */,
 				B55E0890151660DD0097CC69 /* NSBundle+SA_Additions.m in Sources */,
 				B55E0896151660DD0097CC69 /* NSData+SA_Additions.m in Sources */,
-				B55E089C151660DD0097CC69 /* NSData+MD5.m in Sources */,
+				B55E089C151660DD0097CC69 /* NSData+SA_MD5.m in Sources */,
 				B55E08A2151660DD0097CC69 /* NSDate+SA_Additions.m in Sources */,
 				B55E08A8151660DD0097CC69 /* NSFileManager+SA_Additions.m in Sources */,
 				B55E08AE151660DD0097CC69 /* NSManagedObject+SA_Additions.m in Sources */,
@@ -1233,7 +1235,7 @@
 				B55E08C0151660DD0097CC69 /* NSObject+SA_Additions.m in Sources */,
 				B55E08C6151660DD0097CC69 /* NSSortDescriptor+SA_Additions.m in Sources */,
 				B55E08CC151660DD0097CC69 /* NSString+SA_Additions.m in Sources */,
-				B55E08D2151660DD0097CC69 /* NSString+MD5.m in Sources */,
+				B55E08D2151660DD0097CC69 /* NSString+SA_MD5.m in Sources */,
 				B55E08D8151660DD0097CC69 /* NSString+UniqueStrings.m in Sources */,
 				B55E08DE151660DD0097CC69 /* NSURL+SA_Additions.m in Sources */,
 				B55E08E4151660DD0097CC69 /* SA_ConnectionQueue.m in Sources */,
