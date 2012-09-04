@@ -248,7 +248,7 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 	if (self.isSaveNecessary) [self save];
 }
 
-- (void) save {
+- (void) performSave {
 	NSError								*error = nil;
 	static int							failCount = 0;
 	int									maxFailsBeforeReset = 2;
@@ -289,6 +289,15 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 		}
 	}
 }
+
+- (void) save {
+	if (RUNNING_ON_50 && self.concurrencyType == NSPrivateQueueConcurrencyType) {
+		[self performBlock: ^{ [self performSave]; }];
+	} else {
+		[self performSave];
+	}
+}
+
 
 //this is so that you can pass an NSManagedObject to an SA_ConnectionQueue as a persistant object delegate
 - (id) delegateWithIdentifier: (NSString *) identifier {
