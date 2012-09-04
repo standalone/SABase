@@ -54,4 +54,12 @@
 	return result;
 }
 
+- (NSUInteger) hash {
+	NSUInteger			value = 0;
+	
+	for (id key in self) {
+		value += [key hash] * [[self valueForKey: key] hash];
+	}
+	return value;
+}
 @end

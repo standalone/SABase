@@ -12,6 +12,5 @@
 @interface NSDictionary (NSDictionary_Additions)
 
 - (NSMutableDictionary *) deepMutableCopy;
-+ (NSDictionary *) dictionaryWithData: (NSData *) date;
-
++ (NSDictionary *) dictionaryWithData: (NSData *) data;
 @end

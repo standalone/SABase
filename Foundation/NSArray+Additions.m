@@ -160,4 +160,14 @@
 	return copy;
 }
 
+- (NSUInteger) hash {
+	NSUInteger			value = 0, index = 0;
+	
+	for (id value in self) {
+		value += index * [value hash];
+	}
+	return value;
+}
+
+
 @end
