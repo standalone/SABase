@@ -8,7 +8,7 @@
 #import "NSUserDefaults+SA_Additions.h"
 
 
-@implementation NSUserDefaults (SA_SA_Additions)
+@implementation NSUserDefaults (SA_Additions)
 
 - (BOOL) isSetting: (NSString *) settingKey upToVersion: (int) properVersion updatingIfNeeded: (BOOL) update {
 	NSUInteger				currentVersion = [self integerForKey: settingKey];
@@ -21,4 +21,13 @@
 	}
 	return NO;
 }
+
++ (void) syncObject: (id) object forKey: (NSString *) key {
+	NSUserDefaults		*def = [NSUserDefaults standardUserDefaults];
+	
+	[def setObject: object forKey: key];
+	[def synchronize];
+	
+}
+
 @end

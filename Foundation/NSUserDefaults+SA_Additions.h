@@ -8,8 +8,9 @@
 #import <Foundation/Foundation.h>
 
 
-@interface NSUserDefaults (SA_SA_Additions)
+@interface NSUserDefaults (SA_Additions)
 
 - (BOOL) isSetting: (NSString *) settingKey upToVersion: (int) properVersion updatingIfNeeded: (BOOL) update;
 
++ (void) syncObject: (id) object forKey: (NSString *) key;
 @end
