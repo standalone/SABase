@@ -332,6 +332,10 @@
 		B5A12A23152FEF4A0081FAAD /* SA_Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */; };
 		B5A12A24152FEF4A0081FAAD /* SA_Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */; };
 		B5A1764F157D7AD200BA3FEC /* SA_Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */; };
+		B5D3ABAB15FD3E070052F459 /* CAAnimation+SA_Blocks.h in Headers */ = {isa = PBXBuildFile; fileRef = B5D3ABA915FD3E070052F459 /* CAAnimation+SA_Blocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B5D3ABAC15FD3E070052F459 /* CAAnimation+SA_Blocks.h in Headers */ = {isa = PBXBuildFile; fileRef = B5D3ABA915FD3E070052F459 /* CAAnimation+SA_Blocks.h */; };
+		B5D3ABAD15FD3E070052F459 /* CAAnimation+SA_Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = B5D3ABAA15FD3E070052F459 /* CAAnimation+SA_Blocks.m */; };
+		B5D3ABAE15FD3E070052F459 /* CAAnimation+SA_Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = B5D3ABAA15FD3E070052F459 /* CAAnimation+SA_Blocks.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -455,6 +459,8 @@
 		B598E6801240820400E7B7CF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		B5A12A1F152FEF4A0081FAAD /* SA_Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SA_Utilities.h; path = ../Foundation/SA_Utilities.h; sourceTree = "<group>"; };
 		B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SA_Utilities.m; sourceTree = "<group>"; };
+		B5D3ABA915FD3E070052F459 /* CAAnimation+SA_Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CAAnimation+SA_Blocks.h"; path = "Foundation/CAAnimation+SA_Blocks.h"; sourceTree = SOURCE_ROOT; };
+		B5D3ABAA15FD3E070052F459 /* CAAnimation+SA_Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CAAnimation+SA_Blocks.m"; path = "Foundation/CAAnimation+SA_Blocks.m"; sourceTree = SOURCE_ROOT; };
 		B5E39B72123BA9EE00FC1FE7 /* Run-Time Tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Run-Time Tests.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2AAC07E0554694100DB518D /* libSABase.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSABase.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -549,6 +555,7 @@
 		B55E0834151660DD0097CC69 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				B5D3ABAA15FD3E070052F459 /* CAAnimation+SA_Blocks.m */,
 				B5095CAC15F4063400EC3C8F /* NSDictionary+SA_Additions.h */,
 				B5095CAD15F4063400EC3C8F /* NSDictionary+SA_Additions.m */,
 				B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */,
@@ -610,6 +617,7 @@
 		B55E099F1516682A0097CC69 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				B5D3ABA915FD3E070052F459 /* CAAnimation+SA_Blocks.h */,
 				B542238D15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.h */,
 				B5A12A1F152FEF4A0081FAAD /* SA_Utilities.h */,
 				B55E09A015166D3C0097CC69 /* SA_BackgroundThread.h */,
@@ -795,6 +803,7 @@
 				B5A12A22152FEF4A0081FAAD /* SA_Utilities.h in Headers */,
 				B542239015B64FB8001776BA /* UIGestureRecognizer+SA_Additions.h in Headers */,
 				B5095CAF15F4063400EC3C8F /* NSDictionary+SA_Additions.h in Headers */,
+				B5D3ABAC15FD3E070052F459 /* CAAnimation+SA_Blocks.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -848,6 +857,7 @@
 				B55E0990151661920097CC69 /* NSUserDefaults+SA_Additions.h in Headers */,
 				B55E0998151661C10097CC69 /* NSArray+SA_Additions.h in Headers */,
 				B542238F15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.h in Headers */,
+				B5D3ABAB15FD3E070052F459 /* CAAnimation+SA_Blocks.h in Headers */,
 				B583071C1516548600CC57DE /* NSData Tests.h in Headers */,
 				B58307301516548600CC57DE /* RunTimeAppDelegate.h in Headers */,
 				B58307221516548600CC57DE /* NSDate Tests.h in Headers */,
@@ -1107,6 +1117,7 @@
 				B5A12A24152FEF4A0081FAAD /* SA_Utilities.m in Sources */,
 				B542239215B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m in Sources */,
 				B5095CB115F4063400EC3C8F /* NSDictionary+SA_Additions.m in Sources */,
+				B5D3ABAE15FD3E070052F459 /* CAAnimation+SA_Blocks.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1269,6 +1280,7 @@
 				B5A12A23152FEF4A0081FAAD /* SA_Utilities.m in Sources */,
 				B542239115B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m in Sources */,
 				B5095CB015F4063400EC3C8F /* NSDictionary+SA_Additions.m in Sources */,
+				B5D3ABAD15FD3E070052F459 /* CAAnimation+SA_Blocks.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

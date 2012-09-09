@@ -13,6 +13,8 @@
 #import "SA_LazyLoadingScrollView.h"
 #import "SA_BlockButton.h"
 
+#import "CAAnimation+SA_Blocks.h"
+
 #import "NSURL+SA_Additions.h"
 #import "UIBarButtonItem+SA_Additions.h"
 #import "UIColor+SA_Additions.h"
