@@ -7,7 +7,7 @@
 //
 
 #import "NSDate Tests.h"
-#import "NSDate+Additions.h"
+#import "NSDate+SA_Additions.h"
 
 @implementation NSDate_Tests
 

@@ -7,16 +7,16 @@
 
 #import "SA_ConnectionQueue.h"
 //#import "SA_ConnectionQueue+Persistance.h"
-#import "NSString+Additions.h"
-#import "NSData+Additions.h"
-#import "NSNotificationCenter+Additions.h"
+#import "NSString+SA_Additions.h"
+#import "NSData+SA_Additions.h"
+#import "NSNotificationCenter+SA_Additions.h"
 #import "SA_Utilities.h"
-#import "NSObject+Additions.h"
+#import "NSObject+SA_Additions.h"
 #if TARGET_OS_IPHONE
-	#import "UIDevice+Additions.h"
+	#import "UIDevice+SA_Additions.h"
 #endif
 
-#import "NSBundle+Additions.h"
+#import "NSBundle+SA_Additions.h"
 
 #if VALIDATE_XML_UPLOADS
 	#import "SA_XMLGenerator.h"
@@ -168,7 +168,7 @@ static SA_ConnectionQueue		*g_queue = nil;
 #pragma mark Actions
 - (BOOL) queueConnection: (SA_Connection *) connection {
 	if (![NSThread isMainThread]) {
-		[self performSelectorOnMainThread: @selector(queueConnection:) withObject: connection waitUntilDone: YES];
+		[self performSelectorOnMainThread: @selector(queueConnection:) withObject: connection waitUntilDone: NO];
 		return !_offline;
 	}
 	//LOG(@"Queuing: %@", connection);
@@ -218,6 +218,23 @@ static SA_ConnectionQueue		*g_queue = nil;
 	[self fireReachabilityStatus];
 }
 
+- (void) showOfflineAlertAllowingRetry: (BOOL) allowingRetry {
+	#if TARGET_OS_IPHONE
+		NSString		*title = NSLocalizedString(@"Connection Error", @"Connection Error");
+		NSString		*body = NSLocalizedString(@"Unable to connect. Please try again later.", @"Unable to connect. Please try again later.");
+		
+		SA_AlertView	*alert = [[[SA_AlertView alloc] initWithTitle: title
+															  message: body
+															 delegate: self
+													cancelButtonTitle: NSLocalizedString(@"Cancel", nil)
+												 otherButtonTitles: allowingRetry ? NSLocalizedString(@"Retry", nil) : nil, nil] autorelease];
+		
+		[alert show];
+	#endif
+	
+	_offlineAlertShown = YES;
+}
+
 - (BOOL) queueConnection: (SA_Connection *) connection andPromptIfOffline: (BOOL) prompt {
 	if (connection && [self queueConnection: connection]) return YES;
 	
@@ -225,17 +242,7 @@ static SA_ConnectionQueue		*g_queue = nil;
 	
 	[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_NotConnectedToInternet object: self];
 	if (_offlineAlertShown || self.suppressOfflineAlerts) return NO;
-	#if TARGET_OS_IPHONE
-		NSString						*title = NSLocalizedString(@"Connection Error", @"Connection Error");
-		NSString						*body = NSLocalizedString(@"Unable to connect. Please try again later.", @"Unable to connect. Please try again later.");
-				
-		SA_AlertView					*alert = [[[SA_AlertView alloc] initWithTitle: title message: body delegate: self cancelButtonTitle: NSLocalizedString(@"Cancel", nil) otherButtonTitles: connection.discardIfOffline ? nil : NSLocalizedString(@"Retry", nil), nil] autorelease];
-		
-		[alert show];
-	#endif
-	
-	
-	_offlineAlertShown = YES;
+	if (prompt) [self showOfflineAlertAllowingRetry: !connection.discardIfOffline];
 	return NO;
 }
 
@@ -246,15 +253,7 @@ static SA_ConnectionQueue		*g_queue = nil;
 
 - (BOOL) performInvocationIfOffline: (NSInvocation *) invocation {
 	self.backOnlineInvocation = invocation;
-
-	#if TARGET_OS_IPHONE
-		NSString						*title = NSLocalizedString(@"Connection Error", @"Connection Error");
-		NSString						*body = NSLocalizedString(@"Unable to connect. Please try again later.", @"Unable to connect. Please try again later.");
-				
-		SA_AlertView					*alert = [[[SA_AlertView alloc] initWithTitle: title message: body delegate: self cancelButtonTitle: NSLocalizedString(@"Cancel", nil) otherButtonTitles: NSLocalizedString(@"Retry", nil), nil] autorelease];
-		
-		[alert show];
-	#endif
+	[self showOfflineAlertAllowingRetry: YES];
 	
 	return NO;
 }
@@ -1332,8 +1331,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	return [string dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
 }
 
-+ (NSDictionary *) dictionaryWithPostData: (NSData *) data {
-	NSString				*string = [[NSString alloc] initWithData: data encoding: NSASCIIStringEncoding];
++ (NSDictionary *) dictionaryWithParameterString: (NSString *) string {
 	NSArray					*array = [string componentsSeparatedByString: @"&"];
 	NSMutableDictionary		*dict = [NSMutableDictionary dictionary];
 	
@@ -1345,8 +1343,15 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 		if (value && key) [dict setObject: [value stringByReplacingPercentEscapesUsingEncoding: NSASCIIStringEncoding] forKey: [key stringByReplacingPercentEscapesUsingEncoding: NSASCIIStringEncoding]];
 	}
 	
-	[string release];
 	return dict;
+}
+
++ (NSDictionary *) dictionaryWithPostData: (NSData *) data {
+	NSString				*string = [[NSString alloc] initWithData: data encoding: NSASCIIStringEncoding];
+	NSDictionary			*results = [self dictionaryWithParameterString: string];
+	
+	[string release];
+	return results;
 }
 
 @end

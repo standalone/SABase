@@ -7,7 +7,7 @@
 //
 
 #import "MFMailComposeViewController+SA_Additions.h"
-#import "NSObject+Additions.h"
+#import "NSObject+SA_Additions.h"
 
 
 #define COMPLETION_BLOCK_KEY			@"COMPLETION_BLOCK_KEY"

@@ -7,7 +7,7 @@
 //
 
 #import "NSURL Tests.h"
-#import "NSURL+Additions.h"
+#import "NSURL+SA_Additions.h"
 
 @implementation NSURL_Tests
 

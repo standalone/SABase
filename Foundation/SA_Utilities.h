@@ -317,3 +317,22 @@ void					MailDataWithTitle(NSData *data, NSString *title);
 		if (RUNNING_ON_40) { static dispatch_once_t  once; dispatch_once(&once, ^ { name = [value retain]; }); else name = [value retain]; return name;\
 	}
 #endif
+
+
+//temp glue to work with iOS 5.x SDKs
+@interface NSArray(Subscripting)
+- (id) objectAtIndexedSubscript:(NSUInteger)index;
+@end
+
+@interface NSMutableArray(Subscripting)
+- (void) setObject:(id)obj atIndexedSubscript:(NSUInteger)index;
+@end
+
+@interface NSDictionary(Subscripting)
+- (id) objectForKeyedSubscript:(id)key;
+@end
+
+@interface NSMutableDictionary(Subscripting)
+- (void) setObject:(id)obj forKeyedSubscript:(id <NSCopying>)key;
+@end
+

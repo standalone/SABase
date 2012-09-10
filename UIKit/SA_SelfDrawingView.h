@@ -6,7 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "NSObject+Additions.h"
+#import "NSObject+SA_Additions.h"
 
 @class SA_SelfDrawingView;
 

@@ -7,7 +7,7 @@
 //
 
 #import "NSData Tests.h"
-#import "NSData+Additions.h"
+#import "NSData+SA_Additions.h"
 
 @implementation NSData_Tests
 
