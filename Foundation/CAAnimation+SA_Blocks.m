@@ -15,6 +15,7 @@
 - (void) setAnimationDidStartBlock:(animationDidStartBlock)animationDidStartBlock {
 	[self setValue: Block_copy(animationDidStartBlock) forKey: ANIMATION_DID_START_BLOCK_KEY];
 	self.delegate = self;
+	
 }
 
 - (void) setAnimationDidStopBlock: (animationDidStopBlock) animationDidStopBlock {
