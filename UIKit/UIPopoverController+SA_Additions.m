@@ -102,7 +102,7 @@ static NSMutableArray					*s_activePopovers = nil;
 }
 
 - (void) presentInSANavigationPopoverFromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
-	UINavigationController				*nav = [self isKindOfClass: [UINavigationController class]] ? self : [[[UINavigationController alloc] initWithRootViewController: self] autorelease];
+	UINavigationController				*nav = [self isKindOfClass: [UINavigationController class]] ? (id) self : [[[UINavigationController alloc] initWithRootViewController: self] autorelease];
 	[UIPopoverController presentSAPopoverForViewController: nav fromRect: rect inView: view permittedArrowDirections: arrowDirections animated: YES];
 }
 
