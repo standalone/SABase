@@ -98,7 +98,9 @@
 	#define				RUNNING_ON_IPHONE				(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 	#define				RUNNING_ON_40					([[UIDevice currentDevice].systemVersion intValue] >= 4)
 	#define				RUNNING_ON_50					([[UIDevice currentDevice].systemVersion intValue] >= 5)
+	#define				RUNNING_ON_60					([[UIDevice currentDevice].systemVersion intValue] >= 6)
 	#define				IS_RETINA_DEVICE				([UIScreen mainScreen].scale > 1.0)
+	#define				IS_4INCH_SCREEN					(RUNNING_ON_IPHONE && [UIScreen mainScreen].bounds.size.height == 568)
 	#define				IF_IOS(...)						{__VA_ARGS__;}
 	#define				IF_MACOS(...)
 #else
