@@ -24,6 +24,7 @@ typedef enum {
 + (connection_type) connectionType;
 + (float) availableMemory;
 + (float) availableStorageSpace;
++ (NSString*) deviceMachineName;
 
 - (float) OSVersion;
 - (NSString *) udid;			//based off of MAC address
