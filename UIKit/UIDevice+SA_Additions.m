@@ -19,6 +19,7 @@
 #include <net/if.h>
 #include <net/if_dl.h>
 #import <SystemConfiguration/SCNetworkReachability.h>
+#import <sys/utsname.h>
 
 #ifndef kSCNetworkFlagsISWWAN
 #define		kSCNetworkFlagsISWWAN				(1 << 18)
@@ -206,6 +207,39 @@
     return uniqueIdentifier;
 }
 
-
++ (NSString*) deviceMachineName {
+    /*
+     i386           Simulator
+     x86_64         Simulator
+     
+     iPad1,1		iPad
+     iPad2,1		iPad 2 WiFi
+     iPad2,2		iPad 2 GSM
+     iPad2,3		iPad 3 CDMA
+     iPad2,4		iPad 2 2012 WiFi
+     iPad2,5		?mini
+     iPad2,6		?mini
+     
+     iPhone1,1      iPhone
+     iPhone1,2      iPhone 3G
+     iPhone2,1      iPhone 3GS
+     iPhone3,1      iPhone 4
+     iPhone3,3      iPhone 4 Verizon
+     iPhone4,1      iPhone 4S
+     iPhone5,1      iPhone 5
+     iPhone5,2      iPhone 5 CDMA?
+     
+     iPod1,1		iPod Touch
+     iPod2,1		iPod Touch 2G
+     iPod3,1		iPod Touch 3G
+     iPod4,1		iPod Touch 4G
+     iPod5,1		?iPod Touch 5G (2012)
+     */
+    struct utsname systemInfo;
+    
+    uname(&systemInfo);
+    
+    return [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+}
 
 @end
