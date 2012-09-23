@@ -54,6 +54,7 @@
 #define				OS_40_BUILD					(__IPHONE_OS_VERSION_MAX_ALLOWED >= 40000)
 #define				OS_42_BUILD					(__IPHONE_OS_VERSION_MAX_ALLOWED >= 40200)
 #define				OS_50_BUILD					(__IPHONE_OS_VERSION_MAX_ALLOWED >= 50000)
+#define				OS_60_BUILD					(__IPHONE_OS_VERSION_MAX_ALLOWED >= 60000)
 #define				RUNNING_UNDER_ARC			((__has_feature(objc_arc)))
 #define				NOT_RUNNING_UNDER_ARC		(!(RUNNING_UNDER_ARC))
 
@@ -290,6 +291,8 @@ void					MailDataWithTitle(NSData *data, NSString *title);
 	 #endif
 	#define				$BW(b)					([SA_BlockWrapper wrapperWithBlock: (simpleBlock) b])
 #endif
+
+#define	ENSURE_MAIN_THREAD(b)		if (![NSThread isMainThread]) { dispatch_async(dispatch_get_main_queue(), b); return; }
 
 #define SINGLETON_INTERFACE_FOR_CLASS_AND_METHOD(classname, methodName)			+ (classname *) methodName;
 #define SINGLETON_INSTANCE_FOR_CLASS_AND_METHOD(classname, methodName)		(s_##methodName)
