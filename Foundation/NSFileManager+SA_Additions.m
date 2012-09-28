@@ -179,6 +179,8 @@ static void NSFileManagerKQueueCallback(CFFileDescriptorRef kqRef, CFOptionFlags
 #if TARGET_OS_IPHONE
 + (void) setFileAtURLNotBackedUp: (NSURL *) url {
     NSError		*error = nil;
+	
+	if (NSURLIsExcludedFromBackupKey == nil) return;
     BOOL		success = [url setResourceValue: (id) kCFBooleanTrue forKey: NSURLIsExcludedFromBackupKey error: &error];
  
 	if (!success){
