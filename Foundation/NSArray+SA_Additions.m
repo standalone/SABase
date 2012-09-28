@@ -164,6 +164,7 @@
 	NSUInteger			value = 0, index = 0;
 	
 	for (id object in self) {
+		index++;
 		value += index * [object hash];
 	}
 	return value;
