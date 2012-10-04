@@ -11,6 +11,15 @@
 
 @implementation NSManagedObject (NSManagedObject_SA_Additions)
 
+- (BOOL) didValue: (id) value changeForKey: (NSString *) key {
+	id				existing = [self valueForKey: key];
+	
+	if (existing && value && [existing isEqual: value]) return NO;
+	if (!existing && !value) return NO;
+	
+	[self setValue: value forKey: key];
+	return YES;
+}
 
 - (id) objectWithIDString: (NSString *) string {
 	return [self.managedObjectContext objectWithIDString: string];

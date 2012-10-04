@@ -15,6 +15,7 @@
 
 - (id) objectWithIDString: (NSString *) string;
 - (BOOL) isNew;
+- (BOOL) didValue: (id) value changeForKey: (NSString *) key;
 - (BOOL) hasAttribute: (NSString *) attr;
 - (void) deleteFromContext;
 - (void) save;
