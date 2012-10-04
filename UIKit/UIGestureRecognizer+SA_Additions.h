@@ -14,5 +14,6 @@ typedef void (^gestureArgumentBlock)(UIGestureRecognizer *recog);
 @interface UIGestureRecognizer (SA_SA_Additions)
 
 - (id) initWithBlock: (gestureArgumentBlock) block;
++ (id) longPressRecognizerWithPressBlock: (gestureArgumentBlock) block;
 
 @end
