@@ -51,6 +51,7 @@ extern NSString *kNotification_PersistentStoreResetDueToSchemaChange;
 - (Class) classFromEntityName: (NSString *) entityName;
 - (id) delegateWithIdentifier: (NSString *) identifier;
 - (NSManagedObjectContext *) createChildContext;
+- (void) saveToDisk;		//saves the current context, and all parent contexts, all the way up the chain
 
 #if NS_BLOCKS_AVAILABLE
 	- (void) unregisterForContextUpdates: (NSString *) tag;
