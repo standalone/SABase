@@ -295,33 +295,23 @@ void					MailDataWithTitle(NSData *data, NSString *title);
 #define	ENSURE_MAIN_THREAD(b)		if (![NSThread isMainThread]) { dispatch_async(dispatch_get_main_queue(), b); return; }
 
 #define SINGLETON_INTERFACE_FOR_CLASS_AND_METHOD(classname, methodName)			+ (classname *) methodName;
-#define SINGLETON_INSTANCE_FOR_CLASS_AND_METHOD(classname, methodName)		(s_##methodName)
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0
-	#define SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(classname, methodName) \
-		static classname *s_##methodName = nil; \
-		+ (classname *) methodName {\
-			static dispatch_once_t  once; dispatch_once(&once, ^ { s_##methodName = [[self alloc] init]; });\
-			return s_##methodName; \
-		}
-
-	#define	STATIC_OBJECT_PROPERTY(name, value)	- (id) name {static id name = nil; if (name == nil) {static dispatch_once_t  once; dispatch_once(&once, ^ { name = [value retain]; });}
-#else
-	#define SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(classname, methodName) \
-		static classname *s_##methodName = nil; \
-		+ (classname *) methodName {\
-			if (RUNNING_ON_40) { static dispatch_once_t  once; dispatch_once(&once, ^ { s_##methodName = [[self alloc] init]; }); }\
-			else @synchronized(self) { if (s_##methodName == nil) { s_##methodName = [[self alloc] init]; } } \
-			return s_##methodName; \
-		}
-
-	#define SINGLETON_INSTANCE_FOR_CLASS_AND_METHOD(classname, methodName)		(s_##methodName)
-
-
-	#define	STATIC_OBJECT_PROPERTY(name, value)	- (id) name {static id name = nil; if (name == nil) {\
-		if (RUNNING_ON_40) { static dispatch_once_t  once; dispatch_once(&once, ^ { name = [value retain]; }); else name = [value retain]; return name;\
+#define SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(classname, methodName) \
+	static classname *s_##methodName = nil; \
+	+ (classname *) methodName {\
+		static dispatch_once_t  once; dispatch_once(&once, ^ { s_##methodName = [[self alloc] init]; });\
+		return s_##methodName; \
 	}
-#endif
+
+#define	STATIC_OBJECT_PROPERTY(name, value)	- (id) name {static id name = nil; if (name == nil) {static dispatch_once_t  once; dispatch_once(&once, ^ { name = [value retain]; });}
+
+#define SINGLETON_IMPLEMENTATION_FOR_CLASS_METHOD_AND_INITIALIZER(classname, methodName, initializer) \
+	static classname *s_##methodName = nil; \
+	+ (classname *) methodName {\
+		static dispatch_once_t  once; dispatch_once(&once, ^ { s_##methodName = [[self alloc] initializer]; });\
+		return s_##methodName; \
+	}
+
 
 
 //temp glue to work with iOS 5.x SDKs
