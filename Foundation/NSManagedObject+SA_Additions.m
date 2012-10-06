@@ -36,7 +36,6 @@
 - (void) save {
 	[self.context save];
 }
-
 - (NSManagedObjectContext *) context { return self.managedObjectContext; }
 - (NSManagedObjectContext *) moc { return self.managedObjectContext; }
 
@@ -88,7 +87,9 @@
 	return [super hasValueForKey: key];
 }
 
-- (id) objectForContext: (NSManagedObjectContext *) context {
+- (id) objectForContext: (NSManagedObjectContext *) context { return [self objectInContext: context]; }
+
+- (id) objectInContext: (NSManagedObjectContext *) context {
 	if (self.moc.isSaveNecessary) [self.managedObjectContext save];
 	
 	return [context objectWithID: self.objectID];
@@ -115,4 +116,12 @@
 - (BOOL) hasAttribute: (NSString *) attr {
 	return [self descriptionForAttribute: attr] || [self descriptionForRelationship: attr];
 }
+
+- (id) objectForKeyedSubscript: (id) key {
+	return [self valueForKey: key];
+}
+- (void) setObject: (id) obj forKeyedSubscript: (id) key {
+	[self setValue: obj forKey: key];
+}
+
 @end

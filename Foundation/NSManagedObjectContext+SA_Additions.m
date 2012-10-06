@@ -240,6 +240,30 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 	return context;
 }
 
+
+- (void) saveToDisk {
+	NSManagedObjectContext		*parent = self;
+	
+	if (!RUNNING_ON_50) {
+		[self save];;
+		return;
+	}
+
+	while (parent) {
+		if (parent.concurrencyType == NSPrivateQueueConcurrencyType) {
+			[parent performBlockAndWait: ^{ [parent save]; }];
+		} else if (parent.concurrencyType == NSMainQueueConcurrencyType && ![NSThread isMainThread]) {
+			dispatch_sync(dispatch_get_main_queue(), ^{ [parent save]; });
+		} else
+			[parent save];
+		
+		parent = parent.parentContext;
+
+	}
+}
+
+
+
 - (BOOL) isSaveNecessary {
 	return (self.insertedObjects.count || self.deletedObjects.count || self.updatedObjects.count);
 }

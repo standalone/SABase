@@ -22,9 +22,13 @@
 
 - (void) refreshFromContextMergingChanges: (BOOL) mergeChanges;
 - (id) objectForContext: (NSManagedObjectContext *) context;
+- (id) objectInContext: (NSManagedObjectContext *) context;
 
 - (NSAttributeDescription *) descriptionForAttribute: (NSString *) attributeName;
 - (NSRelationshipDescription *) descriptionForRelationship: (NSString *) relationshipName;
 
 - (void) replaceAllObjectsInRelationship: (NSString *) relKey withObjects: (NSSet *) newObjects deletingOld: (BOOL) deletingOld;
+- (id) objectForKeyedSubscript: (id) key;
+- (void)setObject:(id)obj forKeyedSubscript:(id <NSCopying>)key;
+
 @end
