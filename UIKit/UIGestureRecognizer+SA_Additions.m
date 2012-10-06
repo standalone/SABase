@@ -40,6 +40,8 @@
 				
 			case UIGestureRecognizerStatePossible:
 			case UIGestureRecognizerStateEnded:
+			case UIGestureRecognizerStateCancelled:
+			case UIGestureRecognizerStateFailed:
 				presented = NO;
 				break;
 				
