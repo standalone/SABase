@@ -41,8 +41,14 @@ NSMutableArray			*s_displayedAlerts = nil;
 	return [self showAlertWithTitle: title message: message tag: tag delegate: nil button: nil];
 }
 
-+ (SA_AlertView *) showAlertWithTitle: (NSString *) title message: (NSString *) message {
-	return [self showAlertWithTitle: title message: message tag: 0];
++ (SA_AlertView *) showAlertWithTitle: (NSString *) title message: (NSString *) message, ... {
+	va_list					list;
+	
+	va_start(list, message);
+	NSString				*fullMessage = [[NSString alloc] initWithFormat: message arguments: list];
+	va_end(list);
+
+	return [self showAlertWithTitle: title message: fullMessage tag: 0];
 }
 
 + (SA_AlertView *) showAlertWithTitle: (NSString *) title	error: (NSError *) error {

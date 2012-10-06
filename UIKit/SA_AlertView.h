@@ -18,7 +18,7 @@
 
 + (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *)message tag: (int)tag delegate: (id) delegate button: (NSString *) buttonTitle;
 + (SA_AlertView *) showAlertWithTitle: (NSString *) title message: (NSString *) message tag: (int) tag;
-+ (SA_AlertView *) showAlertWithTitle: (NSString *) title message: (NSString *) message;
++ (SA_AlertView *) showAlertWithTitle: (NSString *) title message: (NSString *) message, ...;
 + (SA_AlertView *) showAlertWithTitle: (NSString *) title	error: (NSError *) error;
 + (SA_AlertView *) showAlertWithException: (NSException *) e;
 
