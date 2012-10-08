@@ -142,7 +142,7 @@ static SA_ConnectionQueue		*g_queue = nil;
 		_fileSwitchOverLimit = 1024 * 20;			//switch to a file after 20k has been downloaded
 		self.managePleaseWaitDisplay = YES;
 		
-		_connectionSortDescriptors = [[NSArray alloc] initWithObjects: [[[NSSortDescriptor alloc] initWithKey: @"priority" ascending: YES] autorelease], [[[NSSortDescriptor alloc] initWithKey: @"order" ascending: YES] autorelease], nil];
+		_connectionSortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey: @"priority" ascending: YES], [NSSortDescriptor sortDescriptorWithKey: @"order" ascending: YES]];
 		[self performSelector: @selector(determineConnectionLevelAvailable) withObject: nil afterDelay: 0.0];			//defer this call so as not to slow down the startup procedure 
 		
 		if (MULTITASKING_AVAILABLE) {
@@ -247,7 +247,9 @@ static SA_ConnectionQueue		*g_queue = nil;
 }
 
 - (void) reorderPendingConnectionsByPriority {
-	if (_pending.count > 1) [_pending sortUsingDescriptors: _connectionSortDescriptors];
+	@synchronized(_pending) {
+		if (_pending.count > 1) [_pending sortUsingDescriptors: _connectionSortDescriptors];
+	}
 	//[_pending sortUsingSelector: @selector(comparePriorities:)];
 }
 
@@ -425,11 +427,15 @@ static SA_ConnectionQueue		*g_queue = nil;
 		}
 	}
 	
+	NSArray						*pend;
+	
 	@synchronized (_pending) {
-		for (SA_Connection *connection in [[_pending copy] autorelease]) {
-			if ((tag == nil || [connection.tag rangeOfString: tag].location != NSNotFound) && (delegate == nil || connection.delegate == delegate)) {
-				return connection;
-			}
+		pend = _pending.count ? [[_pending copy] autorelease] : nil;
+	}
+
+	for (SA_Connection *connection in pend) {
+		if ((tag == nil || [connection.tag rangeOfString: tag].location != NSNotFound) && (delegate == nil || connection.delegate == delegate)) {
+			return connection;
 		}
 	}
 	
