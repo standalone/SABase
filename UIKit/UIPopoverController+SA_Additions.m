@@ -6,6 +6,10 @@
 //
 
 #import "UIPopoverController+SA_Additions.h"
+#import "UIView+SA_Additions.h"
+#import "NSObject+SA_Additions.h"
+
+#define SA_POPOVER_DISMISS_BLOCK_KEY			@"com.standalone.SA_POPOVER_DISMISS_BLOCK_KEY"
 
 static NSMutableArray					*s_activePopovers = nil;
 
@@ -63,6 +67,11 @@ static NSMutableArray					*s_activePopovers = nil;
 	if ([popoverController.contentViewController respondsToSelector: @selector(popoverControllerShouldDismissPopover:)])
 		return [(id) popoverController.contentViewController popoverControllerShouldDismissPopover: popoverController];
 	
+	[[NSNotificationCenter defaultCenter] postNotificationName: kNotification_PopoverWasDismissed object: popoverController];
+	
+	idArgumentBlock				block = popoverController.didDismissBlock;
+	
+	if (block) block(popoverController);
 	return YES;
 }
 
@@ -78,8 +87,48 @@ static NSMutableArray					*s_activePopovers = nil;
 	[s_activePopovers removeObject: self];
 }
 
++ (UIPopoverController *) presentSAPopoverForView: (UIView *) subject fromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
+	UIViewController		*dummyController = [[UIViewController alloc] init];
+	UIView					*parent = [[UIView alloc] initWithFrame: subject.bounds];
+	
+	subject.center = parent.contentCenter;
+	[parent addSubview: subject];
+	
+	dummyController.contentSizeForViewInPopover = subject.bounds.size;
+	dummyController.view = parent;
+	return [self presentSAPopoverForViewController: dummyController fromRect: rect inView: view permittedArrowDirections: arrowDirections animated: animated];
+}
+
++ (UIPopoverController *) presentSAPopoverForView: (UIView *) subject fromBarButtonItem: (UIBarButtonItem *) item permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
+	UIViewController		*dummyController = [[UIViewController alloc] init];
+	UIView					*parent = [[UIView alloc] initWithFrame: subject.bounds];
+	
+	subject.center = parent.contentCenter;
+	[parent addSubview: subject];
+	
+	dummyController.contentSizeForViewInPopover = subject.bounds.size;
+	dummyController.view = parent;
+	return [self presentSAPopoverForViewController: dummyController fromBarButtonItem: item permittedArrowDirections: arrowDirections animated: animated];
+}
+
+- (void) setDidDismissBlock: (idArgumentBlock) didDismissBlock {
+	SA_BlockWrapper			*block = [SA_BlockWrapper wrapperWithIDBlock: didDismissBlock];
+	
+	[self associateValue: block forKey: SA_POPOVER_DISMISS_BLOCK_KEY];
+}
+
+- (idArgumentBlock) didDismissBlock {
+	return [[self associatedValueForKey: SA_POPOVER_DISMISS_BLOCK_KEY] idBlock];
+}
+
 @end
 
+
+@implementation UIView (SA_PopoverAdditions)
+- (UIPopoverController *) SAPopoverController {
+	return self.viewController.SAPopoverController;
+}
+@end
 
 @implementation UIViewController (SA_PopoverAdditions)
 - (UIPopoverController *) SAPopoverController {
@@ -116,3 +165,5 @@ static NSMutableArray					*s_activePopovers = nil;
 - (BOOL) onlyAllowOneInstanceInAPopover { return YES; }
 
 @end
+
+
