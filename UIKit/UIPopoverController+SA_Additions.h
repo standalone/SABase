@@ -7,11 +7,19 @@
 
 #import <UIKit/UIKit.h>
 
+#define kNotification_PopoverWasDismissed				@"kNotification_PopoverWasDismissed"
+
 @interface UIPopoverController (SA_PopoverAdditions)
 + (UIPopoverController *) presentSAPopoverForViewController: (UIViewController *) controller fromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated;
 + (UIPopoverController *) presentSAPopoverForViewController: (UIViewController *) controller fromBarButtonItem: (UIBarButtonItem *) item permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated;
 
++ (UIPopoverController *) presentSAPopoverForView: (UIView *) subject fromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated;
++ (UIPopoverController *) presentSAPopoverForView: (UIView *) subject fromBarButtonItem: (UIBarButtonItem *) item permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated;
+
+
 - (void) dismissSAPopoverAnimated: (BOOL) animated;
+
+@property (nonatomic, copy) idArgumentBlock didDismissBlock;
 @end
 
 @interface UIViewController (SA_PopoverAdditions)
@@ -24,4 +32,8 @@
 - (void) presentSAPopoverFromBarButtonItem: (UIBarButtonItem *) item permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated;
 - (void) presentInSANavigationPopoverFromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated;
 - (void) presentInSANavigationPopoverFromBarButtonItem: (UIBarButtonItem *) item permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated;
+@end
+
+@interface UIView (SA_PopoverAdditions)
+- (UIPopoverController *) SAPopoverController;
 @end
