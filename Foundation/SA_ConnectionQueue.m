@@ -142,7 +142,7 @@ static SA_ConnectionQueue		*g_queue = nil;
 		_fileSwitchOverLimit = 1024 * 20;			//switch to a file after 20k has been downloaded
 		self.managePleaseWaitDisplay = YES;
 		
-		_connectionSortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey: @"priority" ascending: YES], [NSSortDescriptor sortDescriptorWithKey: @"order" ascending: YES]];
+		_connectionSortDescriptors = [@[[NSSortDescriptor sortDescriptorWithKey: @"priority" ascending: YES], [NSSortDescriptor sortDescriptorWithKey: @"order" ascending: YES]] retain];
 		[self performSelector: @selector(determineConnectionLevelAvailable) withObject: nil afterDelay: 0.0];			//defer this call so as not to slow down the startup procedure 
 		
 		if (MULTITASKING_AVAILABLE) {
