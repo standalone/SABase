@@ -226,8 +226,7 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 }
 
 - (void) queueSaveIn: (float) seconds {
-	[self cancelQueuedSave];
-	[self performSelector: @selector(save) withObject: nil afterDelay: seconds];
+	[self cancelAndPerformSelector: @selector(save) withObject: nil afterDelay: 0.25];
 }
 
 - (void) queueSave {
@@ -319,6 +318,27 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 		[self performBlock: ^{ [self performSave]; }];
 	} else {
 		[self performSave];
+	}
+}
+
+- (void) _saveOnMainThread {
+	if (RUNNING_ON_50 && self.concurrencyType == NSPrivateQueueConcurrencyType) {
+		[self performBlock: ^{ [self performSave]; }];
+	} else if ([NSThread isMainThread])	{
+		[self performSave];
+	} else {
+		[self performSelectorOnMainThread: @selector(performSave) withObject: nil waitUntilDone: YES];
+	}
+}
+
+- (void) saveOnMainThread {
+	if (RUNNING_ON_50 && self.concurrencyType == NSPrivateQueueConcurrencyType) {
+		[self performBlock: ^{ [self performSave]; }];
+	} else if ([NSThread isMainThread])	{
+		[self performSave];
+	} else {
+	//	[self queueSave];
+		[self performSelectorOnMainThread: @selector(performSave) withObject: nil waitUntilDone: YES];
 	}
 }
 
