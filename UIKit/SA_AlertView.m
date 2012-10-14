@@ -43,10 +43,13 @@ NSMutableArray			*s_displayedAlerts = nil;
 
 + (SA_AlertView *) showAlertWithTitle: (NSString *) title message: (NSString *) message, ... {
 	va_list					list;
+	NSString				*fullMessage = @"";
 	
-	va_start(list, message);
-	NSString				*fullMessage = [[NSString alloc] initWithFormat: message arguments: list];
-	va_end(list);
+	if (message) {
+		va_start(list, message);
+		fullMessage = [[NSString alloc] initWithFormat: message arguments: list];
+		va_end(list);
+	}
 
 	return [self showAlertWithTitle: title message: fullMessage tag: 0];
 }
