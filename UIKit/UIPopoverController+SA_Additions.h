@@ -16,8 +16,10 @@
 + (UIPopoverController *) presentSAPopoverForView: (UIView *) subject fromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated;
 + (UIPopoverController *) presentSAPopoverForView: (UIView *) subject fromBarButtonItem: (UIBarButtonItem *) item permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated;
 
-
++ (void) dismissAllVisibleSAPopoversAnimated: (BOOL) animated;
 - (void) dismissSAPopoverAnimated: (BOOL) animated;
+
++ (BOOL) isPopoverVisibleWithViewControllerClass: (Class) class;
 
 @property (nonatomic, copy) idArgumentBlock didDismissBlock;
 @end

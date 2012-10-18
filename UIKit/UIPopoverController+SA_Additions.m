@@ -7,6 +7,7 @@
 
 #import "UIPopoverController+SA_Additions.h"
 #import "UIView+SA_Additions.h"
+#import "UIViewController+SA_Additions.h"
 #import "NSObject+SA_Additions.h"
 
 #define SA_POPOVER_DISMISS_BLOCK_KEY			@"com.standalone.SA_POPOVER_DISMISS_BLOCK_KEY"
@@ -28,6 +29,8 @@ static NSMutableArray					*s_activePopovers = nil;
 }
 
 + (BOOL) didCloseExistingPopoverWithClass: (Class) class {
+	if ([class isEqual: [UIViewController class]]) return NO;
+	
 	for (UIPopoverController *pc in s_activePopovers) {
 		UINavigationController			*root = (id) pc.contentViewController;
 		
@@ -42,6 +45,9 @@ static NSMutableArray					*s_activePopovers = nil;
 }
 
 + (UIPopoverController *) presentSAPopoverForViewController: (UIViewController *) controller fromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
+	Class							class = [controller class];
+	
+	if ([class isEqual: [UINavigationController class]]) class = [[(id) controller rootViewController] class];
 	if (controller.onlyAllowOneInstanceInAPopover && [self didCloseExistingPopoverWithClass: [controller class]]) return nil;
 	
 	UIPopoverController			*pc = [self SAPopoverControllerWithContentController: controller];
@@ -85,6 +91,27 @@ static NSMutableArray					*s_activePopovers = nil;
 - (void) dismissSAPopoverAnimated: (BOOL) animated {
 	[self dismissPopoverAnimated: animated];
 	[s_activePopovers removeObject: self];
+}
+
++ (void) dismissAllVisibleSAPopoversAnimated: (BOOL) animated {
+	for (UIPopoverController *controller in s_activePopovers.copy) {
+		[controller dismissSAPopoverAnimated: animated];
+	}
+}
+
++ (BOOL) isPopoverVisibleWithViewControllerClass: (Class) class {
+	for (UIPopoverController *pop in s_activePopovers) {
+		UINavigationController		*nav = (id) pop.contentViewController;
+		
+		if ([nav isKindOfClass: class]) return YES;
+		if ([nav isKindOfClass: [UINavigationController class]] && [nav.rootViewController isKindOfClass: class]) return YES;
+		if ([nav isKindOfClass: [UITabBarController class]]) {
+			for (UIViewController *tab in nav.viewControllers) {
+				if ([tab isKindOfClass: class]) return YES;
+			}
+		}
+	}
+	return NO;
 }
 
 + (UIPopoverController *) presentSAPopoverForView: (UIView *) subject fromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
