@@ -8,6 +8,10 @@
 #import "UIViewController+SA_Additions.h"
 #import "UIView+SA_Additions.h"
 
+@implementation UINavigationController (UINavigationController__SA_Additions)
+- (UIViewController *) rootViewController { return self.viewControllers.count ? self.viewControllers[0] : nil; }
+@end
+
 
 @implementation UIViewController (UIViewController_SA_Additions)
 

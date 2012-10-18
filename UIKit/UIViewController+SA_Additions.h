@@ -26,3 +26,8 @@ typedef enum {
 - (void) removeAllChildViewControllers;
 - (UIViewController *) farthestAncestorController;
 @end
+
+
+@interface UINavigationController (UINavigationController__SA_Additions)
+@property (nonatomic, readonly) UIViewController *rootViewController;
+@end
