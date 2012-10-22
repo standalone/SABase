@@ -680,11 +680,11 @@
 	return [calendar dateFromComponents: myComponents];
 }
 
-- (NSDate *) furtureDateByAddingDays: (int) days months: (int) months years: (int) years {
+- (NSDate *) futureDateByAddingDays: (int) days months: (int) months years: (int) years {
 	NSCalendar							*calendar = [NSCalendar currentCalendar];
 	NSDateComponents					*myComponents = [calendar components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
 	
-	if (years) myComponents.year = myComponents.year + days;
+	if (years) myComponents.year = myComponents.year + years;
 	if (months) myComponents.month = myComponents.month + months;
 	if (days) myComponents.day = myComponents.day + days;
 
