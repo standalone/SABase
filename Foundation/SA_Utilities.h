@@ -295,7 +295,7 @@ typedef void (^simpleArrayBlock)(NSArray *array);
  #endif
 #define				$BW(b)					([SA_BlockWrapper wrapperWithBlock: (simpleBlock) b])
 
-#define	ENSURE_MAIN_THREAD(b)		if (![NSThread isMainThread]) { dispatch_async(dispatch_get_main_queue(), b); return; }
+#define	ENSURE_MAIN_THREAD(b)		if (![NSThread isMainThread]) dispatch_async(dispatch_get_main_queue(), ^{b}); else ^{b}();
 
 #define SINGLETON_INTERFACE_FOR_CLASS_AND_METHOD(classname, methodName)			+ (classname *) methodName;
 
