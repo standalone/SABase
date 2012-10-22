@@ -68,7 +68,7 @@ typedef enum {
 - (NSString *) descriptionWithoutOffset;
 - (NSString *) dateTimeString;
 
-- (NSDate *) furtureDateByAddingDays: (int) days months: (int) months years: (int) years;
+- (NSDate *) futureDateByAddingDays: (int) days months: (int) months years: (int) years;
 
 - (NSDate *) previousDay;
 - (NSDate *) nextDay;
