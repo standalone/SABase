@@ -277,20 +277,20 @@ void					MailDataWithTitle(NSData *data, NSString *title);
 	#warning BACKGROUND_THREAD_SUPPORT has been deprecated
 #endif
 
-#if NS_BLOCKS_AVAILABLE
-	typedef void (^booleanArgumentBlock)(BOOL value);
-	typedef void (^intArgumentBlock)(int integer);
-	typedef void (^simpleBlock)(void);
-	typedef void (^idArgumentBlock)(id arg);
-	typedef void (^stringArgumentBlock)(NSString *arg);
-	typedef void (^idErrorArgumentBlock)(id arg, NSError *error);
-	typedef id (^idArgumentBlockReturningID)(id arg);
-	typedef void (^simpleArrayBlock)(NSArray *array);
-	#if TARGET_OS_IPHONE
-		typedef void (^simpleImageBlock)(UIImage *image);
-	 #endif
-	#define				$BW(b)					([SA_BlockWrapper wrapperWithBlock: (simpleBlock) b])
-#endif
+typedef void (^booleanArgumentBlock)(BOOL value);
+typedef void (^intArgumentBlock)(int integer);
+typedef void (^floatArgumentBlock)(float integer);
+typedef void (^simpleBlock)(void);
+typedef void (^idArgumentBlock)(id arg);
+typedef void (^stringArgumentBlock)(NSString *arg);
+typedef void (^errorArgumentBlock)(NSError *error);
+typedef void (^idErrorArgumentBlock)(id arg, NSError *error);
+typedef id (^idArgumentBlockReturningID)(id arg);
+typedef void (^simpleArrayBlock)(NSArray *array);
+#if TARGET_OS_IPHONE
+	typedef void (^simpleImageBlock)(UIImage *image);
+ #endif
+#define				$BW(b)					([SA_BlockWrapper wrapperWithBlock: (simpleBlock) b])
 
 #define	ENSURE_MAIN_THREAD(b)		if (![NSThread isMainThread]) { dispatch_async(dispatch_get_main_queue(), b); return; }
 
