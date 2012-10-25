@@ -100,6 +100,8 @@ static NSMutableArray					*s_activePopovers = nil;
 }
 
 + (BOOL) isPopoverVisibleWithViewControllerClass: (Class) class {
+	if (class == nil) return s_activePopovers.count > 0;
+	
 	for (UIPopoverController *pop in s_activePopovers) {
 		UINavigationController		*nav = (id) pop.contentViewController;
 		
