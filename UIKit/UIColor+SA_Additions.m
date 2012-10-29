@@ -15,14 +15,17 @@
 }
 
 - (id) initWithHexString: (NSString *) string {
-#define							CharToInteger(c)				((c >= 'A' && c <= 'F') ? (10 + c - 'A') : ((c >= 'a' && c <= 'f') ? (10 + c - 'a') : ((c >= '0' && c <= '9') ? (c - '0') : 0)))
+#define							CharToInteger(c)				(((c >= 'a' && c <= 'f') ? (10 + c - 'a') : ((c >= '0' && c <= '9') ? (c - '0') : 0)))
 	float							values[3] = {0.0, 0.0, 0.0};
 	int								alpha = 1.0;
-	char							*raw = (char *) [string UTF8String];
+	char							*raw = (char *) [[string lowercaseString] UTF8String];
+	
 	
 	if ([string length] == 0) return nil;
 	if (raw[0] == '#') raw++;
+
 	
+
 	if (strlen(raw) == 3 || strlen(raw) == 4) {
 		values[0] = CharToInteger(raw[0]) * 16 + CharToInteger(raw[0]);
 		values[1] = CharToInteger(raw[1]) * 16 + CharToInteger(raw[1]);
@@ -32,10 +35,14 @@
 		values[0] = CharToInteger(raw[0]) * 16 + CharToInteger(raw[1]);
 		values[1] = CharToInteger(raw[2]) * 16 + CharToInteger(raw[3]);
 		values[2] = CharToInteger(raw[4]) * 16 + CharToInteger(raw[5]);
+		
 		if (strlen(raw) == 8) alpha = CharToInteger(raw[5]) * 16 + CharToInteger(raw[6]);
 	} 
 	
-	return [self initWithRed: values[0] / 255.0 green: values[1] / 255.0 blue: values[2] / 255.0 alpha: alpha];	
+	if (values[0] == 0 && values[1] == 0 && values[2] == 0) return [UIColor blackColor];
+	if (values[0] == 255 && values[1] == 255 && values[2] == 255) return [UIColor whiteColor];
+
+	return [self initWithRed: values[0] / 255.0 green: values[1] / 255.0 blue: values[2] / 255.0 alpha: alpha];
 }
 
 - (NSString *) hexString {
