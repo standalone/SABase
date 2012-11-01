@@ -498,10 +498,7 @@ static SA_ConnectionQueue		*g_queue = nil;
 	_activityIndicatorCount = (activityIndicatorCount > 0) ? activityIndicatorCount : 0;
 	
 	if (_activityIndicatorCount == 0) {
-		if (GCD_AVAILABLE)
-			[NSObject performBlock: ^{ [[SA_ConnectionQueue sharedQueue] hideActivityIndicator]; } afterDelay: 0.05];
-		else 
-			[self performSelector: @selector(hideActivityIndicator) withObject: nil afterDelay: 0.1];
+		[[SA_ConnectionQueue sharedQueue] performSelector: @selector(hideActivityIndicator) withObject: nil afterDelay: 0.05];
 	} else {
 		IF_IOS([UIApplication sharedApplication].networkActivityIndicatorVisible = YES);
 	}
