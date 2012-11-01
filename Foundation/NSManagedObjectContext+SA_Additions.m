@@ -409,14 +409,17 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 		for (NSManagedObject *object in objects) {
 			[self deleteObject: object];
 		}
-		[self save];
-		[self reset];
+		if (fetchLimit) {
+			[self save];
+			[self reset];
+		}
 		deleteCount += [objects count];
 		LOG(@"%d %@ objects deleted", deleteCount, entityName);
 		[pool release];
 	}
 	
 	[allObjects release];
+	if (fetchLimit == 0) [self save];
 }
 
 - (void) setPrimaryStoreMetadata: (NSDictionary *) data {
