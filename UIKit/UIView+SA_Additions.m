@@ -440,28 +440,28 @@
 	UIView				*div;
 	
 	if (dividerWidths.left) {
-		div = [[UIView alloc] initWithFrame: CGRectMake(0, 0, dividerWidths.left, self.bounds.size.height)];
+		div = [[[UIView alloc] initWithFrame: CGRectMake(0, 0, dividerWidths.left, self.bounds.size.height)] autorelease];
 		div.backgroundColor = color;
 		div.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleRightMargin;
 		[self addSubview: div];
 	}
 	
 	if (dividerWidths.right) {
-		div = [[UIView alloc] initWithFrame: CGRectMake(self.bounds.size.width - dividerWidths.right, 0, dividerWidths.right, self.bounds.size.height)];
+		div = [[[UIView alloc] initWithFrame: CGRectMake(self.bounds.size.width - dividerWidths.right, 0, dividerWidths.right, self.bounds.size.height)] autorelease];
 		div.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin;
 		div.backgroundColor = color;
 		[self addSubview: div];
 	}
 	
 	if (dividerWidths.top) {
-		div = [[UIView alloc] initWithFrame: CGRectMake(0, 0, self.bounds.size.width, dividerWidths.top)];
+		div = [[[UIView alloc] initWithFrame: CGRectMake(0, 0, self.bounds.size.width, dividerWidths.top)] autorelease];
 		div.backgroundColor = color;
 		div.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
 		[self addSubview: div];
 	}
 	
 	if (dividerWidths.bottom) {
-		div = [[UIView alloc] initWithFrame: CGRectMake(0, self.bounds.size.height - dividerWidths.bottom, self.bounds.size.width, dividerWidths.bottom)];
+		div = [[[UIView alloc] initWithFrame: CGRectMake(0, self.bounds.size.height - dividerWidths.bottom, self.bounds.size.width, dividerWidths.bottom)] autorelease];
 		div.backgroundColor = color;
 		div.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
 		[self addSubview: div];
