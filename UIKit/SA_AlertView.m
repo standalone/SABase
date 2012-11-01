@@ -99,7 +99,7 @@ NSMutableArray			*s_displayedAlerts = nil;
 
 - (void) dealloc {
 	#if NS_BLOCKS_AVAILABLE
-		self.alertButtonHitBlock = nil;
+		self.alertCancelButtonHitBlock = nil;
 	#endif
 	g_alertsVisible--;
 	if (g_alertsVisible == 0) [SA_PleaseWaitDisplay pleaseWaitDisplay].view.alpha = 1.0;
@@ -115,26 +115,31 @@ NSMutableArray			*s_displayedAlerts = nil;
 	[super didMoveToSuperview];
 }
 
-#if NS_BLOCKS_AVAILABLE
-@synthesize alertButtonHitBlock = _alertButtonHitBlock;
 + (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *) message button: (NSString *) button buttonBlock: (booleanArgumentBlock) buttonHitBlock {
-	if (!GCD_AVAILABLE) return nil;
-	
 	SA_AlertView				*alert = [self showAlertWithTitle: title message: message tag: 0 delegate: nil button: button];
 	
-	alert.alertButtonHitBlock = (buttonHitBlock);
+	alert.delegate = alert;
+	alert.alertCancelButtonHitBlock = (buttonHitBlock);
 	return alert;
 }
 
 - (void) alertView: (UIAlertView *) alertView clickedButtonAtIndex: (NSInteger) buttonIndex {
-	if (self.alertButtonHitBlock) self.alertButtonHitBlock(buttonIndex == alertView.cancelButtonIndex);
+	if (self.alertCancelButtonHitBlock) self.alertCancelButtonHitBlock(buttonIndex == alertView.cancelButtonIndex);
+	if (self.alertButtonHitBlock) {
+		buttonIndex = (buttonIndex == self.cancelButtonIndex) ? SA_ALERT_CANCEL_BUTTON_INDEX : buttonIndex - 1;
+		self.alertButtonHitBlock(buttonIndex);
+	}
 }
 
-- (void) setAlertButtonHitBlock: (booleanArgumentBlock) alertButtonHitBlock {
-	if (_alertButtonHitBlock) Block_release(_alertButtonHitBlock);
-	_alertButtonHitBlock = alertButtonHitBlock ? Block_copy(alertButtonHitBlock) : nil;
-	self.delegate = self;
++ (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *) message buttons: (NSArray *) buttons buttonBlock: (intArgumentBlock) buttonHitBlock {
+		
+	SA_AlertView				*alert = [self showAlertWithTitle: title message: message tag: 0 delegate: nil button: nil];
+	
+	for (NSString *title in buttons) [alert addButtonWithTitle: title];
+	
+	alert.delegate = alert;
+	alert.alertButtonHitBlock = (buttonHitBlock);
+	return alert;
 }
-#endif
 
 @end
