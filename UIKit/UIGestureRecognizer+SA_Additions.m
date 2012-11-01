@@ -28,7 +28,7 @@
 }
 
 + (id) longPressRecognizerWithPressBlock: (gestureArgumentBlock) block {
-	return[[UILongPressGestureRecognizer alloc] initWithBlock: ^(UIGestureRecognizer *recog) {
+	return [[[UILongPressGestureRecognizer alloc] initWithBlock: ^(UIGestureRecognizer *recog) {
 		static BOOL			presented = NO;
 		
 		switch (recog.state) {
@@ -48,7 +48,7 @@
 			default:
 				break;
 		}
-	}];
+	}] autorelease];
 
 }
 
