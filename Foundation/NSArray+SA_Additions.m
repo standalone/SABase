@@ -84,11 +84,9 @@
 		
 		if ([obj respondsToSelector: @selector(deepMutableCopy)])
 			obj = [obj deepMutableCopy];
-		else
-		if ([obj respondsToSelector: @selector(mutableCopy)])
+		else if ([obj respondsToSelector: @selector(mutableCopy)])
 			obj = [obj mutableCopy];
-		else
-		if ([obj respondsToSelector: @selector(copy)] && ![obj isMemberOfClass: [NSString class]])
+		else if ([obj respondsToSelector: @selector(copy)] && ![obj isMemberOfClass: [NSString class]])
 			obj = [obj copy];
 		else
 			obj = [obj retain];
@@ -101,7 +99,7 @@
 }
 
 - (NSArray *) randomizedCopy {
-	NSMutableArray					*copy = [[NSMutableArray alloc] initWithCapacity: self.count], *holder = [[self mutableCopy] autorelease];
+	NSMutableArray					*copy = [[[NSMutableArray alloc] initWithCapacity: self.count] autorelease], *holder = [[self mutableCopy] autorelease];
 	
 	while (holder.count) {
 		id				temp = [holder objectAtIndex: rand() % holder.count];
