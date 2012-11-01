@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SA_AlertView : UIAlertView {
-}
+@class SA_AlertView;
 
-#if NS_BLOCKS_AVAILABLE
-	@property (nonatomic, copy) booleanArgumentBlock alertButtonHitBlock;
-#endif
+#define		SA_ALERT_CANCEL_BUTTON_INDEX				NSUIntegerMax
+
+@interface SA_AlertView : UIAlertView
+
+@property (nonatomic, copy) booleanArgumentBlock alertCancelButtonHitBlock;
+@property (nonatomic, copy) intArgumentBlock alertButtonHitBlock;
 
 
 + (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *)message tag: (int)tag delegate: (id) delegate button: (NSString *) buttonTitle;
@@ -24,9 +26,8 @@
 
 + (SA_AlertView *) alertWithTitle: (NSString *)title message: (NSString *) message tag: (int) tag button: (NSString *) buttonTitle;
 
-#if NS_BLOCKS_AVAILABLE
-	+ (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *) message button: (NSString *) button buttonBlock: (booleanArgumentBlock) buttonHitBlock;
-#endif
++ (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *) message button: (NSString *) button buttonBlock: (booleanArgumentBlock) buttonHitBlock;
++ (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *) message buttons: (NSArray *) buttons buttonBlock: (intArgumentBlock) buttonHitBlock;
 @end
 
 
