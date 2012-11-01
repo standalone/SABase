@@ -427,7 +427,7 @@
 #endif
 
 + (NSString *) stringWithFormat: (NSString *) format array: (NSArray *) arguments {
-    char *argList = (char *) malloc(sizeof(NSString *) * [arguments count]);
+    id *argList = (id *) malloc(sizeof(id) * [arguments count]);
     [arguments getObjects: (id *) argList];
     NSString* result = [[[NSString alloc] initWithFormat: format arguments: (void *) argList] autorelease];
     free(argList);
