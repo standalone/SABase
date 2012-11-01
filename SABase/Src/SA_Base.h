@@ -33,6 +33,7 @@
 #import "UILabel+SA_Additions.h"
 #import "UIButton+SA_Additions.h"
 #import "UIGestureRecognizer+SA_Additions.h"
+#import "MFMailComposeViewController+SA_Additions.h"
 
 #import "NSSortDescriptor+SA_Additions.h"
 #import "NSBundle+SA_Additions.h"
