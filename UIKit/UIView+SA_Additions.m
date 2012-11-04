@@ -10,6 +10,7 @@
 #import "NSObject+SA_Additions.h"
 #import <objc/runtime.h>
 #import <objc/message.h>
+#import "CAAnimation+SA_Blocks.h"
 
 @implementation NSString (NSString_LocalizedAdditions)
 
@@ -466,6 +467,32 @@
 		div.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
 		[self addSubview: div];
 	}
+}
+
+- (void) animateAndBounceToPoint: (CGPoint) point {
+	CGPoint						start = self.center;
+	CGPoint						delta = CGPointOffsetFromPoint(point, start);
+	CAKeyframeAnimation			*anim = [CAKeyframeAnimation animationWithKeyPath: @"position"];
+	CGMutablePathRef			path = CGPathCreateMutable();
+	NSString					*key = @"move+bounce";
+	
+	CGPathMoveToPoint(path, nil, start.x, start.y);
+	CGPathAddLineToPoint(path, nil, point.x + delta.x * 0.1, point.y + delta.y * 0.1);
+	CGPathAddLineToPoint(path, nil, point.x - delta.x * 0.1, point.y - delta.y * 0.1);
+	CGPathAddLineToPoint(path, nil, point.x + delta.x * 0.05, point.y + delta.y * 0.05);
+	CGPathAddLineToPoint(path, nil, point.x - delta.x * 0.025, point.y - delta.y * 0.025);
+	CGPathAddLineToPoint(path, nil, point.x, point.y);
+	
+	anim.duration = 0.5;
+	anim.path = path;
+	anim.animationDidStopBlock = ^(CAAnimation *anim, BOOL finished) {
+		self.center = point;
+		self.layer.position = point;
+		
+		[self.layer removeAnimationForKey: key];
+	};
+	[self.layer addAnimation: anim forKey: key];
+	
 }
 
 @end
