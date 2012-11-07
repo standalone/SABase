@@ -21,7 +21,10 @@
 		key = [keys objectAtIndex: i];
 		obj = [self objectForKey: key];
 		
-		if ([obj respondsToSelector: @selector(deepMutableCopy)])
+		if ([obj isKindOfClass: [NSNumber class]]) {
+			[result setObject: obj forKey: key];
+			continue;
+		} else if ([obj respondsToSelector: @selector(deepMutableCopy)])
 			obj = [obj deepMutableCopy];
 		else
 		if ([obj respondsToSelector: @selector(mutableCopy)])
