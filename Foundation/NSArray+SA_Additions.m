@@ -82,13 +82,16 @@
 	for (i = 0; i < count; i++) {
 		obj = [self objectAtIndex: i];
 		
-		if ([obj respondsToSelector: @selector(deepMutableCopy)])
+		if ([obj isKindOfClass: [NSNumber class]]) {
+			[result addObject: obj];
+			continue;
+		} else if ([obj respondsToSelector: @selector(deepMutableCopy)])
 			obj = [obj deepMutableCopy];
 		else if ([obj respondsToSelector: @selector(mutableCopy)])
 			obj = [obj mutableCopy];
 		else if ([obj respondsToSelector: @selector(copy)] && ![obj isMemberOfClass: [NSString class]])
 			obj = [obj copy];
-		else
+		else if ([obj respondsToSelector: @selector(retain)])
 			obj = [obj retain];
 			
 		[result addObject: obj];
