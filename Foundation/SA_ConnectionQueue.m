@@ -427,7 +427,7 @@ static SA_ConnectionQueue		*g_queue = nil;
 		}
 	}
 	
-	NSArray						*pend;
+	NSArray						*pend = nil;
 	
 	@synchronized (_pending) {
 		pend = _pending.count ? [[_pending copy] autorelease] : nil;
