@@ -430,7 +430,11 @@ static SA_ConnectionQueue		*g_queue = nil;
 	NSArray						*pend = nil;
 	
 	@synchronized (_pending) {
-		pend = _pending.count ? [[_pending copy] autorelease] : nil;
+		@try {
+			pend = _pending.count ? [[_pending copy] autorelease] : nil;
+		} @catch (id e) {
+			return nil;
+		}
 	}
 
 	for (SA_Connection *connection in pend) {
