@@ -226,7 +226,7 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 }
 
 - (void) queueSaveIn: (float) seconds {
-	[self cancelAndPerformSelector: @selector(save) withObject: nil afterDelay: 0.25];
+	[self cancelAndPerformSelector: @selector(saveOnMainThread) withObject: nil afterDelay: 0.25];
 }
 
 - (void) queueSave {
@@ -281,7 +281,7 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 	#endif
 
 	[self cancelQueuedSave]; 
-	@try {
+	@try { 
 		[self save: &error];
 	} @catch (id e) {
 		LOG(@"Problem while saving database: %@", e);
