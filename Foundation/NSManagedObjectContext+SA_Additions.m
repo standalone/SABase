@@ -226,7 +226,7 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 }
 
 - (void) queueSaveIn: (float) seconds {
-	[self cancelAndPerformSelector: @selector(saveOnMainThread) withObject: nil afterDelay: 0.25];
+	[self cancelAndPerformSelector: @selector(save) withObject: nil afterDelay: seconds];
 }
 
 - (void) queueSave {
@@ -261,8 +261,6 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 	}
 }
 
-
-
 - (BOOL) isSaveNecessary {
 	return (self.insertedObjects.count || self.deletedObjects.count || self.updatedObjects.count);
 }
@@ -272,47 +270,49 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 }
 
 - (void) performSave {
-	NSError								*error = nil;
-	static int							failCount = 0;
-	int									maxFailsBeforeReset = 2;
-	
-	#if DEBUG
-		maxFailsBeforeReset = 1;
-	#endif
+	@synchronized (self) {
+		NSError								*error = nil;
+		static int							failCount = 0;
+		int									maxFailsBeforeReset = 2;
+		 
+		#if DEBUG
+			maxFailsBeforeReset = 1;  
+		#endif
 
-	[self cancelQueuedSave]; 
-	@try { 
-		[self save: &error];
-	} @catch (id e) {
-		LOG(@"Problem while saving database: %@", e);
-	}
-	if (error) {
-		NSDictionary				*info = error.userInfo;
-		
-		LOG(@"Error while saving context: %@", error);	
-		
-		if ([info objectForKey: @"NSDetailedErrors"]) {for (NSError *detailedError in [info objectForKey: @"NSDetailedErrors"]) {
-			LOG(@"Detailedd Error: %@, %@", detailedError, [detailedError userInfo]);	
-		}} else if ([info objectForKey: @"conflictList"]) {
-			for (NSManagedObject *object in [info objectForKey: @"NSDetailedErrors"]) {
-				LOG(@"Conflicted object: %@", object);
-			}
-			LOG(@"All Objects: %@", [info objectForKey: @"NSDetailedErrors"]);
+		[self cancelQueuedSave]; 
+		@try {  
+			[self save: &error];
+		} @catch (id e) {
+			LOG(@"Problem while saving database: %@", e);
 		}
+		if (error) {
+			NSDictionary				*info = error.userInfo;
+			
+			LOG(@"Error while saving context: %@", error);	
+			
+			if ([info objectForKey: @"NSDetailedErrors"]) {for (NSError *detailedError in [info objectForKey: @"NSDetailedErrors"]) {
+				LOG(@"Detailedd Error: %@, %@", detailedError, [detailedError userInfo]);	
+			}} else if ([info objectForKey: @"conflictList"]) {
+				for (NSManagedObject *object in [info objectForKey: @"NSDetailedErrors"]) {
+					LOG(@"Conflicted object: %@", object);
+				}
+				LOG(@"All Objects: %@", [info objectForKey: @"NSDetailedErrors"]);
+			}
 
-		failCount++;
-		
-		if (failCount >= maxFailsBeforeReset) {
-			LOG(@"******************************* Too many fails, rolling database back to last safe version *******************************");
-			#if DEBUG && TARGET_OS_IPHONE
-				[SA_AlertView showAlertWithTitle: @"There was a problem saving the database. Recent changes will be discarded." message: [error fullDescription] tag: (int) objc_unretainedObject(self)];
-			#endif
-			[self performSelector: @selector(rollback) withObject: nil afterDelay: 0.0];
-			failCount = 0;
+			failCount++;
+			
+			if (failCount >= maxFailsBeforeReset) {
+				LOG(@"******************************* Too many fails, rolling database back to last safe version *******************************");
+				#if DEBUG && TARGET_OS_IPHONE
+					[SA_AlertView showAlertWithTitle: @"There was a problem saving the database. Recent changes will be discarded." message: [error fullDescription] tag: (int) objc_unretainedObject(self)];
+				#endif
+				[self performSelector: @selector(rollback) withObject: nil afterDelay: 0.0];
+				failCount = 0;
+			}
 		}
 	}
 }
-
+ 
 - (void) save {
 	if (RUNNING_ON_50 && self.concurrencyType == NSPrivateQueueConcurrencyType) {
 		[self performBlock: ^{ [self performSave]; }];
@@ -320,7 +320,7 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 		[self performSave];
 	}
 }
-
+ 
 - (void) _saveOnMainThread {
 	if (RUNNING_ON_50 && self.concurrencyType == NSPrivateQueueConcurrencyType) {
 		[self performBlock: ^{ [self performSave]; }];
@@ -328,8 +328,8 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 		[self performSave];
 	} else {
 		[self performSelectorOnMainThread: @selector(performSave) withObject: nil waitUntilDone: YES];
-	}
-}
+	} 
+} 
 
 - (void) saveOnMainThread {
 	if (RUNNING_ON_50 && self.concurrencyType == NSPrivateQueueConcurrencyType) {
