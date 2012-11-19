@@ -21,6 +21,7 @@
 NSString *kNotification_PersistentStoreResetDueToSchemaChange = @"kNotification_PersistentStoreResetDueToSchemaChange";
 NSString *UPDATE_BLOCKS_KEY = @"SA_UpdateBlocksArray";
 NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY";
+NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 
 #if TARGET_OS_IPHONE
 	#import "SA_AlertView.h"
@@ -270,6 +271,10 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 }
 
 - (void) performSave {
+	if (self.saveThread && [NSThread currentThread] != self.saveThread) {
+		[self performSelector: @selector(save) onThread: self.saveThread withObject: nil waitUntilDone: YES];
+		return;
+	}
 	@synchronized (self) {
 		NSError								*error = nil;
 		static int							failCount = 0;
@@ -328,7 +333,7 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 		[self performSave];
 	} else {
 		[self performSelectorOnMainThread: @selector(performSave) withObject: nil waitUntilDone: YES];
-	} 
+	}  
 } 
 
 - (void) saveOnMainThread {
@@ -612,5 +617,10 @@ NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESU
 	
 	moc.parentContext = self;
 	return moc;
+}
+
+- (NSThread *) saveThread { return [self associatedValueForKey: SA_CONTEXT_SAVE_THREAD_KEY]; }
+- (void) setSaveThread: (NSThread *) saveThread {
+	[self associateValue: saveThread forKey: SA_CONTEXT_SAVE_THREAD_KEY];
 }
 @end

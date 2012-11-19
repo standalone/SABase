@@ -43,10 +43,6 @@
 	[self.moc refreshObject: self mergeChanges: mergeChanges];
 }
 
-- (void) saveOnMainThread {
-	[self.context saveOnMainThread];
-}
-
 - (BOOL) isNew {
 	NSDictionary				*vals = [self committedValuesForKeys: nil];
 	return [vals count] == 0;
