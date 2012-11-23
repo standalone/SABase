@@ -304,6 +304,7 @@ typedef void (^simpleArrayBlock)(NSArray *array);
 	}
 
 #define	STATIC_OBJECT_PROPERTY(name, value)	- (id) name {static id name = nil; if (name == nil) {static dispatch_once_t  once; dispatch_once(&once, ^ { name = [value retain]; });}
+#define	PROPERTY_PASS_THROUGH(lower, upper, type, dest)  - (void) set##upper: (type) v { [dest set##upper: v]; }  - (type) lower { return [dest lower]; }
 
 #define SINGLETON_IMPLEMENTATION_FOR_CLASS_METHOD_AND_INITIALIZER(classname, methodName, initializer) \
 	static classname *s_##methodName = nil; \
