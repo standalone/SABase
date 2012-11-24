@@ -10,6 +10,14 @@
 
 @implementation UIColor (UIColor_SA_Additions)
 
++ (id) colorWithString: (NSString *) string {
+	SEL						sel = NSSelectorFromString(string);
+	UIColor					*color = ([self respondsToSelector: sel]) ? [self performSelector: sel] : nil;
+
+	if (color) return color;
+	return [[[UIColor alloc] initWithHexString: string] autorelease];
+}
+
 + (id) colorWithHexString: (NSString *) string {
 	return [[[UIColor alloc] initWithHexString: string] autorelease];
 }
