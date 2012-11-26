@@ -11,6 +11,7 @@
 @implementation UIColor (UIColor_SA_Additions)
 
 + (id) colorWithString: (NSString *) string {
+	if (string.length == 0) return nil;
 	if ([string hasPrefix: @"rgb("] || [string hasPrefix: @"rgba("]) {
 		NSArray				*components = [string componentsSeparatedByString: @","];
 		float				values[3] = {0.0, 0.0, 0.0};
