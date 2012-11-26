@@ -101,20 +101,28 @@ static NSMutableArray					*s_activePopovers = nil;
 
 + (BOOL) isPopoverVisibleWithViewControllerClass: (Class) class {
 	if (class == nil) return s_activePopovers.count > 0;
+	return [self existingPopoverWithViewControllerClass: class] != nil;
+}
+
++ (UIPopoverController *) existingPopoverWithViewControllerClass: (Class) class {
+	if (class == nil) return nil;
 	
 	for (UIPopoverController *pop in s_activePopovers) {
 		UINavigationController		*nav = (id) pop.contentViewController;
 		
-		if ([nav isKindOfClass: class]) return YES;
-		if ([nav isKindOfClass: [UINavigationController class]] && [nav.rootViewController isKindOfClass: class]) return YES;
+		if ([nav isKindOfClass: class]) return pop;
+		if ([nav isKindOfClass: [UINavigationController class]] && [nav.rootViewController isKindOfClass: class]) return pop;
 		if ([nav isKindOfClass: [UITabBarController class]]) {
 			for (UIViewController *tab in nav.viewControllers) {
-				if ([tab isKindOfClass: class]) return YES;
+				if ([tab isKindOfClass: class]) return pop;
 			}
 		}
 	}
-	return NO;
+	return nil;
 }
+
++ (UIPopoverController *) existingPopoverWithView: (UIView *) view { return view.SAPopoverController; }
+
 
 + (UIPopoverController *) presentSAPopoverForView: (UIView *) subject fromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
 	UIViewController		*dummyController = [[[UIViewController alloc] init] autorelease];
