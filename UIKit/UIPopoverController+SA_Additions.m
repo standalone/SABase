@@ -47,6 +47,7 @@ static NSMutableArray					*s_activePopovers = nil;
 + (UIPopoverController *) presentSAPopoverForViewController: (UIViewController *) controller fromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
 	Class							class = [controller class];
 	
+	if (view.window == nil) return nil;		//no window to pop from
 	if ([class isEqual: [UINavigationController class]]) class = [[(id) controller rootViewController] class];
 	if (controller.onlyAllowOneInstanceInAPopover && [self didCloseExistingPopoverWithClass: class]) return nil;
 	
@@ -64,7 +65,12 @@ static NSMutableArray					*s_activePopovers = nil;
 	UIPopoverController			*pc = [self SAPopoverControllerWithContentController: controller];
 	
 	[controller willAppearInPopover: pc animated: animated];
-	[pc presentPopoverFromBarButtonItem: item permittedArrowDirections: arrowDirections animated: animated];
+	@try {
+		[pc presentPopoverFromBarButtonItem: item permittedArrowDirections: arrowDirections animated: animated];
+	} @catch (id e) {
+		[s_activePopovers removeObject: pc];
+		return nil;
+	}
 	[controller didAppearInPopover: pc animated: animated];
 	return pc;
 }
