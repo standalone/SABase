@@ -23,6 +23,22 @@
 		}\
 	}
 
+#define			THREAD_SAFE_STATIC_WITH_FACTORY(type, variable, factory)		\
+	type			*variable;\
+	static type		*static_##variable = nil;\
+	if ([NSThread isMainThread]) {\
+	if (static_##variable == nil) static_##variable = [[type factory] retain];\
+		variable = static_##variable;\
+	} else {\
+		variable = [[[NSThread currentThread] threadDictionary] objectForKey: $S(@"%s: %s", #type, #variable)];\
+		if (variable == nil) {\
+			variable = [type factory];\
+			[[[NSThread currentThread] threadDictionary] setObject: variable forKey: $S(@"%s: %s", #type, #variable)];\
+		}\
+	}
+
+
+
 #define			THREAD_SAFE_STATIC_WTIH_INITIALIZER(type, variable, initializer, arg)		\
 	type			*variable;\
 	static type		*static_##variable = nil;\
@@ -141,7 +157,8 @@
 			}
 			
 			
-			result = [[NSCalendar currentCalendar] dateFromComponents: components];
+			THREAD_SAFE_STATIC_WITH_FACTORY(NSCalendar, calendar, currentCalendar);
+			result = [calendar dateFromComponents: components];
 		}
 	}
 
@@ -171,7 +188,7 @@
 	components.minute = intComponents[4];
 	components.second = intComponents[5];
 	
-	NSCalendar		*calendar = [NSCalendar currentCalendar];
+	THREAD_SAFE_STATIC_WITH_FACTORY(NSCalendar, calendar, currentCalendar);
 	NSTimeZone		*original = [calendar timeZone];
 	
 	[calendar setTimeZone: [NSTimeZone timeZoneForSecondsFromGMT: 0]];
@@ -252,14 +269,17 @@
 }
 
 - (NSString *) internetFormattedDateTimeString {
-	NSDateComponents		*myComponents = [[NSCalendar currentCalendar] components: NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSYearCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit fromDate: self];
+	THREAD_SAFE_STATIC_WITH_FACTORY(NSCalendar, calendar, currentCalendar);
+
+	NSDateComponents		*myComponents = [calendar components: NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSYearCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit fromDate: self];
 	int						secondsOff = [[NSTimeZone localTimeZone] secondsFromGMT];
 	
 	return [NSString stringWithFormat: @"%d-%02d-%02d %02d:%02d:%02d %c%02d%02d", (int) myComponents.year, (int) myComponents.month, (int) myComponents.day, (int) myComponents.hour, (int) myComponents.minute, (int) myComponents.second, secondsOff < 0 ? '-' : '+', ABS(secondsOff / 3600), ABS(secondsOff % 3600) / 60];
 }
 
 - (NSString *) internetFormattedTDateTimeString {
-	NSDateComponents		*myComponents = [[NSCalendar currentCalendar] components: NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSYearCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit fromDate: self];
+	THREAD_SAFE_STATIC_WITH_FACTORY(NSCalendar, calendar, currentCalendar);
+	NSDateComponents		*myComponents = [calendar components: NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSYearCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit fromDate: self];
 	int						secondsOff = [[NSTimeZone localTimeZone] secondsFromGMT];
 	
 	return [NSString stringWithFormat: @"%d-%02d-%02dT%02d:%02d:%02d%c%02d:%02d", (int) myComponents.year, (int) myComponents.month, (int) myComponents.day, (int) myComponents.hour, (int) myComponents.minute, (int) myComponents.second, secondsOff < 0 ? '-' : '+', ABS(secondsOff / 3600), ABS(secondsOff % 3600) / 60];
@@ -290,7 +310,8 @@
 }
 
 - (NSString *) shortTimeString {
-	NSDateComponents		*myComponents = [[NSCalendar currentCalendar] components: NSHourCalendarUnit | NSMinuteCalendarUnit fromDate: self];
+	THREAD_SAFE_STATIC_WITH_FACTORY(NSCalendar, calendar, currentCalendar);
+	NSDateComponents		*myComponents = [calendar components: NSHourCalendarUnit | NSMinuteCalendarUnit fromDate: self];
 	NSInteger				hour = [myComponents hour], minute = [myComponents minute];
 	NSInteger				moddedHour = (hour == 0 || hour == 12) ? 12 : (hour % 12);
 	NSDateFormatter			*formatter = [NSDate formatterForKey: NSStringFromSelector(_cmd)];
@@ -670,7 +691,7 @@
 }
 
 - (NSDate *) dateWithHour: (int) hour minute: (int) minute second: (int) second {
-	NSCalendar							*calendar = [NSCalendar currentCalendar];
+	THREAD_SAFE_STATIC_WITH_FACTORY(NSCalendar, calendar, currentCalendar);
 	NSDateComponents					*myComponents = [calendar components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
 	
 	[myComponents setHour: hour];
@@ -681,7 +702,7 @@
 }
 
 - (NSDate *) futureDateByAddingDays: (int) days months: (int) months years: (int) years {
-	NSCalendar							*calendar = [NSCalendar currentCalendar];
+	THREAD_SAFE_STATIC_WITH_FACTORY(NSCalendar, calendar, currentCalendar);
 	NSDateComponents					*myComponents = [calendar components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
 	
 	if (years) myComponents.year = myComponents.year + years;
@@ -692,13 +713,15 @@
 }
 
 - (NSString *) monthDayYearDateString: (BOOL) addLeadingZeroes {
-	NSDateComponents	*components = [[NSCalendar currentCalendar] components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate: self];
+	THREAD_SAFE_STATIC_WITH_FACTORY(NSCalendar, calendar, currentCalendar);
+	NSDateComponents	*components = [calendar components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate: self];
 	
 	return [NSString stringWithFormat: addLeadingZeroes ? @"%02d/%02d/%d" : @"%d/%d/%d", (int) [components month], (int) [components day], (int) [components year]];
 }
 
 - (NSString *) yearMonthDayDateString: (BOOL) addLeadingZeroes {
-	NSDateComponents	*components = [[NSCalendar currentCalendar] components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate: self];
+	THREAD_SAFE_STATIC_WITH_FACTORY(NSCalendar, calendar, currentCalendar);
+	NSDateComponents	*components = [calendar components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate: self];
 	
 	return [NSString stringWithFormat: addLeadingZeroes ? @"%d/%02d/%02d" : @"%d/%d/%d", (int) [components year], (int) [components month], (int) [components day]];
 }
