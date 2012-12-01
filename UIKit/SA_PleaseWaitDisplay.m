@@ -47,7 +47,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 }
 
 + (void) hidePleaseWaitDisplay {
-	[g_display performSelectorOnMainThread: @selector(hide) withObject: nil waitUntilDone: YES];
+	[g_display performSelectorOnMainThread: @selector(hide) withObject: nil waitUntilDone: NO];
 }
 
 + (SA_PleaseWaitDisplay *) pleaseWaitDisplay {
