@@ -415,6 +415,12 @@
 	return count;
 }
 
+- (BOOL) boolValue {
+	NSString			*down = self.lowercaseString;
+	
+	return [down isEqual: @"true"] || [down isEqual: @"yes"]  || [down isEqual: @"y"] || [down isEqual: @"1"];
+}
+
 #ifdef NSRegularExpressionSearch
 - (NSString *) stringByStrippingTags {
 	NSRange				r;
