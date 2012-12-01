@@ -87,6 +87,7 @@
 	#define			unsafe						unsafe_unretained
 #endif
 
+
 //=============================================================================================================================
 #pragma mark Device/OS Info
 #define			PRINTING_AVAILABLE				(OS_42_BUILD && [NSClassFromString(@"UIPrintInteractionController") performSelector: @selector(isPrintingAvailable)])
@@ -95,8 +96,8 @@
 	#define				MULTITASKING_AVAILABLE			(([[UIDevice currentDevice] respondsToSelector: @selector(isMultitaskingSupported)]) && ([[UIDevice currentDevice] isMultitaskingSupported]))
 	#define				MAJOR_OS_VERSION				([[UIDevice currentDevice].systemVersion intValue])
 	#define				GCD_AVAILABLE					(RUNNING_ON_40)
-	#define				RUNNING_ON_IPAD					(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-	#define				RUNNING_ON_IPHONE				(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+	#define				RUNNING_ON_IPAD					([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
+	#define				RUNNING_ON_IPHONE				([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
 	#define				RUNNING_ON_40					([[UIDevice currentDevice].systemVersion intValue] >= 4)
 	#define				RUNNING_ON_50					([[UIDevice currentDevice].systemVersion intValue] >= 5)
 	#define				RUNNING_ON_60					([[UIDevice currentDevice].systemVersion intValue] >= 6)
@@ -276,6 +277,8 @@ void					MailDataWithTitle(NSData *data, NSString *title);
 #if BACKGROUND_THREAD_SUPPORT
 	#warning BACKGROUND_THREAD_SUPPORT has been deprecated
 #endif
+
+#define				PERFORM_ON_MAIN_THREAD(f)				{simpleBlock	b = ^{f}; if ([NSThread isMainThread]) b(); else dispatch_async(dispatch_get_main_queue(), b); }
 
 typedef void (^booleanArgumentBlock)(BOOL value);
 typedef void (^intArgumentBlock)(int integer);
