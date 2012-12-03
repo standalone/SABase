@@ -17,13 +17,13 @@
 }
 
 - (void) cancelAndPerformSelector: (SEL) aSelector withObject: (id) anArgument afterDelay: (NSTimeInterval) delay {
+	[NSObject cancelPreviousPerformRequestsWithTarget: self selector: aSelector object: anArgument];
+
 	if (GCD_AVAILABLE) {
 		dispatch_async(dispatch_get_main_queue(), ^{
-			[NSObject cancelPreviousPerformRequestsWithTarget: self selector: aSelector object: anArgument];
 			[self performSelector: aSelector withObject: anArgument afterDelay: delay];
 		});
 	} else {
-		[NSObject cancelPreviousPerformRequestsWithTarget: self selector: aSelector object: anArgument];
 		[self performSelector: aSelector withObject: anArgument afterDelay: delay];
 	}
 }

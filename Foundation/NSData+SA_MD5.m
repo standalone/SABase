@@ -43,4 +43,14 @@
 		return md5;	
 	}
 #endif
+
+- (NSUInteger) md5Hash {
+	UInt32 results[4];
+    CC_MD5(self.bytes, [self length], (unsigned char *) results);
+	
+	return results[0] + results[1] + results[2] + results[3];
+}
+
+
+
 @end

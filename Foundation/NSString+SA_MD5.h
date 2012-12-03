@@ -13,4 +13,5 @@
 
 - (NSUInteger) MD5Integer;
 - (NSString *) MD5;
+- (NSUInteger) md5Hash;
 @end

@@ -20,6 +20,7 @@
 
 
 @interface NSString (SAI_NSString_SA_Additions)
+@property (nonatomic, readonly) NSArray *characters;
 
 + (NSString *) tempFileNameWithSeed: (NSString *) seed ofType: (NSString *) type;
 + (NSString *) stringWithDuration: (float) seconds showingHours: (BOOL) showHours;
@@ -67,5 +68,16 @@
 #ifdef NSRegularExpressionSearch
 - (NSString *) stringByStrippingTags;
 #endif
+@end
+
+@interface NSAttributedString (SA_Additions)			//NSFontAttributeName
++ (id) stringWithString: (NSString *) string;
++ (id) stringWithString: (NSString *) string attributes: (NSDictionary *) attr;
+
+@end
+
+@interface NSMutableAttributedString (SA_Additions)
+- (void) setFont: (UIFont *) font;
+- (void) setColor: (UIColor *) color;
 @end
 

@@ -26,8 +26,8 @@
 /* Begin PBXBuildFile section */
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 		B50260B411CC68DE00417EA6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
-		B5095CAE15F4063400EC3C8F /* NSDictionary+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B5095CAC15F4063400EC3C8F /* NSDictionary+SA_Additions.h */; };
-		B5095CAF15F4063400EC3C8F /* NSDictionary+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B5095CAC15F4063400EC3C8F /* NSDictionary+SA_Additions.h */; };
+		B5095CAE15F4063400EC3C8F /* NSDictionary+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B5095CAC15F4063400EC3C8F /* NSDictionary+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B5095CAF15F4063400EC3C8F /* NSDictionary+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B5095CAC15F4063400EC3C8F /* NSDictionary+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B5095CB015F4063400EC3C8F /* NSDictionary+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B5095CAD15F4063400EC3C8F /* NSDictionary+SA_Additions.m */; };
 		B5095CB115F4063400EC3C8F /* NSDictionary+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B5095CAD15F4063400EC3C8F /* NSDictionary+SA_Additions.m */; };
 		B51F6FE21615CAB90015A037 /* NSSet+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B51F6FE01615CAB90015A037 /* NSSet+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };

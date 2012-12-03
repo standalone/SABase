@@ -49,3 +49,6 @@
 #import "NSUserDefaults+SA_Additions.h"
 #import "NSString+UniqueStrings.h"
 #import "NSTimer+SA_Additions.h"
+#import "NSDictionary+SA_Additions.h"
+#import "NSData+SA_MD5.h"
+#import "NSString+SA_MD5.h"

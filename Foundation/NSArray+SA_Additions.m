@@ -161,12 +161,16 @@
 	return copy;
 }
 
-- (NSUInteger) hash {
-	NSUInteger			value = 0, index = 0;
+- (NSUInteger) hash { return [self md5Hash]; }
+
+- (NSUInteger) md5Hash {
+	NSUInteger			value = 0, index = 1059;
 	
 	for (id object in self) {
-		index++;
-		value += index * [object hash];
+		index *= 2;
+		NSUInteger				valueHash = [object respondsToSelector: @selector(md5Hash)] ? [object md5Hash] : [object hash];
+		
+		value += index * valueHash;
 	}
 	return value;
 }

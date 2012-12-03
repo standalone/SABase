@@ -475,4 +475,35 @@
 	if (tld.length < 2) return NO;
 	return YES;
 }
+
+- (NSArray *) characters {
+	NSUInteger					count = self.length;
+	NSMutableArray				*chars = [NSMutableArray arrayWithCapacity: count];
+	
+	for (int i = 0; i < count; i++) {
+		[chars addObject: [self substringWithRange: NSMakeRange(i, 1)]];
+	}
+	return chars;
+}
+@end
+
+
+@implementation NSAttributedString (SA_Additions)
++ (id) stringWithString: (NSString *) string {
+	return [self stringWithString: string attributes: @{ NSFontAttributeName: [UIFont boldSystemFontOfSize: 14] }];
+}
+
++ (id) stringWithString: (NSString *) string attributes: (NSDictionary *) attr {
+	return [[self alloc] initWithString: string attributes: attr];
+}
+@end
+
+
+@implementation NSMutableAttributedString (SA_Additions)
+- (void) setFont: (UIFont *) font {
+	[self setAttributes: @{ NSFontAttributeName: font } range: NSMakeRange(0, self.length)];
+}
+- (void) setColor: (UIColor *) color {
+	[self setAttributes: @{ NSForegroundColorAttributeName: color } range: NSMakeRange(0, self.length)];
+}
 @end
