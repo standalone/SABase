@@ -45,7 +45,6 @@
 - (NSString *) truncateToLength: (int) length;
 - (NSInteger) numberOfOccurrencesOfString: (NSString *) string;
 - (char *) UTF8StringCopy;
-- (NSString *) md5Hash;
 - (BOOL) isValidEmail;
 - (BOOL) boolValue;
 

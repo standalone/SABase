@@ -63,7 +63,7 @@
 	#import "NSString+SA_Additions.h"
 
 	@implementation NSString (SA_MD5)
-	- (NSString *) MD5 {
+	- (NSString *) md5HashString {
 		NSString					*path = [NSString tempFileNameWithSeed: @"md5" ofType: @"txt"];
 		NSError						*error;
 		
@@ -78,10 +78,6 @@
 		} @catch (NSException * e) {}
 		
 		return md5;	
-	}
-
-	- (NSUInteger) MD5Integer {
-		return self.md5Hash.hash;		//FIX THIS
 	}
 #endif
 @end

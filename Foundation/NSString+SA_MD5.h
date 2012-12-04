@@ -11,7 +11,6 @@
 
 @interface NSString (SA_MD5)
 
-- (NSUInteger) MD5Integer;
-- (NSString *) MD5;
+- (NSString *) md5HashString;
 - (NSUInteger) md5Hash;
 @end

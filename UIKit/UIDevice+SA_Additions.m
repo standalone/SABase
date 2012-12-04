@@ -12,6 +12,7 @@
 #import <mach/mach.h>
 #import <mach/mach_host.h>
 #import "NSString+SA_Additions.h"
+#import "NSString+SA_MD5.h"
 
 #import <netinet/in.h>
 #include <sys/socket.h> // Per msqr
@@ -195,14 +196,14 @@
     NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
     
     NSString *stringToHash = [NSString stringWithFormat:@"%@%@",macaddress,bundleIdentifier];
-    NSString *uniqueIdentifier = [stringToHash md5Hash];
+    NSString *uniqueIdentifier = [stringToHash md5HashString];
     
     return uniqueIdentifier;
 }
 
 - (NSString *) udid {
     NSString *macaddress = [[UIDevice currentDevice] MACAddress];
-    NSString *uniqueIdentifier = [macaddress md5Hash];
+    NSString *uniqueIdentifier = [macaddress md5HashString];
     
     return uniqueIdentifier;
 }

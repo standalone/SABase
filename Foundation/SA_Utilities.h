@@ -278,11 +278,8 @@ void					MailDataWithTitle(NSData *data, NSString *title);
 	#warning BACKGROUND_THREAD_SUPPORT has been deprecated
 #endif
 
-<<<<<<< HEAD
-=======
 #define				PERFORM_ON_MAIN_THREAD(f)				{simpleBlock	b = ^{f}; if ([NSThread isMainThread]) b(); else dispatch_async(dispatch_get_main_queue(), b); }
 
->>>>>>> 723d79805b92f39a8bc35cf5964d5b8840d0315c
 typedef void (^booleanArgumentBlock)(BOOL value);
 typedef void (^intArgumentBlock)(int integer);
 typedef void (^floatArgumentBlock)(float integer);
