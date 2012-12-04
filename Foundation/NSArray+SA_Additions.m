@@ -82,15 +82,16 @@
 	for (i = 0; i < count; i++) {
 		obj = [self objectAtIndex: i];
 		
-		if ([obj respondsToSelector: @selector(deepMutableCopy)])
+		if ([obj isKindOfClass: [NSNumber class]]) {
+			[result addObject: obj];
+			continue;
+		} else if ([obj respondsToSelector: @selector(deepMutableCopy)])
 			obj = [obj deepMutableCopy];
-		else
-		if ([obj respondsToSelector: @selector(mutableCopy)])
+		else if ([obj respondsToSelector: @selector(mutableCopy)])
 			obj = [obj mutableCopy];
-		else
-		if ([obj respondsToSelector: @selector(copy)] && ![obj isMemberOfClass: [NSString class]])
+		else if ([obj respondsToSelector: @selector(copy)] && ![obj isMemberOfClass: [NSString class]])
 			obj = [obj copy];
-		else
+		else if ([obj respondsToSelector: @selector(retain)])
 			obj = [obj retain];
 			
 		[result addObject: obj];
@@ -101,7 +102,7 @@
 }
 
 - (NSArray *) randomizedCopy {
-	NSMutableArray					*copy = [[NSMutableArray alloc] initWithCapacity: self.count], *holder = [[self mutableCopy] autorelease];
+	NSMutableArray					*copy = [[[NSMutableArray alloc] initWithCapacity: self.count] autorelease], *holder = [[self mutableCopy] autorelease];
 	
 	while (holder.count) {
 		id				temp = [holder objectAtIndex: rand() % holder.count];
@@ -160,12 +161,16 @@
 	return copy;
 }
 
-- (NSUInteger) hash {
-	NSUInteger			value = 0, index = 0;
+- (NSUInteger) hash { return [self md5Hash]; }
+
+- (NSUInteger) md5Hash {
+	NSUInteger			value = 0, index = 1059;
 	
 	for (id object in self) {
-		index++;
-		value += index * [object hash];
+		index *= 2;
+		NSUInteger				valueHash = [object respondsToSelector: @selector(md5Hash)] ? [object md5Hash] : [object hash];
+		
+		value += index * valueHash;
 	}
 	return value;
 }

@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface NSSet (SA_Additions)
-
+@property (nonatomic, readonly) NSUInteger md5Hash;
 @end

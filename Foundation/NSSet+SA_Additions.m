@@ -9,11 +9,15 @@
 #import "NSSet+SA_Additions.h"
 
 @implementation NSSet (SA_Additions)
-- (NSUInteger) hash {
+- (NSUInteger) hash { return [self md5Hash]; }
+
+- (NSUInteger) md5Hash {
 	NSUInteger			value = 0;
 	
 	for (id object in self) {
-		value += [object hash];
+		NSUInteger				valueHash = [object respondsToSelector: @selector(md5Hash)] ? [object md5Hash] : [object hash];
+		
+		value += valueHash;
 	}
 	return value;
 }

@@ -10,6 +10,33 @@
 
 @implementation UIColor (UIColor_SA_Additions)
 
++ (id) colorWithString: (NSString *) string {
+	if (string.length == 0) return nil;
+	if ([string hasPrefix: @"rgb("] || [string hasPrefix: @"rgba("]) {
+		NSArray				*components = [string componentsSeparatedByString: @","];
+		float				values[3] = {0.0, 0.0, 0.0};
+		int					alpha = 1.0;
+		
+		if (components.count == 3 || components.count == 4) {
+			values[0] = [[[components[0] componentsSeparatedByString: @"("] lastObject] floatValue] / 255.0;
+			values[1] = [components[1] floatValue] / 255.0;
+			values[2] = [[components[2] componentsSeparatedByString: @")"][0] floatValue] / 255.0;
+			if (components.count == 4) alpha = [[components[3] componentsSeparatedByString: @")"][0] floatValue];
+			
+			if (values[0] == 0 && values[1] == 0 && values[2] == 0 && alpha == 1.0) return [UIColor blackColor];
+			if (values[0] == 1.0 && values[1] == 1.0 && values[2] == 1.0 && alpha == 1.0) return [UIColor whiteColor];
+
+			return [[self alloc] initWithRed: values[0] green: values[1] blue: values[2] alpha: alpha];
+		}
+	}
+	
+	SEL						sel = NSSelectorFromString(string);
+	UIColor					*color = ([self respondsToSelector: sel]) ? [self performSelector: sel] : nil;
+
+	if (color) return color;
+	return [[[UIColor alloc] initWithHexString: string] autorelease];
+}
+
 + (id) colorWithHexString: (NSString *) string {
 	return [[[UIColor alloc] initWithHexString: string] autorelease];
 }

@@ -427,10 +427,14 @@ static SA_ConnectionQueue		*g_queue = nil;
 		}
 	}
 	
-	NSArray						*pend;
+	NSArray						*pend = nil;
 	
 	@synchronized (_pending) {
-		pend = _pending.count ? [[_pending copy] autorelease] : nil;
+		@try {
+			pend = _pending.count ? [[_pending copy] autorelease] : nil;
+		} @catch (id e) {
+			return nil;
+		}
 	}
 
 	for (SA_Connection *connection in pend) {
@@ -498,10 +502,7 @@ static SA_ConnectionQueue		*g_queue = nil;
 	_activityIndicatorCount = (activityIndicatorCount > 0) ? activityIndicatorCount : 0;
 	
 	if (_activityIndicatorCount == 0) {
-		if (GCD_AVAILABLE)
-			[NSObject performBlock: ^{ [[SA_ConnectionQueue sharedQueue] hideActivityIndicator]; } afterDelay: 0.05];
-		else 
-			[self performSelector: @selector(hideActivityIndicator) withObject: nil afterDelay: 0.1];
+		[[SA_ConnectionQueue sharedQueue] performSelector: @selector(hideActivityIndicator) withObject: nil afterDelay: 0.05];
 	} else {
 		IF_IOS([UIApplication sharedApplication].networkActivityIndicatorVisible = YES);
 	}

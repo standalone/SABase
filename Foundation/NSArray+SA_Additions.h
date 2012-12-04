@@ -11,6 +11,7 @@
 @class NSPredicate;
 
 @interface NSArray (NSArray_SA_Additions)
+@property (nonatomic, readonly) NSUInteger md5Hash;
 
 - (NSArray *) subarrayWithObjectsSatisfyingPredicate: (NSPredicate *) pred;
 - (NSUInteger) indexOfFirstObjectMatchingPredicate: (NSPredicate *) pred;

@@ -21,7 +21,10 @@
 		key = [keys objectAtIndex: i];
 		obj = [self objectForKey: key];
 		
-		if ([obj respondsToSelector: @selector(deepMutableCopy)])
+		if ([obj isKindOfClass: [NSNumber class]]) {
+			[result setObject: obj forKey: key];
+			continue;
+		} else if ([obj respondsToSelector: @selector(deepMutableCopy)])
 			obj = [obj deepMutableCopy];
 		else
 		if ([obj respondsToSelector: @selector(mutableCopy)])
@@ -54,11 +57,16 @@
 	return result;
 }
 
-- (NSUInteger) hash {
+- (NSUInteger) hash { return [self md5Hash]; }
+
+- (NSUInteger) md5Hash {
 	NSUInteger			value = 0;
 	
 	for (id key in self) {
-		value += [key hash] * [[self valueForKey: key] hash];
+		id						val = [self valueForKey: key];
+		NSUInteger				valueHash = [val respondsToSelector: @selector(md5Hash)] ? [val md5Hash] : [val hash];
+		
+		value += [key hash] * valueHash;
 	}
 	return value;
 }

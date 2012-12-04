@@ -19,6 +19,8 @@ extern NSString *kNotification_PersistentStoreResetDueToSchemaChange;
 @interface NSManagedObjectContext (ConvenienceAdditions)
 
 @property (nonatomic, readwrite, assign) NSDictionary *primaryStoreMetadata;
+@property (nonatomic, retain) NSThread *saveThread;
+
 - (void) setObjectInPrimaryStoreMetadata: (id) object forKey: (id) key;
 - (id) objectInPrimaryStoreMetadataForKey: (id) key;
 - (NSURL *) primaryStoreURL;

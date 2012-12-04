@@ -20,6 +20,8 @@
 - (void) dismissSAPopoverAnimated: (BOOL) animated;
 
 + (BOOL) isPopoverVisibleWithViewControllerClass: (Class) class;
++ (UIPopoverController *) existingPopoverWithViewControllerClass: (Class) class;
++ (UIPopoverController *) existingPopoverWithView: (UIView *) view;
 
 @property (nonatomic, copy) idArgumentBlock didDismissBlock;
 @end

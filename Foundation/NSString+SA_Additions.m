@@ -415,6 +415,12 @@
 	return count;
 }
 
+- (BOOL) boolValue {
+	NSString			*down = self.lowercaseString;
+	
+	return [down isEqual: @"true"] || [down isEqual: @"yes"]  || [down isEqual: @"y"] || [down isEqual: @"1"];
+}
+
 #ifdef NSRegularExpressionSearch
 - (NSString *) stringByStrippingTags {
 	NSRange				r;
@@ -427,7 +433,7 @@
 #endif
 
 + (NSString *) stringWithFormat: (NSString *) format array: (NSArray *) arguments {
-    char *argList = (char *) malloc(sizeof(NSString *) * [arguments count]);
+    id *argList = (id *) malloc(sizeof(id) * [arguments count]);
     [arguments getObjects: (id *) argList];
     NSString* result = [[[NSString alloc] initWithFormat: format arguments: (void *) argList] autorelease];
     free(argList);
@@ -468,5 +474,36 @@
 	
 	if (tld.length < 2) return NO;
 	return YES;
+}
+
+- (NSArray *) characters {
+	NSUInteger					count = self.length;
+	NSMutableArray				*chars = [NSMutableArray arrayWithCapacity: count];
+	
+	for (int i = 0; i < count; i++) {
+		[chars addObject: [self substringWithRange: NSMakeRange(i, 1)]];
+	}
+	return chars;
+}
+@end
+
+
+@implementation NSAttributedString (SA_Additions)
++ (id) stringWithString: (NSString *) string {
+	return [self stringWithString: string attributes: @{ NSFontAttributeName: [UIFont boldSystemFontOfSize: 14] }];
+}
+
++ (id) stringWithString: (NSString *) string attributes: (NSDictionary *) attr {
+	return [[self alloc] initWithString: string attributes: attr];
+}
+@end
+
+
+@implementation NSMutableAttributedString (SA_Additions)
+- (void) setFont: (UIFont *) font {
+	[self setAttributes: @{ NSFontAttributeName: font } range: NSMakeRange(0, self.length)];
+}
+- (void) setColor: (UIColor *) color {
+	[self setAttributes: @{ NSForegroundColorAttributeName: color } range: NSMakeRange(0, self.length)];
 }
 @end

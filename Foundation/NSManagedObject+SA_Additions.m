@@ -43,10 +43,6 @@
 	[self.moc refreshObject: self mergeChanges: mergeChanges];
 }
 
-- (void) saveOnMainThread {
-	[self.context saveOnMainThread];
-}
-
 - (BOOL) isNew {
 	NSDictionary				*vals = [self committedValuesForKeys: nil];
 	return [vals count] == 0;
@@ -93,8 +89,11 @@
 - (id) objectForContext: (NSManagedObjectContext *) context { return [self objectInContext: context]; }
 
 - (id) objectInContext: (NSManagedObjectContext *) context {
-	if (self.moc.isSaveNecessary) [self.managedObjectContext save];
+	id		object = [context objectWithID: self.objectID];
 	
+	if (object || !self.moc.isSaveNecessary) return object;
+	
+	[self.managedObjectContext save];
 	return [context objectWithID: self.objectID];
 }
 

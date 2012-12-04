@@ -36,7 +36,7 @@ static NSMutableArray					*s_activePopovers = nil;
 		
 		if ([root isKindOfClass: [UINavigationController class]] && root.viewControllers.count > 0) root = [root.viewControllers objectAtIndex: 0];
 		
-		if ([pc.contentViewController isKindOfClass: class]) {
+		if ([root isKindOfClass: class]) {
 			[pc dismissSAPopoverAnimated: YES];
 			return YES;
 		}
@@ -47,8 +47,9 @@ static NSMutableArray					*s_activePopovers = nil;
 + (UIPopoverController *) presentSAPopoverForViewController: (UIViewController *) controller fromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
 	Class							class = [controller class];
 	
+	if (view.window == nil) return nil;		//no window to pop from
 	if ([class isEqual: [UINavigationController class]]) class = [[(id) controller rootViewController] class];
-	if (controller.onlyAllowOneInstanceInAPopover && [self didCloseExistingPopoverWithClass: [controller class]]) return nil;
+	if (controller.onlyAllowOneInstanceInAPopover && [self didCloseExistingPopoverWithClass: class]) return nil;
 	
 	UIPopoverController			*pc = [self SAPopoverControllerWithContentController: controller];
 	
@@ -64,7 +65,12 @@ static NSMutableArray					*s_activePopovers = nil;
 	UIPopoverController			*pc = [self SAPopoverControllerWithContentController: controller];
 	
 	[controller willAppearInPopover: pc animated: animated];
-	[pc presentPopoverFromBarButtonItem: item permittedArrowDirections: arrowDirections animated: animated];
+	@try {
+		[pc presentPopoverFromBarButtonItem: item permittedArrowDirections: arrowDirections animated: animated];
+	} @catch (id e) {
+		[s_activePopovers removeObject: pc];
+		return nil;
+	}
 	[controller didAppearInPopover: pc animated: animated];
 	return pc;
 }
@@ -94,31 +100,39 @@ static NSMutableArray					*s_activePopovers = nil;
 }
 
 + (void) dismissAllVisibleSAPopoversAnimated: (BOOL) animated {
-	for (UIPopoverController *controller in s_activePopovers.copy) {
+	for (UIPopoverController *controller in [s_activePopovers.copy autorelease]) {
 		[controller dismissSAPopoverAnimated: animated];
 	}
 }
 
 + (BOOL) isPopoverVisibleWithViewControllerClass: (Class) class {
 	if (class == nil) return s_activePopovers.count > 0;
+	return [self existingPopoverWithViewControllerClass: class] != nil;
+}
+
++ (UIPopoverController *) existingPopoverWithViewControllerClass: (Class) class {
+	if (class == nil) return nil;
 	
 	for (UIPopoverController *pop in s_activePopovers) {
 		UINavigationController		*nav = (id) pop.contentViewController;
 		
-		if ([nav isKindOfClass: class]) return YES;
-		if ([nav isKindOfClass: [UINavigationController class]] && [nav.rootViewController isKindOfClass: class]) return YES;
+		if ([nav isKindOfClass: class]) return pop;
+		if ([nav isKindOfClass: [UINavigationController class]] && [nav.rootViewController isKindOfClass: class]) return pop;
 		if ([nav isKindOfClass: [UITabBarController class]]) {
 			for (UIViewController *tab in nav.viewControllers) {
-				if ([tab isKindOfClass: class]) return YES;
+				if ([tab isKindOfClass: class]) return pop;
 			}
 		}
 	}
-	return NO;
+	return nil;
 }
 
++ (UIPopoverController *) existingPopoverWithView: (UIView *) view { return view.SAPopoverController; }
+
+
 + (UIPopoverController *) presentSAPopoverForView: (UIView *) subject fromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
-	UIViewController		*dummyController = [[UIViewController alloc] init];
-	UIView					*parent = [[UIView alloc] initWithFrame: subject.bounds];
+	UIViewController		*dummyController = [[[UIViewController alloc] init] autorelease];
+	UIView					*parent = [[[UIView alloc] initWithFrame: subject.bounds] autorelease];
 	
 	subject.center = parent.contentCenter;
 	[parent addSubview: subject];
@@ -129,8 +143,8 @@ static NSMutableArray					*s_activePopovers = nil;
 }
 
 + (UIPopoverController *) presentSAPopoverForView: (UIView *) subject fromBarButtonItem: (UIBarButtonItem *) item permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
-	UIViewController		*dummyController = [[UIViewController alloc] init];
-	UIView					*parent = [[UIView alloc] initWithFrame: subject.bounds];
+	UIViewController		*dummyController = [[[UIViewController alloc] init] autorelease];
+	UIView					*parent = [[[UIView alloc] initWithFrame: subject.bounds] autorelease];
 	
 	subject.center = parent.contentCenter;
 	[parent addSubview: subject];

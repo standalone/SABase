@@ -87,6 +87,7 @@
 	#define			unsafe						unsafe_unretained
 #endif
 
+
 //=============================================================================================================================
 #pragma mark Device/OS Info
 #define			PRINTING_AVAILABLE				(OS_42_BUILD && [NSClassFromString(@"UIPrintInteractionController") performSelector: @selector(isPrintingAvailable)])
@@ -95,8 +96,8 @@
 	#define				MULTITASKING_AVAILABLE			(([[UIDevice currentDevice] respondsToSelector: @selector(isMultitaskingSupported)]) && ([[UIDevice currentDevice] isMultitaskingSupported]))
 	#define				MAJOR_OS_VERSION				([[UIDevice currentDevice].systemVersion intValue])
 	#define				GCD_AVAILABLE					(RUNNING_ON_40)
-	#define				RUNNING_ON_IPAD					(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-	#define				RUNNING_ON_IPHONE				(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+	#define				RUNNING_ON_IPAD					([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
+	#define				RUNNING_ON_IPHONE				([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
 	#define				RUNNING_ON_40					([[UIDevice currentDevice].systemVersion intValue] >= 4)
 	#define				RUNNING_ON_50					([[UIDevice currentDevice].systemVersion intValue] >= 5)
 	#define				RUNNING_ON_60					([[UIDevice currentDevice].systemVersion intValue] >= 6)
@@ -277,6 +278,11 @@ void					MailDataWithTitle(NSData *data, NSString *title);
 	#warning BACKGROUND_THREAD_SUPPORT has been deprecated
 #endif
 
+<<<<<<< HEAD
+=======
+#define				PERFORM_ON_MAIN_THREAD(f)				{simpleBlock	b = ^{f}; if ([NSThread isMainThread]) b(); else dispatch_async(dispatch_get_main_queue(), b); }
+
+>>>>>>> 723d79805b92f39a8bc35cf5964d5b8840d0315c
 typedef void (^booleanArgumentBlock)(BOOL value);
 typedef void (^intArgumentBlock)(int integer);
 typedef void (^floatArgumentBlock)(float integer);
@@ -304,6 +310,7 @@ typedef void (^simpleArrayBlock)(NSArray *array);
 	}
 
 #define	STATIC_OBJECT_PROPERTY(name, value)	- (id) name {static id name = nil; if (name == nil) {static dispatch_once_t  once; dispatch_once(&once, ^ { name = [value retain]; });}
+#define	PROPERTY_PASS_THROUGH(lower, upper, type, dest)  - (void) set##upper: (type) v { [dest set##upper: v]; }  - (type) lower { return [dest lower]; }
 
 #define SINGLETON_IMPLEMENTATION_FOR_CLASS_METHOD_AND_INITIALIZER(classname, methodName, initializer) \
 	static classname *s_##methodName = nil; \

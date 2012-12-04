@@ -30,5 +30,4 @@
 - (void) replaceAllObjectsInRelationship: (NSString *) relKey withObjects: (NSSet *) newObjects deletingOld: (BOOL) deletingOld;
 - (id) objectForKeyedSubscript: (id) key;
 - (void)setObject:(id)obj forKeyedSubscript:(id <NSCopying>)key;
-- (void) saveOnMainThread;
 @end
