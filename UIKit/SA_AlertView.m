@@ -63,8 +63,12 @@ NSMutableArray			*s_displayedAlerts = nil;
 	SA_AlertView		*alert = [self alertWithTitle: title message: message tag: tag button: buttonTitle];
 	
 	alert.delegate = delegate;
-	[NSObject performBlock: ^{ [alert performSelectorOnMainThread: @selector(show) withObject: nil waitUntilDone: NO]; } afterDelay: 0.01];
+	[alert performSelector: @selector(showOnMainThread) withObject: nil afterDelay: 0.0]
 	return alert;
+}
+
+- (void) showOnMainThread {
+	[self performSelectorOnMainThread: @selector(show) withObject: nil waitUntilDone: NO];
 }
 
 + (SA_AlertView *) alertWithTitle: (NSString *) title message: (NSString *) message tag: (int) tag button: (NSString *) buttonTitle {
@@ -138,7 +142,7 @@ NSMutableArray			*s_displayedAlerts = nil;
 	
 	alert.delegate = alert;
 	alert.alertButtonHitBlock = (buttonHitBlock);
-	[NSObject performBlock: ^{ [alert performSelectorOnMainThread: @selector(show) withObject: nil waitUntilDone: NO]; } afterDelay: 0.01];
+	[alert performSelector: @selector(showOnMainThread) withObject: nil afterDelay: 0.0];
 	return alert;
 }
 
