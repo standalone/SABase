@@ -17,19 +17,19 @@
 	- (NSUInteger) md5Hash {
 		UInt32 results[4];
 		unsigned char			*utf8 = (unsigned char *) self.UTF8String;
-		CC_MD5(utf8, strlen(utf8), (unsigned char *) results);
+		CC_MD5((const void *) utf8, strlen((const char *) utf8), (unsigned char *) results);
 		
 		return results[0] + results[1] + results[2] + results[3];
 	}
-
-	- (NSUInteger) MD5Integer {
-		const char *cStr = [self UTF8String];
-		NSUInteger result[4];
-		CC_MD5( cStr, strlen(cStr), (unsigned char *) result ); // This is the md5 call
-		
-		return result[0];
-	}
-	- (NSString *) MD5
+//
+//	- (NSUInteger) MD5Integer {
+//		const char *cStr = [self UTF8String];
+//		NSUInteger result[4];
+//		CC_MD5( cStr, strlen(cStr), (unsigned char *) result ); // This is the md5 call
+//		
+//		return result[0];
+//	}
+	- (NSString *) md5HashString
 	{
 		const char *cStr = [self UTF8String];
 		unsigned char result[16];
