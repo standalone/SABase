@@ -9,6 +9,7 @@
 #import "SA_AlertView.h"
 #import "SA_PleaseWaitDisplay.h"
 #import "SA_Utilities.h"
+#import "NSObject+SA_Additions.h"
 
 static int				g_alertsVisible = 0;
 
@@ -62,7 +63,7 @@ NSMutableArray			*s_displayedAlerts = nil;
 	SA_AlertView		*alert = [self alertWithTitle: title message: message tag: tag button: buttonTitle];
 	
 	alert.delegate = delegate;
-	[alert performSelectorOnMainThread: @selector(show) withObject: nil waitUntilDone: NO];
+	[NSObject performBlock: ^{ [alert performSelectorOnMainThread: @selector(show) withObject: nil waitUntilDone: NO]; } afterDelay: 0.01];
 	return alert;
 }
 
@@ -126,19 +127,18 @@ NSMutableArray			*s_displayedAlerts = nil;
 - (void) alertView: (UIAlertView *) alertView clickedButtonAtIndex: (NSInteger) buttonIndex {
 	if (self.alertCancelButtonHitBlock) self.alertCancelButtonHitBlock(buttonIndex == alertView.cancelButtonIndex);
 	if (self.alertButtonHitBlock) {
-		buttonIndex = (buttonIndex == self.cancelButtonIndex) ? SA_ALERT_CANCEL_BUTTON_INDEX : buttonIndex - 1;
 		self.alertButtonHitBlock(buttonIndex);
 	}
 }
 
 + (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *) message buttons: (NSArray *) buttons buttonBlock: (intArgumentBlock) buttonHitBlock {
-		
-	SA_AlertView				*alert = [self showAlertWithTitle: title message: message tag: 0 delegate: nil button: nil];
+	SA_AlertView			*alert = [[[SA_AlertView alloc] initWithTitle: title ?: @"" message: message ?: @"" delegate: nil cancelButtonTitle: nil otherButtonTitles: nil] autorelease];
 	
 	for (NSString *title in buttons) [alert addButtonWithTitle: title];
 	
 	alert.delegate = alert;
 	alert.alertButtonHitBlock = (buttonHitBlock);
+	[NSObject performBlock: ^{ [alert performSelectorOnMainThread: @selector(show) withObject: nil waitUntilDone: NO]; } afterDelay: 0.01];
 	return alert;
 }
 
