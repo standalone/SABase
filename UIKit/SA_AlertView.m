@@ -63,7 +63,7 @@ NSMutableArray			*s_displayedAlerts = nil;
 	SA_AlertView		*alert = [self alertWithTitle: title message: message tag: tag button: buttonTitle];
 	
 	alert.delegate = delegate;
-	[alert performSelector: @selector(showOnMainThread) withObject: nil afterDelay: 0.0]
+	[alert performSelector: @selector(showOnMainThread) withObject: nil afterDelay: 0.0];
 	return alert;
 }
 
