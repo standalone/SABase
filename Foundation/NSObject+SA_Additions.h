@@ -27,6 +27,11 @@
 + (void) performBlockOnMainThread: (simpleBlock) block;
 #endif
 
+//KVO
+//implement keyChangedOn:change: to receive notifications
+- (void) observeKey: (NSString *) key onObject: (id) object;
+- (void) observeKey: (NSString *) key onObject: (id) object options: (NSKeyValueObservingOptions) options context: (void *) ctx;
+
 @end
 
 

@@ -102,6 +102,22 @@
 
 #endif
 
+//=============================================================================================================================
+#pragma mark KVO
+- (void) observeKey: (NSString *) key onObject: (id) object {
+	[self observeKey: key onObject: object options: NSKeyValueObservingOptionNew context: nil];
+}
+
+- (void) observeKey: (NSString *) key onObject: (id) object options: (NSKeyValueObservingOptions) options context: (void *) ctx {
+	[object addObserver: self forKeyPath: key options: options context: ctx];
+}
+
+- (void) observeValueForKeyPath: (NSString *) keyPath ofObject: (id) object change: (NSDictionary *) change context: (void *)context {
+	SEL					changeSelector = NSSelectorFromString([NSString stringWithFormat: @"%@ChangedOn:change:", keyPath]);
+	
+	if ([self respondsToSelector: changeSelector]) [self performSelector: changeSelector withObject: keyPath withObject: object];
+}
+
 
 @end
 
