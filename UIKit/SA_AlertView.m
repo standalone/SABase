@@ -133,6 +133,8 @@ NSMutableArray			*s_displayedAlerts = nil;
 	if (self.alertButtonHitBlock) {
 		self.alertButtonHitBlock(buttonIndex);
 	}
+	self.alertButtonHitBlock = nil;
+	self.alertCancelButtonHitBlock = nil;
 }
 
 + (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *) message buttons: (NSArray *) buttons buttonBlock: (intArgumentBlock) buttonHitBlock {
