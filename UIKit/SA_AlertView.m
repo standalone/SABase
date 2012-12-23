@@ -103,9 +103,8 @@ NSMutableArray			*s_displayedAlerts = nil;
 }
 
 - (void) dealloc {
-	#if NS_BLOCKS_AVAILABLE
-		self.alertCancelButtonHitBlock = nil;
-	#endif
+	self.alertCancelButtonHitBlock = nil;
+	self.alertButtonHitBlock = nil;
 	g_alertsVisible--;
 	if (g_alertsVisible == 0) [SA_PleaseWaitDisplay pleaseWaitDisplay].view.alpha = 1.0;
 	[super dealloc];
@@ -130,9 +129,8 @@ NSMutableArray			*s_displayedAlerts = nil;
 
 - (void) alertView: (UIAlertView *) alertView clickedButtonAtIndex: (NSInteger) buttonIndex {
 	if (self.alertCancelButtonHitBlock) self.alertCancelButtonHitBlock(buttonIndex == alertView.cancelButtonIndex);
-	if (self.alertButtonHitBlock) {
-		self.alertButtonHitBlock(buttonIndex);
-	}
+	if (self.alertButtonHitBlock) self.alertButtonHitBlock(buttonIndex);
+	
 	self.alertButtonHitBlock = nil;
 	self.alertCancelButtonHitBlock = nil;
 }
