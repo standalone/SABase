@@ -48,6 +48,7 @@
 + (SA_PleaseWaitDisplay *) showPleaseWaitDisplayWithMajorText: (NSString *) major minorText: (NSString *) minor cancelLabel: (NSString *) cancel showProgressBar: (BOOL) showProgressBar delegate: (id <SA_PleaseWaitDisplayDelegate>) delegate;
 + (void) hidePleaseWaitDisplay;
 + (SA_PleaseWaitDisplay *) pleaseWaitDisplay;
++ (SA_PleaseWaitDisplay *) showPleaseWaitDisplay: (NSString *) major;
 
 + (void) setCancelButtonImageName: (NSString *) name withPressedImageName: (NSString *) pressed;
 + (void) setAuxButtonImageName: (NSString *) name withPressedImageName: (NSString *) pressed;

@@ -21,7 +21,12 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 
 @implementation SA_PleaseWaitDisplay
 @synthesize cancelTitle = _cancelTitle, auxTitle = _auxTitle, minorText = _minorText, majorText = _majorText, delegate = _delegate, view = _view, spinnerHidden = _spinnerHidden, progressBarHidden = _progressBarHidden, majorFont = _majorFont, minorFont = _minorFont;
-@synthesize currentOrientation = _currentOrientation, cancelBlock;
+@synthesize currentOrientation = _currentOrientation, cancelBlock = _cancelBlock;
+
++ (SA_PleaseWaitDisplay *) showPleaseWaitDisplay: (NSString *) major {
+	return [self showPleaseWaitDisplayWithMajorText: major minorText: nil cancelLabel: nil showProgressBar: NO delegate: nil];
+}
+
 + (SA_PleaseWaitDisplay *) showPleaseWaitDisplayWithMajorText: (NSString *) major minorText: (NSString *) minor cancelLabel: (NSString *) cancel showProgressBar: (BOOL) showProgressBar delegate: (id <SA_PleaseWaitDisplayDelegate>) delegate {
 	if (g_display == nil) {
 		g_display = [[self alloc] init];
@@ -71,6 +76,8 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 	if (self.hidden) return;
 	
 	_hidden = YES;
+	self.delegate = nil;
+	self.cancelBlock = nil;
 	
 	[UIView beginAnimations: nil context: nil];
 	[UIView setAnimationCurve: UIViewAnimationCurveEaseInOut];
@@ -144,6 +151,12 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 	if (!self.hidden) [self setupButtons];
 }
 
+- (void) setCancelBlock:(simpleBlock)cancelBlock {
+	if (self.cancelBlock) Block_release(self.cancelBlock);
+	_cancelBlock = cancelBlock ? Block_copy(cancelBlock) : nil;
+	if (cancelBlock && self.cancelTitle == nil) self.cancelTitle = NSLocalizedString(@"Cancel", @"Cancel");
+}
+
 - (void) setMajorText: (NSString *) text {
 	if (![NSThread isMainThread]) {
 		[self performSelectorOnMainThread: @selector(setMajorText:) withObject: text waitUntilDone: YES];
@@ -213,6 +226,11 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 	self.delegate = nil;
 	
 	[super dealloc];
+}
+
+- (void) setDelegate: (id <SA_PleaseWaitDisplayDelegate>) delegate {
+	TRY([_delegate release]);
+	_delegate = [delegate retain];
 }
 
 //=============================================================================================================================
