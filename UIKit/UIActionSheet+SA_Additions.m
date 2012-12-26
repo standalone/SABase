@@ -36,7 +36,6 @@
 	[self associateValue: nil forKey: kButtonTagsKey];
 }
 
-#if NS_BLOCKS_AVAILABLE
 - (void) actionSheet: (UIActionSheet *) actionSheet clickedButtonAtIndex: (NSInteger) buttonIndex {
 	intArgumentBlock			block = [self associatedValueForKey: kButtonBlockKey];
 	block(buttonIndex);
@@ -45,19 +44,32 @@
 }
 
 - (void) showFromView: (UIView *) view withButtonSelectedBlock: (intArgumentBlock) block {
+	if (![NSThread isMainThread]) {
+		dispatch_async(dispatch_get_main_queue(), ^{ [self showFromView: view withButtonSelectedBlock: block]; });
+		return;
+	}
+
 	self.delegate = (id <UIActionSheetDelegate>) self;
 	[self associateValue: Block_copy(block) forKey: kButtonBlockKey];
 	[self showFromView: view];
 }
 
 - (void) showFromBarButtonItem: (UIBarButtonItem *) item withButtonSelectedBlock: (intArgumentBlock) block {
+	if (![NSThread isMainThread]) {
+		dispatch_async(dispatch_get_main_queue(), ^{ [self showFromBarButtonItem: item withButtonSelectedBlock: block]; });
+		return;
+	}
+	
 	self.delegate = (id <UIActionSheetDelegate>) self;
 	[self associateValue: Block_copy(block) forKey: kButtonBlockKey];
 	[self showFromBarButtonItem: item animated: YES];
 }
-#endif
 
 - (void) showFromView: (UIView *) view {
+	if (![NSThread isMainThread]) {
+		[self performSelectorOnMainThread: @selector(showFromView:) withObject: view waitUntilDone: NO];
+		return;
+	}
 	if ([view isKindOfClass: [UIControl class]] && RUNNING_ON_IPAD) {
 		[self showFromRect: [view bounds] inView: view animated: YES];
 	} else if ([view isKindOfClass: [UITabBar class]]) {
