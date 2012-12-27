@@ -48,7 +48,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	NSError								*error = nil;
 	
 	if (![[NSFileManager defaultManager] createDirectoryAtPath: [path stringByDeletingLastPathComponent] withIntermediateDirectories: YES attributes: nil error: &error]) {
-		LOG(@"Failed to creat directory at %@: %@", path, error);
+		NSLog(@"Failed to create directory at %@: %@", path, error);
 		return nil;
 	}
 		
@@ -122,7 +122,10 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 
 - (id) anyObjectOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate {
 	NSFetchRequest					*request = [self fetchRequestWithEntityName: entityName predicate: predicate sortBy: nil fetchLimit: 1];
-	if (request == nil) return nil;
+	if (request == nil) {
+		NSLog(@"Bad entity for anyObjectOfType:matchingPredicate:");
+		return nil;
+	}
 	NSError							*error = nil;
 	NSArray							*results = nil;
 	
@@ -132,7 +135,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 		[[NSNotificationCenter defaultCenter] postNotificationName: kNotification_SA_ErrorWhileGeneratingFetchRequest object: e userInfo: [NSDictionary dictionaryWithObjectsAndKeys: entityName, @"entity", predicate, @"predicate", nil]];
 	}
 
-	if (error) LOG(@"Error while attempting to fetch %@ matching (%@): %@", entityName, predicate, error);
+	if (error) NSLog(@"Error while attempting to fetch %@ matching (%@): %@", entityName, predicate, error);
 	
 	if (results.count) return [results objectAtIndex: 0];
 	return nil;
@@ -140,7 +143,10 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 
 - (id) firstObjectOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate sortedBy: (NSArray *) sortDescriptors {
 	NSFetchRequest					*request = [self fetchRequestWithEntityName: entityName predicate: predicate sortBy: sortDescriptors fetchLimit: 1];
-	if (request == nil) return nil;
+	if (request == nil) {
+		NSLog(@"Bad entity for firstObjectOfType:matchingPredicate:sortedBy:");
+		return nil;
+	}
 	NSError							*error = nil;
 
 	NSArray							*results = nil;
@@ -151,7 +157,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 		[[NSNotificationCenter defaultCenter] postNotificationName: kNotification_SA_ErrorWhileGeneratingFetchRequest object: e userInfo: [NSDictionary dictionaryWithObjectsAndKeys: entityName, @"entity", predicate, @"predicate", sortDescriptors, @"sortBy", nil]];
 	}
 
-	if (error) LOG(@"Error while attempting to fetch %@ matching (%@): %@", entityName, predicate, error);
+	if (error) NSLog(@"Error while attempting to fetch %@ matching (%@): %@", entityName, predicate, error);
 	
 	if (results.count) return [results objectAtIndex: 0];
 	return nil;
@@ -159,7 +165,10 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 
 - (NSArray *) allObjectsOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate sortedBy: (NSArray *) sortDescriptors fetchLimit: (int) fetchLimit {
 	NSFetchRequest					*request = [self fetchRequestWithEntityName: entityName predicate: predicate sortBy: sortDescriptors fetchLimit: fetchLimit];
-	if (request == nil) return nil;
+	if (request == nil) {
+		NSLog(@"Bad entity for allObjectsOfType:matchingPredicate:sortedBy:fetchLimit:");
+		return nil;
+	}
 	NSError							*error = nil;
 
 	NSArray							*results = nil;
@@ -170,7 +179,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 		[[NSNotificationCenter defaultCenter] postNotificationName: kNotification_SA_ErrorWhileGeneratingFetchRequest object: e userInfo: [NSDictionary dictionaryWithObjectsAndKeys: entityName, @"entity", predicate, @"predicate", sortDescriptors, @"sortBy", nil]];
 	}
 
-	if (error) LOG(@"Error while attempting to fetch %@ matching (%@): %@", entityName, predicate, error);
+	if (error) NSLog(@"Error while attempting to fetch %@ matching (%@): %@", entityName, predicate, error);
 	
 	return results;
 }
@@ -214,11 +223,14 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 - (NSUInteger) numberOfObjectsOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate {
 	NSFetchRequest					*request = [self fetchRequestWithEntityName: entityName predicate: predicate sortBy: nil fetchLimit: 0];
 	
-	if (request == nil) return 0;
+	if (request == nil) {
+		NSLog(@"Bad entity for numberOfObjectsOfType:matchingPredicate:");
+		return 0;
+	}
 	NSError							*error = nil;
 	NSUInteger						result = [self countForFetchRequest: request error: &error];
 	
-	if (error) LOG(@"Error while attempting to count %@ matching (%@): %@", entityName, predicate, error);
+	if (error) NSLog(@"Error while attempting to count %@ matching (%@): %@", entityName, predicate, error);
 	return result;
 }
 
@@ -293,15 +305,15 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 		@try {  
 			[self save: &error];
 		} @catch (id e) {
-			LOG(@"Problem while saving database: %@", e);
+			NSLog(@"Problem while saving database: %@", e);
 		}
 		if (error) {
 			NSDictionary				*info = error.userInfo;
 			
-			LOG(@"Error while saving context: %@", error);	
+			NSLog(@"Error while saving context: %@", error);	
 			
 			if ([info objectForKey: @"NSDetailedErrors"]) {for (NSError *detailedError in [info objectForKey: @"NSDetailedErrors"]) {
-				LOG(@"Detailedd Error: %@, %@", detailedError, [detailedError userInfo]);	
+				LOG(@"Detailed Error: %@, %@", detailedError, [detailedError userInfo]);
 			}} else if ([info objectForKey: @"conflictList"]) {
 				for (NSManagedObject *object in [info objectForKey: @"NSDetailedErrors"]) {
 					LOG(@"Conflicted object: %@", object);
@@ -544,7 +556,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	
 	if (error) {
 		[SA_AlertView showAlertWithTitle: $S(@"Problem Fetching %@", request.entity.name) error: error];
-		LOG(@"Error while preparing fetchedResultsController with request: %@: %@", request, error);
+		NSLog(@"Error while preparing fetchedResultsController with request: %@: %@", request, error);
 	}
 	return controller;
 } 
