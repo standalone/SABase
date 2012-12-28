@@ -1471,8 +1471,9 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREFIX_HEADER = "SABase/Src/Run-Time/Run-TimePrefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				INFOPLIST_FILE = "Rsc/Unit Tests-Info.plist";
+				INFOPLIST_FILE = "SABase/Rsc/Unit Tests-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1500,8 +1501,9 @@
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PREFIX_HEADER = "SABase/Src/Run-Time/Run-TimePrefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				INFOPLIST_FILE = "Rsc/Unit Tests-Info.plist";
+				INFOPLIST_FILE = "SABase/Rsc/Unit Tests-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,

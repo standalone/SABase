@@ -6,6 +6,9 @@
 //
 
 #import <CoreData/CoreData.h>
+#if TARGET_OS_IPHONE
+	#import <UIKit/UIKit.h>
+#endif
 
 #define kNotification_SA_ErrorWhileGeneratingFetchRequest			@"kNotification_SA_ErrorWhileGeneratingFetchRequest"
 

@@ -14,7 +14,11 @@
 - (void) testDateParsing {
 	NSString			*xmlDateString;
 	NSDate				*date;
-	    
+	
+	xmlDateString = @"Fri Dec 28 13:37:42 +0000 2012";
+	date = [NSDate dateWithXMLString: xmlDateString];
+	STAssertTrue([date timeIntervalSinceReferenceDate] == 298682340 , @"-dateWithXMLString (TZ as GMT) failed");
+	
 	xmlDateString = @"2010-06-19T17:19:00CST";
 	date = [NSDate dateWithXMLString: xmlDateString];
 	STAssertTrue([date timeIntervalSinceReferenceDate] == 298682340 , @"-dateWithXMLString (TZ as GMT) failed");

@@ -8,6 +8,10 @@
 #import "NSFileManager+SA_Additions.h"
 #import "NSBundle+SA_Additions.h"
 
+#if TARGET_OS_IPHONE
+#import "UIDevice+SA_Additions.h"
+#endif
+
 #include <sys/types.h>
 #include <sys/event.h>
 #include <sys/time.h>
