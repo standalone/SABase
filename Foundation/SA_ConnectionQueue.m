@@ -143,11 +143,12 @@ static SA_ConnectionQueue		*g_queue = nil;
 		self.managePleaseWaitDisplay = YES;
 		
 		_connectionSortDescriptors = [@[[NSSortDescriptor sortDescriptorWithKey: @"priority" ascending: YES], [NSSortDescriptor sortDescriptorWithKey: @"order" ascending: YES]] retain];
-		[self performSelector: @selector(determineConnectionLevelAvailable) withObject: nil afterDelay: 0.0];			//defer this call so as not to slow down the startup procedure 
+		[self performSelector: @selector(determineConnectionLevelAvailable) withObject: nil afterDelay: 0.0];			//defer this call so as not to slow down the startup procedure
 		
 		if (MULTITASKING_AVAILABLE) {
 			_backgroundTaskID = kUIBackgroundTaskInvalid;
-			[[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(applicationWillEnterForeground:) name: @"UIApplicationWillEnterForegroundNotification" object: nil];
+			[self addAsObserverForName: UIApplicationWillEnterForegroundNotification selector: @selector(applicationWillEnterForeground:)];
+			//[self addAsObserverForName: UIApplicationDidEnterBackgroundNotification selector: @selector(applicationDidEnterBackground:)];
 		}
 	}
 	return self;
@@ -161,7 +162,8 @@ static SA_ConnectionQueue		*g_queue = nil;
 //=============================================================================================================================
 #pragma mark Notifications
 - (void) applicationWillEnterForeground: (NSNotification *) note {
-	[self performSelector: @selector(determineConnectionLevelAvailable) withObject: nil afterDelay: 0.0];			//defer this call so as not to slow down the startup procedure 
+	[self performSelector: @selector(determineConnectionLevelAvailable) withObject: nil afterDelay: 0.0];			//defer this call so as not to slow down the startup procedure
+	[self fireReachabilityStatus];
 }
 
 //=============================================================================================================================
@@ -674,6 +676,8 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 				IF_DEBUG([SA_AlertView showAlertWithTitle: @"Failed to create a ReachabilityRef" message: @"Unable to track connection status"]);
 			#endif
 		}
+	} else {
+		
 	}
 }
 
