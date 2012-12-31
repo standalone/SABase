@@ -23,7 +23,10 @@ static NSMutableArray					*s_activePopovers = nil;
 	if (s_activePopovers == nil) s_activePopovers = [[NSMutableArray alloc] init];
 	[s_activePopovers addObject: controller];
 	controller.delegate = (id <UIPopoverControllerDelegate>) self;
-	controller.popoverContentSize = root.view.bounds.size;
+	CGSize				size = root.view.bounds.size;
+	
+	if (size.width && size.height)
+		controller.popoverContentSize = size;
 	
 	return controller;
 }
