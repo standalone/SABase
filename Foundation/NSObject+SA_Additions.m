@@ -115,7 +115,7 @@
 - (void) observeValueForKeyPath: (NSString *) keyPath ofObject: (id) object change: (NSDictionary *) change context: (void *)context {
 	SEL					changeSelector = NSSelectorFromString([NSString stringWithFormat: @"%@ChangedOn:change:", keyPath]);
 	
-	if ([self respondsToSelector: changeSelector]) [self performSelector: changeSelector withObject: keyPath withObject: object];
+	if ([self respondsToSelector: changeSelector]) [self performSelector: changeSelector withObject: object withObject: change];
 }
 
 
