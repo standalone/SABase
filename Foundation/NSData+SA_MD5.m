@@ -28,6 +28,7 @@
 #else
 	#import "NSTask+Synchronicity.h"
 	#import "NSString+SA_Additions.h"
+	#import <CommonCrypto/CommonDigest.h>
 
 	@implementation NSData (SA_MD5)
 	- (NSString *) MD5 {

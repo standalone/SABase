@@ -489,6 +489,7 @@
 
 
 @implementation NSAttributedString (SA_Additions)
+#if TARGET_OS_IPHONE
 + (id) stringWithString: (NSString *) string {
 	return [self stringWithString: string attributes: @{ NSFontAttributeName: [UIFont boldSystemFontOfSize: 14] }];
 }
@@ -496,14 +497,18 @@
 + (id) stringWithString: (NSString *) string attributes: (NSDictionary *) attr {
 	return [[self alloc] initWithString: string attributes: attr];
 }
+#endif
 @end
 
 
 @implementation NSMutableAttributedString (SA_Additions)
+#if TARGET_OS_IPHONE
 - (void) setFont: (UIFont *) font {
 	[self setAttributes: @{ NSFontAttributeName: font } range: NSMakeRange(0, self.length)];
 }
 - (void) setColor: (UIColor *) color {
 	[self setAttributes: @{ NSForegroundColorAttributeName: color } range: NSMakeRange(0, self.length)];
 }
+#endif
 @end
+
