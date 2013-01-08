@@ -62,6 +62,7 @@ typedef enum {
 - (void) animatePulse;
 - (void) addEdgeDividers: (UIEdgeInsets) dividerWidths ofColor: (UIColor *) color;
 - (void) animateAndBounceToPoint: (CGPoint) point;
+- (void) stopPulsing;
 @end
 
 

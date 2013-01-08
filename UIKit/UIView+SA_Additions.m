@@ -384,17 +384,25 @@
 - (void) pulseWithFrequency: (NSTimeInterval) frequency {
 	NSString			*key = @"timer";
 	NSTimer				*pulseTimer = [self associatedValueForKey: key];
+	NSTimeInterval		duration = 0.15;
 
 	[pulseTimer invalidate];
 	[pulseTimer release];
 
 	if (frequency == 0) {			//end pulsing
 		[self associateValue: nil forKey: key];
+		[UIView animateWithDuration: duration animations: ^{
+			self.transform = CGAffineTransformIdentity;
+		}];
 	} else {
 		pulseTimer = [[NSTimer scheduledTimerWithTimeInterval: frequency target: self selector: @selector(animatePulse) userInfo: nil repeats: YES] retain];
 		[self associateValue: pulseTimer forKey: key];
 		[self performSelector: @selector(animatePulse) withObject: nil afterDelay: 0];
 	}
+}
+
+- (void) stopPulsing {
+	[self pulseWithFrequency: 0];
 }
 
 - (void) animatePulse {
