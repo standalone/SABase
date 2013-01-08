@@ -110,14 +110,11 @@ static NSMutableArray					*s_activePopovers = nil;
 
 + (BOOL) isPopoverVisibleWithViewControllerClass: (Class) class {
 	if (class == nil) return s_activePopovers.count > 0;
-<<<<<<< HEAD
 	return [self existingPopoverWithViewControllerClass: class] != nil;
 }
 
 + (UIPopoverController *) existingPopoverWithViewControllerClass: (Class) class {
 	if (class == nil) return nil;
-=======
->>>>>>> added more block types to SAUtilities
 	
 	for (UIPopoverController *pop in s_activePopovers) {
 		UINavigationController		*nav = (id) pop.contentViewController;
