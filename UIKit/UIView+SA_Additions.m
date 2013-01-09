@@ -510,7 +510,7 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 	if (!RUNNING_ON_60) return nil;
 	
 	[self unblurWithDuration: 0];
-	UIGraphicsBeginImageContext(self.bounds.size);
+	UIGraphicsBeginImageContextWithOptions(self.bounds.size, YES, 1);
 	
 	CGContextTranslateCTM(UIGraphicsGetCurrentContext(), -self.frame.origin.x, -self.frame.origin.y);
 	[self.superview.layer renderInContext: UIGraphicsGetCurrentContext()];
@@ -522,9 +522,18 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 	CIImage				*ciImage = [CIImage imageWithCGImage: image.CGImage];
 	CIContext			*context = [CIContext contextWithOptions: nil];
 	CIFilter			*filter = [CIFilter filterWithName:@"CIGaussianBlur" keysAndValues: kCIInputImageKey, ciImage, @"inputRadius", @(blurriness), nil];
-	CIImage				*outputImage = [filter outputImage];
-	UIImage				*result = [UIImage imageWithCIImage: outputImage];
-	UIImageView			*view = [[[UIImageView alloc] initWithImage: result] autorelease];
+	
+	UIImageView			*view = [[[UIImageView alloc] initWithImage: image] autorelease];
+
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+		CIImage				*outputImage = [filter outputImage];
+		UIImage				*result = [UIImage imageWithCIImage: outputImage];
+		
+		dispatch_async(dispatch_get_main_queue(), ^{
+			view.image = result;
+			[UIView animateWithDuration: duration animations: ^{ view.alpha = 1.0; }];
+		});
+	});
 	
 	[self associateValue: view forKey: kBlurredViewKey];
 	view.frame = self.frame;
@@ -532,7 +541,6 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 	view.transform = self.transform;
 	view.autoresizingMask = self.autoresizingMask;
 	[self.superview insertSubview: view aboveSubview: self];
-	[UIView animateWithDuration: duration animations: ^{ view.alpha = 1.0; }];
 	return view;
 }
 
