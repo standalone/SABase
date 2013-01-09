@@ -63,6 +63,9 @@ typedef enum {
 - (void) addEdgeDividers: (UIEdgeInsets) dividerWidths ofColor: (UIColor *) color;
 - (void) animateAndBounceToPoint: (CGPoint) point;
 - (void) stopPulsing;
+
+- (UIImageView *) blur: (int) blurriness withDuration: (NSTimeInterval) duration;	//returns the UIImageView that was created with the blurred image
+- (void) unblurWithDuration: (NSTimeInterval) duration;
 @end
 
 
