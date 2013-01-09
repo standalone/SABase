@@ -506,10 +506,15 @@
 
 const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 
-- (UIImageView *) blur: (int) blurriness withDuration: (NSTimeInterval) duration {
-	if (!RUNNING_ON_60) return nil;
+- (BOOL) isBlurred {
+	UIView				*blur = [self associatedValueForKey: kBlurredViewKey];
 	
-	[self unblurWithDuration: 0];
+	return blur != nil;
+}
+
+- (UIImageView *) blur: (int) blurriness withDuration: (NSTimeInterval) duration {
+	if (!RUNNING_ON_60 || self.isBlurred) return nil;
+	NSTimeInterval			start = [NSDate timeIntervalSinceReferenceDate];
 	UIGraphicsBeginImageContextWithOptions(self.bounds.size, YES, 1);
 	
 	CGContextTranslateCTM(UIGraphicsGetCurrentContext(), -self.frame.origin.x, -self.frame.origin.y);
@@ -519,12 +524,16 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 	UIImage				*image = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 	
+	LOG(@"Took %.5f to generate image", [NSDate timeIntervalSinceReferenceDate] - start);
+	start = [NSDate timeIntervalSinceReferenceDate];
 	CIImage				*ciImage = [CIImage imageWithCGImage: image.CGImage];
 	CIContext			*context = [CIContext contextWithOptions: nil];
 	CIFilter			*filter = [CIFilter filterWithName:@"CIGaussianBlur" keysAndValues: kCIInputImageKey, ciImage, @"inputRadius", @(blurriness), nil];
 	
-	UIImageView			*view = [[[UIImageView alloc] initWithImage: image] autorelease];
+	UIImageView			*view = [[[UIImageView alloc] initWithFrame: self.frame] autorelease];
 
+	LOG(@"Took %.5f to build view", [NSDate timeIntervalSinceReferenceDate] - start);
+	start = [NSDate timeIntervalSinceReferenceDate];
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 		CIImage				*outputImage = [filter outputImage];
 		UIImage				*result = [UIImage imageWithCIImage: outputImage];
@@ -532,6 +541,7 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 		dispatch_async(dispatch_get_main_queue(), ^{
 			view.image = result;
 			[UIView animateWithDuration: duration animations: ^{ view.alpha = 1.0; }];
+			LOG(@"Took %.5f to display the blur", [NSDate timeIntervalSinceReferenceDate] - start);
 		});
 	});
 	
@@ -553,6 +563,8 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 		}];
 	} else
 		[blur removeFromSuperview];
+	
+	[self associateValue: nil forKey: kBlurredViewKey];
 }
 
 @end
