@@ -506,22 +506,44 @@
 
 const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 
+- (UIImageView *) preBlur {
+	UIImageView				*view = [self associatedValueForKey: kBlurredViewKey];
+	
+	if (view == nil) view = [[[UIImageView alloc] initWithFrame: self.frame] autorelease];
+	view.alpha = 0.0;
+	view.frame = self.frame;
+	view.alpha = 0.0;
+	view.transform = self.transform;
+	view.autoresizingMask = self.autoresizingMask;
+	if (view.superview == self.superview) {
+		if ([NSThread isMainThread])
+			[self.superview insertSubview: view aboveSubview: self];
+		else
+			dispatch_sync(dispatch_get_main_queue(), ^{ [self.superview insertSubview: view aboveSubview: self];});
+	} else {
+		[self.superview insertSubview: view aboveSubview: self];
+	}
+	return view;
+}
+
 - (BOOL) isBlurred {
 	UIView				*blur = [self associatedValueForKey: kBlurredViewKey];
 	
-	return blur != nil;
+	return blur.alpha != 0.0;
 }
 
 - (UIImageView *) blur: (int) blurriness withDuration: (NSTimeInterval) duration {
 	if (!RUNNING_ON_60 || self.isBlurred) return nil;
-	NSTimeInterval			start = [NSDate timeIntervalSinceReferenceDate];
+
+
+	NSTimeInterval		start = [NSDate timeIntervalSinceReferenceDate];
 	UIGraphicsBeginImageContextWithOptions(self.bounds.size, YES, 1);
 	
 	CGContextTranslateCTM(UIGraphicsGetCurrentContext(), -self.frame.origin.x, -self.frame.origin.y);
 	[self.superview.layer renderInContext: UIGraphicsGetCurrentContext()];
 
 	
-	UIImage				*image = UIGraphicsGetImageFromCurrentImageContext();
+	UIImage					*image = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 	
 	LOG(@"Took %.5f to generate image", [NSDate timeIntervalSinceReferenceDate] - start);
@@ -530,7 +552,7 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 	CIContext			*context = [CIContext contextWithOptions: nil];
 	CIFilter			*filter = [CIFilter filterWithName:@"CIGaussianBlur" keysAndValues: kCIInputImageKey, ciImage, @"inputRadius", @(blurriness), nil];
 	
-	UIImageView			*view = [[[UIImageView alloc] initWithFrame: self.frame] autorelease];
+	UIImageView				*view = [self preBlur];
 
 	LOG(@"Took %.5f to build view", [NSDate timeIntervalSinceReferenceDate] - start);
 	start = [NSDate timeIntervalSinceReferenceDate];
@@ -546,25 +568,28 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 	});
 	
 	[self associateValue: view forKey: kBlurredViewKey];
-	view.frame = self.frame;
-	view.alpha = 0.0;
-	view.transform = self.transform;
-	view.autoresizingMask = self.autoresizingMask;
-	[self.superview insertSubview: view aboveSubview: self];
 	return view;
 }
 
-- (void) unblurWithDuration: (NSTimeInterval) duration {
+- (void) unblur {
 	UIView				*blur = [self associatedValueForKey: kBlurredViewKey];
+	[blur removeFromSuperview];
+	[self associateValue: nil forKey: kBlurredViewKey];
+}
+
+- (void) unblurWithDuration: (NSTimeInterval) duration {
+	UIImageView				*blur = [self associatedValueForKey: kBlurredViewKey];
 	
 	if (duration) {
-		[UIView animateWithDuration: duration animations: ^{ blur.alpha = 0.0; } completion: ^(BOOL complete) {
-			[blur removeFromSuperview];
+		[UIView animateWithDuration: duration animations: ^{ blur.alpha = 0.0; } completion:^(BOOL finished) {
+			blur.image = nil;
 		}];
-	} else
-		[blur removeFromSuperview];
+	} else {
+		blur.alpha = 0.0;
+		blur.image = nil;
+	}
 	
-	[self associateValue: nil forKey: kBlurredViewKey];
+//	[self associateValue: nil forKey: kBlurredViewKey];
 }
 
 @end
