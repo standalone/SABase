@@ -286,10 +286,10 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	NSManagedObjectContextConcurrencyType		concurrencyType = RUNNING_ON_50 ? self.concurrencyType : NSConfinementConcurrencyType;
 	
 	if (concurrencyType == NSConfinementConcurrencyType && self.saveThread && [NSThread currentThread] != self.saveThread) {
-		[self performSelector: @selector(save) onThread: self.saveThread withObject: nil waitUntilDone: YES];
+		[self performSelector: @selector(performSave) onThread: self.saveThread withObject: nil waitUntilDone: ![NSThread isMainThread]];
 		return;
 	} else if (concurrencyType == NSMainQueueConcurrencyType && ![NSThread isMainThread]) {
-		[self performSelector: @selector(save) onThread: [NSThread mainThread] withObject: nil waitUntilDone: YES];
+		[self performSelector: @selector(performSave) onThread: [NSThread mainThread] withObject: nil waitUntilDone: YES];
 		return;
 	}
 	@synchronized (self) {
