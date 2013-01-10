@@ -49,8 +49,7 @@
 		return;
 	}
 
-	self.delegate = (id <UIActionSheetDelegate>) self;
-	[self associateValue: Block_copy(block) forKey: kButtonBlockKey];
+	self.buttonSelectBlock = block;
 	[self showFromView: view];
 }
 
@@ -60,9 +59,18 @@
 		return;
 	}
 	
+	self.buttonSelectBlock = block;
+	[self showFromBarButtonItem: item animated: YES];
+}
+
+- (void) setButtonSelectBlock: (intArgumentBlock) block {
 	self.delegate = (id <UIActionSheetDelegate>) self;
 	[self associateValue: Block_copy(block) forKey: kButtonBlockKey];
-	[self showFromBarButtonItem: item animated: YES];
+}
+
+- (intArgumentBlock) buttonSelectBlock {
+	intArgumentBlock			block = [self associatedValueForKey: kButtonBlockKey];
+	return block ? Block_copy(block) : nil;
 }
 
 - (void) showFromView: (UIView *) view {

@@ -15,6 +15,7 @@
 - (int) tagForButtonAtIndex: (NSUInteger) index;
 - (void) clearButtonTags;
 #if NS_BLOCKS_AVAILABLE
+	@property (nonatomic, copy) intArgumentBlock buttonSelectBlock;
 	- (void) showFromView: (UIView *) view withButtonSelectedBlock: (intArgumentBlock) block;
 	- (void) showFromBarButtonItem: (UIBarButtonItem *) item withButtonSelectedBlock: (intArgumentBlock) block;
 #endif
