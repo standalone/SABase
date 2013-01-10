@@ -224,11 +224,13 @@ typedef enum {
 @property (nonatomic, readwrite) BOOL managePleaseWaitDisplay, suppressOfflineAlerts;
 @property (nonatomic, assign) id <SA_ConnectionRouter> router;
 @property (readwrite) NSInteger activityIndicatorCount;
+@property (nonatomic) dispatch_queue_t backgroundQueue;
 #if DEBUG
 	@property (nonatomic, readwrite) connection_record_setting recordSetting;
 #endif
 
-+ (SA_ConnectionQueue *) sharedQueue;
+SINGLETON_INTERFACE_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
+
 - (BOOL) queueConnection: (SA_Connection *) connection;
 - (BOOL) queueConnection: (SA_Connection *) connection andPromptIfOffline: (BOOL) prompt;
 - (BOOL) performInvocationIfOffline: (NSInvocation *) invocation;

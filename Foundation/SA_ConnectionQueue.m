@@ -51,9 +51,6 @@ NSString *kConnectionNotification_ConnectionCancelled = @"SA_Connection: cancell
 NSString *kConnectionNotification_ConnectionFailed = @"SA_Connection: failed";
 NSString *kConnectionNotification_ConnectionStateChanged = @"SA_Connection: state changed";
 
-static SA_ConnectionQueue		*g_queue = nil;
-
-
 @interface NSObject (DUMMY_INTERFACE_FOR_CONNECTION_PERSISTANCE)
 - (void) removePersistedConnection: (id) conn;
 - (void) persistConnection: (id) conn;
@@ -75,28 +72,7 @@ static SA_ConnectionQueue		*g_queue = nil;
 #if DEBUG
 	@synthesize recordSetting = _recordSetting;
 #endif
-+ (void) initialize {
-	NSAutoreleasePool			*pool = [[NSAutoreleasePool alloc] init];
-	if (g_queue == nil) g_queue = [[SA_ConnectionQueue alloc] init];
-	
-	#ifdef LOG_ALL_CONNECTIONS
-		NSError							*error = nil;
-		NSFileManager					*mgr = [NSFileManager defaultManager];
-		
-		[mgr removeItemAtPath: [self logDirectoryPath] error: &error];
-		[mgr createDirectoryAtPath: [self logDirectoryPath] withIntermediateDirectories: YES attributes: nil error: &error];
-	#endif
-	
-	#if DEBUG
-		NSError							*dirError = nil;
-		[[NSFileManager defaultManager] createDirectoryAtPath: [@"~/Library/Downloads/" stringByExpandingTildeInPath] withIntermediateDirectories: YES attributes: nil error: &dirError];
-	#endif
-	[pool release];
-}
-
-+ (SA_ConnectionQueue *) sharedQueue {
-	return g_queue;
-}
+SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 
 + (NSString *) logDirectoryPath {
 	static NSString				*path = nil;
@@ -132,6 +108,18 @@ static SA_ConnectionQueue		*g_queue = nil;
 
 - (id) init {
 	if ((self = [super init])) {
+		#ifdef LOG_ALL_CONNECTIONS
+				NSError							*error = nil;
+				NSFileManager					*mgr = [NSFileManager defaultManager];
+				
+				[mgr removeItemAtPath: [SA_ConnectionQueue logDirectoryPath] error: &error];
+				[mgr createDirectoryAtPath: [SA_ConnectionQueue logDirectoryPath] withIntermediateDirectories: YES attributes: nil error: &error];
+		#endif
+				
+		#if DEBUG
+				NSError							*dirError = nil;
+				[[NSFileManager defaultManager] createDirectoryAtPath: [@"~/Library/Downloads/" stringByExpandingTildeInPath] withIntermediateDirectories: YES attributes: nil error: &dirError];
+		#endif
 		self.router = self;
 		_pending = [[NSMutableArray alloc] init];
 		_active = [[NSMutableSet alloc] init];
@@ -151,6 +139,10 @@ static SA_ConnectionQueue		*g_queue = nil;
 				[self addAsObserverForName: UIApplicationWillEnterForegroundNotification selector: @selector(applicationWillEnterForeground:)];
 				//[self addAsObserverForName: UIApplicationDidEnterBackgroundNotification selector: @selector(applicationDidEnterBackground:)];
 			}
+		#endif
+		
+		#if !TARGET_OS_IPHONE
+			self.backgroundQueue = dispatch_queue_create("SA_ConnectionBackgroundQueue", 0);
 		#endif
 	}
 	return self;
@@ -1080,7 +1072,13 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	if (self.connectionFinishedBlock) {
 		self.connectionFinishedBlock(self, self.statusCode, nil);
 	} else if (self.completeInBackground) {
-		if ([SA_ConnectionQueue sharedQueue].backgroundThread)
+		if ([SA_ConnectionQueue sharedQueue].backgroundQueue) {
+			dispatch_async([SA_ConnectionQueue sharedQueue].backgroundQueue,  ^{
+				if ([_delegate respondsToSelector: @selector(connectionDidFinish:)]) [_delegate connectionDidFinish: self];
+				
+				[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_ConnectionFinished object: self];
+			});
+		} else  if ([SA_ConnectionQueue sharedQueue].backgroundThread)
 			[self performSelector: @selector(backgroundConnectionDidFinish) onThread: [SA_ConnectionQueue sharedQueue].backgroundThread withObject: nil waitUntilDone: NO];
 		else
 			[NSThread detachNewThreadSelector: @selector(backgroundConnectionDidFinish) toTarget: self withObject: nil];
@@ -1127,7 +1125,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 #endif
 	
 	LOG_CONNECTION_PHASE(@"Received Response", self);
-	if (_file == nil && g_queue.fileSwitchOverLimit && [response expectedContentLength] > g_queue.fileSwitchOverLimit) {
+	if (_file == nil && [SA_ConnectionQueue sharedQueue].fileSwitchOverLimit && [response expectedContentLength] > [SA_ConnectionQueue sharedQueue].fileSwitchOverLimit) {
 		[self switchToFileStorage]; 
 	}
 	
