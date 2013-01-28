@@ -60,6 +60,12 @@ NSMutableArray			*s_displayedAlerts = nil;
 }
 
 + (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *)message tag: (int)tag delegate: (id) delegate button: (NSString *) buttonTitle {
+	if (![NSThread isMainThread]) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self showAlertWithTitle: title message: message tag: tag delegate: delegate button: buttonTitle];
+		});
+		return nil;
+	}
 	SA_AlertView		*alert = [self alertWithTitle: title message: message tag: tag button: buttonTitle];
 	
 	alert.delegate = delegate;
