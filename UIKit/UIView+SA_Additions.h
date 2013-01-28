@@ -64,12 +64,13 @@ typedef enum {
 - (void) animateAndBounceToPoint: (CGPoint) point;
 - (void) stopPulsing;
 
+#if BLUR_SUPPORTED
 - (BOOL) isBlurred;
 - (UIImageView *) blur: (int) blurriness withDuration: (NSTimeInterval) duration;	//returns the UIImageView that was created with the blurred image
 - (void) unblurWithDuration: (NSTimeInterval) duration;
 - (UIImageView *) preBlur;
 - (void) unblur;
-
+#endif
 @end
 
 

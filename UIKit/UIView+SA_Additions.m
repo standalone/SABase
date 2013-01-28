@@ -504,6 +504,7 @@
 }
 
 
+#if BLUR_SUPPORTED
 const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 
 - (UIImageView *) preBlur {
@@ -591,7 +592,7 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 	
 //	[self associateValue: nil forKey: kBlurredViewKey];
 }
-
+#endif
 @end
 
 
