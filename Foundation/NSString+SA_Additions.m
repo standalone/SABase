@@ -491,11 +491,11 @@
 @implementation NSAttributedString (SA_Additions)
 #if TARGET_OS_IPHONE
 + (id) stringWithString: (NSString *) string {
-	return [self stringWithString: string attributes: @{ NSFontAttributeName: [UIFont boldSystemFontOfSize: 14] }];
+	return [self stringWithString: string ?: @"" attributes: @{ NSFontAttributeName: [UIFont boldSystemFontOfSize: 14] }];
 }
 
 + (id) stringWithString: (NSString *) string attributes: (NSDictionary *) attr {
-	return [[self alloc] initWithString: string attributes: attr];
+	return [[self alloc] initWithString: string ?: @"" attributes: attr ?: @{}];
 }
 #endif
 @end
