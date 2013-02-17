@@ -793,6 +793,9 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	[_delegate release];
 	[_headers release];
 	[_request release];
+	
+	[_sentCookies release];
+	[_receivedCookies release];
 	self.connectionFinishedBlock = nil;
 	
 	#if DEBUG
@@ -844,6 +847,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	connection.delegate = self.delegate;
 	connection.persists = self.persists;
 	connection.method = self.method;
+	connection.sentCookies = [self.sentCookies.copy autorelease];
 	connection->_headers = [_headers mutableCopy];
 	
 	return connection;
@@ -889,11 +893,13 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	if (self.method) [request setHTTPMethod: self.method];
 	if (self.payload) [request setHTTPBody: self.payload];
 	
-	if (_headers) [request setAllHTTPHeaderFields: _headers];
+	NSDictionary			*headers = [self generatedHeaders];
+	if (headers) [request setAllHTTPHeaderFields: headers];
 
-	
 	return request;
 }
+
+
 
 - (BOOL) start {
 	SA_Assert(self.url != nil, @"Cannot start an SA_Connection with a nil URL");
@@ -1005,10 +1011,20 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	if (self.method) [newRequest setHTTPMethod: self.method];
 	if (self.payload) [newRequest setHTTPBody: self.payload];
 	
-	if (_headers) [newRequest setAllHTTPHeaderFields: _headers];
+	NSDictionary			*headers = [self generatedHeaders];
+	if (headers) [newRequest setAllHTTPHeaderFields: headers];
 	
 //	if ([_delegate respondsToSelector: @selector(connectionWillBegin:)]) [_delegate connectionWillBegin: self];
 	return newRequest;
+}
+
+- (NSDictionary *) generatedHeaders {
+	if (self.sentCookies.count == 0) return _headers;
+	
+	NSMutableDictionary				*headers = [[_headers mutableCopy] autorelease];
+	
+	headers[@"Cookie"] = [self.sentCookies componentsJoinedByString: @","];
+	return headers;
 }
 
 - (void) connection: (NSURLConnection *) connection didFailWithError: (NSError *) error {
@@ -1132,7 +1148,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	if ([response isKindOfClass: [NSHTTPURLResponse class]]) {
 		_responseHeaders = [[(id) response allHeaderFields] retain];
 		_statusCode = (int) [(NSHTTPURLResponse *) response statusCode];
-
+		
 		if (HTTP_STATUS_CODE_IS_ERROR(_statusCode)) {
 //			if ([_delegate respondsToSelector: @selector(connectionFailed:withStatusCode:)] && ![_delegate connectionFailed: self withStatusCode: _statusCode]) {
 //				 [self cancel: YES];
@@ -1140,7 +1156,10 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 			if ([SA_ConnectionQueue sharedQueue].dontProcessFailedStatusCodes && [_delegate respondsToSelector: @selector(connectionFailed:withError:)]) {
 				[_delegate connectionFailed: self withError: [NSError errorWithDomain: NSLocalizedString(@"Connection failed", @"Connection failed") code: _statusCode userInfo: nil]];
 			}
-		}  
+		}  else {
+			NSString			*cookieString = _responseHeaders[@"Set-Cookie"];
+			if (cookieString) self.receivedCookies = [cookieString componentsSeparatedByString: @","];
+		}
 	}
 }
 

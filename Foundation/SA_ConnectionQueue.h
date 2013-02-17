@@ -136,6 +136,7 @@ typedef enum {
 @property (nonatomic, readwrite) BOOL allowRepeatedKeys, discardIfOffline;
 @property (nonatomic, readonly) NSString *dataString, *payloadString;
 @property (nonatomic) NSTimeInterval timeoutInterval;
+@property (nonatomic, retain) NSArray *sentCookies, *receivedCookies;
 
 @property (nonatomic, readwrite, copy) connectionFinished connectionFinishedBlock;
 
