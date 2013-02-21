@@ -892,6 +892,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	if (self.timeoutInterval) request.timeoutInterval = self.timeoutInterval;
 	if (self.method) [request setHTTPMethod: self.method];
 	if (self.payload) [request setHTTPBody: self.payload];
+	if (self.disableNativeCookieHandling) [request setHTTPShouldHandleCookies: NO];
 	
 	NSDictionary			*headers = [self generatedHeaders];
 	if (headers) [request setAllHTTPHeaderFields: headers];
@@ -1010,6 +1011,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	
 	if (self.method) [newRequest setHTTPMethod: self.method];
 	if (self.payload) [newRequest setHTTPBody: self.payload];
+	if (self.disableNativeCookieHandling) [newRequest setHTTPShouldHandleCookies: NO];
 	
 	NSDictionary			*headers = [self generatedHeaders];
 	if (headers) [newRequest setAllHTTPHeaderFields: headers];
