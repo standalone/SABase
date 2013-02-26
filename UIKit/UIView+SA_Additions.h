@@ -31,7 +31,7 @@ typedef enum {
 + (UIView *) firstResponderView;
 - (UIView *) firstResponderView;
 + (void) resignFirstResponder;
-- (void) resignFirstResponderForAllChildren;
+- (BOOL) resignFirstResponderForAllChildren;
 - (void) localizeText;
 
 + (void) chainAnimations: (NSArray *) animations withDurations: (NSArray *) durations;

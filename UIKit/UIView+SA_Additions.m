@@ -72,12 +72,14 @@
 	return nil;
 }
 
-- (void) resignFirstResponderForAllChildren {
-	if ([self canResignFirstResponder]) [self resignFirstResponder];
+- (BOOL) resignFirstResponderForAllChildren {
+	if (![self canResignFirstResponder]) return NO;
+	[self resignFirstResponder];
 	
 	for (UIView *subview in self.subviews) {
-		[subview resignFirstResponderForAllChildren];
+		if (![subview resignFirstResponderForAllChildren]) return NO;
 	}
+	return YES;
 }
 
 - (CGRect) normalizedFrame {

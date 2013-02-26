@@ -879,7 +879,9 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	if (_payload != payload) {
 		[_payload release];
 		_payload = [payload retain];
-	}	
+	}
+	
+	if (payload && (self.method == nil || [self.method isEqual: @"GET"])) self.method = @"POST";
 }
 
 - (NSComparisonResult) comparePriorities: (SA_Connection *) other {
