@@ -9,8 +9,8 @@
 #import "NSString+SA_MD5.h"
 
 
+#import <CommonCrypto/CommonDigest.h> // Need to import for CC_MD5 access
 #if TARGET_OS_IPHONE
-	#import <CommonCrypto/CommonDigest.h> // Need to import for CC_MD5 access
 
 
 @implementation NSString (SA_MD5)
@@ -79,5 +79,13 @@
 		
 		return md5;	
 	}
+
+- (NSUInteger) md5Hash {
+	UInt32 results[4];
+	unsigned char			*utf8 = (unsigned char *) self.UTF8String;
+	CC_MD5((const void *) utf8, strlen((const char *) utf8), (unsigned char *) results);
+	
+	return results[0] + results[1] + results[2] + results[3];
+}
 #endif
 @end
