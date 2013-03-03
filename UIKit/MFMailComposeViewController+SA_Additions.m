@@ -15,7 +15,7 @@
 @implementation MFMailComposeViewController (SA_Additions)
 - (void) setCompletionBlock: (mailComposeCompletionBlock) completionBlock {
 	if (completionBlock) self.mailComposeDelegate = self;
-	[self associateValue: (id) Block_copy(completionBlock) forKey: COMPLETION_BLOCK_KEY];
+	[self associateValue: [completionBlock copy] forKey: COMPLETION_BLOCK_KEY];
 }
 
 - (mailComposeCompletionBlock) completionBlock {
