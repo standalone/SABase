@@ -68,6 +68,6 @@ extern NSString *kNotification_PersistentStoreResetDueToSchemaChange;
 #if TARGET_OS_IPHONE
 	- (NSFetchedResultsController *) fetchedResultsControllerForEntityNamed: (NSString *) entityName predicate: (NSPredicate *) predicate sortedBy: (NSArray *) sortDescriptors sectionNameKeyPath: (NSString *) sectionNameKeyPath cacheName: (NSString *) cacheName;
 	- (NSFetchedResultsController *) fetchedResultsControllerForRequest: (NSFetchRequest *) request inTable: (UITableView *) table withSectionNameKeyPath: (NSString *) sectionKeyPath cacheName: (NSString *) cacheName;
-	- (void) clearFetchedResultsController: (NSFetchedResultsController *) controller;
+	//- (void) clearFetchedResultsController: (NSFetchedResultsController *) controller;
 #endif
 @end

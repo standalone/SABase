@@ -506,11 +506,11 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	NSMutableDictionary				*changeBlocks = [self associatedValueForKey: UPDATE_BLOCKS_KEY];
 	
 	if (changeBlocks == nil) {
-		changeBlocks = [[NSMutableDictionary alloc] init];
+		changeBlocks = [[[NSMutableDictionary alloc] init] autorelease];
 		[self associateValue: changeBlocks forKey: UPDATE_BLOCKS_KEY];
 		[[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(sa_mergeChangesFromContextDidSaveNotification:) name: NSManagedObjectContextDidSaveNotification object: self];
 	}
-	contextUpdatedBlock				copiedBlock = Block_copy(block);
+	contextUpdatedBlock				copiedBlock = [[block copy] autorelease];
 	
 	[changeBlocks setObject: copiedBlock forKey: tag];
 }
@@ -537,7 +537,6 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	[changeBlocks removeObjectForKey: tag];
 	if (changeBlocks.count == 0) {
 		[self associateValue: nil forKey: UPDATE_BLOCKS_KEY];
-		[changeBlocks release];
 		[[NSNotificationCenter defaultCenter] removeObserver: self name: NSManagedObjectContextDidSaveNotification object: self];
 	}
 }
@@ -561,13 +560,13 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	return controller;
 } 
 
-- (void) clearFetchedResultsController: (NSFetchedResultsController *) controller {
-	UITableView					*table = [self associatedValueForKey: TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY];
-
-	[table release];
-	[controller release];
-	[self associateValue: nil forKey: TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY];
-}
+//- (void) clearFetchedResultsController: (NSFetchedResultsController *) controller {
+//	UITableView					*table = [self associatedValueForKey: TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY];
+//
+//	[table release];
+//	[controller release];
+//	[self associateValue: nil forKey: TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY];
+//}
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
 	UITableView					*table = [self associatedValueForKey: TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY];

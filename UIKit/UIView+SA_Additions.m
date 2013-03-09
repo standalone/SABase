@@ -384,12 +384,11 @@
 }
 
 - (void) pulseWithFrequency: (NSTimeInterval) frequency {
-	NSString			*key = @"timer";
+	NSString			*key = @"sa_view_pulse_timer";
 	NSTimer				*pulseTimer = [self associatedValueForKey: key];
 	NSTimeInterval		duration = 0.15;
 
 	[pulseTimer invalidate];
-	[pulseTimer release];
 
 	if (frequency == 0) {			//end pulsing
 		[self associateValue: nil forKey: key];
@@ -397,7 +396,7 @@
 			self.transform = CGAffineTransformIdentity;
 		}];
 	} else {
-		pulseTimer = [[NSTimer scheduledTimerWithTimeInterval: frequency target: self selector: @selector(animatePulse) userInfo: nil repeats: YES] retain];
+		pulseTimer = [NSTimer scheduledTimerWithTimeInterval: frequency target: self selector: @selector(animatePulse) userInfo: nil repeats: YES];
 		[self associateValue: pulseTimer forKey: key];
 		[self performSelector: @selector(animatePulse) withObject: nil afterDelay: 0];
 	}
@@ -502,7 +501,7 @@
 		[self.layer removeAnimationForKey: key];
 	};
 	[self.layer addAnimation: anim forKey: key];
-	
+	CGPathRelease(path);
 }
 
 

@@ -48,7 +48,7 @@ NSMutableArray			*s_displayedAlerts = nil;
 	
 	if (message) {
 		va_start(list, message);
-		fullMessage = [[NSString alloc] initWithFormat: message arguments: list];
+		fullMessage = [[[NSString alloc] initWithFormat: message arguments: list] autorelease];
 		va_end(list);
 	}
 

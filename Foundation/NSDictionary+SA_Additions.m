@@ -11,38 +11,38 @@
 
 @implementation NSDictionary (NSDictionary_SA_Additions)
 
-- (NSMutableDictionary *) deepMutableCopy {
-	NSArray				*keys = [self allKeys];
-	NSUInteger			i, count = [keys count];
-	id					obj, key;
-	NSMutableDictionary	*result = [[NSMutableDictionary alloc] initWithCapacity: [self count]];
-	
-	for (i = 0; i < count; i++) {
-		key = [keys objectAtIndex: i];
-		obj = [self objectForKey: key];
-		
-		if ([obj isKindOfClass: [NSNumber class]]) {
-			[result setObject: obj forKey: key];
-			continue;
-		} else if ([obj respondsToSelector: @selector(deepMutableCopy)])
-			obj = [obj deepMutableCopy];
-		else
-		if ([obj respondsToSelector: @selector(mutableCopy)])
-			obj = [obj mutableCopy];
-		else
-		if ([obj respondsToSelector: @selector(copy)] && ![obj isMemberOfClass: [NSString class]])
-			obj = [obj copy];
-		else
-			obj = [obj retain];
-			
-		key = [key copy];
-		[result setObject: obj forKey: key];
-		[key release];
-		[obj release];
-	}
-	
-	return result;
-}
+//- (NSMutableDictionary *) deepMutableCopy {
+//	NSArray				*keys = [self allKeys];
+//	NSUInteger			i, count = [keys count];
+//	id					obj, key;
+//	NSMutableDictionary	*result = [[NSMutableDictionary alloc] initWithCapacity: [self count]];
+//	
+//	for (i = 0; i < count; i++) {
+//		key = [keys objectAtIndex: i];
+//		obj = [self objectForKey: key];
+//		
+//		if ([obj isKindOfClass: [NSNumber class]]) {
+//			[result setObject: obj forKey: key];
+//			continue;
+//		} else if ([obj respondsToSelector: @selector(deepMutableCopy)])
+//			obj = [obj deepMutableCopy];
+//		else
+//		if ([obj respondsToSelector: @selector(mutableCopy)])
+//			obj = [obj mutableCopy];
+//		else
+//		if ([obj respondsToSelector: @selector(copy)] && ![obj isMemberOfClass: [NSString class]])
+//			obj = [obj copy];
+//		else
+//			obj = [obj retain];
+//			
+//		key = [key copy];
+//		[result setObject: obj forKey: key];
+//		[key release];
+//		[obj release];
+//	}
+//	
+//	return result;
+//}
 
 + (NSDictionary *) dictionaryWithData: (NSData *) data {
 	NSString				*path = [NSString tempFilename];

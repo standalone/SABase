@@ -74,32 +74,32 @@
 	return result;
 }
 
-- (NSMutableArray *) deepMutableCopy {
-	NSInteger			i, count = [self count];
-	id					obj;
-	NSMutableArray		*result = [[NSMutableArray alloc] initWithCapacity: [self count]];
-	
-	for (i = 0; i < count; i++) {
-		obj = [self objectAtIndex: i];
-		
-		if ([obj isKindOfClass: [NSNumber class]]) {
-			[result addObject: obj];
-			continue;
-		} else if ([obj respondsToSelector: @selector(deepMutableCopy)])
-			obj = [obj deepMutableCopy];
-		else if ([obj respondsToSelector: @selector(mutableCopy)])
-			obj = [obj mutableCopy];
-		else if ([obj respondsToSelector: @selector(copy)] && ![obj isMemberOfClass: [NSString class]])
-			obj = [obj copy];
-		else if ([obj respondsToSelector: @selector(retain)])
-			obj = [obj retain];
-			
-		[result addObject: obj];
-		[obj release];
-	}
-	
-	return result;
-}
+//- (NSMutableArray *) deepMutableCopy {
+//	NSInteger			i, count = [self count];
+//	NSMutableArray		*result = [[NSMutableArray alloc] initWithCapacity: [self count]];
+//	
+//	@autoreleasepool {
+//		for (i = 0; i < count; i++) {
+//			id					obj, copy = nil;
+//			obj = [self objectAtIndex: i];
+//			
+//			if ([obj isKindOfClass: [NSNumber class]] || ![obj respondsToSelector: @selector(retain)]) {
+//				copy = obj;
+//			} else if ([obj respondsToSelector: @selector(deepMutableCopy)])
+//				copy = [[obj deepMutableCopy] autorelease];
+//			else if ([obj respondsToSelector: @selector(mutableCopy)])
+//				copy = [[obj mutableCopy] autorelease];
+//			else if ([obj respondsToSelector: @selector(copy)] && ![obj isMemberOfClass: [NSString class]])
+//				copy = [[obj copy] autorelease];
+//			else
+//				copy = obj;
+//				
+//			[result addObject: copy];
+//		}
+//	}
+//	
+//	return result;
+//}
 
 - (NSArray *) randomizedCopy {
 	NSMutableArray					*copy = [[[NSMutableArray alloc] initWithCapacity: self.count] autorelease], *holder = [[self mutableCopy] autorelease];

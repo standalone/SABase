@@ -12,6 +12,6 @@
 @interface NSDictionary (NSDictionary_SA_Additions)
 @property (nonatomic, readonly) NSUInteger md5Hash;
 
-- (NSMutableDictionary *) deepMutableCopy;
+//- (NSMutableDictionary *) deepMutableCopy;
 + (NSDictionary *) dictionaryWithData: (NSData *) data;
 @end

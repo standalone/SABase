@@ -495,7 +495,7 @@
 }
 
 + (id) stringWithString: (NSString *) string attributes: (NSDictionary *) attr {
-	return [[self alloc] initWithString: string ?: @"" attributes: attr ?: @{}];
+	return [[[self alloc] initWithString: string ?: @"" attributes: attr ?: @{}] autorelease];
 }
 #endif
 @end

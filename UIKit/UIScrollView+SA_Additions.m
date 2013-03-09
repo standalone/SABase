@@ -81,27 +81,16 @@
 	newFrame.size.height -= heightDelta;
 	
 	if (scrollRequired) {
-		[UIView beginAnimations: nil context: [[NSValue valueWithCGRect: newFrame] retain]];
-		[UIView setAnimationDuration:  [[note.userInfo objectForKey: UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
-		[UIView setAnimationCurve: [[note.userInfo objectForKey: UIKeyboardAnimationCurveUserInfoKey] intValue]];
-		[UIView setAnimationDelegate: self];
-		[UIView setAnimationDidStopSelector: @selector(keyboardDidShow:completed:newFrame:)];
-		
-		
-		[self setContentOffset: newContentOffset animated: NO];
-		[UIView commitAnimations];
+		[UIView animateWithDuration:  [[note.userInfo objectForKey: UIKeyboardAnimationDurationUserInfoKey] doubleValue] animations: ^{
+			[self setContentOffset: newContentOffset animated: NO];
+		} completion:^(BOOL finished) {
+			self.frame = newFrame;
+		}];
 	} else {
 		if (RUNNING_ON_40) {
 			[NSObject performBlock: ^{ self.frame = newFrame; } afterDelay: [[note.userInfo objectForKey: UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
 		}
 	}
-}
-
-- (void) keyboardDidShow: (NSString *) animationKey completed: (BOOL) completred newFrame: (NSValue *) newFrame {
-	CGPoint				contentOffset = self.contentOffset;
-	self.frame = [newFrame CGRectValue];
-	self.contentOffset = contentOffset;
-	[newFrame release];
 }
 
 - (void) keyboardWillHide: (NSNotification *) note {

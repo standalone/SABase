@@ -14,9 +14,10 @@
 + (NSString *) uuid {
 	CFUUIDRef					uuid = CFUUIDCreate(NULL);
 	NSString					*uuidString = (NSString *) CFUUIDCreateString(NULL, uuid);
+
 	CFRelease(uuid);
 	
-	return uuidString;
+	return [uuidString autorelease];
 }
 
 + (NSString *) guid { return [self uuid]; }

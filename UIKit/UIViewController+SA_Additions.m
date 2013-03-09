@@ -104,7 +104,7 @@
 	if ([self isKindOfClass: [UINavigationController class]]) {
 		[(id) self popToRootViewControllerAnimated: NO];
 	} else if (RUNNING_ON_50) {
-		for (UIViewController *child in [[(id) self childViewControllers] copy]) {
+		for (UIViewController *child in [[[(id) self childViewControllers] copy] autorelease]) {
 			[child.view removeFromSuperview];
 			[(id) child removeFromParentViewController];
 		}

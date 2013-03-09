@@ -18,7 +18,7 @@
 - (id) firstObjectMatchingPredicate: (NSPredicate *) pred;
 
 - (NSArray *) arrayWithIndexesFromSet: (NSIndexSet *) indexeSet;
-- (NSMutableArray *) deepMutableCopy;
+//- (NSMutableArray *) deepMutableCopy;
 - (NSArray *) randomizedCopy;
 - (NSArray *) arrayWithCollectedResultsOfMethod: (SEL) method;
 - (NSArray *) arrayWithCollectedResultsOfBlock: (idArgumentBlockReturningID) block;

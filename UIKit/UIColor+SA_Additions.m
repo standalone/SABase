@@ -66,8 +66,8 @@
 		if (strlen(raw) == 8) alpha = CharToInteger(raw[5]) * 16 + CharToInteger(raw[6]);
 	} 
 	
-	if (values[0] == 0 && values[1] == 0 && values[2] == 0) return [UIColor blackColor];
-	if (values[0] == 255 && values[1] == 255 && values[2] == 255) return [UIColor whiteColor];
+	if (values[0] == 0 && values[1] == 0 && values[2] == 0) return [[UIColor blackColor] retain];
+	if (values[0] == 255 && values[1] == 255 && values[2] == 255) return [[UIColor whiteColor] retain];
 
 	return [self initWithRed: values[0] / 255.0 green: values[1] / 255.0 blue: values[2] / 255.0 alpha: alpha];
 }
