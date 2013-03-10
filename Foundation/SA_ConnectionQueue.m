@@ -270,7 +270,14 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 	}
 #endif
 
-
+- (void) setPaused: (BOOL) paused {
+	if (paused == _paused) return;
+	
+	_paused = paused;
+	if (!paused) {
+		[self processQueue];
+	}
+}
 
 - (void) processQueue {
 	[NSObject cancelPreviousPerformRequestsWithTarget: self selector: @selector(processQueue) object: nil];
@@ -296,7 +303,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 	#endif
 	
 	@synchronized (_active) {
-		while (!_offline && _active.count < self.maxSimultaneousConnections && _pending.count) {
+		while (!_offline && !self.paused && _active.count < self.maxSimultaneousConnections && _pending.count) {
 			SA_Connection				*connection = [_pending objectAtIndex: 0];
 			
 			SA_Assert(!connection.alreadyStarted, @"Somehow a previously started connection is in the pending list");
@@ -311,7 +318,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 			[_pending removeObjectAtIndex: 0];
 		}
 
-  		if (_active.count == 0) {
+  		if (_active.count == 0 && !_paused) {
 			if (_pending.count == 0) {
 				_highwaterMark = 0;
 				[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_AllConnectionsCompleted object: self];
