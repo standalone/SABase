@@ -9,6 +9,7 @@
 #import "NSString+SA_Additions.h"
 #include <time.h>
 
+
 #define			THREAD_SAFE_STATIC(type, variable)		\
 	type			*variable;\
 	static type		*static_##variable = nil;\
@@ -65,18 +66,6 @@
 	#endif
 }
 
-+ (NSDateFormatter *) formatterForKey: (NSString *) key {
-	NSMutableDictionary			*threadDict = [[NSThread currentThread] threadDictionary];
-	NSDateFormatter				*threadFormatter = [threadDict objectForKey: key];
-	
-	if (threadFormatter) return threadFormatter;
-	
-	threadFormatter = [[NSDateFormatter alloc] init];
-	[threadDict setObject: threadFormatter forKey: key];
-	[threadFormatter release];
-	return threadFormatter;
-}
-
 + (NSDate *) dateWithHTTPHeaderString: (NSString *) string {
 	THREAD_SAFE_STATIC_WTIH_INITIALIZER(NSLocale, enUSPOSIXLocale, initWithLocaleIdentifier, @"en_US");
 	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
@@ -104,7 +93,7 @@
 + (NSDate *) dateWithNaturalLanguageString: (NSString *) date andFormatHint: (NSString *) formatHint {
 	if (date.length < 5) return nil;
 	NSString				*trimmedDate = [date substringFromIndex: 4];
-	NSDateFormatter			*formatter = [NSDate formatterForKey: NSStringFromSelector(_cmd)];
+	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
 	
 	[formatter setDateFormat: formatHint ? formatHint : @"MMM dd HH:mm:ss zzzz yyyy"];
 	[formatter setTimeZone: [NSTimeZone timeZoneWithName: @"GMT"]];
@@ -299,7 +288,8 @@
 
 - (NSString *) veryShortTimeString {
 	NSInteger				hour = self.hour;
-	NSString				*pmSymbol = [[NSDate formatterForKey: NSStringFromSelector(_cmd)] PMSymbol];
+	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
+	NSString				*pmSymbol = [formatter PMSymbol];
 
 	if (pmSymbol.length) {
 		hour %= 12;
@@ -309,12 +299,13 @@
 	return [NSString stringWithFormat: @"%d%02d", (int) hour, (int) self.minute];
 }
 
+
 - (NSString *) shortTimeString {
 	THREAD_SAFE_STATIC_WITH_FACTORY(NSCalendar, calendar, currentCalendar);
+	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
 	NSDateComponents		*myComponents = [calendar components: NSHourCalendarUnit | NSMinuteCalendarUnit fromDate: self];
 	NSInteger				hour = [myComponents hour], minute = [myComponents minute];
 	NSInteger				moddedHour = (hour == 0 || hour == 12) ? 12 : (hour % 12);
-	NSDateFormatter			*formatter = [NSDate formatterForKey: NSStringFromSelector(_cmd)];
 	NSString				*pmSymbol = [formatter PMSymbol];
 	
 	if (pmSymbol.length == 0) moddedHour = hour;
@@ -329,7 +320,7 @@
 }
 
 - (NSString *) dateStringWithFormat: (NSDateFormatterStyle) dateFormat timeFormat: (NSDateFormatterStyle) timeFormat {
-	NSDateFormatter		*formatter = [NSDate formatterForKey: NSStringFromSelector(_cmd)];
+	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
 	NSLocale				*locale = [NSLocale currentLocale];
 	
 	if (formatter.timeStyle != timeFormat) [formatter setTimeStyle: timeFormat];
@@ -349,7 +340,7 @@
 
 - (NSString *) dayMonthDateString {
 	static NSString			*dateFormat = nil;
-	NSDateFormatter			*formatter = [NSDate formatterForKey: NSStringFromSelector(_cmd)];
+	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
 	
 	if (dateFormat == nil) dateFormat = [[NSDateFormatter dateFormatFromTemplate: @"EEE d LLL" options: 0 locale: [NSLocale currentLocale]] retain];
 	
@@ -359,7 +350,7 @@
 
 - (NSString *) UTCString {
 	NSString				*format = @"yyyy'-'MM'-'dd' 'HH':'mm':'ss' GMT'";
-	NSDateFormatter			*formatter = [NSDate formatterForKey: NSStringFromSelector(_cmd)];
+	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
 	NSLocale				*locale = [[NSLocale alloc] initWithLocaleIdentifier: @"en_US_POSIX"];
 	
 	[formatter setDateFormat: format];
@@ -387,7 +378,7 @@
 }
 
 - (NSString *) descriptionWithCalendarFormat: (NSString *) format {
-	NSDateFormatter			*formatter = [NSDate formatterForKey: NSStringFromSelector(_cmd)];
+	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
 	
 	[formatter setDateFormat: format];
 
@@ -655,11 +646,23 @@
 - (int) weekday {time_t mySeconds = [self timeIntervalSince1970]; return localtime(&mySeconds)->tm_wday + 1;}
 - (NSTimeInterval) fractionalSecond { return fmod(self.timeIntervalSince1970, 1.0); }
 
-- (NSString *) weekdayAsShortString {int weekday = self.weekday; if (weekday < 1 || weekday > 7) return @""; return [[[NSDate formatterForKey: NSStringFromSelector(_cmd)] veryShortWeekdaySymbols] objectAtIndex: weekday - 1];}
-- (NSString *) weekdayAsMediumString {int weekday = self.weekday; if (weekday < 1 || weekday > 7) return @""; return [[[NSDate formatterForKey: NSStringFromSelector(_cmd)] shortWeekdaySymbols] objectAtIndex: weekday - 1];}
-- (NSString *) weekdayAsLongString {int weekday = self.weekday; if (weekday < 1 || weekday > 7) return @""; return [[[NSDate formatterForKey: NSStringFromSelector(_cmd)] weekdaySymbols] objectAtIndex: weekday - 1];}
-- (NSString *) monthName {int month = self.month; return [[[NSDate formatterForKey: NSStringFromSelector(_cmd)] monthSymbols] objectAtIndex: month - 1];}
-- (NSString *) shortMonthName {int month = self.month; return [[[NSDate formatterForKey: NSStringFromSelector(_cmd)] shortMonthSymbols] objectAtIndex: month - 1];}
+- (NSString *) weekdayAsShortString {int weekday = self.weekday; if (weekday < 1 || weekday > 7) return @"";
+	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
+
+	return [[formatter veryShortWeekdaySymbols] objectAtIndex: weekday - 1];}
+
+- (NSString *) weekdayAsMediumString {int weekday = self.weekday; if (weekday < 1 || weekday > 7) return @"";
+	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
+	return [[formatter shortWeekdaySymbols] objectAtIndex: weekday - 1];}
+- (NSString *) weekdayAsLongString {int weekday = self.weekday; if (weekday < 1 || weekday > 7) return @"";
+	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
+	return [[formatter weekdaySymbols] objectAtIndex: weekday - 1];}
+- (NSString *) monthName {int month = self.month;
+	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
+	return [[formatter monthSymbols] objectAtIndex: month - 1];}
+- (NSString *) shortMonthName {int month = self.month;
+	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
+	return [[formatter shortMonthSymbols] objectAtIndex: month - 1];}
 
 - (int) nextNearestHour {
 	time_t				mySeconds = [self timeIntervalSince1970];
