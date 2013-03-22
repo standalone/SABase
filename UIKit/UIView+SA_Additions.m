@@ -11,6 +11,7 @@
 #import <objc/runtime.h>
 #import <objc/message.h>
 #import "CAAnimation+SA_Blocks.h"
+#import "UIGestureRecognizer+SA_Additions.h"
 
 @implementation NSString (NSString_LocalizedAdditions)
 
@@ -594,6 +595,28 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 //	[self associateValue: nil forKey: kBlurredViewKey];
 }
 #endif
+
+#define kBlockerViewTappedBlockKey			@"com.standalone.tapped.block"
+
+- (UIView *) blockingViewWithTappedBlock: (viewArgumentBlock) block {
+	UIView				*blocker = [[UIView alloc] initWithFrame: self.bounds];
+	
+	blocker.alpha = 0.0;
+	blocker.backgroundColor = [UIColor blackColor];
+	blocker.userInteractionEnabled = YES;
+	blocker.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	
+	if (block) {
+		__block UIView *localBlocker = blocker;
+		[blocker associateValue: [(id) block copy] forKey: kBlockerViewTappedBlockKey];
+		[blocker addGestureRecognizer: [[UIGestureRecognizer alloc] initWithBlock:^(UIGestureRecognizer *recog) {
+			if (recog.state == UIGestureRecognizerStateRecognized) block(localBlocker);
+		}]];
+	}
+	
+	[self addSubview: blocker];
+	return blocker;
+}
 @end
 
 

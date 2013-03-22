@@ -294,6 +294,8 @@ typedef void (^errorArgumentBlock)(NSError *error);
 typedef void (^idErrorArgumentBlock)(id arg, NSError *error);
 typedef id (^idArgumentBlockReturningID)(id arg);
 typedef void (^simpleArrayBlock)(NSArray *array);
+typedef void (^viewArgumentBlock)(UIView *view);
+
 #if TARGET_OS_IPHONE
 	typedef void (^simpleImageBlock)(UIImage *image);
  #endif

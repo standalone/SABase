@@ -63,6 +63,7 @@ typedef enum {
 - (void) addEdgeDividers: (UIEdgeInsets) dividerWidths ofColor: (UIColor *) color;
 - (void) animateAndBounceToPoint: (CGPoint) point;
 - (void) stopPulsing;
+- (UIView *) blockingViewWithTappedBlock: (viewArgumentBlock) block;
 
 #if BLUR_SUPPORTED
 - (BOOL) isBlurred;
