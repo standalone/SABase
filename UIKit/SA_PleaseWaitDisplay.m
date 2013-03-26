@@ -35,19 +35,20 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 		g_display->_hidden = YES;
 	}
 	
-	g_display.view.layer.zPosition = 100;
-	g_display.majorText = major;
-	g_display.minorText = minor;
-	g_display.cancelTitle = cancel;
-	g_display.delegate = delegate;
-	g_display->_progressBarHidden = !showProgressBar;
-	g_display.spinnerHidden = showProgressBar;					//if there's a progress max, we hide the spinner
-	g_display->_majorLabelPositionedWithSpinner = !g_display.spinnerHidden;
-	g_display.minorFont = [UIFont systemFontOfSize: 15];
-	g_display.majorFont = [UIFont boldSystemFontOfSize: 17];
-	
-//	[g_display display];
-	[g_display performSelector: @selector(display) withObject: nil afterDelay: 0.0];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		g_display.view.layer.zPosition = 100;
+		g_display.majorText = major;
+		g_display.minorText = minor;
+		g_display.cancelTitle = cancel;
+		g_display.delegate = delegate;
+		g_display->_progressBarHidden = !showProgressBar;
+		g_display.spinnerHidden = showProgressBar;					//if there's a progress max, we hide the spinner
+		g_display->_majorLabelPositionedWithSpinner = !g_display.spinnerHidden;
+		g_display.minorFont = [UIFont systemFontOfSize: 15];
+		g_display.majorFont = [UIFont boldSystemFontOfSize: 17];
+		[g_display performSelector: @selector(display) withObject: nil afterDelay: 0.0];
+	});
+		
 	return g_display;
 }
 
