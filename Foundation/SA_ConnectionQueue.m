@@ -505,7 +505,9 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 	_activityIndicatorCount = (activityIndicatorCount > 0) ? activityIndicatorCount : 0;
 	
 	if (_activityIndicatorCount == 0) {
-		[[SA_ConnectionQueue sharedQueue] performSelector: @selector(hideActivityIndicator) withObject: nil afterDelay: 0.05];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[[SA_ConnectionQueue sharedQueue] performSelector: @selector(hideActivityIndicator) withObject: nil afterDelay: 0.05];
+		});
 	} else {
 		IF_IOS([UIApplication sharedApplication].networkActivityIndicatorVisible = YES);
 	}
