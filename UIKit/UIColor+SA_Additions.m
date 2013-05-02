@@ -77,11 +77,28 @@
 	int							numComponents = CGColorGetNumberOfComponents(color);
 	const CGFloat				*components = CGColorGetComponents(color);
 	
-	if (numComponents != 4) return @"";
+	if (numComponents == 2) {
+		return [NSString stringWithFormat: @"%02X%02X%02X", (int) (components[0] * 255), (int) (components[0] * 255), (int) (components[0] * 255)];
+	}
+	if (numComponents == 4) {
+		return [NSString stringWithFormat: @"%02X%02X%02X", (int) (components[0] * 255), (int) (components[1] * 255), (int) (components[2] * 255)];
+	}
 	
-	return [NSString stringWithFormat: @"%02X%02X%02X", (int) (components[0] * 255), (int) (components[1] * 255), (int) (components[2] * 255)];
+	return @"";
+}
+
+- (NSString *) hexStringWithAlpha {
+	CGColorRef					color = self.CGColor;
+	int							numComponents = CGColorGetNumberOfComponents(color);
+	const CGFloat				*components = CGColorGetComponents(color);
 	
-	
+	if (numComponents == 2) {
+		return [NSString stringWithFormat: @"%02X%02X%02X%02X", (int) (components[0] * 255), (int) (components[0] * 255), (int) (components[0] * 255), (int) (components[1] * 255)];
+	}
+	if (numComponents == 4) {
+		return [NSString stringWithFormat: @"%02X%02X%02X%02X", (int) (components[0] * 255), (int) (components[1] * 255), (int) (components[2] * 255), (int) (components[3] * 255)];
+	}
+	return @"";
 }
 
 - (const CGFloat *) rgbaComponents {

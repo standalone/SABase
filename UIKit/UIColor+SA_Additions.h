@@ -326,5 +326,7 @@
 + (id) colorWithString: (NSString *) string;
 - (id) initWithHexString: (NSString *) string;
 - (NSString *) hexString;
+- (NSString *) hexStringWithAlpha;
+
 
 @end

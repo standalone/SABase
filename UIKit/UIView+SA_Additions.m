@@ -13,6 +13,10 @@
 #import "CAAnimation+SA_Blocks.h"
 #import "UIGestureRecognizer+SA_Additions.h"
 
+@interface SA_BlockerView : UIView <UIGestureRecognizerDelegate>
+@property (nonatomic, copy) viewArgumentBlock viewTappedBlock;
+@end
+
 @implementation NSString (NSString_LocalizedAdditions)
 
 - (NSString *)localizedString {
@@ -599,19 +603,26 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 #define kBlockerViewTappedBlockKey			@"com.standalone.tapped.block"
 
 - (UIView *) blockingViewWithTappedBlock: (viewArgumentBlock) block {
-	UIView				*blocker = [[UIView alloc] initWithFrame: self.bounds];
+	SA_BlockerView				*blocker = [[SA_BlockerView alloc] initWithFrame: self.bounds];
 	
-	blocker.alpha = 0.0;
-	blocker.backgroundColor = [UIColor blackColor];
+	blocker.alpha = 0.1;
+	blocker.backgroundColor = [UIColor clearColor];
 	blocker.userInteractionEnabled = YES;
 	blocker.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	
 	if (block) {
 		__block UIView *localBlocker = blocker;
-		[blocker associateValue: [(id) block copy] forKey: kBlockerViewTappedBlockKey];
-		[blocker addGestureRecognizer: [[UIGestureRecognizer alloc] initWithBlock:^(UIGestureRecognizer *recog) {
-			if (recog.state == UIGestureRecognizerStateRecognized) block(localBlocker);
-		}]];
+		blocker.viewTappedBlock = block;
+		
+		UITapGestureRecognizer				*dismissRecog = [[UITapGestureRecognizer alloc] initWithBlock:^(UIGestureRecognizer *recog) {
+			if (recog.state != UIGestureRecognizerStateRecognized) return;
+			UIView					*hit = [recog.view hitTest: [recog locationInView: recog.view] withEvent: nil];
+			
+			if (hit == blocker) blocker.viewTappedBlock(localBlocker);
+		}];
+		
+		dismissRecog.delegate = blocker;
+		[blocker addGestureRecognizer: dismissRecog];
 	}
 	
 	[self addSubview: blocker];
@@ -619,4 +630,10 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 }
 @end
 
+@implementation SA_BlockerView
+- (BOOL) gestureRecognizer: (UIGestureRecognizer *) gestureRecognizer shouldReceiveTouch: (UITouch *) touch {
+	if (touch.view != self) return NO;
+	return YES;
+}
+@end
 
