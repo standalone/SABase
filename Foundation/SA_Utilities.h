@@ -82,11 +82,11 @@
 #else
 	#define			BEGIN_AUTORELEASEPOOL()		@autoreleasepool {
 	#define			END_AUTORELEASEPOOL()		}
-	#define         RELEASE(p)                  
+//	#define         RELEASE(p)
 	#define			STATIC_CONSTANT(type, name, value)		static type *name = nil; if (name == nil) name = value;
 	#define			IF_NOTARC(...)
-	#define			autorelease					self
-	#define			release						self
+//	#define			autorelease					self
+//	#define			release						self
 	#define			_retain						self
 	#define			unsafe						unsafe_unretained
 #endif

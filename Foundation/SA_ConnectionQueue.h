@@ -226,7 +226,7 @@ typedef enum {
 @property (nonatomic, readwrite) BOOL managePleaseWaitDisplay, suppressOfflineAlerts;
 @property (nonatomic, assign) id <SA_ConnectionRouter> router;
 @property (readwrite) NSInteger activityIndicatorCount;
-@property (nonatomic) dispatch_queue_t backgroundQueue;
+@property (nonatomic, assign) dispatch_queue_t backgroundQueue;
 @property (nonatomic) BOOL paused;
 #if DEBUG
 	@property (nonatomic, readwrite) connection_record_setting recordSetting;
