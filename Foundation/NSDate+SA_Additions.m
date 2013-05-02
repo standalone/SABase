@@ -60,7 +60,7 @@
 
 - (NSDate *) dateByAddingTimeIntervalAmount: (NSTimeInterval) interval {
 	#if (__IPHONE_OS_VERSION_MAX_ALLOWED < 40000 && TARGET_OS_IPHONE) || (!TARGET_OS_IPHONE && __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_OS_X_VERSION_10_6)
-		return [self addTimeInterval: interval];
+		return [self dateByAddingTimeInterval: interval];
 	#else
 		return [self dateByAddingTimeInterval: interval];
 	#endif
