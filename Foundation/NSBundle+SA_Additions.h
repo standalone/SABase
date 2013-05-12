@@ -10,6 +10,7 @@
 
 @interface NSBundle (SAAdditions)
 
++ (NSDictionary *) info;
 + (id) infoDictionaryObjectForKey: (NSString *) key;
 + (NSString *) version;
 + (NSString *) identifier;

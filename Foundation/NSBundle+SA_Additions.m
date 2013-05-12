@@ -10,8 +10,12 @@
 
 @implementation NSBundle (SAAdditions)
 
++ (NSDictionary *) info {
+	return [[self mainBundle] infoDictionary];
+}
+
 + (id) infoDictionaryObjectForKey: (NSString *) key {
-	return [[[self mainBundle] infoDictionary] objectForKey: key];
+	return self.info[key];
 }
 
 + (NSString *) version {
