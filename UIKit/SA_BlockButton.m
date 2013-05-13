@@ -19,7 +19,7 @@
 @synthesize actionBlocks;
 - (void) dealloc {
 	self.actionBlocks = nil;
-	[super dealloc];
+	IF_NOTARC([super dealloc]);
 }
 
 - (id) addBlock: (simpleBlock) block forControlEvent: (UIControlEvents) event {
