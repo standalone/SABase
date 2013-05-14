@@ -70,4 +70,24 @@
 	}
 	return value;
 }
+
+- (NSString *) checksumString {
+	NSMutableString				*string = [NSMutableString string];
+	
+	for (NSString *key in [self.allKeys sortedArrayUsingSelector: @selector(compare:)]) {
+		id				value = self[key];
+		
+		if ([value isKindOfClass: [NSDictionary class]] || [value isKindOfClass: [NSArray class]]) {
+			[string appendFormat: @"%@-%@-", key, [value checksumString]];
+		} else if ([value isKindOfClass: [NSString class]] || [value isKindOfClass: [NSNumber class]]) {
+			[string appendFormat: @"%@-%@-", key, value];
+		} else if ([value isKindOfClass: [NSDate class]]) {
+			
+		} else if ([value isKindOfClass: [NSData class]]) {
+			[string appendFormat: @"%@-%@-", key, [value base64Encoded]];
+		}
+	}
+	return string;
+}
+
 @end

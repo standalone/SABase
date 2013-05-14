@@ -29,4 +29,5 @@
 - (id) nextObjectRelativeTo: (id) object;
 - (id) firstObject;
 - (NSArray *) arrayByRemovingObject: (id) object;
+- (NSString *) checksumString;
 @end

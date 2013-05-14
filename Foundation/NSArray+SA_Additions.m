@@ -175,5 +175,21 @@
 	return value;
 }
 
+- (NSString *) checksumString {
+	NSMutableString				*string = [NSMutableString string];
+	
+	for (id value in self) {
+		if ([value isKindOfClass: [NSDictionary class]] || [value isKindOfClass: [NSArray class]]) {
+			[string appendFormat: @"%@-", [value checksumString]];
+		} else if ([value isKindOfClass: [NSString class]] || [value isKindOfClass: [NSNumber class]]) {
+			[string appendFormat: @"%@-", value];
+		} else if ([value isKindOfClass: [NSDate class]]) {
+			
+		} else if ([value isKindOfClass: [NSData class]]) {
+			[string appendFormat: @"%@-", [value base64Encoded]];
+		}
+	}
+	return string;
+}
 
 @end
