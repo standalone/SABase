@@ -30,5 +30,13 @@
 	return [self infoDictionaryObjectForKey: @"CFBundleDisplayName"];
 }
 
+- (NSBundle *) bundleNamed: (NSString *) bundleName {
+	NSString				*path = [self pathForResource: bundleName ofType: @"bundle"];
+	
+	if (path == nil) return nil;
+	
+	return [NSBundle bundleWithPath: path];
+}
+
 
 @end

@@ -15,4 +15,6 @@
 + (NSString *) version;
 + (NSString *) identifier;
 + (NSString *) visibleName;
+
+- (NSBundle *) bundleNamed: (NSString *) bundleName;
 @end
