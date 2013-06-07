@@ -33,19 +33,6 @@
 	return [words objectAtIndex: 0];
 }
 
-+ (NSString *) phoneNumber {
-	return [[NSUserDefaults standardUserDefaults] objectForKey:	@"SBFormattedPhoneNumber"];
-	/*	NSString					*path = [@"~/Library/Preferences/.GlobalPreferences.plist" stringByExpandingTildeInPath];
-	 NSData						*data = [NSData dataWithContentsOfFile: path];
-	 NSPropertyListFormat		format;
-	 NSString					*error;
-	 NSDictionary				*dictionary = [NSPropertyListSerialization propertyListFromData: data mutabilityOption: kCFPropertyListImmutable format: &format errorDescription: &error];
-	 
-	 if (error) NSLog(@"Error while extracting the phone number: %@", error);
-	 
-	 return [dictionary valueForKey: @"SBFormattedPhoneNumber"];*/
-}
-
 + (connection_type) connectionType {
 	struct sockaddr_in				zeroAddress;
 	
@@ -96,7 +83,7 @@
     host_page_size(host_port, &pagesize);        
 	
 	
-    if (host_statistics(host_port, HOST_VM_INFO, (host_info_t)&vm_stat, &host_size) != KERN_SUCCESS) NSLog(@"Failed to fetch vm statistics");
+    if (host_statistics(host_port, HOST_VM_INFO, (host_info_t)&vm_stat, &host_size) != KERN_SUCCESS) LOG(@"Failed to fetch vm statistics");
 	
     /* Stats in bytes */ 
     //natural_t					mem_used = (vm_stat.active_count + vm_stat.inactive_count + vm_stat.wire_count) * pagesize;

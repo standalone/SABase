@@ -20,7 +20,6 @@ typedef enum {
 
 @interface UIDevice (UIDevice_UserInfo)
 
-+ (NSString *) phoneNumber;
 + (connection_type) connectionType;
 + (float) availableMemory;
 + (float) availableStorageSpace;

@@ -917,7 +917,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	SA_Assert(self.url != nil, @"Cannot start an SA_Connection with a nil URL");
 	SA_Assert(!self.alreadyStarted, @"Can't restart an already used connection.");
 	
-	if ([self.method isEqual: @"GET"] && self.payload.length) NSLog(@"Attaching a Payload to a GET request will probably fail \n\n %@", self);
+	if ([self.method isEqual: @"GET"] && self.payload.length) LOG(@"Attaching a Payload to a GET request will probably fail \n\n %@", self);
 	
 	NSURLRequest					*request = self.request;
 	

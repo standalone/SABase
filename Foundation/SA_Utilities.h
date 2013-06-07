@@ -165,10 +165,10 @@ void		ClearConsoleLog(void);
 
 #if DEBUG || AD_HOC
 	#define			INIT_COUNT(_X_)				static int g_##_X_##_objectCount = 0;
-	#define			INCR_COUNT(_X_)				if (g_##_X_##_objectCount++ > 0) NSLog(@"%d %@ objects created", g_##_X_##_objectCount, [_X_ class]);
+	#define			INCR_COUNT(_X_)				if (g_##_X_##_objectCount++ > 0) LOG(@"%d %@ objects created", g_##_X_##_objectCount, [_X_ class]);
 	#define			DECR_COUNT(_X_)				g_##_X_##_objectCount--;
 
-	#define			INCR_COUNT_LABELED(_X_, l)	if (g_##_X_##_objectCount++ > 0) NSLog(@"%d %@ instances created", g_##_X_##_objectCount, l);
+	#define			INCR_COUNT_LABELED(_X_, l)	if (g_##_X_##_objectCount++ > 0) LOG(@"%d %@ instances created", g_##_X_##_objectCount, l);
 	#define			DECR_COUNT_RELEASE(_X_, o)	if ([o retainCount] <= 1) g_##_X_##_objectCount--; RELEASE(o);
 
 	#define			LOG_DATA(d, n)						[d writeToFile: [[NSString stringWithFormat: @"~/tmp/%@.txt", n] stringByExpandingTildeInPath] options: 0 error: nil]
@@ -190,7 +190,7 @@ natural_t			freeMemory(BOOL logIt);
 void				displayAlert(NSString *title, NSString *message);
 
 #define				TIMING_START					NSDate			*__timing_start = [NSDate date];
-#define				TIMING_LOG(s)					NSLog(@"%@ Took %.5f", s, ABS([__timing_start timeIntervalSinceNow]));
+#define				TIMING_LOG(s)					LOG(@"%@ Took %.5f", s, ABS([__timing_start timeIntervalSinceNow]));
 
 //==========================================================================================
 #pragma mark Collection and Conversion
