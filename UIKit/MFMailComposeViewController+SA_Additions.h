@@ -12,5 +12,5 @@
 typedef void (^mailComposeCompletionBlock)(MFMailComposeResult result);
 
 @interface MFMailComposeViewController (SA_Additions) <MFMailComposeViewControllerDelegate>
-@property (nonatomic, copy) mailComposeCompletionBlock completionBlock;
+@property (nonatomic, copy) mailComposeCompletionBlock SA_CompletionBlock;
 @end

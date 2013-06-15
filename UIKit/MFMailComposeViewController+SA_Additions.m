@@ -13,7 +13,8 @@
 #define COMPLETION_BLOCK_KEY			@"COMPLETION_BLOCK_KEY"
 
 @implementation MFMailComposeViewController (SA_Additions)
-- (void) setCompletionBlock: (mailComposeCompletionBlock) completionBlock {
+@dynamic SA_CompletionBlock;
+- (void) setSA_CompletionBlock: (mailComposeCompletionBlock) completionBlock {
 	if (completionBlock) self.mailComposeDelegate = self;
 	[self associateValue: [[completionBlock copy] autorelease] forKey: COMPLETION_BLOCK_KEY];
 }
