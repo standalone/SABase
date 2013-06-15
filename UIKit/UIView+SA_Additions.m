@@ -499,7 +499,7 @@
 	
 	anim.duration = 0.5;
 	anim.path = path;
-	anim.animationDidStopBlock = ^(CAAnimation *anim, BOOL finished) {
+	anim.SA_animationDidStopBlock = ^(CAAnimation *anim, BOOL finished) {
 		self.center = point;
 		self.layer.position = point;
 		

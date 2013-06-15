@@ -11,29 +11,30 @@
 #define ANIMATION_DID_STOP_BLOCK_KEY				@"ANIMATION_DID_STOP_BLOCK_KEY:SA"
 
 @implementation CAAnimation (SA_Blocks)
+@dynamic SA_animationDidStartBlock, SA_animationDidStopBlock;
 
-- (void) setAnimationDidStartBlock:(animationDidStartBlock)animationDidStartBlock {
+- (void) setSA_AnimationDidStartBlock:(animationDidStartBlock)animationDidStartBlock {
 	[self setValue: Block_copy(animationDidStartBlock) forKey: ANIMATION_DID_START_BLOCK_KEY];
 	self.delegate = self;
 	
 }
 
-- (void) setAnimationDidStopBlock: (animationDidStopBlock) animationDidStopBlock {
+- (void) setSA_AnimationDidStopBlock: (animationDidStopBlock) animationDidStopBlock {
 	[self setValue: Block_copy(animationDidStopBlock) forKey: ANIMATION_DID_STOP_BLOCK_KEY];
 	self.delegate = self;
 }
 
-- (animationDidStartBlock) animationDidStartBlock { return [self valueForKey: ANIMATION_DID_START_BLOCK_KEY]; }
-- (animationDidStopBlock) animationDidStopBlock { return [self valueForKey: ANIMATION_DID_STOP_BLOCK_KEY]; }
+- (animationDidStartBlock) SA_animationDidStartBlock { return [self valueForKey: ANIMATION_DID_START_BLOCK_KEY]; }
+- (animationDidStopBlock) SA_animationDidStopBlock { return [self valueForKey: ANIMATION_DID_STOP_BLOCK_KEY]; }
 
 - (void) animationDidStop: (CAAnimation *) anim finished: (BOOL) flag {
-	animationDidStopBlock			block = self.animationDidStopBlock;
+	animationDidStopBlock			block = self.SA_animationDidStopBlock;
 	
 	if (block) block(anim, flag);
 }
 
 - (void) animationDidStart: (CAAnimation *) anim {
-	animationDidStartBlock			block = self.animationDidStartBlock;
+	animationDidStartBlock			block = self.SA_animationDidStartBlock;
 	
 	if (block) block(anim);	
 }

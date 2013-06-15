@@ -13,8 +13,8 @@ typedef void (^animationDidStartBlock)(CAAnimation *anim);
 
 @interface CAAnimation (SA_Blocks)
 
-@property (nonatomic, copy) animationDidStartBlock animationDidStartBlock;
-@property (nonatomic, copy) animationDidStopBlock animationDidStopBlock;
+@property (nonatomic, copy) animationDidStartBlock SA_animationDidStartBlock;
+@property (nonatomic, copy) animationDidStopBlock SA_animationDidStopBlock;
 
 
 @end
