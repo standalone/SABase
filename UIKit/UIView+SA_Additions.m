@@ -614,7 +614,7 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 		__block UIView *localBlocker = blocker;
 		blocker.viewTappedBlock = block;
 		
-		UITapGestureRecognizer				*dismissRecog = [[UITapGestureRecognizer alloc] initWithBlock:^(UIGestureRecognizer *recog) {
+		UITapGestureRecognizer				*dismissRecog = [[UITapGestureRecognizer alloc] SA_initWithBlock:^(UIGestureRecognizer *recog) {
 			if (recog.state != UIGestureRecognizerStateRecognized) return;
 			UIView					*hit = [recog.view hitTest: [recog locationInView: recog.view] withEvent: nil];
 			
