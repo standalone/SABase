@@ -11,14 +11,13 @@
 
 @interface UIActionSheet (SA_AdditionsForButtons)
 
-- (void) addButtonWithTitle: (NSString *) title andTag: (int) tag;
-- (int) tagForButtonAtIndex: (NSUInteger) index;
-- (void) clearButtonTags;
-#if NS_BLOCKS_AVAILABLE
-	@property (nonatomic, copy) intArgumentBlock buttonSelectBlock;
-	- (void) showFromView: (UIView *) view withButtonSelectedBlock: (intArgumentBlock) block;
-	- (void) showFromBarButtonItem: (UIBarButtonItem *) item withButtonSelectedBlock: (intArgumentBlock) block;
-#endif
+@property (nonatomic, copy) intArgumentBlock SA_buttonSelectBlock;
 
-- (void) showFromView: (UIView *) view;
+- (void) addButtonWithTitle: (NSString *) title andSA_Tag: (int) tag;
+- (int) SA_TagForButtonAtIndex: (NSUInteger) index;
+- (void) clearSA_Tags;
+- (void) showFromView: (UIView *) view withSA_ButtonSelectedBlock: (intArgumentBlock) block;
+- (void) showFromBarButtonItem: (UIBarButtonItem *) item withSA_ButtonSelectedBlock: (intArgumentBlock) block;
+
+- (void) SA_showFromView: (UIView *) view;
 @end

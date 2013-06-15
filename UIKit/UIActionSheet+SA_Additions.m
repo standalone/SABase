@@ -12,8 +12,8 @@
 #define					kButtonBlockKey			@"ClickedButtonAtIndex:SAI"
 
 @implementation UIActionSheet (SA_AdditionsForButtons)
-
-- (void) addButtonWithTitle: (NSString *) title andTag: (int) tag {
+@dynamic SA_buttonSelectBlock;
+- (void) addButtonWithTitle: (NSString *) title andSA_Tag: (int) tag {
 	NSMutableDictionary				*dictionary = [self associatedValueForKey: kButtonTagsKey];
 	
 	if (dictionary == nil) {
@@ -25,14 +25,14 @@
 	[self addButtonWithTitle: title];
 }
 
-- (int) tagForButtonAtIndex: (NSUInteger) index {
+- (int) SA_TagForButtonAtIndex: (NSUInteger) index {
 	if (index >= self.numberOfButtons) return 0;
 	NSMutableDictionary				*dictionary = [self associatedValueForKey: kButtonTagsKey];
 	
 	return [[dictionary objectForKey: [self buttonTitleAtIndex: index]] intValue];
 }
 
-- (void) clearButtonTags {
+- (void) clearSA_Tags {
 	[self associateValue: nil forKey: kButtonTagsKey];
 }
 
@@ -43,37 +43,37 @@
 	[self associateValue: nil forKey: kButtonBlockKey];
 }
 
-- (void) showFromView: (UIView *) view withButtonSelectedBlock: (intArgumentBlock) block {
+- (void) showFromView: (UIView *) view withSA_ButtonSelectedBlock: (intArgumentBlock) block {
 	if (![NSThread isMainThread]) {
-		dispatch_async(dispatch_get_main_queue(), ^{ [self showFromView: view withButtonSelectedBlock: block]; });
+		dispatch_async(dispatch_get_main_queue(), ^{ [self showFromView: view withSA_ButtonSelectedBlock: block]; });
 		return;
 	}
 
-	self.buttonSelectBlock = block;
-	[self showFromView: view];
+	self.SA_buttonSelectBlock = block;
+	[self SA_showFromView: view];
 }
 
-- (void) showFromBarButtonItem: (UIBarButtonItem *) item withButtonSelectedBlock: (intArgumentBlock) block {
+- (void) showFromBarButtonItem: (UIBarButtonItem *) item withSA_ButtonSelectedBlock: (intArgumentBlock) block {
 	if (![NSThread isMainThread]) {
-		dispatch_async(dispatch_get_main_queue(), ^{ [self showFromBarButtonItem: item withButtonSelectedBlock: block]; });
+		dispatch_async(dispatch_get_main_queue(), ^{ [self showFromBarButtonItem: item withSA_ButtonSelectedBlock: block]; });
 		return;
 	}
 	
-	self.buttonSelectBlock = block;
+	self.SA_buttonSelectBlock = block;
 	[self showFromBarButtonItem: item animated: YES];
 }
 
-- (void) setButtonSelectBlock: (intArgumentBlock) block {
+- (void) setSA_ButtonSelectBlock: (intArgumentBlock) block {
 	self.delegate = (id <UIActionSheetDelegate>) self;
 	[self associateValue: Block_copy(block) forKey: kButtonBlockKey];
 }
 
-- (intArgumentBlock) buttonSelectBlock {
+- (intArgumentBlock) SA_buttonSelectBlock {
 	intArgumentBlock			block = [self associatedValueForKey: kButtonBlockKey];
 	return block ? Block_copy(block) : nil;
 }
 
-- (void) showFromView: (UIView *) view {
+- (void) SA_showFromView: (UIView *) view {
 	if (![NSThread isMainThread]) {
 		[self performSelectorOnMainThread: @selector(showFromView:) withObject: view waitUntilDone: NO];
 		return;
