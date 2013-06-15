@@ -8,12 +8,12 @@
 #import <UIKit/UIKit.h>
 
 
-@interface UIScrollView (SA_SA_Additions)
+@interface UIScrollView (SA_Additions)
 
-@property (nonatomic, readonly) BOOL isAdjustedForKeyboard;
-
-- (void) setupForKeyboardEditing;
-- (void) endKeyboardEditing;
-- (void) showNewFirstResponder: (UIView *) newResponder;
-- (CGRect) visibleContentFrame;
+//@property (nonatomic, readonly) BOOL isAdjustedForKeyboard;
+//
+//- (void) setupForKeyboardEditing;
+//- (void) endKeyboardEditing;
+//- (void) showNewFirstResponder: (UIView *) newResponder;
+- (CGRect) SA_visibleContentFrame;
 @end
