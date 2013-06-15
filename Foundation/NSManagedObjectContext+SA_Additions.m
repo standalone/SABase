@@ -473,7 +473,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 		else
 			[metadata removeObjectForKey: key];
 	} else
-		metadata = [NSDictionary dictionaryWithObject: object forKey: key];
+		metadata = [NSMutableDictionary dictionaryWithObject: object forKey: key];
 		
 	self.primaryStoreMetadata = metadata;
 }
