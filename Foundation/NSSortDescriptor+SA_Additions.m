@@ -10,16 +10,16 @@
 
 @implementation NSSortDescriptor (ConvenienceAdditions)
 
-+ (NSSortDescriptor *) descriptorWithKey: (NSString *) key ascending: (BOOL) ascending {
++ (NSSortDescriptor *) SA_descWithKey: (NSString *) key ascending: (BOOL) ascending {
 	return [[[NSSortDescriptor alloc] initWithKey: key ascending: ascending] autorelease];
 }
 
-+ (NSSortDescriptor *) descriptorWithKey: (NSString *) key ascending: (BOOL) ascending selector: (SEL) selector {
++ (NSSortDescriptor *) SA_descWithKey: (NSString *) key ascending: (BOOL) ascending selector: (SEL) selector {
 	return [[[NSSortDescriptor alloc] initWithKey: key ascending: ascending selector: selector] autorelease];
 }
 
-+ (NSArray *) arrayWithDescriptorWithKey: (NSString *) key ascending: (BOOL) ascending {
-	return [NSArray arrayWithObject: [self descriptorWithKey: key ascending: ascending]];
++ (NSArray *) SA_arrayWithDescWithKey: (NSString *) key ascending: (BOOL) ascending {
+	return [NSArray arrayWithObject: [self SA_descWithKey: key ascending: ascending]];
 }
 
 @end

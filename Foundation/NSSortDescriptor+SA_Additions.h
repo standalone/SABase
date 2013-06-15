@@ -10,9 +10,9 @@
 
 @interface NSSortDescriptor (ConvenienceAdditions)
 
-+ (NSSortDescriptor *) descriptorWithKey: (NSString *) key ascending: (BOOL) ascending;
-+ (NSSortDescriptor *) descriptorWithKey: (NSString *) key ascending: (BOOL) ascending selector: (SEL) selector;
++ (NSSortDescriptor *) SA_descWithKey: (NSString *) key ascending: (BOOL) ascending;
++ (NSSortDescriptor *) SA_descWithKey: (NSString *) key ascending: (BOOL) ascending selector: (SEL) selector;
 
 
-+ (NSArray *) arrayWithDescriptorWithKey: (NSString *) key ascending: (BOOL) ascending;
++ (NSArray *) SA_arrayWithDescWithKey: (NSString *) key ascending: (BOOL) ascending;
 @end
