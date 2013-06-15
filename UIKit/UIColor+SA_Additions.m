@@ -10,7 +10,7 @@
 
 @implementation UIColor (UIColor_SA_Additions)
 
-+ (UIColor *)  colorWithString: (NSString *) string {
++ (UIColor *)  colorWithSA_String: (NSString *) string {
 	if (string.length == 0) return nil;
 	if ([string hasPrefix: @"rgb("] || [string hasPrefix: @"rgba("]) {
 		NSArray				*components = [string componentsSeparatedByString: @","];
@@ -34,14 +34,14 @@
 	UIColor					*color = ([self respondsToSelector: sel]) ? [self performSelector: sel] : nil;
 
 	if (color) return color;
-	return [[[UIColor alloc] initWithHexString: string] autorelease];
+	return [[[UIColor alloc] initWithSA_HexString: string] autorelease];
 }
 
-+ (UIColor *)  colorWithHexString: (NSString *) string {
-	return [[[UIColor alloc] initWithHexString: string] autorelease];
++ (UIColor *)  colorWithSA_HexString: (NSString *) string {
+	return [[[UIColor alloc] initWithSA_HexString: string] autorelease];
 }
 
-- (UIColor *)  initWithHexString: (NSString *) string {
+- (UIColor *)  initWithSA_HexString: (NSString *) string {
 #define							CharToInteger(c)				(((c >= 'a' && c <= 'f') ? (10 + c - 'a') : ((c >= '0' && c <= '9') ? (c - '0') : 0)))
 	float							values[3] = {0.0, 0.0, 0.0};
 	int								alpha = 1.0;
@@ -72,7 +72,7 @@
 	return [self initWithRed: values[0] / 255.0 green: values[1] / 255.0 blue: values[2] / 255.0 alpha: alpha];
 }
 
-- (NSString *) hexString {
+- (NSString *) SA_hexString {
 	CGColorRef					color = self.CGColor;
 	int							numComponents = CGColorGetNumberOfComponents(color);
 	const CGFloat				*components = CGColorGetComponents(color);
@@ -87,7 +87,7 @@
 	return @"";
 }
 
-- (NSString *) hexStringWithAlpha {
+- (NSString *) SA_hexStringWithAlpha {
 	CGColorRef					color = self.CGColor;
 	int							numComponents = CGColorGetNumberOfComponents(color);
 	const CGFloat				*components = CGColorGetComponents(color);
@@ -101,12 +101,12 @@
 	return @"";
 }
 
-- (const CGFloat *) rgbaComponents {
+- (const CGFloat *) SA_RGBAComponents {
 	return CGColorGetComponents(self.CGColor);
 }
 
-- (const CGFloat *) hsbaComponents {
-	const CGFloat				*rgb = self.rgbaComponents;
+- (const CGFloat *) SA_HSBAComponents {
+	const CGFloat				*rgb = self.SA_RGBAComponents;
 	float						r = rgb[0], g = rgb[1], b = rgb[2];
 	static CGFloat				results[4];
 	CGFloat						minValue = MIN(r, MIN(g, b));

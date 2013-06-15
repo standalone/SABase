@@ -37,13 +37,13 @@
 }
 
 - (void) actionSheet: (UIActionSheet *) actionSheet clickedButtonAtIndex: (NSInteger) buttonIndex {
-	intArgumentBlock			block = [self associatedValueForKey: kButtonBlockKey];
+	actionSheetButtonSelectedBlock			block = [self associatedValueForKey: kButtonBlockKey];
 	block(buttonIndex);
 	Block_release(block);
 	[self associateValue: nil forKey: kButtonBlockKey];
 }
 
-- (void) showFromView: (UIView *) view withSA_ButtonSelectedBlock: (intArgumentBlock) block {
+- (void) showFromView: (UIView *) view withSA_ButtonSelectedBlock: (actionSheetButtonSelectedBlock) block {
 	if (![NSThread isMainThread]) {
 		dispatch_async(dispatch_get_main_queue(), ^{ [self showFromView: view withSA_ButtonSelectedBlock: block]; });
 		return;
@@ -53,7 +53,7 @@
 	[self SA_showFromView: view];
 }
 
-- (void) showFromBarButtonItem: (UIBarButtonItem *) item withSA_ButtonSelectedBlock: (intArgumentBlock) block {
+- (void) showFromBarButtonItem: (UIBarButtonItem *) item withSA_ButtonSelectedBlock: (actionSheetButtonSelectedBlock) block {
 	if (![NSThread isMainThread]) {
 		dispatch_async(dispatch_get_main_queue(), ^{ [self showFromBarButtonItem: item withSA_ButtonSelectedBlock: block]; });
 		return;
@@ -63,13 +63,13 @@
 	[self showFromBarButtonItem: item animated: YES];
 }
 
-- (void) setSA_ButtonSelectBlock: (intArgumentBlock) block {
+- (void) setSA_ButtonSelectBlock: (actionSheetButtonSelectedBlock) block {
 	self.delegate = (id <UIActionSheetDelegate>) self;
 	[self associateValue: Block_copy(block) forKey: kButtonBlockKey];
 }
 
-- (intArgumentBlock) SA_buttonSelectBlock {
-	intArgumentBlock			block = [self associatedValueForKey: kButtonBlockKey];
+- (actionSheetButtonSelectedBlock) SA_buttonSelectBlock {
+	actionSheetButtonSelectedBlock			block = [self associatedValueForKey: kButtonBlockKey];
 	return block ? Block_copy(block) : nil;
 }
 

@@ -7,11 +7,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^actionSheetButtonSelectedBlock)(int buttonIndex);
 
 
 @interface UIActionSheet (SA_AdditionsForButtons)
 
-@property (nonatomic, copy) intArgumentBlock SA_buttonSelectBlock;
+@property (nonatomic, copy) actionSheetButtonSelectedBlock SA_buttonSelectBlock;
 
 - (void) addButtonWithTitle: (NSString *) title andSA_Tag: (int) tag;
 - (int) SA_TagForButtonAtIndex: (NSUInteger) index;

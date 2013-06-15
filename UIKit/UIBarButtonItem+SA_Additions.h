@@ -7,7 +7,7 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void (^barButtonItemArgumentBlock)(id arg);
+typedef void (^barButtonItemArgumentBlock)(UIBarButtonItem *button);
 
 
 @interface UIBarButtonItem (SA_SA_Additions)

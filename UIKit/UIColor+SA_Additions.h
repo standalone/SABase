@@ -13,15 +13,15 @@
 
 @interface UIColor (UIColor_SA_Additions)
 
-@property(readonly) const CGFloat * rgbaComponents;
-@property(readonly) const CGFloat * hsbaComponents;
+@property(readonly) const CGFloat * SA_RGBAComponents;
+@property(readonly) const CGFloat * SA_HSBAComponents;
 
 
-+ (UIColor *)  colorWithHexString: (NSString *) string;
-+ (UIColor *)  colorWithString: (NSString *) string;
-- (UIColor *)  initWithHexString: (NSString *) string;
-- (NSString *) hexString;
-- (NSString *) hexStringWithAlpha;
++ (UIColor *)  colorWithSA_HexString: (NSString *) string;
++ (UIColor *)  colorWithSA_String: (NSString *) string;
+- (UIColor *)  initWithSA_HexString: (NSString *) string;
+- (NSString *) SA_hexString;
+- (NSString *) SA_hexStringWithAlpha;
 
 
 @end
