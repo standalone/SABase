@@ -101,7 +101,7 @@
 //	return result;
 //}
 
-- (NSArray *) randomizedCopy {
+- (NSArray *) SA_randomizedCopy {
 	NSMutableArray					*copy = [[[NSMutableArray alloc] initWithCapacity: self.count] autorelease], *holder = [[self mutableCopy] autorelease];
 	
 	while (holder.count) {
@@ -128,32 +128,32 @@
 	return count;
 }
 
-- (id) anyRandomObject {
+- (id) SA_anyRandomObject {
 	if (self.count == 0) return nil;
 	
 	return [self objectAtIndex: rand() % self.count];
 }
 
-- (id) previousObjectRelativeTo: (id) object {
+- (id) SA_previousObjectRelativeTo: (id) object {
 	NSUInteger				index = [self indexOfObject: object];
 	
 	if (index == NSNotFound || index == 0) return nil;
 	return [self objectAtIndex: index - 1];
 }
 
-- (id) nextObjectRelativeTo: (id) object {
+- (id) SA_nextObjectRelativeTo: (id) object {
 	NSUInteger				index = [self indexOfObject: object];
 	
 	if (index == NSNotFound || index == (self.count - 1)) return nil;
 	return [self objectAtIndex: index + 1];
 }
 
-- (id) firstObject {
+- (id) SA_firstObject {
 	if (self.count) return [self objectAtIndex: 0];
 	return nil;
 }
 
-- (NSArray *) arrayByRemovingObject: (id) object {
+- (NSArray *) SA_arrayByRemovingObject: (id) object {
 	if (![self containsObject: object]) return self;
 	
 	NSMutableArray				*copy = [[self mutableCopy] autorelease];

@@ -19,15 +19,15 @@
 
 - (NSArray *) arrayWithIndexesFromSet: (NSIndexSet *) indexeSet;
 //- (NSMutableArray *) deepMutableCopy;
-- (NSArray *) randomizedCopy;
+- (NSArray *) SA_randomizedCopy;
 - (NSArray *) arrayWithCollectedResultsOfMethod: (SEL) method;
 - (NSArray *) arrayWithCollectedResultsOfBlock: (idArgumentBlockReturningID) block;
 - (NSUInteger) countObjectsOfClass: (Class) classToCount;
 - (NSArray *) arrayWithReversedObjects;
-- (id) anyRandomObject;
-- (id) previousObjectRelativeTo: (id) object;
-- (id) nextObjectRelativeTo: (id) object;
-- (id) firstObject;
-- (NSArray *) arrayByRemovingObject: (id) object;
+- (id) SA_anyRandomObject;
+- (id) SA_previousObjectRelativeTo: (id) object;
+- (id) SA_nextObjectRelativeTo: (id) object;
+- (id) SA_firstObject;
+- (NSArray *) SA_arrayByRemovingObject: (id) object;
 - (NSString *) SA_checksumString;
 @end
