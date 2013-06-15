@@ -59,6 +59,7 @@
 #define				OS_42_BUILD					(__IPHONE_OS_VERSION_MAX_ALLOWED >= 40200)
 #define				OS_50_BUILD					(__IPHONE_OS_VERSION_MAX_ALLOWED >= 50000)
 #define				OS_60_BUILD					(__IPHONE_OS_VERSION_MAX_ALLOWED >= 60000)
+#define				OS_70_BUILD					(__IPHONE_OS_VERSION_MAX_ALLOWED >= 70000)
 #define				RUNNING_UNDER_ARC			((__has_feature(objc_arc)))
 #define				NOT_RUNNING_UNDER_ARC		(!(RUNNING_UNDER_ARC))
 
@@ -105,6 +106,7 @@
 	#define				RUNNING_ON_40					([[UIDevice currentDevice].systemVersion intValue] >= 4)
 	#define				RUNNING_ON_50					([[UIDevice currentDevice].systemVersion intValue] >= 5)
 	#define				RUNNING_ON_60					([[UIDevice currentDevice].systemVersion intValue] >= 6)
+	#define				RUNNING_ON_70					([[UIDevice currentDevice].systemVersion intValue] >= 7)
 	#define				IS_RETINA_DEVICE				([UIScreen mainScreen].scale > 1.0)
 	#define				IS_4INCH_SCREEN					(RUNNING_ON_IPHONE && [UIScreen mainScreen].bounds.size.height == 568)
 	#define				IF_IOS(...)						{__VA_ARGS__;}
