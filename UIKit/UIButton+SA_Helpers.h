@@ -10,5 +10,5 @@
 
 @interface UIButton (SA_Helpers)
 
-- (void) setupBackgroundImageWithPrefix: (NSString *) prefix;
+- (void) SA_setupBackgroundImageWithPrefix: (NSString *) prefix;
 @end

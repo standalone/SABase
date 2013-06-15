@@ -10,7 +10,7 @@
 
 @implementation UIButton (SA_Helpers)
 
-- (void) setupBackgroundImageWithPrefix: (NSString *) prefix {
+- (void) SA_setupBackgroundImageWithPrefix: (NSString *) prefix {
 	
 	[self setBackgroundImage: [[UIImage imageNamed: $S(@"%@-button.png", prefix)] stretchableImageWithLeftCapWidth: 15.0 topCapHeight: 22.0] forState: UIControlStateNormal];
 	[self setBackgroundImage: [[UIImage imageNamed: $S(@"%@-button-highlight.png", prefix)] stretchableImageWithLeftCapWidth: 15.0 topCapHeight: 22.0] forState: UIControlStateHighlighted];
