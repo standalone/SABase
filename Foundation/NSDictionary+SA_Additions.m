@@ -44,7 +44,7 @@
 //	return result;
 //}
 
-+ (NSDictionary *) dictionaryWithData: (NSData *) data {
++ (NSDictionary *) SA_dictionaryWithData: (NSData *) data {
 	NSString				*path = [NSString tempFilename];
 	if (![data writeToFile: path atomically: YES]) return nil;
 	

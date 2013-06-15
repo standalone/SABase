@@ -14,5 +14,5 @@
 @property (nonatomic, readonly) NSString *SA_checksumString;
 
 //- (NSMutableDictionary *) deepMutableCopy;
-+ (NSDictionary *) dictionaryWithData: (NSData *) data;
++ (NSDictionary *) SA_dictionaryWithData: (NSData *) data;
 @end
