@@ -6,7 +6,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SA_Utilities.h"
 #import <SystemConfiguration/SCNetworkReachability.h>
 
 #ifdef LOG_CONNECTION_PROGRESS
