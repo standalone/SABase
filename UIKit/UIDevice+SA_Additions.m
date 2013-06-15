@@ -183,14 +183,14 @@
     NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
     
     NSString *stringToHash = [NSString stringWithFormat:@"%@%@",macaddress,bundleIdentifier];
-    NSString *uniqueIdentifier = [stringToHash md5HashString];
+    NSString *uniqueIdentifier = [stringToHash SA_md5HashString];
     
     return uniqueIdentifier;
 }
 
 - (NSString *) udid {
     NSString *macaddress = [[UIDevice currentDevice] MACAddress];
-    NSString *uniqueIdentifier = [macaddress md5HashString];
+    NSString *uniqueIdentifier = [macaddress SA_md5HashString];
     
     return uniqueIdentifier;
 }

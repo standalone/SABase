@@ -14,7 +14,7 @@
 
 
 @implementation NSString (SA_MD5)
-	- (NSUInteger) md5Hash {
+	- (NSUInteger) SA_md5Hash {
 		UInt32 results[4];
 		unsigned char			*utf8 = (unsigned char *) self.UTF8String;
 		CC_MD5((const void *) utf8, strlen((const char *) utf8), (unsigned char *) results);
@@ -29,7 +29,7 @@
 //		
 //		return result[0];
 //	}
-	- (NSString *) md5HashString
+	- (NSString *) SA_md5HashString
 	{
 		const char *cStr = [self UTF8String];
 		unsigned char result[16];
@@ -63,7 +63,7 @@
 	#import "NSString+SA_Additions.h"
 
 	@implementation NSString (SA_MD5)
-	- (NSString *) md5HashString {
+	- (NSString *) SA_md5HashString {
 		NSString					*path = [NSString tempFileNameWithSeed: @"md5" ofType: @"txt"];
 		NSError						*error;
 		
@@ -80,7 +80,7 @@
 		return md5;	
 	}
 
-- (NSUInteger) md5Hash {
+- (NSUInteger) SA_md5Hash {
 	UInt32 results[4];
 	unsigned char			*utf8 = (unsigned char *) self.UTF8String;
 	CC_MD5((const void *) utf8, strlen((const char *) utf8), (unsigned char *) results);
