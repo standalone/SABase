@@ -19,15 +19,18 @@
 
 @implementation NSString (NSString_LocalizedAdditions)
 
-- (NSString *)localizedString {
+- (NSString *) localizedString {
 	NSString				*nothingFound = @"X_X_X_X_X_X_X_X";
 	NSString				*newText = [[NSBundle mainBundle] localizedStringForKey: self value: nothingFound table: nil];
 	
 	if (![newText isEqualToString: nothingFound]) 
 		return newText;
-	else
-		LOG(@"Missing translation for %@", self);
-	
+	else {
+		#if DEBUG
+			if (self.length > 0 && ![self isEqual: @"-"] && ![self isEqual: @"--"])
+				LOG(@"Missing translation for %@", self);
+		#endif
+	}
 	return self;
 }
 
@@ -36,6 +39,7 @@
 
 
 @implementation UIView (UIView_SA_Additions)
+@dynamic normalizedFrame, firstScrollviewChild, contentCenter, viewController, tableViewCell;
 
 + (void) chainAnimations: (NSArray *) animations withDurations: (NSArray *) durations {
 	SA_Assert(animations.count == durations.count, @"you must pass equal length arrays for both durations and animations");

@@ -9,11 +9,13 @@
 #import "UIView+SA_Additions.h"
 
 @implementation UINavigationController (UINavigationController__SA_Additions)
+@dynamic rootViewController;
 - (UIViewController *) rootViewController { return self.viewControllers.count ? self.viewControllers[0] : nil; }
 @end
 
 
 @implementation UIViewController (UIViewController_SA_Additions)
+@dynamic farthestAncestorController;
 
 - (NSSet *) childControllers {
 	if (![self isKindOfClass: [UINavigationController class]] && ![self isKindOfClass: [UITabBarController class]]) {

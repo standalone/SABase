@@ -9,6 +9,7 @@
 
 
 @implementation UITableViewCell (UITableViewCell_SA_Additions)
+@dynamic tableView, indexPath, dividerImage, dividerView, backgroundViewColor, dividerViewColor;
 
 - (UITableView *) tableView {
 	UIView				*superview = [self superview];
