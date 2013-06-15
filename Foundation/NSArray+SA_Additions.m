@@ -161,26 +161,26 @@
 	return copy;
 }
 
-- (NSUInteger) hash { return [self md5Hash]; }
+- (NSUInteger) hash { return [self SA_md5Hash]; }
 
-- (NSUInteger) md5Hash {
+- (NSUInteger) SA_md5Hash {
 	NSUInteger			value = 0, index = 1059;
 	
 	for (id object in self) {
 		index *= 2;
-		NSUInteger				valueHash = [object respondsToSelector: @selector(md5Hash)] ? [object md5Hash] : [object hash];
+		NSUInteger				valueHash = [object respondsToSelector: @selector(SA_md5Hash)] ? [object SA_md5Hash] : [object hash];
 		
 		value += index * valueHash;
 	}
 	return value;
 }
 
-- (NSString *) checksumString {
+- (NSString *) SA_checksumString {
 	NSMutableString				*string = [NSMutableString string];
 	
 	for (id value in self) {
 		if ([value isKindOfClass: [NSDictionary class]] || [value isKindOfClass: [NSArray class]]) {
-			[string appendFormat: @"%@-", [value checksumString]];
+			[string appendFormat: @"%@-", [value SA_checksumString]];
 		} else if ([value isKindOfClass: [NSString class]] || [value isKindOfClass: [NSNumber class]]) {
 			[string appendFormat: @"%@-", value];
 		} else if ([value isKindOfClass: [NSDate class]]) {

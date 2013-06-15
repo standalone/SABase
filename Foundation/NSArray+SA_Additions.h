@@ -11,7 +11,7 @@
 @class NSPredicate;
 
 @interface NSArray (NSArray_SA_Additions)
-@property (nonatomic, readonly) NSUInteger md5Hash;
+@property (nonatomic, readonly) NSUInteger SA_md5Hash;
 
 - (NSArray *) subarrayWithObjectsSatisfyingPredicate: (NSPredicate *) pred;
 - (NSUInteger) indexOfFirstObjectMatchingPredicate: (NSPredicate *) pred;
@@ -29,5 +29,5 @@
 - (id) nextObjectRelativeTo: (id) object;
 - (id) firstObject;
 - (NSArray *) arrayByRemovingObject: (id) object;
-- (NSString *) checksumString;
+- (NSString *) SA_checksumString;
 @end

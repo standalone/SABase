@@ -10,8 +10,8 @@
 
 
 @interface NSDictionary (NSDictionary_SA_Additions)
-@property (nonatomic, readonly) NSUInteger md5Hash;
-@property (nonatomic, readonly) NSString *checksumString;
+@property (nonatomic, readonly) NSUInteger SA_md5Hash;
+@property (nonatomic, readonly) NSString *SA_checksumString;
 
 //- (NSMutableDictionary *) deepMutableCopy;
 + (NSDictionary *) dictionaryWithData: (NSData *) data;
