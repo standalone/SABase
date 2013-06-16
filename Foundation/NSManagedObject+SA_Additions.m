@@ -10,7 +10,7 @@
 #import "NSObject+SA_Additions.h"
 
 @implementation NSManagedObject (NSManagedObject_SA_Additions)
-@dynamic objectIDString, context, moc;
+@dynamic objectIDString, moc;
 
 - (BOOL) didValue: (id) value changeForKey: (NSString *) key {
 	id				existing = [self valueForKey: key];
@@ -23,7 +23,7 @@
 }
 
 - (id) objectWithIDString: (NSString *) string {
-	return [self.managedObjectContext objectWithIDString: string];
+	return [self.moc objectWithIDString: string];
 }
 
 - (NSString *) objectIDString {
@@ -35,48 +35,17 @@
 }
 
 - (void) save {
-	[self.context save];
+	[self.moc save];
 }
-- (NSManagedObjectContext *) context { return self.managedObjectContext; }
+
 - (NSManagedObjectContext *) moc { return self.managedObjectContext; }
 
 - (void) refreshFromContextMergingChanges: (BOOL) mergeChanges {
 	[self.moc refreshObject: self mergeChanges: mergeChanges];
 }
 
-- (BOOL) isNew {
-	NSDictionary				*vals = [self committedValuesForKeys: nil];
-	return [vals count] == 0;
-}
-
 - (void) deleteFromContext {
 	[self.managedObjectContext deleteObject: self];
-}
-
-- (void) replaceAllObjectsInRelationship: (NSString *) relKey withObjects: (NSSet *) newObjects deletingOld: (BOOL) deletingOld {
-	[self willChangeValueForKey: relKey];
-	
-	NSMutableSet				*set = [self mutableSetValueForKey: relKey];
-	NSMutableSet				*deleteThese = nil;
-	
-	if ((set.count > 0 || newObjects.count > 0) && ![set isEqualToSet: newObjects]) {
-		if (deletingOld) {
-			deleteThese = [NSMutableSet set];
-			
-			for (id object in set) {
-				if (![newObjects containsObject: object]) [deleteThese addObject: object];
-			}
-		}
-		
-		[set removeAllObjects];
-		if (newObjects) [set addObjectsFromArray: [newObjects allObjects]];
-		
-		for (NSManagedObject *object in deleteThese) {
-			[object deleteFromContext];
-		}
-	}
-	
-	[self didChangeValueForKey: relKey];
 }
 
 - (BOOL) hasValueForKey: (NSString *) key {
@@ -86,8 +55,6 @@
 	if ([[entity relationshipsByName] objectForKey: key]) return YES;
 	return [super hasValueForKey: key];
 }
-
-- (id) objectForContext: (NSManagedObjectContext *) context { return [self objectInContext: context]; }
 
 - (id) objectInContext: (NSManagedObjectContext *) context {
 	id		object = [context objectWithID: self.objectID];

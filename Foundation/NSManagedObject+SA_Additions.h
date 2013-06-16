@@ -11,23 +11,20 @@
 @interface NSManagedObject (NSManagedObject_SA_Additions)
 
 @property (nonatomic, readonly) NSString *objectIDString;
-@property (nonatomic, readonly) NSManagedObjectContext *context, *moc;
+@property (nonatomic, readonly) NSManagedObjectContext *moc;
 
 - (id) objectWithIDString: (NSString *) string;
-- (BOOL) isNew;
 - (BOOL) didValue: (id) value changeForKey: (NSString *) key;
 - (BOOL) hasAttribute: (NSString *) attr;
 - (void) deleteFromContext;
 - (void) save;
 
 - (void) refreshFromContextMergingChanges: (BOOL) mergeChanges;
-- (id) objectForContext: (NSManagedObjectContext *) context;
 - (id) objectInContext: (NSManagedObjectContext *) context;
 
 - (NSAttributeDescription *) descriptionForAttribute: (NSString *) attributeName;
 - (NSRelationshipDescription *) descriptionForRelationship: (NSString *) relationshipName;
 
-- (void) replaceAllObjectsInRelationship: (NSString *) relKey withObjects: (NSSet *) newObjects deletingOld: (BOOL) deletingOld;
 - (id) objectForKeyedSubscript: (id) key;
 - (void)setObject:(id)obj forKeyedSubscript:(id <NSCopying>)key;
 @end
