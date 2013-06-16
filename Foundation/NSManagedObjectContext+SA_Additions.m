@@ -27,7 +27,9 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	#import "SA_AlertView.h"
 #endif
 
-@implementation NSManagedObjectContext (ConvenienceAdditions)
+@implementation NSManagedObjectContext (SA_ConvenienceAdditions)
+@dynamic primaryStoreMetadata, saveThread;
+
 + (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator {
 	return [self contextAtPath: path inPersistentStoreCoordinator: coordinator model: nil concurrencyType: 0 /*NSConfinementConcurrencyType */];
 }

@@ -19,7 +19,7 @@
 
 extern NSString *kNotification_PersistentStoreResetDueToSchemaChange;
 
-@interface NSManagedObjectContext (ConvenienceAdditions)
+@interface NSManagedObjectContext (SA_ConvenienceAdditions)
 
 @property (nonatomic, readwrite, assign) NSDictionary *primaryStoreMetadata;
 @property (nonatomic, retain) NSThread *saveThread;

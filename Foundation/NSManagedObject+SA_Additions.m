@@ -10,6 +10,7 @@
 #import "NSObject+SA_Additions.h"
 
 @implementation NSManagedObject (NSManagedObject_SA_Additions)
+@dynamic objectIDString, context, moc;
 
 - (BOOL) didValue: (id) value changeForKey: (NSString *) key {
 	id				existing = [self valueForKey: key];
