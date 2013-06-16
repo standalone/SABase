@@ -1263,7 +1263,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	NSString				*authString = [NSString stringWithFormat: @"%@:%@", username, password];
 	NSData					*authData = [NSData dataWithBytes: [authString UTF8String] length: authString.length];
 	
-	[self addHeader: [NSString stringWithFormat: @"Basic %@", [authData base64Encoded]] label: @"Authorization"];	
+	[self addHeader: [NSString stringWithFormat: @"Basic %@", [authData SA_base64Encoded]] label: @"Authorization"];	
 }
 
 - (NSString *) responseHeader: (NSString *) key {

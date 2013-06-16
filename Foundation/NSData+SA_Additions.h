@@ -15,8 +15,8 @@
 - (NSString *) descriptionWithLineWidth: (int) lineWidth includingHex: (BOOL) includingHex includingASCII: (BOOL) includingASCII;
 
 
-- (NSString *) base64Encoded;
-- (NSString *) base64EncodingWithLineLength:(unsigned int) lineLength;
+- (NSString *) SA_base64Encoded;
+- (NSString *) SA_base64EncodingWithLineLength:(unsigned int) lineLength;
 - (NSString *) stringValue;
 - (NSString *) saveToTempFile;
 - (NSString *) hexStringWithSpaces: (BOOL) spaces;

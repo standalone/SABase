@@ -21,7 +21,7 @@
 static NSMutableArray				*s_watchedDirectoryInfoDictionaries = nil, *s_currentInProgressDirectories = nil;
 
 @implementation NSFileManager (NSFileManager_SA_Additions)
-
+@dynamic applicationSupportFolder, documentsFolder;
 
 - (NSDate *) modificationDateOfFileAtPath: (NSString *) path {
 	NSError						*error = nil;

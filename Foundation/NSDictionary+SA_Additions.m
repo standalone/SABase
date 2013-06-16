@@ -84,7 +84,7 @@
 		} else if ([value isKindOfClass: [NSDate class]]) {
 			
 		} else if ([value isKindOfClass: [NSData class]]) {
-			[string appendFormat: @"%@-%@-", key, [value base64Encoded]];
+			[string appendFormat: @"%@-%@-", key, [value SA_base64Encoded]];
 		}
 	}
 	return string;

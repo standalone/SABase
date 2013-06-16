@@ -97,8 +97,8 @@ void * ImprovedBase64Decode(const char *inputBuffer, size_t length, size_t *outp
 
 @implementation NSData (NSData_SA_Additions)
 
-- (NSString *) base64Encoded  {
-	return [self base64EncodingWithLineLength: 0]; 
+- (NSString *) SA_base64Encoded  {
+	return [self SA_base64EncodingWithLineLength: 0]; 
 }
 
 + (NSData *) dataWithBase64EncodedString: (NSString *) aString {
@@ -110,7 +110,7 @@ void * ImprovedBase64Decode(const char *inputBuffer, size_t length, size_t *outp
 	return result;
 }
 
-- (NSString *) base64EncodingWithLineLength:(unsigned int) lineLength {
+- (NSString *) SA_base64EncodingWithLineLength:(unsigned int) lineLength {
 	const unsigned char     *bytes = [self bytes];
 	NSMutableString			*result = [NSMutableString stringWithCapacity:[self length]];
 	unsigned long			ixtext = 0;
