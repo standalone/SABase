@@ -19,13 +19,11 @@
 - (void) removeAsObserver;
 - (BOOL) hasValueForKey: (NSString *) key;
 
-#if NS_BLOCKS_AVAILABLE
 + (void) performBlock: (simpleBlock) block afterDelay: (NSTimeInterval) delay;
 + (void) performBlock: (simpleBlock) block onThread: (NSThread *) thread waitUntilDone: (BOOL) waitUntilDone;
 - (void) sa_callBlock;
 + (void) performBlock: (simpleBlock) block;
 + (void) performBlockOnMainThread: (simpleBlock) block;
-#endif
 
 //KVO
 //implement keyChangedOn:change: to receive notifications
@@ -35,7 +33,6 @@
 @end
 
 
-#if NS_BLOCKS_AVAILABLE
 @interface SA_BlockWrapper : NSObject
 @property (nonatomic, copy) simpleBlock block;
 @property (nonatomic, copy) idArgumentBlock idBlock;
@@ -44,7 +41,6 @@
 - (void) evaluate;
 - (void) evaluate: (id) arg;
 @end
-#endif
 
 #if RUNNING_UNDER_ARC
 @interface SA_WeakWrapper : NSObject

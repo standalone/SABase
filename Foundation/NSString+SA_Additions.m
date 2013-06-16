@@ -8,7 +8,8 @@
 #import "NSString+SA_Additions.h"
 #import <CommonCrypto/CommonDigest.h>
 
-@implementation NSString (SAI_NSString_SA_Additions)
+@implementation NSString (SA_Additions)
+@dynamic characters;
 
 + (NSString *) tempFileNameWithSeed: (NSString *) seed ofType: (NSString *) type {
 	return [NSTemporaryDirectory() stringByAppendingPathComponent: [NSString stringWithFormat: @"%d-%d-%@.%@", (int) [NSDate timeIntervalSinceReferenceDate], ((int) rand()) % 10000, seed, type]];
@@ -421,7 +422,6 @@
 	return [down isEqual: @"true"] || [down isEqual: @"yes"]  || [down isEqual: @"y"] || [down isEqual: @"1"];
 }
 
-#ifdef NSRegularExpressionSearch
 - (NSString *) stringByStrippingTags {
 	NSRange				r;
 	NSString			*result = [[self copy] autorelease];
@@ -430,7 +430,6 @@
 		result = [result stringByReplacingCharactersInRange:r withString: @""];
 	return result; 
 }
-#endif
 
 + (NSString *) stringWithFormat: (NSString *) format array: (NSArray *) arguments {
     id *argList = (id *) malloc(sizeof(id) * [arguments count]);

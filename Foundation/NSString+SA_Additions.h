@@ -19,7 +19,7 @@
 #define		CHAR_IS_NONALPHANUMERIC(c)		(!CHAR_IS_ALPHA(c) && !CHAR_IS_NUMERIC(c))
 
 
-@interface NSString (SAI_NSString_SA_Additions)
+@interface NSString (SA_Additions)
 @property (nonatomic, readonly) NSArray *characters;
 
 + (NSString *) tempFileNameWithSeed: (NSString *) seed ofType: (NSString *) type;
@@ -64,9 +64,7 @@
 - (BOOL) containsWord: (const char *) word;
 
 - (NSString *) rot13;
-#ifdef NSRegularExpressionSearch
 - (NSString *) stringByStrippingTags;
-#endif
 @end
 
 @interface NSAttributedString (SA_Additions)			//NSFontAttributeName
