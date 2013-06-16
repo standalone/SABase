@@ -63,7 +63,7 @@
 	[self showFromBarButtonItem: item animated: YES];
 }
 
-- (void) setSA_ButtonSelectBlock: (actionSheetButtonSelectedBlock) block {
+- (void) setSA_buttonSelectBlock: (actionSheetButtonSelectedBlock) block {
 	self.delegate = (id <UIActionSheetDelegate>) self;
 	[self associateValue: Block_copy(block) forKey: kButtonBlockKey];
 }
