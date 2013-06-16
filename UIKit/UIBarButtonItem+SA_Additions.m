@@ -5,7 +5,7 @@
 //  Copyright 2010 Stand Alone, Inc. All rights reserved.
 //
 
-#import "UIBarButtonItem+SA_Additions.h"
+
 #import "NSObject+SA_Additions.h"
 
 @interface SA_BarButtonItem : UIBarButtonItem

@@ -366,12 +366,6 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	}
 }
 
-
-//this is so that you can pass an NSManagedObject to an SA_ConnectionQueue as a persistant object delegate
-- (id) delegateWithIdentifier: (NSString *) identifier {
-	return (id) [self objectWithIDString: identifier];
-}
-
 #if TARGET_OS_IPHONE
 - (NSFetchedResultsController *) fetchedResultsControllerForEntityNamed: (NSString *) entityName predicate: (NSPredicate *) predicate sortedBy: (NSArray *) sortDescriptors sectionNameKeyPath: (NSString *) sectionNameKeyPath cacheName: (NSString *) cacheName {
 	NSFetchRequest						*fetchRequest = [[NSFetchRequest alloc] init];
@@ -493,7 +487,6 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 }
 
 
-#if NS_BLOCKS_AVAILABLE
 - (void) performBlock: (managedObjectBlock) block withObject: (NSManagedObject *) object onThread: (NSThread *) thread {
 	NSManagedObjectID			*objectID = object.objectID;
 	
@@ -542,7 +535,6 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 		[[NSNotificationCenter defaultCenter] removeObserver: self name: NSManagedObjectContextDidSaveNotification object: self];
 	}
 }
-#endif
 
 #if TARGET_OS_IPHONE
 //=============================================================================================================================

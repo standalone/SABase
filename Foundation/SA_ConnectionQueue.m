@@ -13,10 +13,10 @@
 #import "SA_Utilities.h"
 #import "NSObject+SA_Additions.h"
 #if TARGET_OS_IPHONE
-	#import "UIDevice+SA_Additions.h"
+	
 #endif
 
-#import "NSBundle+SA_Additions.h"
+
 
 #if VALIDATE_XML_UPLOADS
 	#import "SA_XMLGenerator.h"

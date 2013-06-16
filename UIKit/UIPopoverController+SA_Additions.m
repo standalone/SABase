@@ -6,7 +6,7 @@
 //
 
 #import "UIPopoverController+SA_Additions.h"
-#import "UIView+SA_Additions.h"
+
 #import "UIViewController+SA_Additions.h"
 #import "NSObject+SA_Additions.h"
 

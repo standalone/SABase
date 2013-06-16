@@ -6,7 +6,7 @@
 //
 
 #import "UIScrollView+SA_Additions.h"
-#import "UIView+SA_Additions.h"
+
 #import "NSObject+SA_Additions.h"
 
 #define			kCachedContentSizeKey						@"sa_cached_content_size"

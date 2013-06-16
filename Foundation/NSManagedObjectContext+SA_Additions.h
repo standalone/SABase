@@ -12,10 +12,8 @@
 
 #define kNotification_SA_ErrorWhileGeneratingFetchRequest			@"kNotification_SA_ErrorWhileGeneratingFetchRequest"
 
-#if NS_BLOCKS_AVAILABLE
-	typedef void (^managedObjectBlock)(NSManagedObject *object);
-	typedef void (^contextUpdatedBlock)(NSManagedObjectContext *context, NSString *tag);
-#endif
+typedef void (^managedObjectBlock)(NSManagedObject *object);
+typedef void (^contextUpdatedBlock)(NSManagedObjectContext *context, NSString *tag);
 
 extern NSString *kNotification_PersistentStoreResetDueToSchemaChange;
 
@@ -37,6 +35,7 @@ extern NSString *kNotification_PersistentStoreResetDueToSchemaChange;
 - (id) copy;
 - (id) insertNewEntityWithName: (NSString *) name;
 - (id) objectWithIDString: (NSString *) string;
+
 - (NSFetchRequest *) fetchRequestWithEntityName: (NSString *) entityName predicate: (NSPredicate *) predicate sortBy: (NSArray *) sortBy fetchLimit: (int) fetchLimit;
 - (id) anyObjectOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate;
 - (id) firstObjectOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate sortedBy: (NSArray *) sortDescriptors;
@@ -45,6 +44,7 @@ extern NSString *kNotification_PersistentStoreResetDueToSchemaChange;
 - (NSArray *) allObjectsOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate sortedBy: (NSArray *) sortDescriptors;
 - (NSArray *) nObjects: (int) n ofType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate sortedBy: (NSArray *) sortDescriptors;
 - (NSUInteger) numberOfObjectsOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate;
+
 - (void) deleteObjectsOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate;
 - (void) deleteObjectsOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate withFetchLimit: (int) fetchLimit;
 - (void) save;
@@ -54,16 +54,13 @@ extern NSString *kNotification_PersistentStoreResetDueToSchemaChange;
 - (void) queueSaveIn: (float) seconds;
 - (void) cancelQueuedSave;
 - (Class) classFromEntityName: (NSString *) entityName;
-- (id) delegateWithIdentifier: (NSString *) identifier;
 - (NSManagedObjectContext *) createChildContext;
 - (void) saveToDisk;		//saves the current context, and all parent contexts, all the way up the chain
 - (void) saveOnMainThread;
 
-#if NS_BLOCKS_AVAILABLE
-	- (void) unregisterForContextUpdates: (NSString *) tag;
-	- (void) registerForContextUpdatesUsingBlock: (contextUpdatedBlock) block withTag: (NSString *) tag;
-	- (void) performBlock: (managedObjectBlock) block withObject: (NSManagedObject *) object onThread: (NSThread *) thread;
-#endif
+- (void) unregisterForContextUpdates: (NSString *) tag;
+- (void) registerForContextUpdatesUsingBlock: (contextUpdatedBlock) block withTag: (NSString *) tag;
+- (void) performBlock: (managedObjectBlock) block withObject: (NSManagedObject *) object onThread: (NSThread *) thread;
 
 #if TARGET_OS_IPHONE
 	- (NSFetchedResultsController *) fetchedResultsControllerForEntityNamed: (NSString *) entityName predicate: (NSPredicate *) predicate sortedBy: (NSArray *) sortDescriptors sectionNameKeyPath: (NSString *) sectionNameKeyPath cacheName: (NSString *) cacheName;

@@ -76,8 +76,6 @@
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
-#if NS_BLOCKS_AVAILABLE
-
 + (void) performBlock: (simpleBlock) block afterDelay: (NSTimeInterval) delay {
 	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC);
 	dispatch_after(popTime, dispatch_get_main_queue(), block);
@@ -99,8 +97,6 @@
 + (void) performBlockOnMainThread: (simpleBlock) block {
 	dispatch_async(dispatch_get_main_queue(), block);
 }
-
-#endif
 
 //=============================================================================================================================
 #pragma mark KVO

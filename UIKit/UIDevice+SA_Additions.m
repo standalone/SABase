@@ -5,7 +5,7 @@
 //  Copyright 2008 Stand Alone, Inc.. All rights reserved.
 //
 
-#import "UIDevice+SA_Additions.h"
+
 #import "SA_Utilities.h"
 #import <sys/param.h>
 #import <sys/mount.h>

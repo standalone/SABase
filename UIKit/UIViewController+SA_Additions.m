@@ -6,7 +6,7 @@
 //
 
 #import "UIViewController+SA_Additions.h"
-#import "UIView+SA_Additions.h"
+
 
 @implementation UINavigationController (UINavigationController__SA_Additions)
 @dynamic rootViewController;

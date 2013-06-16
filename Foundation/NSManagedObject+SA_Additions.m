@@ -5,8 +5,8 @@
 //  Copyright 2009 Stand Alone, Inc.. All rights reserved.
 //
 
+
 #import "NSManagedObject+SA_Additions.h"
-#import "NSManagedObjectContext+SA_Additions.h"
 #import "NSObject+SA_Additions.h"
 
 @implementation NSManagedObject (NSManagedObject_SA_Additions)

@@ -6,7 +6,7 @@
 //
 //
 
-#import "UIGestureRecognizer+SA_Additions.h"
+
 #import "NSObject+SA_Additions.h"
 
 
