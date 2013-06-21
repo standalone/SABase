@@ -58,9 +58,9 @@ static NSMutableArray					*s_activePopovers = nil;
 	
 	UIPopoverController			*pc = [self SA_PopoverControllerWithContentController: controller];
 	
-	[controller willAppearInSA_Popover: pc animated: animated];
+	if ([controller respondsToSelector: @selector(willAppearInSA_Popover:animated::)]) [controller willAppearInSA_Popover: pc animated: animated];
 	[pc presentPopoverFromRect: rect inView: view permittedArrowDirections: arrowDirections animated:animated];
-	[controller didAppearInSA_Popover: pc animated: animated];
+	if ([controller respondsToSelector: @selector(didAppearInSA_Popover:animated:)]) [controller didAppearInSA_Popover: pc animated: animated];
 	return pc;
 }
 
@@ -69,14 +69,14 @@ static NSMutableArray					*s_activePopovers = nil;
 
 	UIPopoverController			*pc = [self SA_PopoverControllerWithContentController: controller];
 	
-	[controller willAppearInSA_Popover: pc animated: animated];
+	if ([controller respondsToSelector: @selector(willAppearInSA_Popover:animated::)]) [controller willAppearInSA_Popover: pc animated: animated];
 	@try {
 		[pc presentPopoverFromBarButtonItem: item permittedArrowDirections: arrowDirections animated: animated];
 	} @catch (id e) {
 		[s_activePopovers removeObject: pc];
 		return nil;
 	}
-	[controller didAppearInSA_Popover: pc animated: animated];
+	if ([controller respondsToSelector: @selector(didAppearInSA_Popover:animated:)]) [controller didAppearInSA_Popover: pc animated: animated];
 	return pc;
 }
 
