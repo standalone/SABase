@@ -93,9 +93,9 @@ static NSMutableArray					*s_activePopovers = nil;
 }
 
 
-+ (void) popoverControllerDidDismissSA_Popover: (UIPopoverController *) popoverController {
-	if ([popoverController.contentViewController respondsToSelector: @selector(popoverControllerDidDismissSA_Popover:)])
-		[(id) popoverController.contentViewController popoverControllerDidDismissSA_Popover: popoverController];
++ (void) popoverControllerDidDismissPopover: (UIPopoverController *) popoverController {
+	if ([popoverController.contentViewController respondsToSelector: @selector(popoverControllerDidDismissPopover:)])
+		[(id) popoverController.contentViewController popoverControllerDidDismissPopover: popoverController];
 	[s_activePopovers removeObject: popoverController];
 }
 
@@ -112,7 +112,7 @@ static NSMutableArray					*s_activePopovers = nil;
 
 + (BOOL) isSA_PopoverVisibleWithViewControllerClass: (Class) class {
 	if (class == nil) return s_activePopovers.count > 0;
-	return [self existingSA_PopoverWithViewControllerClass: class] != nil;
+	return [[self existingSA_PopoverWithViewControllerClass: class] isPopoverVisible];
 }
 
 + (UIPopoverController *) existingSA_PopoverWithViewControllerClass: (Class) class {
