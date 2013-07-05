@@ -117,6 +117,20 @@ NSMutableArray			*s_displayedAlerts = nil;
 }
 
 //=============================================================================================================================
+#pragma mark Properties
+- (void) setAlertButtonHitBlock: (intArgumentBlock) alertButtonHitBlock {
+	if (_alertButtonHitBlock) Block_release(_alertButtonHitBlock);
+	_alertButtonHitBlock = Block_copy(alertButtonHitBlock);
+	self.delegate = self;
+}
+
+- (void) setAlertCancelButtonHitBlock: (booleanArgumentBlock) alertCancelButtonHitBlock {
+	if (_alertCancelButtonHitBlock) Block_release(_alertCancelButtonHitBlock);
+	_alertCancelButtonHitBlock = Block_copy(alertCancelButtonHitBlock);
+	self.delegate = self;
+}
+
+//=============================================================================================================================
 #pragma mark Overrides
 - (void) didMoveToSuperview {
 	if (self.superview == nil) {
