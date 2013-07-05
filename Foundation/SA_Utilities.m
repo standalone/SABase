@@ -18,50 +18,6 @@
 const CGPoint		CGPointNone = {-10001.10001, -10001.10001};			
 
 
-//id			dictof(const struct dictpair* pairs, size_t count, BOOL makeMutable) {
-//	id					objects[count], keys[count];
-//	size_t				i, n = 0;
-//	
-//	for (i = 0; i < count; i++,pairs++) {
-//		if (pairs->value) {
-//			objects[n] = pairs->value;
-//			keys[n] = pairs->key;
-//			n++;
-//		}
-//	}
-//	
-//    if (makeMutable) return [NSMutableDictionary dictionaryWithObjects: objects forKeys: keys count: n];
-//    return [NSDictionary dictionaryWithObjects: objects forKeys: keys count: n];
-//}
-
-BOOL			EQUAL(id obj1, id obj2) {
-	if (obj1 == nil) return (obj2 == nil);
-	return [obj1 isEqual: obj2];
-}
-
-NSValue*	box(const void *value, const char *encoding) {
-	// http://developer.apple.com/documentation/DeveloperTools/gcc-4.0.1/gcc/Type-encoding.html
-	char e = encoding[0];
-	if ( e == 'r') e = encoding[1];               // ignore 'const' modifier
-	switch(e) {
-		case 'c':   return [NSNumber numberWithChar: *(char *) value];
-		case 'C':   return [NSNumber numberWithUnsignedChar: *(char *) value];
-		case 's':   return [NSNumber numberWithShort: *(short *) value];
-		case 'S':   return [NSNumber numberWithUnsignedShort: *(unsigned short *) value];
-		case 'i':   return [NSNumber numberWithInt: *(int *) value];
-		case 'I':   return [NSNumber numberWithUnsignedInt: *(unsigned int *) value];
-		case 'l':   return [NSNumber numberWithLong: *(long *) value];
-		case 'L':   return [NSNumber numberWithUnsignedLong: *(unsigned long *) value];
-		case 'q':   return [NSNumber numberWithLongLong: *(long long *) value];
-		case 'Q':   return [NSNumber numberWithUnsignedLongLong: *(unsigned long long *) value];
-		case 'f':   return [NSNumber numberWithFloat: *(float *) value];
-		case 'd':   return [NSNumber numberWithDouble: *(double *) value];
-		case '*':   return (id) [NSString stringWithUTF8String: *(char **) value];
-		//case '@':   return *(id *) value;
-		default:    return [NSValue value: value withObjCType: encoding];
-	}
-}
-
 natural_t			freeMemory(BOOL logIt) {
 //    mach_port_t					host_port = mach_host_self();
 //    mach_msg_type_number_t		host_size = sizeof(vm_statistics_data_t) / sizeof(integer_t);

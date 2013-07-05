@@ -196,12 +196,6 @@ void				displayAlert(NSString *title, NSString *message);
 
 //==========================================================================================
 #pragma mark Collection and Conversion
-#define		ARRAY(OBJS...)     ({id objs[]={OBJS}; [NSArray arrayWithObjects: objs count: sizeof(objs)/sizeof(id)];})
-#define		MARRAY(OBJS...)    ({id objs[]={OBJS}; [NSMutableArray arrayWithObjects: objs count: sizeof(objs)/sizeof(id)];})
-#define		DICT(PAIRS...)     ({struct dictpair pairs[]={PAIRS}; dictof(pairs, DIM(pairs), NO);})
-#define		MDICT(PAIRS...)    ({struct dictpair pairs[]={PAIRS};  dictof(pairs, DIM(pairs), YES);})
-
-#define		OBJECT(VAL)        ({__typeof(VAL) v = (VAL); box(&v, @encode(__typeof(v)));})
 
 #define		IS_KIND_OF(o, c)			([o isKindOf: [c class]])
 
@@ -265,9 +259,6 @@ typedef enum {dir_left, dir_up, dir_right, dir_down} direction;
 
 //==========================================================================================
 #pragma mark Private Structures/Functions
-//struct					dictpair { id value, key; };
-//id						dictof(const struct dictpair*, size_t count, BOOL makeMutable);
-NSValue *				box(const void *value, const char *encoding);
 
 #if TARGET_OS_IPHONE
 	NSString *				NSStringFromInterfaceOrientation(UIInterfaceOrientation orientation);
