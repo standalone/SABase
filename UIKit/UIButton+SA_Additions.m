@@ -11,8 +11,8 @@
 
 @implementation UIButton (UIButton_SA_Additions)
 
-+ (UIButton *) buttonWithImageNamed: (NSString *) imageName {
-	UIButton			*button = [UIButton buttonWithType: UIButtonTypeCustom];
++ (id) buttonWithImageNamed: (NSString *) imageName {
+	UIButton			*button = [self buttonWithType: UIButtonTypeCustom];
 	NSString			*rawName = [imageName stringByDeletingPathExtension];
 	UIImage				*normalImage = [UIImage imageNamed: imageName];
 	UIImage				*highlighted = [UIImage imageNamed: $S(@"%@_highlighted.png", rawName)];

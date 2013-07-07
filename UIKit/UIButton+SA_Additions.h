@@ -12,5 +12,5 @@
 @interface UIButton (UIButton_SA_Additions)
 
 //user _highlighted.png, _disabled.png, _selected.png, and _highlighted_selected.png for additional button configuration
-+ (UIButton *) buttonWithImageNamed: (NSString *) imageName;
++ (id) buttonWithImageNamed: (NSString *) imageName;
 @end
