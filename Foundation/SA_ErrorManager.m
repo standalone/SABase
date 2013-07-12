@@ -10,12 +10,20 @@
 
 @implementation SA_ErrorManager
 SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ErrorManager, defaultManager);
+
+- (id) init {
+	if (self = [super init]) {
+		self.filterLevel = SA_Error_Filter_Level_NormalUse;
+	}
+	return self;
+}
+
 - (void) handleError: (NSError *) error withTitle: (NSString *) title ofLevel: (SA_Error_Level) level {
-	if (self.showErrorsOfLevelAndBelow != SA_Error_Level_Low) {
+	if (self.filterLevel != SA_Error_Level_User) {
 		NSLog(@"****** Error Received: %@ (%@) ********\n%@\n", title, [SA_ErrorManager convertErrLevelToString: level], error);
 	}
-	if (self.showErrorsOfLevelAndBelow < level) return;
-	[SA_AlertView showAlertWithTitle: title error: error];
+	if (self.filterLevel < (int) level) return;
+	[self reportTitle: title error: error];
 }
 
 - (void) handleMessage: (NSString *) message ofLevel: (SA_Error_Level) level {
@@ -23,15 +31,27 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ErrorManager, defaultManager);
 }
 
 - (void) handleMessage: (NSString *) message withTitle: (NSString *) title ofLevel: (SA_Error_Level) level {
-	if (self.showErrorsOfLevelAndBelow != SA_Error_Level_Low) {
+	if (self.filterLevel != SA_Error_Level_User) {
 		NSLog(@"****** Message Received: %@ (%@) ********\n", title ?: @"", [SA_ErrorManager convertErrLevelToString: level]);
 	}
 
-	if (self.showErrorsOfLevelAndBelow < level) return;
-	[SA_AlertView showAlertWithTitle: title message: message];
+	if (self.filterLevel < (int) level) return;
+	[self reportTitle: title message: message];
 }
 
+- (void) reportTitle: (NSString *) title message: (NSString *) message {
+	if (self.messageBlock)
+		self.messageBlock(title, message);
+	else
+		[SA_AlertView showAlertWithTitle: title message: message];
+}
 
+- (void) reportTitle: (NSString *) title error: (NSError *) error {
+	if (self.errorBlock)
+		self.errorBlock(title, error);
+	else
+		[SA_AlertView showAlertWithTitle: title error: error];
+}
 
 
 
