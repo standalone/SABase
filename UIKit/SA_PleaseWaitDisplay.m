@@ -36,11 +36,13 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 	}
 	
 	dispatch_async(dispatch_get_main_queue(), ^{
+		if (g_display == nil) return;
 		g_display.view.layer.zPosition = 100;
 		g_display.majorText = major;
 		g_display.minorText = minor;
 		g_display.cancelTitle = cancel;
 		g_display.delegate = delegate;
+		if (g_display == nil) return;
 		g_display->_progressBarHidden = !showProgressBar;
 		g_display.spinnerHidden = showProgressBar;					//if there's a progress max, we hide the spinner
 		g_display->_majorLabelPositionedWithSpinner = !g_display.spinnerHidden;

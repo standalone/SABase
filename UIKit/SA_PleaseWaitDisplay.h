@@ -15,7 +15,7 @@
 
 @interface SA_PleaseWaitDisplay : NSObject {
 	NSString							*_cancelTitle, *_auxTitle, *_minorText, *_majorText;
-	BOOL								_spinnerHidden, _progressBarHidden;
+	BOOL								_spinnerHidden;
 	id <SA_PleaseWaitDisplayDelegate>	_delegate;
 	
 	
