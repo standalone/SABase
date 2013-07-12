@@ -196,7 +196,10 @@ void				displayAlert(NSString *title, NSString *message);
 
 //==========================================================================================
 #pragma mark Collection and Conversion
+<<<<<<< HEAD
 
+=======
+>>>>>>> removed some auto-boxing stuff
 #define		IS_KIND_OF(o, c)			([o isKindOf: [c class]])
 
 #define		$D(...)						[NSDictionary dictionaryWithObjectsAndKeys: __VA_ARGS__, nil]
@@ -213,8 +216,6 @@ void				displayAlert(NSString *title, NSString *message);
 #define		$Vpoint(x, y)				[NSValue valueWithCGPoint: CGPointMake(x, y)]
 #define		$Vsize(w, h)				[NSValue valueWithCGSize: CGSizeMake(w, h)]
 #define		$C(r, b, g, a)				[UIColor colorWithRed: r green: g blue: blue alpha: a]
-
-BOOL		EQUAL(id obj1, id obj2);
 
 
 #define		CGRectCenter(r)					(CGPointMake(CGRectGetMidX(r), CGRectGetMidY(r)))
