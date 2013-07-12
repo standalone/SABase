@@ -18,37 +18,37 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ErrorManager, defaultManager);
 	return self;
 }
 
-- (void) handleError: (NSError *) error withTitle: (NSString *) title ofLevel: (SA_Error_Level) level {
+- (void) handleError: (NSError *) error withTitle: (NSString *) title devNote: (NSString *) devNote ofLevel: (SA_Error_Level) level {
 	if (self.filterLevel != SA_Error_Level_User) {
-		NSLog(@"****** Error Received: %@ (%@) ********\n%@\n", title, [SA_ErrorManager convertErrLevelToString: level], error);
+		NSLog(@"****** Error Received: %@ (%@) ********\n%@%@%@\n", title, [SA_ErrorManager convertErrLevelToString: level], devNote ?: @"", devNote.length ? @"\n" : @"", error);
 	}
 	if (self.filterLevel < (int) level) return;
-	[self reportTitle: title error: error];
+	[self reportTitle: title error: error devNote: devNote];
 }
 
-- (void) handleMessage: (NSString *) message ofLevel: (SA_Error_Level) level {
-	[self handleMessage: message withTitle: nil ofLevel: level];
+- (void) handleMessage: (NSString *) message devNote: (NSString *) devNote ofLevel: (SA_Error_Level) level {
+	[self handleMessage: message withTitle: nil devNote: devNote ofLevel: level];
 }
 
-- (void) handleMessage: (NSString *) message withTitle: (NSString *) title ofLevel: (SA_Error_Level) level {
+- (void) handleMessage: (NSString *) message withTitle: (NSString *) title devNote: (NSString *) devNote ofLevel: (SA_Error_Level) level {
 	if (self.filterLevel != SA_Error_Level_User) {
-		NSLog(@"****** Message Received: %@ (%@) ********\n", title ?: @"", [SA_ErrorManager convertErrLevelToString: level]);
+		NSLog(@"****** Message Received: %@ (%@) ********\n%@%@%@\n", title ?: @"", [SA_ErrorManager convertErrLevelToString: level], devNote ?: @"", devNote.length ? @"\n" : @"", message);
 	}
 
 	if (self.filterLevel < (int) level) return;
-	[self reportTitle: title message: message];
+	[self reportTitle: title message: message devNote: devNote];
 }
 
-- (void) reportTitle: (NSString *) title message: (NSString *) message {
-	if (self.messageBlock)
-		self.messageBlock(title, message);
+- (void) reportTitle: (NSString *) title message: (NSString *) message devNote: (NSString *) devNote {
+	if (self.delegate && [self.delegate respondsToSelector: _cmd])
+		[self.delegate reportTitle: title message: message devNote: devNote];
 	else
 		[SA_AlertView showAlertWithTitle: title message: message];
 }
 
-- (void) reportTitle: (NSString *) title error: (NSError *) error {
-	if (self.errorBlock)
-		self.errorBlock(title, error);
+- (void) reportTitle: (NSString *) title error: (NSError *) error devNote: (NSString *) devNote {
+	if (self.delegate && [self.delegate respondsToSelector: _cmd])
+		[self.delegate reportTitle: title error: error devNote: devNote];
 	else
 		[SA_AlertView showAlertWithTitle: title error: error];
 }

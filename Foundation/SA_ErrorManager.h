@@ -22,21 +22,22 @@ typedef NS_ENUM(UInt8, SA_Error_Filter_Level) {
 	SA_Error_Filter_Level_All
 };
 
-typedef void (^SA_ErrorManager_messageArgumentBlock)(NSString *title, NSString *message);
-typedef void (^SA_ErrorManager_errorArgumentBlock)(NSString *title, NSError *error);
-
+@protocol SA_ErrorManagerDelegate <NSObject>
+@optional
+- (void) reportTitle: (NSString *) title message: (NSString *) message devNote: (NSString *) devNote;
+- (void) reportTitle: (NSString *) title error: (NSError *) error devNote: (NSString *) devNote;
+@end
 
 @interface SA_ErrorManager : NSObject
 SINGLETON_INTERFACE_FOR_CLASS_AND_METHOD(SA_ErrorManager, defaultManager);
 
 @property (nonatomic) SA_Error_Filter_Level filterLevel;
-@property (nonatomic, copy) SA_ErrorManager_errorArgumentBlock errorBlock;
-@property (nonatomic, copy) SA_ErrorManager_messageArgumentBlock messageBlock;
+@property (nonatomic, unsafe_unretained) id <SA_ErrorManagerDelegate> delegate;
 
-- (void) handleError: (NSError *) error withTitle: (NSString *) title ofLevel: (SA_Error_Level) level;
-- (void) handleMessage: (NSString *) message ofLevel: (SA_Error_Level) level;
-- (void) handleMessage: (NSString *) message withTitle: (NSString *) title ofLevel: (SA_Error_Level) level;
+- (void) handleError: (NSError *) error withTitle: (NSString *) title devNote: (NSString *) devNote ofLevel: (SA_Error_Level) level;
+- (void) handleMessage: (NSString *) message devNote: (NSString *) devNote ofLevel: (SA_Error_Level) level;
+- (void) handleMessage: (NSString *) message withTitle: (NSString *) title devNote: (NSString *) devNote ofLevel: (SA_Error_Level) level;
 
-- (void) reportTitle: (NSString *) title message: (NSString *) message;
-- (void) reportTitle: (NSString *) title error: (NSError *) error;
+- (void) reportTitle: (NSString *) title message: (NSString *) message devNote: (NSString *) devNote;
+- (void) reportTitle: (NSString *) title error: (NSError *) error devNote: (NSString *) devNote;
 @end
