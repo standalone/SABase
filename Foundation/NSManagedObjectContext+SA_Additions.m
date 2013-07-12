@@ -23,10 +23,6 @@ NSString *UPDATE_BLOCKS_KEY = @"SA_UpdateBlocksArray";
 NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY";
 NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 
-#if TARGET_OS_IPHONE
-	#import "SA_AlertView.h"
-#endif
-
 @implementation NSManagedObjectContext (SA_ConvenienceAdditions)
 @dynamic primaryStoreMetadata, saveThread;
 
