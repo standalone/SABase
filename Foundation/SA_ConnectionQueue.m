@@ -919,13 +919,12 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	
 	if ([self.method isEqual: @"GET"] && self.payload.length) LOG(@"Attaching a Payload to a GET request will probably fail \n\n %@", self);
 	
-	NSURLRequest					*request = self.request;
+	if (self.request == nil) self.request = [self generatedRequest];
 	
-	if (request == nil) request = [self generatedRequest];
 	
 	_inProgress = YES;
 	_canceled = NO;
-	if (request == nil) return NO;			//bad URL
+	if (self.request == nil) return NO;			//bad URL
 	
 	if (self.prefersFileStorage) {
 		[self switchToFileStorage];
@@ -958,7 +957,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 			}
 		}
 	#endif
-	_connection = [NSURLConnection connectionWithRequest: request delegate: self];
+	_connection = [NSURLConnection connectionWithRequest: self.request delegate: self];
 	#if DEBUG
 		self.requestStartedAt = [NSDate date];
 		//LOG(@"Request started at: %@", self.requestStartedAt);
