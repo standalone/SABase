@@ -23,7 +23,10 @@
 	}
 	NSMutableSet				*kids = [self respondsToSelector: @selector(viewControllers)] ? [NSMutableSet setWithArray: [(id) self viewControllers]] : [NSMutableSet set];
 	
-	if (self.modalViewController) [kids addObject: self.modalViewController];
+	#pragma clang diagnostic push
+	#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+		if (self.modalViewController) [kids addObject: self.modalViewController];
+	#pragma clang diagnostic pop
 	
 	for (UIViewController *controller in [[kids copy] autorelease]) {
 		[kids unionSet: [controller childControllers]];

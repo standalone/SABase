@@ -469,7 +469,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 - (void) setupMajorLabel {
 	if (_majorLabel == nil) {			
 		_majorLabel = [[UILabel alloc] initWithFrame: self.majorLabelBounds];
-		_majorLabel.textAlignment = UITextAlignmentCenter;
+		_majorLabel.textAlignment = NSTextAlignmentCenter;
 		_majorLabel.font = [self majorFont];
 		_majorLabel.backgroundColor = kLabelBackgroundColor;
 	}
@@ -484,10 +484,10 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 - (void) setupMinorLabel {	
 	if (_minorLabel == nil) {			
 		_minorLabel = [[UILabel alloc] initWithFrame: self.minorLabelBounds];
-		_minorLabel.textAlignment = UITextAlignmentCenter;
+		_minorLabel.textAlignment = NSTextAlignmentCenter;
 		_minorLabel.font = [self minorFont];
 		_minorLabel.backgroundColor = kLabelBackgroundColor;
-		_minorLabel.lineBreakMode = UILineBreakModeWordWrap;
+		_minorLabel.lineBreakMode = NSLineBreakByWordWrapping;
 		_minorLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		_minorLabel.numberOfLines = 20;
 	}
