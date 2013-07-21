@@ -19,11 +19,11 @@
 #define		SYNTHESIZE(_X_)		@synthesize _X_ = _##_X_;
 
 #if DEBUG || AD_HOC
-	#define		IF_NOT_PRODUCTION(...)				{__VA_ARGS__;}
+	#define		IF_NOT_PRODUCTION(...)					{__VA_ARGS__;}
 	#define		IF_PRODUCTION(...)	
 #else
 	#define		IF_NOT_PRODUCTION(...)
-	#define		IF_PRODUCTION(...)					{__VA_ARGS__;}
+	#define		IF_PRODUCTION(...)						{__VA_ARGS__;}
 #endif
 
 #if BUILD_USER_ben && (DEBUG || AD_HOC)
@@ -48,7 +48,11 @@
 	#define		IF_DEVICE(...)							{__VA_ARGS__;}
 #endif
 
-#define				TRY(...)					@try {__VA_ARGS__;} @catch (id e) {LOG(@"Got exception: %@", e);}
+#if TARGET_IPHONE_SIMULATOR
+	#define				TRY(...)						{__VA_ARGS__;}
+#else
+	#define				TRY(...)						@try {__VA_ARGS__;} @catch (id e) {LOG(@"Got exception: %@", e);}
+#endif
 
 #ifndef __has_feature
 	#define __has_feature(x) 0
