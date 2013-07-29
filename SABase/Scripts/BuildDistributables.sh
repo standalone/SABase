@@ -33,7 +33,7 @@ mkdir -p "${LIB_DESTINATION}/Headers"
 
 lipo -create "build/Release-iphoneos/libSABase.a" "build/Debug-iphonesimulator/libSABase.a" -output "${LIB_DESTINATION}/SA_Base"
 
-HEADERS="build/Debug-iphonesimulator/usr/local/include/*.h"
+HEADERS="build/Release-iphoneos/usr/local/include/*.h"
 for HEADER in ${HEADERS}; do
 	FILENAME="${HEADER##*/}"
 	cp $HEADER "${LIB_DESTINATION}/Headers/${FILENAME}" 

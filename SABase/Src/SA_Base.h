@@ -11,6 +11,7 @@
 #import "SA_NavigationController.h"
 #import "SA_SelfDrawingView.h"
 #import "SA_LazyLoadingScrollView.h"
+#import "SA_Switch.h"
 #import "SA_BlockButton.h"
 
 #import "CAAnimation+SA_Blocks.h"
