@@ -1340,7 +1340,7 @@
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_CFLAGS = (
 					"-DDEBUG=1",
-					"-DLOG_ALL_CONNECTIONS=1",
+					"-DLOG_ALL_CONNECTIONS=0",
 					"-DVERBOSE_LOGGING=1",
 				);
 				OTHER_LDFLAGS = (
@@ -1425,7 +1425,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-DDEBUG=1",
-					"-DLOG_ALL_CONNECTIONS=1",
+					"-DLOG_ALL_CONNECTIONS=0",
 					"-DVERBOSE_LOGGING=1",
 				);
 				PRODUCT_NAME = SABase;
