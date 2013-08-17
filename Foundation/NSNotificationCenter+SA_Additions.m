@@ -26,6 +26,8 @@ static NSMutableArray *s_fireAndForgetNotificationBlocks = nil;
 
 - (void) postDeferredNotificationOnMainThreadName: (NSString *) name object: (id) object info: (NSDictionary *) info {
 	dispatch_async(dispatch_get_main_queue(), ^{
+		NSNotification				*note = [NSNotification notificationWithName: name object: object userInfo: info];
+
 		[self performSelectorOnMainThread: @selector(postDeferredNotification:) withObject: note waitUntilDone: NO];
 	});
 }
