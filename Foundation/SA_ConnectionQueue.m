@@ -1246,7 +1246,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 //	}
 	fclose(f);
 
-	LOG(@"Created file: %@, (%@)", _filename, [[NSFileManager defaultManager] fileExistsAtPath: _filename] ? @"exists" : @"doesn't exist");
+	//LOG(@"Created file: %@, (%@)", _filename, [[NSFileManager defaultManager] fileExistsAtPath: _filename] ? @"exists" : @"doesn't exist");
 	_file = [[NSFileHandle fileHandleForUpdatingAtPath: _filename] retain];
 	if (_file == nil) {
 		LOG_ERR(@"Failed to create switched-over file at %@", _filename);
