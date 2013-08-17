@@ -12,7 +12,7 @@
 #import "SA_SelfDrawingView.h"
 #import "SA_LazyLoadingScrollView.h"
 #import "SA_BlockButton.h"
-
+#import "SA_Switch.h"
 #import "CAAnimation+SA_Blocks.h"
 
 #import "NSURL+SA_Additions.h"

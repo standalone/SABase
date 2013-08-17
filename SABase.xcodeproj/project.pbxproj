@@ -340,6 +340,10 @@
 		B5D3ABAC15FD3E070052F459 /* CAAnimation+SA_Blocks.h in Headers */ = {isa = PBXBuildFile; fileRef = B5D3ABA915FD3E070052F459 /* CAAnimation+SA_Blocks.h */; };
 		B5D3ABAD15FD3E070052F459 /* CAAnimation+SA_Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = B5D3ABAA15FD3E070052F459 /* CAAnimation+SA_Blocks.m */; };
 		B5D3ABAE15FD3E070052F459 /* CAAnimation+SA_Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = B5D3ABAA15FD3E070052F459 /* CAAnimation+SA_Blocks.m */; };
+		B5E703F817A5DB2000435611 /* SA_Switch.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E703F717A5D9B700435611 /* SA_Switch.m */; };
+		B5E703F917A5DB2000435611 /* SA_Switch.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E703F717A5D9B700435611 /* SA_Switch.m */; };
+		B5E703FA17A5DB4900435611 /* SA_Switch.h in Headers */ = {isa = PBXBuildFile; fileRef = B5E703F617A5D9B700435611 /* SA_Switch.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B5E703FB17A5DC6700435611 /* SA_Switch.h in Headers */ = {isa = PBXBuildFile; fileRef = B5E703F617A5D9B700435611 /* SA_Switch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B5ED0B9416431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B5ED0B9216431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B5ED0B9516431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B5ED0B9216431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.h */; };
 		B5ED0B9616431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B5ED0B9316431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.m */; };
@@ -472,6 +476,8 @@
 		B5D3ABA915FD3E070052F459 /* CAAnimation+SA_Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CAAnimation+SA_Blocks.h"; path = "Foundation/CAAnimation+SA_Blocks.h"; sourceTree = SOURCE_ROOT; };
 		B5D3ABAA15FD3E070052F459 /* CAAnimation+SA_Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CAAnimation+SA_Blocks.m"; path = "Foundation/CAAnimation+SA_Blocks.m"; sourceTree = SOURCE_ROOT; };
 		B5E39B72123BA9EE00FC1FE7 /* Run-Time Tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Run-Time Tests.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B5E703F617A5D9B700435611 /* SA_Switch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SA_Switch.h; sourceTree = "<group>"; };
+		B5E703F717A5D9B700435611 /* SA_Switch.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SA_Switch.m; sourceTree = "<group>"; };
 		B5ED0B9216431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MFMailComposeViewController+SA_Additions.h"; path = "UIKit/MFMailComposeViewController+SA_Additions.h"; sourceTree = SOURCE_ROOT; };
 		B5ED0B9316431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MFMailComposeViewController+SA_Additions.m"; path = "UIKit/MFMailComposeViewController+SA_Additions.m"; sourceTree = SOURCE_ROOT; };
 		D2AAC07E0554694100DB518D /* libSABase.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSABase.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -623,6 +629,8 @@
 				B55E0881151660DD0097CC69 /* UITableViewCell+SA_Additions.m */,
 				B55E0883151660DD0097CC69 /* UIToolbar+SA_Additions.m */,
 				B55E0885151660DD0097CC69 /* UIView+SA_Additions.m */,
+				B5E703F617A5D9B700435611 /* SA_Switch.h */,
+				B5E703F717A5D9B700435611 /* SA_Switch.m */,
 				B55E0887151660DD0097CC69 /* UIViewController+SA_Additions.m */,
 			);
 			path = UIKit;
@@ -819,6 +827,7 @@
 				B5A12A22152FEF4A0081FAAD /* SA_Utilities.h in Headers */,
 				B542239015B64FB8001776BA /* UIGestureRecognizer+SA_Additions.h in Headers */,
 				B5095CAF15F4063400EC3C8F /* NSDictionary+SA_Additions.h in Headers */,
+				B5E703FB17A5DC6700435611 /* SA_Switch.h in Headers */,
 				B5D3ABAC15FD3E070052F459 /* CAAnimation+SA_Blocks.h in Headers */,
 				B51F6FE31615CAB90015A037 /* NSSet+SA_Additions.h in Headers */,
 				B5ED0B9516431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.h in Headers */,
@@ -829,6 +838,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5E703FA17A5DB4900435611 /* SA_Switch.h in Headers */,
 				B58307181516548600CC57DE /* SA_Base.h in Headers */,
 				B55E0888151660DD0097CC69 /* dispatch_additions_SA.h in Headers */,
 				B55E088E151660DD0097CC69 /* NSBundle+SA_Additions.h in Headers */,
@@ -1118,6 +1128,7 @@
 				B55E0927151660DD0097CC69 /* UIBarButtonItem+SA_Additions.m in Sources */,
 				B55E092D151660DD0097CC69 /* UIButton+SA_Additions.m in Sources */,
 				B55E0933151660DD0097CC69 /* UIColor+SA_Additions.m in Sources */,
+				B5E703F917A5DB2000435611 /* SA_Switch.m in Sources */,
 				B55E0939151660DD0097CC69 /* UIDevice+SA_Additions.m in Sources */,
 				B55E093F151660DD0097CC69 /* UIImage+SA_Additions.m in Sources */,
 				B55E0945151660DD0097CC69 /* UIImageView+SA_Additions.m in Sources */,
@@ -1283,6 +1294,7 @@
 				B55E0926151660DD0097CC69 /* UIBarButtonItem+SA_Additions.m in Sources */,
 				B55E092C151660DD0097CC69 /* UIButton+SA_Additions.m in Sources */,
 				B55E0932151660DD0097CC69 /* UIColor+SA_Additions.m in Sources */,
+				B5E703F817A5DB2000435611 /* SA_Switch.m in Sources */,
 				B55E0938151660DD0097CC69 /* UIDevice+SA_Additions.m in Sources */,
 				B55E093E151660DD0097CC69 /* UIImage+SA_Additions.m in Sources */,
 				B55E0944151660DD0097CC69 /* UIImageView+SA_Additions.m in Sources */,
