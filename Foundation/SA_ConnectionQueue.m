@@ -108,7 +108,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 
 - (id) init {
 	if ((self = [super init])) {
-		#ifdef LOG_ALL_CONNECTIONS
+		#if LOG_ALL_CONNECTIONS
 				NSError							*error = nil;
 				NSFileManager					*mgr = [NSFileManager defaultManager];
 				

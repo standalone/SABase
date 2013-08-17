@@ -27,6 +27,9 @@ static NSMutableArray					*s_activePopovers = nil;
 	controller.delegate = (id <UIPopoverControllerDelegate>) self;
 	CGSize				size = root.view.bounds.size;
 	
+	if ([content respondsToSelector: @selector(preferredContentSize)]) size = [content preferredContentSize];
+	else if ([content respondsToSelector: @selector(contentSizeForViewInPopover)]) size = [content contentSizeForViewInPopover];
+	
 	if (size.width && size.height)
 		controller.popoverContentSize = size;
 	
@@ -65,7 +68,15 @@ static NSMutableArray					*s_activePopovers = nil;
 }
 
 + (UIPopoverController *) presentSA_PopoverForViewController: (UIViewController *) controller fromBarButtonItem: (UIBarButtonItem *) item permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
-	if (controller.onlyAllowOneInstanceInAnSA_Popover && [self didCloseExistingSA_PopoverWithClass: [controller class]]) return nil;
+	UIViewController			*root = controller;
+	
+	if ([controller isKindOfClass: [UINavigationController class]]) {
+		NSArray				*childControllers = [(id) controller viewControllers];
+		
+		if (childControllers.count) root = childControllers[0];
+	}
+	
+	if (root.onlyAllowOneInstanceInAnSA_Popover && [self didCloseExistingSA_PopoverWithClass: [root class]]) return nil;
 
 	UIPopoverController			*pc = [self SA_PopoverControllerWithContentController: controller];
 	
@@ -142,7 +153,12 @@ static NSMutableArray					*s_activePopovers = nil;
 	subject.center = parent.contentCenter;
 	[parent addSubview: subject];
 	
-	dummyController.contentSizeForViewInPopover = subject.bounds.size;
+	#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0
+		if (RUNNING_ON_70)
+			dummyController.preferredContentSize = subject.bounds.size;
+		else
+	#endif
+		dummyController.contentSizeForViewInPopover = subject.bounds.size;
 	dummyController.view = parent;
 	return [self presentSA_PopoverForViewController: dummyController fromRect: rect inView: view permittedArrowDirections: arrowDirections animated: animated];
 }
@@ -154,7 +170,12 @@ static NSMutableArray					*s_activePopovers = nil;
 	subject.center = parent.contentCenter;
 	[parent addSubview: subject];
 	
-	dummyController.contentSizeForViewInPopover = subject.bounds.size;
+	#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0
+		if (RUNNING_ON_70)
+			dummyController.preferredContentSize = subject.bounds.size;
+		else
+	#endif
+		dummyController.contentSizeForViewInPopover = subject.bounds.size;
 	dummyController.view = parent;
 	return [self presentSA_PopoverForViewController: dummyController fromBarButtonItem: item permittedArrowDirections: arrowDirections animated: animated];
 }

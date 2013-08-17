@@ -95,7 +95,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 - (BOOL) hidden {return (_hidden);}
 - (void) setProgressValueAsNumber: (NSNumber *) number {
 	if (![NSThread isMainThread]) {
-		[self performSelectorOnMainThread: @selector(setProgressValueAsNumber:) withObject: number waitUntilDone: NO];
+		dispatch_async(dispatch_get_main_queue(), ^{ [self setProgressValueAsNumber: number]; });
 		return;
 	}
 	[self setProgressValue: [number floatValue]];
@@ -108,7 +108,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 
 - (void) setProgressBarHidden: (BOOL) hidden {
 	if (![NSThread isMainThread]) {
-		[self performSelectorOnMainThread: @selector(setProgressBarHidden:) withObject: hidden ? (id) kCFBooleanTrue : nil waitUntilDone: YES];
+		dispatch_async(dispatch_get_main_queue(), ^{ [self setProgressBarHidden: hidden]; });
 		return;
 	}
 	if (!hidden && _progressBarHidden) {
@@ -137,7 +137,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 - (float) progressValue {return _progressIndicator.progress;}
 - (void) setAuxTitle: (NSString *) title {
 	if (![NSThread isMainThread]) {
-		[self performSelectorOnMainThread: @selector(setAuxTitle:) withObject: title waitUntilDone: YES];
+		dispatch_async(dispatch_get_main_queue(), ^{ [self setAuxTitle: title]; });
 		return;
 	}
 	[_auxTitle autorelease]; _auxTitle = [title retain];
@@ -146,7 +146,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 
 - (void) setCancelTitle: (NSString *) title {
 	if (![NSThread isMainThread]) {
-		[self performSelectorOnMainThread: @selector(setCancelTitle:) withObject: title waitUntilDone: YES];
+		dispatch_async(dispatch_get_main_queue(), ^{ [self setCancelTitle: title]; });
 		return;
 	}
 
@@ -162,7 +162,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 
 - (void) setMajorText: (NSString *) text {
 	if (![NSThread isMainThread]) {
-		[self performSelectorOnMainThread: @selector(setMajorText:) withObject: text waitUntilDone: YES];
+		dispatch_async(dispatch_get_main_queue(), ^{ [self setMajorText: text]; });
 		return;
 	}
 
@@ -172,7 +172,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 
 - (void) setMinorText: (NSString *) text {
 	if (![NSThread isMainThread]) {
-		[self performSelectorOnMainThread: @selector(setMinorText:) withObject: text waitUntilDone: YES];
+		dispatch_async(dispatch_get_main_queue(), ^{ [self setMinorText: text]; });
 		return;
 	}
 
@@ -182,7 +182,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 
 - (void) setMajorFont: (UIFont *) font {
 	if (![NSThread isMainThread]) {
-		[self performSelectorOnMainThread: @selector(setMajorFont:) withObject: font waitUntilDone: YES];
+		dispatch_async(dispatch_get_main_queue(), ^{ [self setMajorFont: font]; });
 		return;
 	}
 
@@ -195,7 +195,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 
 - (void) setMinorFont: (UIFont *) font {
 	if (![NSThread isMainThread]) {
-		[self performSelectorOnMainThread: @selector(setMinorFont:) withObject: font waitUntilDone: YES];
+		dispatch_async(dispatch_get_main_queue(), ^{ [self setMinorFont: font]; });
 		return;
 	}
 
@@ -347,7 +347,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 - (void) display {
 	[UIView resignFirstResponder];
 	if (![NSThread isMainThread]) {
-		[self performSelectorOnMainThread: @selector(display) withObject: nil waitUntilDone: NO];
+		dispatch_async(dispatch_get_main_queue(), ^{ [self display]; });
 		return;
 	}
 	
