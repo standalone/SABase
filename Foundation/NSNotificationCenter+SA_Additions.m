@@ -13,21 +13,27 @@ static NSMutableArray *s_fireAndForgetNotificationBlocks = nil;
 @implementation NSNotificationCenter (NSNotificationCenter_SA_Additions)
 
 - (void) postNotificationOnMainThreadName: (NSString *) name object: (id) object info: (NSDictionary *) info {
-	dispatch_async(dispatch_get_main_queue(), ^{
+	if ([NSThread isMainThread]) {
+		[[NSNotificationCenter defaultCenter] postNotificationName: name object: object userInfo: info];
+	} else dispatch_async(dispatch_get_main_queue(), ^{
 		[[NSNotificationCenter defaultCenter] postNotificationName: name object: object userInfo: info];
 	});
 }
 
 - (void) postNotificationOnMainThreadName: (NSString *) name object: (id) object {
-	dispatch_async(dispatch_get_main_queue(), ^{
+	if ([NSThread isMainThread]) {
+		[[NSNotificationCenter defaultCenter] postNotificationName: name object: object userInfo: nil];
+	} else dispatch_async(dispatch_get_main_queue(), ^{
 		[[NSNotificationCenter defaultCenter] postNotificationName: name object: object userInfo: nil];
 	});
 }
 
 - (void) postDeferredNotificationOnMainThreadName: (NSString *) name object: (id) object info: (NSDictionary *) info {
-	dispatch_async(dispatch_get_main_queue(), ^{
-		NSNotification				*note = [NSNotification notificationWithName: name object: object userInfo: info];
+	NSNotification				*note = [NSNotification notificationWithName: name object: object userInfo: info];
 
+	if ([NSThread isMainThread]) {
+		[self performSelectorOnMainThread: @selector(postDeferredNotification:) withObject: note waitUntilDone: NO];
+	} else dispatch_async(dispatch_get_main_queue(), ^{
 		[self performSelectorOnMainThread: @selector(postDeferredNotification:) withObject: note waitUntilDone: NO];
 	});
 }
