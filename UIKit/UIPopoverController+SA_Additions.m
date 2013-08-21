@@ -27,8 +27,11 @@ static NSMutableArray					*s_activePopovers = nil;
 	controller.delegate = (id <UIPopoverControllerDelegate>) self;
 	CGSize				size = root.view.bounds.size;
 	
-	if ([content respondsToSelector: @selector(preferredContentSize)]) size = [content preferredContentSize];
-	else if ([content respondsToSelector: @selector(contentSizeForViewInPopover)]) size = [content contentSizeForViewInPopover];
+	#if __IPHONE_OS_VERSION_MIN_REQUIRED > __IPHONE_6_0
+		if ([content respondsToSelector: @selector(preferredContentSize)]) size = [content preferredContentSize];
+		else
+	#endif
+	if ([content respondsToSelector: @selector(contentSizeForViewInPopover)]) size = [content contentSizeForViewInPopover];
 	
 	if (size.width && size.height)
 		controller.popoverContentSize = size;
@@ -153,7 +156,7 @@ static NSMutableArray					*s_activePopovers = nil;
 	subject.center = parent.contentCenter;
 	[parent addSubview: subject];
 	
-	#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0
+	#if __IPHONE_OS_VERSION_MIN_REQUIRED > __IPHONE_6_0
 		if (RUNNING_ON_70)
 			dummyController.preferredContentSize = subject.bounds.size;
 		else
@@ -170,7 +173,7 @@ static NSMutableArray					*s_activePopovers = nil;
 	subject.center = parent.contentCenter;
 	[parent addSubview: subject];
 	
-	#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0
+	#if __IPHONE_OS_VERSION_MIN_REQUIRED > __IPHONE_6_0
 		if (RUNNING_ON_70)
 			dummyController.preferredContentSize = subject.bounds.size;
 		else
