@@ -317,21 +317,5 @@ typedef void (^viewArgumentBlock)(UIView *view);
 	}
 
 
-
-//temp glue to work with iOS 5.x SDKs
-@interface NSArray(Subscripting)
-- (id) objectAtIndexedSubscript:(NSUInteger)index;
-@end
-
-@interface NSMutableArray(Subscripting)
-- (void) setObject:(id)obj atIndexedSubscript:(NSUInteger)index;
-@end
-
-@interface NSDictionary(Subscripting)
-- (id) objectForKeyedSubscript:(id)key;
-@end
-
-@interface NSMutableDictionary(Subscripting)
-- (void) setObject:(id)obj forKeyedSubscript:(id <NSCopying>)key;
-@end
-
+void dispatch_async_main(dispatch_block_t block);
+void dispatch_sync_main(dispatch_block_t block);

@@ -272,3 +272,11 @@ CGRect	CGRectPlacedInRectWithContentMode(CGRect child, CGRect parent, UIViewCont
 	return newRect;
 }
 #endif
+
+void dispatch_async_main(dispatch_block_t block) {
+	dispatch_async(dispatch_get_main_queue(), block);
+}
+
+void dispatch_sync_main(dispatch_block_t block) {
+	dispatch_sync(dispatch_get_main_queue(), block);
+}
