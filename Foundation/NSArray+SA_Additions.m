@@ -102,13 +102,13 @@
 //}
 
 - (NSArray *) SA_randomizedCopy {
-	NSMutableArray					*copy = [[[NSMutableArray alloc] initWithCapacity: self.count] autorelease], *holder = [[self mutableCopy] autorelease];
+	NSMutableArray					*copy = [[self mutableCopy] autorelease];
+	NSUInteger						count = self.count;
 	
-	while (holder.count) {
-		id				temp = [holder objectAtIndex: rand() % holder.count];
-		
-		[copy addObject: temp];
-		[holder removeObjectAtIndex: [holder indexOfObject: temp]];
+	for (NSUInteger i = 0; i < count; ++i) {		// Select a random element between i and end of array to swap with.
+		int nElements = count - i;
+		int n = (arc4random() % nElements) + i;
+		[copy exchangeObjectAtIndex: i withObjectAtIndex: n];
 	}
 	
 	return copy;

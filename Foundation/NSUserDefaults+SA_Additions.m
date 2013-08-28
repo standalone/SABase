@@ -25,7 +25,10 @@
 + (void) syncObject: (id) object forKey: (NSString *) key {
 	NSUserDefaults		*def = [NSUserDefaults standardUserDefaults];
 	
-	[def setObject: object forKey: key];
+	if (object)
+		[def setObject: object forKey: key];
+	else
+		[def removeObjectForKey: key];
 	[def synchronize];
 	
 }
