@@ -179,6 +179,7 @@
 }
 
 - (NSString *) appBasedUDID {
+	return [self identifierForVendor].UUIDString;
     NSString *macaddress = [[UIDevice currentDevice] MACAddress];
     NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
     
@@ -189,6 +190,7 @@
 }
 
 - (NSString *) udid {
+	return [self identifierForVendor].UUIDString;
     NSString *macaddress = [[UIDevice currentDevice] MACAddress];
     NSString *uniqueIdentifier = [macaddress SA_md5HashString];
     
