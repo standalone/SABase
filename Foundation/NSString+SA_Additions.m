@@ -8,6 +8,12 @@
 #import "NSString+SA_Additions.h"
 #import <CommonCrypto/CommonDigest.h>
 
+@interface NSString_HTMLStringDelegate : NSObject<NSXMLParserDelegate>
+@property (nonatomic, strong) NSMutableArray* strings;
+
+- (NSString *) getCharsFound;
+@end
+
 @implementation NSString (SA_Additions)
 @dynamic characters;
 
@@ -484,7 +490,61 @@
 	}
 	return chars;
 }
+
+- (NSString *) stringByStrippingHTMLTags {
+    // take this string obj and wrap it in a root element to ensure only a single root element exists
+    NSString* string = [NSString stringWithFormat:@"<root>%@</root>", self];
+    
+    // add the string to the xml parser
+    NSStringEncoding			encoding = string.fastestEncoding;
+    NSData						*data = [string dataUsingEncoding:encoding];
+    NSXMLParser* parser = [[NSXMLParser alloc] initWithData:data];
+    
+    // parse the content keeping track of any chars found outside tags (this will be the stripped content)
+    NSString_HTMLStringDelegate* parsee = [[NSString_HTMLStringDelegate alloc] init];
+    parser.delegate = parsee;
+    [parser parse];
+
+    NSString* strippedString = [parsee getCharsFound];
+    
+    // clean up
+    [parser release];
+    [parsee release];
+    
+    // get the raw text out of the parsee after parsing, and return it
+    return strippedString;
+}
+
+- (NSArray *) URLsContainedWithin {
+	NSError				*error = nil;
+	NSDataDetector		*linkDetector = [NSDataDetector dataDetectorWithTypes: NSTextCheckingTypeLink error: &error];
+	NSArray				*matches = [linkDetector matchesInString: self options: NSMatchingWithoutAnchoringBounds range: NSMakeRange(0, self.length)];
+
+	return [matches valueForKey: @"URL"];
+}
 @end
+
+//=============================================================================================================================
+#pragma mark
+@implementation NSString_HTMLStringDelegate
+- (id)init {
+    if((self = [super init])) {
+        self.strings = [[[NSMutableArray alloc] init] autorelease];
+    }
+    return self;
+}
+- (void)dealloc {
+    self.strings = nil;
+    [super dealloc];
+}
+- (void)parser:(NSXMLParser*)parser foundCharacters:(NSString*)string {
+    [self.strings addObject:string];
+}
+- (NSString*)getCharsFound {
+    return [self.strings componentsJoinedByString:@""];
+}
+@end
+
 
 
 @implementation NSAttributedString (SA_Additions)

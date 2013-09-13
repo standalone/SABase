@@ -33,6 +33,8 @@
 + (NSString *) stringWithCGSize: (CGSize) size;
 - (CGSize) CGSizeValue;
 
+- (NSArray *) URLsContainedWithin;
+
 - (NSArray *) componentsSeparatedByStringHeedingQuotes: (NSString *) string;
 - (NSArray *) componentsSeparatedByCharactersInSetHeedingQuotes: (NSCharacterSet *) set;
 - (BOOL) ensurePathExists;
@@ -65,6 +67,7 @@
 
 - (NSString *) rot13;
 - (NSString *) stringByStrippingTags;
+- (NSString *) stringByStrippingHTMLTags;
 @end
 
 @interface NSAttributedString (SA_Additions)			//NSFontAttributeName
