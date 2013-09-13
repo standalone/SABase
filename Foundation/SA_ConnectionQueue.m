@@ -424,9 +424,12 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 - (SA_Connection *) existingConnectionsTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate {
 	@synchronized (_active) {
 		for (SA_Connection *connection in [_active allObjects]) {
-			if (!connection.canceled && (tag == nil || (connection.tag && [connection.tag rangeOfString: tag].location != NSNotFound)) && (delegate == nil || connection.delegate == delegate)) {
-				return connection;
-			}
+			if (tag == nil && connection.tag != nil) continue;
+			if (tag != nil && connection.tag == nil) continue;
+			if (tag && [connection.tag rangeOfString: tag].location == NSNotFound) continue;
+			
+			if (delegate == nil && connection.delegate == nil) return connection;
+			if (delegate == connection.delegate) return connection;
 		}
 	}
 	
@@ -441,9 +444,12 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 	}
 
 	for (SA_Connection *connection in pend) {
-		if ((tag == nil || [connection.tag rangeOfString: tag].location != NSNotFound) && (delegate == nil || connection.delegate == delegate)) {
-			return connection;
-		}
+		if (tag == nil && connection.tag != nil) continue;
+		if (tag != nil && connection.tag == nil) continue;
+		if (tag && [connection.tag rangeOfString: tag].location == NSNotFound) continue;
+		
+		if (delegate == nil && connection.delegate == nil) return connection;
+		if (delegate == connection.delegate) return connection;
 	}
 	
 	return nil;
@@ -653,7 +659,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	[SA_ConnectionQueue sharedQueue]->_wifiAvailable = ![SA_ConnectionQueue sharedQueue]->_wlanAvailable && ((flags & kSCNetworkReachabilityFlagsReachable) != 0);
 	
 	#if TARGET_IPHONE_SIMULATOR
-		[SA_ConnectionQueue sharedQueue]->_wifiAvailable = (flags & kSCNetworkReachabilityFlagsIsLocalAddress) == kSCNetworkReachabilityFlagsIsLocalAddress;
+		[SA_ConnectionQueue sharedQueue]->_wifiAvailable = (flags & (kSCNetworkReachabilityFlagsIsLocalAddress | kSCNetworkReachabilityFlagsReachable)) > 0;
 	#endif
 	
 	[SA_ConnectionQueue sharedQueue].offline = (![SA_ConnectionQueue sharedQueue]->_wlanAvailable && ![SA_ConnectionQueue sharedQueue]->_wifiAvailable);
