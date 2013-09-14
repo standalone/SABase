@@ -87,6 +87,7 @@ NSMutableArray			*s_displayedAlerts = nil;
 	NSString						*cancelTitle = buttonTitle.length ? NSLocalizedString(@"Cancel", @"Cancel") : NSLocalizedString(@"OK", @"OK");
 	SA_AlertView					*alert = [[[SA_AlertView alloc] initWithTitle: title message: message delegate: nil cancelButtonTitle: cancelTitle otherButtonTitles: buttonTitle, nil] autorelease];
 	
+    alert.tag = tag;
 	if (tag) {
 		if (s_displayedAlerts == nil) s_displayedAlerts = [[NSMutableArray alloc] init];
 		[s_displayedAlerts addObject: @(tag)];
