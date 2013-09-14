@@ -34,6 +34,7 @@ NSMutableArray			*s_displayedAlerts = nil;
 
 //=============================================================================================================================
 #pragma mark Convenience Methods
+
 + (SA_AlertView *) showAlertWithException: (NSException *) e {
 	return [self showAlertWithTitle: [e name] message: [e reason]];
 }
@@ -78,11 +79,7 @@ NSMutableArray			*s_displayedAlerts = nil;
 }
 
 + (SA_AlertView *) alertWithTitle: (NSString *) title message: (NSString *) message tag: (int) tag button: (NSString *) buttonTitle {
-	if (tag && s_displayedAlerts) {
-		for (SA_AlertView *alert in s_displayedAlerts) {
-			if (alert.tag == tag) return nil;					//alert is already shown
-		}
-	}
+	if ([s_displayedAlerts containsObject: @(tag)]) return nil;
 	
 	if (message == nil) message = @"";
 	if (title == nil) title = @"";
@@ -92,8 +89,7 @@ NSMutableArray			*s_displayedAlerts = nil;
 	
 	if (tag) {
 		if (s_displayedAlerts == nil) s_displayedAlerts = [[NSMutableArray alloc] init];
-		alert.tag = tag;
-		[s_displayedAlerts addObject: alert];
+		[s_displayedAlerts addObject: @(tag)];
 	}
 	return alert;
 }
@@ -113,6 +109,7 @@ NSMutableArray			*s_displayedAlerts = nil;
 	self.alertButtonHitBlock = nil;
 	g_alertsVisible--;
 	if (g_alertsVisible == 0) [SA_PleaseWaitDisplay pleaseWaitDisplay].view.alpha = 1.0;
+	[s_displayedAlerts removeObject: @(self.tag)];
 	[super dealloc];
 }
 
@@ -132,12 +129,6 @@ NSMutableArray			*s_displayedAlerts = nil;
 
 //=============================================================================================================================
 #pragma mark Overrides
-- (void) didMoveToSuperview {
-	if (self.superview == nil) {
-		[s_displayedAlerts removeObject: self];
-	}
-	[super didMoveToSuperview];
-}
 
 + (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *) message button: (NSString *) button buttonBlock: (booleanArgumentBlock) buttonHitBlock {
 	SA_AlertView				*alert = [self showAlertWithTitle: title message: message tag: 0 delegate: nil button: button];
