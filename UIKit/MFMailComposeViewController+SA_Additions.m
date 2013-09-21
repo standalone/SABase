@@ -27,7 +27,7 @@
 	if (error) LOG(@"Error while composing message: %@", error);
 	
 	if (self.completionBlock) self.completionBlock(result);
-	[controller dismissModalViewControllerAnimated: YES];
+	[controller dismissViewControllerAnimated: YES completion: nil];
 }
 
 @end

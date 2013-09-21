@@ -7,7 +7,7 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void (^actionSheetButtonSelectedBlock)(int buttonIndex);
+typedef void (^actionSheetButtonSelectedBlock)(NSInteger buttonIndex);
 
 
 @interface UIActionSheet (SA_AdditionsForButtons)

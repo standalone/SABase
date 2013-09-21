@@ -15,7 +15,7 @@
 	if ([string hasPrefix: @"rgb("] || [string hasPrefix: @"rgba("]) {
 		NSArray				*components = [string componentsSeparatedByString: @","];
 		float				values[3] = {0.0, 0.0, 0.0};
-		int					alpha = 1.0;
+		CGFloat				alpha = 1.0;
 		
 		if (components.count == 3 || components.count == 4) {
 			values[0] = [[[components[0] componentsSeparatedByString: @"("] lastObject] floatValue] / 255.0;
@@ -44,7 +44,7 @@
 - (UIColor *)  initWithSA_HexString: (NSString *) string {
 #define							CharToInteger(c)				(((c >= 'a' && c <= 'f') ? (10 + c - 'a') : ((c >= '0' && c <= '9') ? (c - '0') : 0)))
 	float							values[3] = {0.0, 0.0, 0.0};
-	int								alpha = 1.0;
+	CGFloat							alpha = 1.0;
 	char							*raw = (char *) [[string lowercaseString] UTF8String];
 	
 	
@@ -74,14 +74,14 @@
 
 - (NSString *) SA_hexString {
 	CGColorRef					color = self.CGColor;
-	int							numComponents = CGColorGetNumberOfComponents(color);
+	size_t						numComponents = CGColorGetNumberOfComponents(color);
 	const CGFloat				*components = CGColorGetComponents(color);
 	
 	if (numComponents == 2) {
-		return [NSString stringWithFormat: @"%02X%02X%02X", (int) (components[0] * 255), (int) (components[0] * 255), (int) (components[0] * 255)];
+		return [NSString stringWithFormat: @"%02X%02X%02X", (UInt8) (components[0] * 255), (UInt8) (components[0] * 255), (UInt8) (components[0] * 255)];
 	}
 	if (numComponents == 4) {
-		return [NSString stringWithFormat: @"%02X%02X%02X", (int) (components[0] * 255), (int) (components[1] * 255), (int) (components[2] * 255)];
+		return [NSString stringWithFormat: @"%02X%02X%02X", (UInt8) (components[0] * 255), (UInt8) (components[1] * 255), (UInt8) (components[2] * 255)];
 	}
 	
 	return @"";
@@ -89,14 +89,14 @@
 
 - (NSString *) SA_hexStringWithAlpha {
 	CGColorRef					color = self.CGColor;
-	int							numComponents = CGColorGetNumberOfComponents(color);
+	size_t						numComponents = CGColorGetNumberOfComponents(color);
 	const CGFloat				*components = CGColorGetComponents(color);
 	
 	if (numComponents == 2) {
-		return [NSString stringWithFormat: @"%02X%02X%02X%02X", (int) (components[0] * 255), (int) (components[0] * 255), (int) (components[0] * 255), (int) (components[1] * 255)];
+		return [NSString stringWithFormat: @"%02X%02X%02X%02X", (UInt8) (components[0] * 255), (UInt8) (components[0] * 255), (UInt8) (components[0] * 255), (UInt8) (components[1] * 255)];
 	}
 	if (numComponents == 4) {
-		return [NSString stringWithFormat: @"%02X%02X%02X%02X", (int) (components[0] * 255), (int) (components[1] * 255), (int) (components[2] * 255), (int) (components[3] * 255)];
+		return [NSString stringWithFormat: @"%02X%02X%02X%02X", (UInt8) (components[0] * 255), (UInt8) (components[1] * 255), (UInt8) (components[2] * 255), (UInt8) (components[3] * 255)];
 	}
 	return @"";
 }

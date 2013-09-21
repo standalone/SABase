@@ -27,7 +27,7 @@
 #endif
 
 #if !TARGET_OS_IPHONE
-	typedef int				UIBackgroundTaskIdentifier;
+	typedef NSUInteger 		UIBackgroundTaskIdentifier;
 #endif
 
 #define			HTTP_STATUS_CODE_IS_ERROR(c)				(c >= 400)
@@ -36,7 +36,7 @@
 
 @class SA_Connection;
 
-typedef void (^connectionFinished)(SA_Connection *incoming, int resultCode, id error);
+typedef void (^connectionFinished)(SA_Connection *incoming, NSInteger resultCode, id error);
 
 typedef enum {
 	connection_dontRecord,				//default behavior
@@ -69,7 +69,7 @@ typedef enum {
 - (void) connectionWillBegin: (SA_Connection *) connection;
 - (void) connectionDidFinish: (SA_Connection *) connection;
 - (void) connectionFailed: (SA_Connection *) connection withError: (NSError *) error;
-- (BOOL) connectionFailed: (SA_Connection *) connection withStatusCode: (int) statusCode;			//return YES to continue the connection anyway
+- (BOOL) connectionFailed: (SA_Connection *) connection withStatusCode: (NSInteger) statusCode;			//return YES to continue the connection anyway
 - (void) connectionCancelled: (SA_Connection *) connection;
 - (NSString *) persistantIdentifier;					//used when persisting
 
@@ -90,13 +90,13 @@ typedef enum {
 	NSFileHandle				*_file;
 	NSString					*_tag;
 	id <SA_ConnectionDelegate>	_delegate;
-	int							_priority, _order;
+	NSInteger 					_priority, _order;
 	NSURLConnection				*_connection;
 	BOOL						_persists, _canceled, _replaceOlder, _ignoreLater;
 	NSMutableDictionary			*_headers;
-	int							_persistantID;
+	NSInteger 					_persistantID;
 	NSDictionary				*_responseHeaders;
-	int							_statusCode;
+	NSInteger 					_statusCode;
 	BOOL						_showsPleaseWait, _resumable, _completeInBackground, _prefersFileStorage, _suppressConnectionAlerts, _inProgress, _discardIfOffline;
 	NSMutableDictionary			*_extraKeyValues;
 	BOOL						_allowRepeatedKeys;
@@ -120,12 +120,12 @@ typedef enum {
 @property (nonatomic, readwrite, retain) NSString *method;						//what HTTP method should be used? Defaults to GET 
 @property (nonatomic, readwrite, retain) id <SA_ConnectionDelegate> delegate;	//where completed/failed messages are sent
 @property (nonatomic, readwrite, retain) NSString *tag;							//a tag, broken down into different.segment.types, for filtering and identification
-@property (nonatomic, readwrite) int priority;									//where in the pending queue should this transaction fall?
+@property (nonatomic, readwrite) NSInteger priority;									//where in the pending queue should this transaction fall?
 @property (nonatomic, readwrite) BOOL persists;									//should this transaction be freeze-dried for later retrieval and restart?  Defaults to YES
-@property (readwrite) int persistantID;
-@property (nonatomic, readwrite) int order;
+@property (readwrite) NSInteger persistantID;
+@property (nonatomic, readwrite) NSInteger order;
 @property (nonatomic, readonly) NSDictionary *allResponseHeaders;
-@property (nonatomic, readonly) int statusCode;
+@property (nonatomic, readonly) NSInteger statusCode;
 @property (nonatomic, readwrite) BOOL replaceOlder, ignoreLater;					//should older connections be deleted if they match the tag, or should this be tossed?
 @property (nonatomic, readwrite) BOOL showsPleaseWait, resumable, completeInBackground, prefersFileStorage, suppressConnectionAlerts;
 @property (nonatomic, readonly) NSData *downloadedData;
@@ -148,16 +148,16 @@ typedef enum {
 @property(nonatomic, readonly) NSData *uploadedDataStream, *downloadedDataStream;
 
 + (id) connectionWithURL: (NSURL *) url completionBlock: (connectionFinished) completionBlock;
-+ (id) connectionWithURL: (NSURL *) url payload: (NSData *) payload method: (NSString *) method priority: (int) priority completionBlock: (connectionFinished) completionBlock;
++ (id) connectionWithURL: (NSURL *) url payload: (NSData *) payload method: (NSString *) method priority: (NSInteger) priority completionBlock: (connectionFinished) completionBlock;
 
 + (id) connectionWithURL: (NSURL *) url tag: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate;
-+ (id) connectionWithURL: (NSURL *) url payload: (NSData *) payload method: (NSString *) method priority: (int) priority tag: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate;
++ (id) connectionWithURL: (NSURL *) url payload: (NSData *) payload method: (NSString *) method priority: (NSInteger) priority tag: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate;
 + (id) connectionWithURLRequest: (NSURLRequest *) request completionBlock: (connectionFinished) completionBlock;
 
 + (SA_Connection *) downloadURL: (NSURL *) url withCompletionBlock: (connectionFinished) completionBlock;
 + (SA_Connection *) downloadURLRequest: (NSURLRequest *) urlRequest withCompletionBlock: (connectionFinished) completionBlock;
 
-- (id) initWithURL: (NSURL *) url payload: (NSData *) payload method: (NSString *) method priority: (int) priority tag: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate;
+- (id) initWithURL: (NSURL *) url payload: (NSData *) payload method: (NSString *) method priority: (NSInteger) priority tag: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate;
 
 - (void) addHeader: (NSString *) header label: (NSString *) label;
 - (void) removeHeader: (NSString *) label;
@@ -182,9 +182,9 @@ typedef enum {
 	NSMutableDictionary				*_headers;
 	
 	BOOL							_offline, _showProgressInPleaseWaitDisplay;
-	int								_maxSimultaneousConnections;
+	NSUInteger 						_maxSimultaneousConnections;
 	NSArray							*_connectionSortDescriptors;
-	int								_defaultPriorityLevel, _minimumIndicatedPriorityLevel;
+	NSInteger 						_defaultPriorityLevel, _minimumIndicatedPriorityLevel;
 	float							_highwaterMark;
 	
 	void							*_db;
@@ -192,7 +192,7 @@ typedef enum {
 	
 @protected
 	BOOL							_wifiAvailable, _wlanAvailable, _managePleaseWaitDisplay;
-	int								_fileSwitchOverLimit;
+	NSInteger 								_fileSwitchOverLimit;
 	
 	BOOL							_dontProcessFailedStatusCodes;
 
@@ -212,9 +212,9 @@ typedef enum {
 
 @property (readwrite) BOOL offline, showProgressInPleaseWaitDisplay;
 @property (readonly) BOOL wifiAvailable, wlanAvailable;
-@property (readwrite) int maxSimultaneousConnections;
+@property (readwrite) NSUInteger maxSimultaneousConnections;
 @property (nonatomic, readwrite, retain) NSString *dbPath;				//used for persistance
-@property (nonatomic, readwrite) int defaultPriorityLevel, minimumIndicatedPriorityLevel, fileSwitchOverLimit;
+@property (nonatomic, readwrite) NSInteger defaultPriorityLevel, minimumIndicatedPriorityLevel, fileSwitchOverLimit;
 @property (nonatomic, readonly) NSUInteger connectionCount;
 @property (nonatomic, readwrite) BOOL dontProcessFailedStatusCodes;
 @property (nonatomic, readwrite) BOOL suppressPleaseWaitDisplay;
@@ -248,9 +248,9 @@ SINGLETON_INTERFACE_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 - (void) removeAllHeaders;
 - (BOOL) isExistingConnectionsTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate;
 - (BOOL) isExistingConnectionSimilar: (SA_Connection *) targetConnection;
-- (int) removeConnectionsTaggedWith: (NSString *) tag;
-- (int) removeConnectionsWithDelegate: (id) delegate;
-- (int) removeConnectionsTaggedWith: (NSString *) tag delegate: (id) delegate;
+- (NSInteger) removeConnectionsTaggedWith: (NSString *) tag;
+- (NSInteger) removeConnectionsWithDelegate: (id) delegate;
+- (NSInteger) removeConnectionsTaggedWith: (NSString *) tag delegate: (id) delegate;
 - (void) cancelAllConnections;
 - (SA_Connection *) existingConnectionsTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate;
 

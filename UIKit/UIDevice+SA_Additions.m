@@ -87,7 +87,7 @@
 	
     /* Stats in bytes */ 
     //natural_t					mem_used = (vm_stat.active_count + vm_stat.inactive_count + vm_stat.wire_count) * pagesize;
-    natural_t					mem_free = vm_stat.free_count * pagesize;
+    natural_t					mem_free = vm_stat.free_count * (natural_t) pagesize;
 
 	return mem_free;
 }

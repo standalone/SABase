@@ -46,7 +46,7 @@
 	unsigned int				propertyCount;
 	objc_property_t				*props = class_copyPropertyList([self class], &propertyCount);
 	
-	for (int i = 0; i < propertyCount; i++) {
+	for (NSUInteger i = 0; i < propertyCount; i++) {
 		const char				*propName = property_getName(props[i]);
 		
 		if (strcmp([key UTF8String], propName) == 0) {

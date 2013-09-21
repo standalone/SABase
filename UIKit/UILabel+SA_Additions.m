@@ -23,15 +23,15 @@
 	
 	switch (self.textAlignment) {
 		default:
-		case UITextAlignmentLeft:
+		case NSTextAlignmentLeft:
 			self.frame = CGRectMake(frame.origin.x, frame.origin.y, size.width, size.height);
 			break;
 			
-		case UITextAlignmentRight:
+		case NSTextAlignmentRight:
 			self.frame = CGRectMake(frame.origin.x + frame.size.width - size.width, frame.origin.y, size.width, size.height);
 			break;
 			
-		case UITextAlignmentCenter:
+		case NSTextAlignmentCenter:
 			self.frame = CGRectMake(frame.origin.x + (frame.size.width - size.width) / 2, frame.origin.y, size.width, size.height);
 			break;
 	}	
@@ -44,15 +44,15 @@
 	
 	switch (self.textAlignment) {
 		default:
-		case UITextAlignmentLeft:
+		case NSTextAlignmentLeft:
 			self.frame = CGRectMake(frame.origin.x, frame.origin.y, size.width, size.height);
 			break;
 			
-		case UITextAlignmentRight:
+		case NSTextAlignmentRight:
 			self.frame = CGRectMake(frame.origin.x + frame.size.width - size.width, frame.origin.y, size.width, size.height);
 			break;
 			
-		case UITextAlignmentCenter:
+		case NSTextAlignmentCenter:
 			self.frame = CGRectMake(frame.origin.x + (frame.size.width - size.width) / 2, frame.origin.y, size.width, size.height);
 			break;
 	}

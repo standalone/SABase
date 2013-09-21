@@ -485,7 +485,7 @@
 	NSUInteger					count = self.length;
 	NSMutableArray				*chars = [NSMutableArray arrayWithCapacity: count];
 	
-	for (int i = 0; i < count; i++) {
+	for (NSUInteger i = 0; i < count; i++) {
 		[chars addObject: [self substringWithRange: NSMakeRange(i, 1)]];
 	}
 	return chars;

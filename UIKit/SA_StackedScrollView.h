@@ -26,10 +26,10 @@
 - (void) addComponents: (UIView *) component, ...;
 
 - (void) addComponent: (UIView *) component animated: (BOOL) animated;
-- (void) insertComponent: (UIView *) component atIndex: (int) index animated: (BOOL) animated;
-- (void) replaceComponent: (UIView *) component atIndex: (int) index animated: (BOOL) animated;
+- (void) insertComponent: (UIView *) component atIndex: (NSUInteger) index animated: (BOOL) animated;
+- (void) replaceComponent: (UIView *) component atIndex: (NSUInteger) index animated: (BOOL) animated;
 - (void) replaceExistingComponent: (UIView *) oldComponent withComponent: (UIView *) newComponent animated: (BOOL) animated;
-- (void) removeComponentAtIndex: (int) index animated: (BOOL) animated;
+- (void) removeComponentAtIndex: (NSUInteger) index animated: (BOOL) animated;
 - (void) removeComponent: (UIView *) component animated: (BOOL) animated;
 - (BOOL) isComponentInStack: (UIView *) component;
 - (void) removeAllComponents;

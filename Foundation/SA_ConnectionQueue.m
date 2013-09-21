@@ -98,7 +98,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 	NSFileManager				*mgr = [NSFileManager defaultManager];
 	
 	while (index < 10000) {
-		NSString					*path = [root stringByAppendingPathComponent: [NSString stringWithFormat: @"%@; %@_%d.txt", prefix, tag, (int) index]];
+		NSString					*path = [root stringByAppendingPathComponent: [NSString stringWithFormat: @"%@; %@_%lu.txt", prefix, tag, (unsigned long)index]];
 
 		if (![mgr fileExistsAtPath: path]) return path;
 		index++;
@@ -358,15 +358,15 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 }
 
 
-- (int) removeConnectionsTaggedWith: (NSString *) tag {
+- (NSInteger) removeConnectionsTaggedWith: (NSString *) tag {
 	return [self removeConnectionsTaggedWith: tag delegate: nil];
 }
 
-- (int) removeConnectionsWithDelegate: (id) delegate {
+- (NSInteger) removeConnectionsWithDelegate: (id) delegate {
 	return [self removeConnectionsTaggedWith: nil delegate: delegate];
 }
 
-- (int) removeConnectionsTaggedWith: (NSString *) tag delegate: (id) delegate {
+- (NSInteger) removeConnectionsTaggedWith: (NSString *) tag delegate: (id) delegate {
 	int			found = 0;
 	
 	@synchronized (_active) {
@@ -496,12 +496,12 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 	return _offline;
 }
 
-- (int) maxSimultaneousConnections {
+- (NSUInteger) maxSimultaneousConnections {
 	if (_maxSimultaneousConnections) return _maxSimultaneousConnections;
 	return _wifiAvailable ? 7 : 3;	
 }
 
-- (void) setMaxSimultaneousConnections: (int) max { _maxSimultaneousConnections = max; }
+- (void) setMaxSimultaneousConnections: (NSUInteger) max { _maxSimultaneousConnections = max; }
 - (BOOL) connectionsArePending { return (_pending.count > 0 || _active.count > 0); }
 - (NSUInteger) connectionCount { return _active.count + _pending.count; }
 
@@ -713,13 +713,13 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 - (NSString *) description {
 	NSMutableString				*results = [NSMutableString string];
 	
-	[results appendFormat: @"\nActive (%d):\n", (int) _active.count];
+	[results appendFormat: @"\nActive (%ld):\n", (long) _active.count];
 	for (SA_Connection *connection in _active) {
 		[results appendFormat: @"\t\t%@\n", connection];
 	}
 	
 	if (_active.count && _pending.count) [results appendString: @"\n"];
-	[results appendFormat: @"Pending (%d):\n", (int) _pending.count];
+	[results appendFormat: @"Pending (%ld):\n", (long) _pending.count];
 	for (SA_Connection *connection in _pending) {
 		[results appendFormat: @"\t\t%@\n", connection];
 	}
@@ -771,7 +771,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	return connection;
 }
 
-+ (id) connectionWithURL: (NSURL *) url payload: (NSData *) payload method: (NSString *) method priority: (int) priority completionBlock: (connectionFinished) completionBlock {
++ (id) connectionWithURL: (NSURL *) url payload: (NSData *) payload method: (NSString *) method priority: (NSInteger) priority completionBlock: (connectionFinished) completionBlock {
 	SA_Connection		*connection = [[[self alloc] initWithURL: url payload: payload method: method priority: priority tag: nil delegate: nil] autorelease];
 	
 	connection.connectionFinishedBlock = (completionBlock);
@@ -826,11 +826,11 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	return [[[self alloc] initWithURL: url payload: nil method: @"GET" priority: [SA_ConnectionQueue sharedQueue].defaultPriorityLevel tag: tag delegate: delegate] autorelease];
 }
 
-+ (id) connectionWithURL: (NSURL *) url payload: (NSData *) payload method: (NSString *) method priority: (int) priority tag: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate {
++ (id) connectionWithURL: (NSURL *) url payload: (NSData *) payload method: (NSString *) method priority: (NSInteger) priority tag: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate {
 	return [[[self alloc] initWithURL: url payload: payload method: method priority: priority tag: tag delegate: delegate] autorelease];
 }
 
-- (id) initWithURL: (NSURL *) url payload: (NSData *) payload method: (NSString *) method priority: (int) priority tag: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate {
+- (id) initWithURL: (NSURL *) url payload: (NSData *) payload method: (NSString *) method priority: (NSInteger) priority tag: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate {
 	SA_Assert(url != nil, @"Cannot initWithURL an SA_Connection with a nil URL");
 	if ((self = [super init])) {
 		self.payload = payload;
@@ -939,7 +939,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 			
 			if (offset) {
 				if (_headers == nil) _headers = [[NSMutableDictionary alloc] init];
-				[_headers setObject: [NSString stringWithFormat: @" bytes=%d-", (int) offset] forKey: @"Range"];
+				[_headers setObject: [NSString stringWithFormat: @" bytes=%lu-", (unsigned long)offset] forKey: @"Range"];
 			}
 		}
 	} else
@@ -1165,7 +1165,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	
 	if ([response isKindOfClass: [NSHTTPURLResponse class]]) {
 		_responseHeaders = [[(id) response allHeaderFields] retain];
-		_statusCode = (int) [(NSHTTPURLResponse *) response statusCode];
+		_statusCode = [(NSHTTPURLResponse *) response statusCode];
 		
 		if (HTTP_STATUS_CODE_IS_ERROR(_statusCode)) {
 //			if ([_delegate respondsToSelector: @selector(connectionFailed:withStatusCode:)] && ![_delegate connectionFailed: self withStatusCode: _statusCode]) {
@@ -1193,10 +1193,10 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 
 
 - (NSString *) description {
-	NSMutableString				*desc = [NSMutableString stringWithFormat: @"<0x%X>%@", (int) self, NSStringFromClass([self class])];
+	NSMutableString				*desc = [NSMutableString stringWithFormat: @"<0x%@>%@", self, NSStringFromClass([self class])];
 	if (self.tag) [desc appendFormat: @", tag: %@", self.tag];
-	[desc appendFormat: @", Pri: %d", _priority];
-	if (self.delegate) [desc appendFormat: @", delegate: <0x%X> %@", (int) self.delegate, NSStringFromClass([self.delegate class])];
+	[desc appendFormat: @", Pri: %ld", (long)_priority];
+	if (self.delegate) [desc appendFormat: @", delegate: <0x%@> %@", self.delegate, NSStringFromClass([self.delegate class])];
 	
 	[desc appendFormat: @"\nHeaders:\n"];
 	for (NSString *field in _headers) {
@@ -1205,7 +1205,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	[desc appendFormat: @"URL:\t\t\t%@\nMethod:\t\t\t%@\n", self.url, self.method];
 	if (self.payload.length) [desc appendFormat: @"Payload:\n%@\n", self.payloadString];
 
-	if (self.data.length) [desc appendFormat: @"\nResult (%d): \n", self.statusCode];
+	if (self.data.length) [desc appendFormat: @"\nResult (%ld): \n", (long)self.statusCode];
 	
 	[desc appendFormat: @"\nResponse Headers:\n"];
 	for (NSString *field in _responseHeaders) {
@@ -1217,7 +1217,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	[desc appendString: self.dataString ?: @"## no_data_received ##"];
 	return desc;
 	
-	return [NSString stringWithFormat: @"<0x%X>[%d.%d] %@ [%@]%@", (int) self, _priority, _order, [self.url absoluteString], _tag, self.alreadyStarted ? @" (started)" : @""];
+	return [NSString stringWithFormat: @"<0x%@>[%ld.%ld] %@ [%@]%@", self, (long)_priority, (long)_order, [self.url absoluteString], _tag, self.alreadyStarted ? @" (started)" : @""];
 }
 
 - (void) setFilename: (NSString *) newFilename {
@@ -1307,7 +1307,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 
 - (NSData *) downloadedDataStream {
 	NSMutableData		*raw = [[[self uploadedDataStream] mutableCopy] autorelease];
-	char				*resultString = (char *) [[NSString stringWithFormat: @"\nStatus Code: %d\n\n", self.statusCode] UTF8String];
+	char				*resultString = (char *) [[NSString stringWithFormat: @"\nStatus Code: %ld\n\n", (long)self.statusCode] UTF8String];
 	
 	[raw appendBytes: "\n" length: 1];
 	#if DEBUG

@@ -261,7 +261,7 @@
 	THREAD_SAFE_STATIC_WITH_FACTORY(NSCalendar, calendar, currentCalendar);
 
 	NSDateComponents		*myComponents = [calendar components: NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSYearCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit fromDate: self];
-	int						secondsOff = [[NSTimeZone localTimeZone] secondsFromGMT];
+	SInt16						secondsOff = [[NSTimeZone localTimeZone] secondsFromGMT];
 	
 	return [NSString stringWithFormat: @"%d-%02d-%02d %02d:%02d:%02d %c%02d%02d", (int) myComponents.year, (int) myComponents.month, (int) myComponents.day, (int) myComponents.hour, (int) myComponents.minute, (int) myComponents.second, secondsOff < 0 ? '-' : '+', ABS(secondsOff / 3600), ABS(secondsOff % 3600) / 60];
 }
@@ -269,7 +269,7 @@
 - (NSString *) internetFormattedTDateTimeString {
 	THREAD_SAFE_STATIC_WITH_FACTORY(NSCalendar, calendar, currentCalendar);
 	NSDateComponents		*myComponents = [calendar components: NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSYearCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit fromDate: self];
-	int						secondsOff = [[NSTimeZone localTimeZone] secondsFromGMT];
+	SInt16						secondsOff = [[NSTimeZone localTimeZone] secondsFromGMT];
 	
 	return [NSString stringWithFormat: @"%d-%02d-%02dT%02d:%02d:%02d%c%02d:%02d", (int) myComponents.year, (int) myComponents.month, (int) myComponents.day, (int) myComponents.hour, (int) myComponents.minute, (int) myComponents.second, secondsOff < 0 ? '-' : '+', ABS(secondsOff / 3600), ABS(secondsOff % 3600) / 60];
 }
@@ -283,7 +283,11 @@
 
 
 - (NSString *) veryShortDateString {
-	return [NSString stringWithFormat: @"%d/%d", self.month, self.day];
+	return [NSString stringWithFormat: @"%ld/%lu", (long)self.month, (unsigned long)self.day];
+}
+
+- (NSString *) logString {
+	return [NSString stringWithFormat: @"%ld/%lu, %lu:%02lu", (long)self.month, (unsigned long)self.day, (unsigned long)self.hour, (unsigned long)self.minute];
 }
 
 - (NSString *) veryShortTimeString {
@@ -296,7 +300,7 @@
 		if (hour == 0) hour = 12;
 	}
 	
-	return [NSString stringWithFormat: @"%d%02d", (int) hour, (int) self.minute];
+	return [NSString stringWithFormat: @"%ld%02lu", (long)hour, (unsigned long)self.minute];
 }
 
 
@@ -311,12 +315,12 @@
 	if (pmSymbol.length == 0) moddedHour = hour;
 	
 	if (minute == 0) {
-		if (pmSymbol.length == 0) return [NSString stringWithFormat: @"%d", (int) hour];
+		if (pmSymbol.length == 0) return [NSString stringWithFormat: @"%ld", (long)hour];
 		
-		return [NSString stringWithFormat: @"%d %@", (int) moddedHour, (hour < 12) ? [formatter AMSymbol] : [formatter PMSymbol]];
+		return [NSString stringWithFormat: @"%ld %@", (long)moddedHour, (hour < 12) ? [formatter AMSymbol] : [formatter PMSymbol]];
 	}
 	
-	return [NSString stringWithFormat: @"%d:%02d %@", (int) moddedHour, (int) minute, (hour < 12) ? [formatter AMSymbol] : [formatter PMSymbol]];
+	return [NSString stringWithFormat: @"%ld:%02ld %@", (long)moddedHour, (long)minute, (hour < 12) ? [formatter AMSymbol] : [formatter PMSymbol]];
 }
 
 - (NSString *) dateStringWithFormat: (NSDateFormatterStyle) dateFormat timeFormat: (NSDateFormatterStyle) timeFormat {
@@ -387,7 +391,7 @@
 	return string;
 }
 
-- (int) daysAgo {
+- (NSInteger) daysAgo {
 	NSDate				*midnight = [self midnight];
 	NSDate				*todaysMidnight = [[NSDate date] midnight];
 	
@@ -520,13 +524,13 @@
 	} else {
 		NSInteger		days[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 		
-		myInfo.tm_mday = (int) days[myInfo.tm_mon];		
+		myInfo.tm_mday = (int) days[myInfo.tm_mon];
 	}
 	mySeconds = mktime(&myInfo);
 	return [NSDate dateWithTimeIntervalSince1970: mySeconds];
 }
 
-- (int) numberOfDaysInMonth {
+- (NSUInteger) numberOfDaysInMonth {
 	time_t				mySeconds = [self timeIntervalSince1970];
 	struct tm			myInfo = *localtime(&mySeconds);
 	
@@ -535,7 +539,7 @@
 	}
 	NSInteger		days[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 	
-	return (int) days[myInfo.tm_mon];		
+	return days[myInfo.tm_mon];
 }
 
 - (NSDate *) previousDay {
@@ -637,41 +641,41 @@
 
 //=============================================================================================================================
 #pragma mark Properties
-- (int) year {time_t mySeconds = [self timeIntervalSince1970]; return localtime(&mySeconds)->tm_year + 1900;};
-- (int) month {time_t mySeconds = [self timeIntervalSince1970]; return localtime(&mySeconds)->tm_mon + 1;}
-- (int) day {time_t mySeconds = [self timeIntervalSince1970]; return localtime(&mySeconds)->tm_mday;}
-- (int) hour {time_t mySeconds = [self timeIntervalSince1970]; return localtime(&mySeconds)->tm_hour;}
-- (int) minute {time_t mySeconds = [self timeIntervalSince1970]; return localtime(&mySeconds)->tm_min;}
-- (int) second {time_t mySeconds = [self timeIntervalSince1970]; return localtime(&mySeconds)->tm_sec;}
-- (int) weekday {time_t mySeconds = [self timeIntervalSince1970]; return localtime(&mySeconds)->tm_wday + 1;}
+- (NSUInteger) year {time_t mySeconds = [self timeIntervalSince1970]; return localtime(&mySeconds)->tm_year + 1900;};
+- (NSUInteger) month {time_t mySeconds = [self timeIntervalSince1970]; return localtime(&mySeconds)->tm_mon + 1;}
+- (NSUInteger) day {time_t mySeconds = [self timeIntervalSince1970]; return localtime(&mySeconds)->tm_mday;}
+- (NSUInteger) hour {time_t mySeconds = [self timeIntervalSince1970]; return localtime(&mySeconds)->tm_hour;}
+- (NSUInteger) minute {time_t mySeconds = [self timeIntervalSince1970]; return localtime(&mySeconds)->tm_min;}
+- (NSUInteger) second {time_t mySeconds = [self timeIntervalSince1970]; return localtime(&mySeconds)->tm_sec;}
+- (NSUInteger) weekday {time_t mySeconds = [self timeIntervalSince1970]; return localtime(&mySeconds)->tm_wday + 1;}
 - (NSTimeInterval) fractionalSecond { return fmod(self.timeIntervalSince1970, 1.0); }
 
-- (NSString *) weekdayAsShortString {int weekday = self.weekday; if (weekday < 1 || weekday > 7) return @"";
+- (NSString *) weekdayAsShortString {NSInteger weekday = self.weekday; if (weekday < 1 || weekday > 7) return @"";
 	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
 
 	return [[formatter veryShortWeekdaySymbols] objectAtIndex: weekday - 1];}
 
-- (NSString *) weekdayAsMediumString {int weekday = self.weekday; if (weekday < 1 || weekday > 7) return @"";
+- (NSString *) weekdayAsMediumString {NSInteger weekday = self.weekday; if (weekday < 1 || weekday > 7) return @"";
 	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
 	return [[formatter shortWeekdaySymbols] objectAtIndex: weekday - 1];}
-- (NSString *) weekdayAsLongString {int weekday = self.weekday; if (weekday < 1 || weekday > 7) return @"";
+- (NSString *) weekdayAsLongString {NSInteger weekday = self.weekday; if (weekday < 1 || weekday > 7) return @"";
 	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
 	return [[formatter weekdaySymbols] objectAtIndex: weekday - 1];}
-- (NSString *) monthName {int month = self.month;
+- (NSString *) monthName {NSInteger month = self.month;
 	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
 	return [[formatter monthSymbols] objectAtIndex: month - 1];}
-- (NSString *) shortMonthName {int month = self.month;
+- (NSString *) shortMonthName {NSInteger month = self.month;
 	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
 	return [[formatter shortMonthSymbols] objectAtIndex: month - 1];}
 
-- (int) nextNearestHour {
+- (NSUInteger ) nextNearestHour {
 	time_t				mySeconds = [self timeIntervalSince1970];
 	struct tm			myInfo = *localtime(&mySeconds);
 	
 	return (myInfo.tm_hour + 1) % 24;
 }
 
-- (int) nearestHour {
+- (NSUInteger) nearestHour {
 	time_t				mySeconds = [self timeIntervalSince1970];
 	struct tm			myInfo = *localtime(&mySeconds);
 
@@ -679,7 +683,7 @@
 	return myInfo.tm_hour;
 }
 
-- (NSDate *) dateWithHour: (int) hour {
+- (NSDate *) dateWithHour: (NSUInteger) hour {
 	return [self dateWithHour: hour minute: 0 second: 0];
 }
 
@@ -693,7 +697,7 @@
 	return [date dateWithHour: [date nearestHour] minute: 0 second: 0];
 }
 
-- (NSDate *) dateWithHour: (int) hour minute: (int) minute second: (int) second {
+- (NSDate *) dateWithHour: (NSUInteger) hour minute: (NSUInteger) minute second: (NSUInteger) second {
 	THREAD_SAFE_STATIC_WITH_FACTORY(NSCalendar, calendar, currentCalendar);
 	NSDateComponents					*myComponents = [calendar components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
 	
@@ -704,7 +708,7 @@
 	return [calendar dateFromComponents: myComponents];
 }
 
-- (NSDate *) futureDateByAddingDays: (int) days months: (int) months years: (int) years {
+- (NSDate *) futureDateByAddingDays: (NSUInteger) days months: (NSUInteger) months years: (NSUInteger) years {
 	THREAD_SAFE_STATIC_WITH_FACTORY(NSCalendar, calendar, currentCalendar);
 	NSDateComponents					*myComponents = [calendar components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
 	
