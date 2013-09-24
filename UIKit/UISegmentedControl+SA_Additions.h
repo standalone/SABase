@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface UISegmentedControl (SA_SA_Additions)
-- (void) insertSegmentWithImage: (UIImage *) image atIndex: (NSUInteger) segment animated: (BOOL) animated tag: (NSUInteger) tag;
-- (void) insertSegmentWithTitle: (NSString *) title atIndex: (NSUInteger) segment animated: (BOOL) animated tag: (NSUInteger) tag;
+- (void) insertSegmentWithImage: (UIImage *) image atIndex: (NSUInteger) segment animated: (BOOL) animated tag: (SInt16) tag;
+- (void) insertSegmentWithTitle: (NSString *) title atIndex: (NSUInteger) segment animated: (BOOL) animated tag: (SInt16) tag;
 
-- (NSUInteger) tagForSegment: (int) index;
-@property (nonatomic) NSUInteger selectedSegmentTag;
+- (SInt16) tagForSegment: (NSUInteger) index;
+@property (nonatomic) SInt16 selectedSegmentTag;
 @end

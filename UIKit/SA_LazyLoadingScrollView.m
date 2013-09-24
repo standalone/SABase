@@ -9,16 +9,16 @@
 
 @interface SA_LazyLoadingScrollView ()
 
-@property (nonatomic, readwrite) int numberOfPageViews;
+@property (nonatomic, readwrite) NSUInteger numberOfPageViews;
 @property (nonatomic, assign) id <UIScrollViewDelegate> exteriorDelegate;
 @property (nonatomic) BOOL customPageWidth;
 
-- (BOOL) isDisplayingPageForIndex: (int) index;
+- (BOOL) isDisplayingPageForIndex: (NSUInteger) index;
 - (CGRect) frameForViewAtIndex: (NSUInteger) index;
 - (void) resetVisiblePageViews;
 - (void) setupPages;
-- (SA_LazyLoadingScrollViewPage *) dequeuePageViewAtIndex: (int) index;
-- (void) configureIndexedPageView: (SA_LazyLoadingScrollViewPage *) view forIndex: (int) index;
+- (SA_LazyLoadingScrollViewPage *) dequeuePageViewAtIndex: (NSUInteger) index;
+- (void) configureIndexedPageView: (SA_LazyLoadingScrollViewPage *) view forIndex: (NSUInteger) index;
 @end
 
 
@@ -64,7 +64,7 @@
 //=============================================================================================================================
 #pragma mark Layout
 - (void) setFrame: (CGRect) frame {
-	NSInteger				firstIndex = self.mainPageIndex;
+	NSUInteger				firstIndex = self.mainPageIndex;
 	[super setFrame: frame];
 	self.visiblePageViews = nil;
 	self.unusedPageViews = nil;
@@ -104,7 +104,7 @@
 }
 
 #pragma mark private methods
-- (SA_LazyLoadingScrollViewPage *) visiblePageViewAtIndex: (int) index {
+- (SA_LazyLoadingScrollViewPage *) visiblePageViewAtIndex: (NSUInteger) index {
     for (SA_LazyLoadingScrollViewPage *page in self.visiblePageViews) { if (page.pageIndex == index) return page; }
 	return nil;
 }
@@ -117,8 +117,8 @@
 	if (self.pageWidth == 0) _pageWidth = self.bounds.size.width;
 	self.contentSize = CGSizeMake(self.pageWidth * self.numberOfPageViews, self.bounds.size.height);
 	
-	int		firstNeededItemIndex = MAX(self.mainPageIndex - 1, 0);
-	int		lastNeededItemIndex  = MIN(firstNeededItemIndex + self.numberOfVisiblePageViews + 1, self.numberOfPageViews - 1);
+	NSUInteger		firstNeededItemIndex = MAX(self.mainPageIndex - 1, 0);
+	NSUInteger		lastNeededItemIndex  = MIN(firstNeededItemIndex + self.numberOfVisiblePageViews + 1, self.numberOfPageViews - 1);
 
 	// Recycle no-longer-visible pages 
 	for (SA_LazyLoadingScrollViewPage *view in self.visiblePageViews) {
@@ -134,7 +134,7 @@
 	[self.visiblePageViews minusSet: self.unusedPageViews];
 	
 	// add missing pages. We do this twice, first to pull out any previously loaded page views
-	for (int index = firstNeededItemIndex; index <= lastNeededItemIndex; index++) {
+	for (NSUInteger index = firstNeededItemIndex; index <= lastNeededItemIndex; index++) {
 		if ( ![self isDisplayingPageForIndex: index] && index < self.numberOfPageViews) {
 			SA_LazyLoadingScrollViewPage			*view = [self dequeuePageViewAtIndex: index];
 			
@@ -156,7 +156,7 @@
 	[self.visiblePageViews removeAllObjects];	
 }
 
-- (SA_LazyLoadingScrollViewPage *) dequeuePageViewAtIndex: (int) index {
+- (SA_LazyLoadingScrollViewPage *) dequeuePageViewAtIndex: (NSUInteger) index {
 	SA_LazyLoadingScrollViewPage *foundPage = nil;
 		
     for (SA_LazyLoadingScrollViewPage *page in self.visiblePageViews) {
@@ -176,7 +176,7 @@
     return foundPage;
 }
 
-- (void) configureIndexedPageView: (SA_LazyLoadingScrollViewPage *) view forIndex: (int) index {
+- (void) configureIndexedPageView: (SA_LazyLoadingScrollViewPage *) view forIndex: (NSUInteger) index {
     view.frame = [self frameForViewAtIndex: index];
 	
 	if ([self.dataSource respondsToSelector: @selector(configurePageView:forIndex:)]) {
@@ -188,7 +188,7 @@
     view.isMainPageView = (view.pageIndex == self.mainPageIndex);
 }
 
-- (BOOL) isDisplayingPageForIndex: (int) index {
+- (BOOL) isDisplayingPageForIndex: (NSUInteger) index {
     for (SA_LazyLoadingScrollViewPage *view in self.visiblePageViews) {
         if (view.pageIndex == index) {
             return YES;
@@ -206,24 +206,24 @@
     return pageFrame;
 }
 
-- (void) setMainPageIndex: (NSInteger) index {
+- (void) setMainPageIndex: (NSUInteger) index {
 	[self setMainPageIndex: index animated: YES];
 }
 
-- (void) setMainPageIndex: (NSInteger) index animated:(BOOL) animated {
+- (void) setMainPageIndex: (NSUInteger) index animated:(BOOL) animated {
 	mainPageIndex = index;
 	CGRect destFrame = [self frameForViewAtIndex: index];
 	[self setContentOffset:destFrame.origin animated: animated];
 }
 
-- (int) mainPageIndex {
+- (NSUInteger) mainPageIndex {
 	if (self.pageWidth == 0) return 0;
-	int		index = ((int) self.contentOffset.x) / (int) self.pageWidth;
+	NSUInteger		index = ((NSUInteger) self.contentOffset.x) / (NSUInteger) self.pageWidth;
 	
 	return index;
 }
 
-- (int) numberOfVisiblePageViews {
+- (NSUInteger) numberOfVisiblePageViews {
 	return ceil(self.bounds.size.width / self.pageWidth);
 }
 
@@ -278,7 +278,7 @@
 
 - (void) scrollViewDidEndDecelerating: (UIScrollView *) scrollView {
 	if (self.pagingEnabled) {
-		self.mainPageIndex = ((int) self.contentOffset.x) / (int) self.pageWidth;
+		self.mainPageIndex = ((NSUInteger) self.contentOffset.x) / (NSUInteger) self.pageWidth;
 		if ([self.dataSource respondsToSelector: @selector(scrollView:didChangeMainIndexTo:)]) [self.dataSource scrollView: self didChangeMainIndexTo: self.mainPageIndex];
 	}
 	[self setupPages];
@@ -317,7 +317,7 @@
 }
 
 - (NSString *) description {
-	return $S(@"%@; index: %d", [super description], self.pageIndex);
+	return $S(@"%@; index: %lu", [super description], (unsigned long)self.pageIndex);
 }
 
 @end

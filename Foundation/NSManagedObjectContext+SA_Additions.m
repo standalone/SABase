@@ -14,9 +14,11 @@
 	#import "SA_AlertView.h"
 #endif
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < 50000
 @interface NSObject (DummyCategory)
 - (id) initWithConcurrencyType: (int) type;
 @end
+#endif
 
 NSString *kNotification_PersistentStoreResetDueToSchemaChange = @"kNotification_PersistentStoreResetDueToSchemaChange";
 NSString *UPDATE_BLOCKS_KEY = @"SA_UpdateBlocksArray";
@@ -76,7 +78,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	NSManagedObjectContext			*objectContext = nil;
 	#if TARGET_OS_IPHONE
 		if (RUNNING_ON_50)
-			objectContext = [(id) [self alloc] initWithConcurrencyType: type];
+			objectContext = (NSManagedObjectContext *) [(id) [self alloc] initWithConcurrencyType: type];
 		else
 	#endif
 		objectContext = [[self alloc] init];

@@ -23,5 +23,6 @@
 - (NSString *) SA_hexString;
 - (NSString *) SA_hexStringWithAlpha;
 
+- (UIColor *) appropriateContrastingTextColor;
 
 @end

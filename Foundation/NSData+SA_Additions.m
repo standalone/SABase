@@ -200,7 +200,7 @@ void * ImprovedBase64Decode(const char *inputBuffer, size_t length, size_t *outp
         }
         if (includingHex && includingASCII) [buf appendString:@"| "];   // now show in ASCII
         if (includingASCII) for (j = 0 ; j < lineWidth; j++) {
-            int offset = i + j;
+            NSUInteger offset = i + j;
             if (offset < length) {
                 unsigned char						theChar = bytes[offset];
                 
@@ -245,7 +245,7 @@ void * ImprovedBase64Decode(const char *inputBuffer, size_t length, size_t *outp
 	NSMutableString					*buf = [NSMutableString string];
 	NSString						*format = spaces ? @"%02X " : @"%02X";
 	
-	for (int i = 0; i < length; i++) {
+	for (NSUInteger i = 0; i < length; i++) {
 		[buf appendFormat: format, bytes[i]];
     }
     return buf;

@@ -170,7 +170,7 @@ void		ClearConsoleLog(void);
 
 
 #if DEBUG || AD_HOC
-	#define			INIT_COUNT(_X_)				static int g_##_X_##_objectCount = 0;
+	#define			INIT_COUNT(_X_)				static NSUInteger g_##_X_##_objectCount = 0;
 	#define			INCR_COUNT(_X_)				if (g_##_X_##_objectCount++ > 0) LOG(@"%d %@ objects created", g_##_X_##_objectCount, [_X_ class]);
 	#define			DECR_COUNT(_X_)				g_##_X_##_objectCount--;
 
@@ -279,8 +279,8 @@ void					MailDataWithTitle(NSData *data, NSString *title);
 #define				PERFORM_ON_MAIN_THREAD(f)				{simpleBlock	b = ^{f}; if ([NSThread isMainThread]) b(); else dispatch_async(dispatch_get_main_queue(), b); }
 
 typedef void (^booleanArgumentBlock)(BOOL value);
-typedef void (^intArgumentBlock)(int integer);
-typedef void (^floatArgumentBlock)(float integer);
+typedef void (^intArgumentBlock)(NSInteger index);
+typedef void (^floatArgumentBlock)(float value);
 typedef void (^simpleBlock)(void);
 typedef void (^idArgumentBlock)(id arg);
 typedef void (^stringArgumentBlock)(NSString *arg);

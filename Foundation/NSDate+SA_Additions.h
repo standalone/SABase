@@ -20,15 +20,17 @@ typedef enum {
 
 @interface NSDate (NSDate_SA_Additions) 	
 
-@property(readonly) int hour, minute, second, nearestHour, nextNearestHour;
-@property(readonly) int year, month, day, weekday, numberOfDaysInMonth; 
+@property(readonly) NSUInteger hour, minute, second, nearestHour, nextNearestHour;
+@property(readonly) NSUInteger year, month, day, weekday, numberOfDaysInMonth;
 @property(readonly) NSString *weekdayAsLongString, *weekdayAsMediumString, *weekdayAsShortString, *monthName, *shortMonthName;
 @property(readonly) NSTimeInterval absoluteTimeIntervalFromNow, fractionalSecond;
 
++ (BOOL) isIn24HourMode;
+
 - (NSDate *) dateByAddingTimeIntervalAmount: (NSTimeInterval) interval;
 
-- (NSDate *) dateWithHour: (int) hour;
-- (NSDate *) dateWithHour: (int) hour minute: (int) minute second: (int) second ;
+- (NSDate *) dateWithHour: (NSUInteger) hour;
+- (NSDate *) dateWithHour: (NSUInteger) hour minute: (NSUInteger) minute second: (NSUInteger) second ;
 + (NSDate *) dateWithNearestHour;
 + (NSDate *) dateWithNextNearestHour;
 
@@ -47,6 +49,7 @@ typedef enum {
 - (NSString *) dayMonthDateString;
 - (NSString *) UTCString;
 - (NSString *) veryShortDateString;
+- (NSString *) logString;
 
 - (NSString *) shortRelativeString;
 - (NSString *) mediumRelativeString;
@@ -68,11 +71,10 @@ typedef enum {
 - (NSString *) descriptionWithoutOffset;
 - (NSString *) dateTimeString;
 
-- (NSDate *) futureDateByAddingDays: (int) days months: (int) months years: (int) years;
+- (NSDate *) futureDateByAddingDays: (NSUInteger) days months: (NSUInteger) months years: (NSUInteger) years;
 
 - (NSDate *) previousDay;
 - (NSDate *) nextDay;
-
 
 - (BOOL) isPastDate;
 - (BOOL) isFutureDate;
@@ -85,7 +87,7 @@ typedef enum {
 - (BOOL) isYesterday;
 - (BOOL) isThisMonth;
 - (BOOL) isThisYear;
-- (int) daysAgo;
+- (NSInteger) daysAgo;
 
 - (NSDate *) midnight;
 - (NSDate *) noon;

@@ -20,25 +20,25 @@
 	return tags;
 }
 
-- (void) insertSegmentWithImage: (UIImage *) image atIndex: (NSUInteger) segment animated: (BOOL) animated tag: (NSUInteger) tag {
-	[self.tags setObject: $I(tag) forKey: $S(@"%d", segment)];
+- (void) insertSegmentWithImage: (UIImage *) image atIndex: (NSUInteger) segment animated: (BOOL) animated tag: (SInt16) tag {
+	[self.tags setObject: $I(tag) forKey: $S(@"%d", (SInt16) segment)];
 	[self insertSegmentWithImage: image atIndex: segment animated: animated];
 }
 
-- (void) insertSegmentWithTitle: (NSString *) title atIndex: (NSUInteger) segment animated: (BOOL) animated tag: (NSUInteger) tag {
-	[self.tags setObject: $I(tag) forKey: $S(@"%d", segment)];
+- (void) insertSegmentWithTitle: (NSString *) title atIndex: (NSUInteger) segment animated: (BOOL) animated tag: (SInt16) tag {
+	[self.tags setObject: $I(tag) forKey: $S(@"%d", (SInt16) segment)];
 	[self insertSegmentWithTitle: title atIndex: segment animated: animated];
 }
 
-- (NSUInteger) tagForSegment: (int) index {
-	return [[self.tags objectForKey: $S(@"%d", index)] intValue]; 
+- (SInt16) tagForSegment: (NSUInteger) index {
+	return [[self.tags objectForKey: $S(@"%d", (UInt16) index)] intValue];
 }
 
-- (NSUInteger) selectedSegmentTag {
+- (SInt16) selectedSegmentTag {
 	return [self tagForSegment: self.selectedSegmentIndex];
 }
 
-- (void) setSelectedSegmentTag: (NSUInteger) selectedSegmentTag {
+- (void) setSelectedSegmentTag: (SInt16) selectedSegmentTag {
 	for (NSString *key in self.tags) {
 		if ([[self.tags objectForKey: key] intValue] == selectedSegmentTag) {
 			self.selectedSegmentIndex = [key intValue];

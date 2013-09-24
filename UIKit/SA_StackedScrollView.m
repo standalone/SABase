@@ -44,7 +44,7 @@
 
 //=============================================================================================================================
 #pragma mark Inserting and removing
-- (void) insertComponent: (UIView *) component atIndex: (int) index animated: (BOOL) animated {
+- (void) insertComponent: (UIView *) component atIndex: (NSUInteger) index animated: (BOOL) animated {
 	index = MIN(index, self.componentViews.count);
 	
 	if (animated) [self beginUpdates];
@@ -58,7 +58,7 @@
 }
 
 - (void) replaceExistingComponent: (UIView *) oldComponent withComponent: (UIView *) newComponent animated: (BOOL) animated {
-	int				index = [self.componentViews indexOfObject: oldComponent];
+	NSUInteger				index = [self.componentViews indexOfObject: oldComponent];
 	
 	if (index != NSNotFound)
 		[self replaceComponent: newComponent atIndex: index animated: animated];
@@ -66,7 +66,7 @@
 		[self addComponent: newComponent animated: animated];
 }
 
-- (void) replaceComponent: (UIView *) component atIndex: (int) index animated: (BOOL) animated {
+- (void) replaceComponent: (UIView *) component atIndex: (NSUInteger) index animated: (BOOL) animated {
 	index = MIN(index, self.componentViews.count);
 	
 	if ([self.componentViews objectAtIndex: index] == component) return;
@@ -87,12 +87,12 @@
 }
 
 - (void) removeComponent: (UIView *) component animated: (BOOL) animated { 
-	NSInteger			index = [self.componentViews indexOfObject: component];
+	NSUInteger			index = [self.componentViews indexOfObject: component];
 	
 	if (index != NSNotFound) [self removeComponentAtIndex: index animated: animated];
 }
 
-- (void) removeComponentAtIndex: (int) index animated: (BOOL) animated {
+- (void) removeComponentAtIndex: (NSUInteger) index animated: (BOOL) animated {
 	index = MIN(index, self.componentViews.count);
 	
 	if (animated) [self beginUpdates];

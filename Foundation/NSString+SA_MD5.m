@@ -17,7 +17,7 @@
 	- (NSUInteger) SA_md5Hash {
 		UInt32 results[4];
 		unsigned char			*utf8 = (unsigned char *) self.UTF8String;
-		CC_MD5((const void *) utf8, strlen((const char *) utf8), (unsigned char *) results);
+		CC_MD5((const void *) utf8, (CC_LONG) strlen((const char *) utf8), (unsigned char *) results);
 		
 		return results[0] + results[1] + results[2] + results[3];
 	}
@@ -33,7 +33,7 @@
 	{
 		const char *cStr = [self UTF8String];
 		unsigned char result[16];
-		CC_MD5( cStr, strlen(cStr), result ); // This is the md5 call
+		CC_MD5( cStr, (CC_LONG) strlen(cStr), result ); // This is the md5 call
 		return [NSString stringWithFormat:
 				@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
 				result[0], result[1], result[2], result[3], 
