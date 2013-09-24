@@ -25,6 +25,8 @@ typedef enum {
 @property(readonly) NSString *weekdayAsLongString, *weekdayAsMediumString, *weekdayAsShortString, *monthName, *shortMonthName;
 @property(readonly) NSTimeInterval absoluteTimeIntervalFromNow, fractionalSecond;
 
++ (BOOL) isIn24HourMode;
+
 - (NSDate *) dateByAddingTimeIntervalAmount: (NSTimeInterval) interval;
 
 - (NSDate *) dateWithHour: (NSUInteger) hour;
@@ -73,7 +75,6 @@ typedef enum {
 
 - (NSDate *) previousDay;
 - (NSDate *) nextDay;
-
 
 - (BOOL) isPastDate;
 - (BOOL) isFutureDate;

@@ -154,6 +154,26 @@
 	return result;
 }
 
++ (BOOL) isIn24HourMode {
+	static BOOL				hasChecked = NO, isIn24HourMode = NO;
+	
+	if (!hasChecked) {
+		@synchronized (self) {
+			NSDateFormatter		*formatter = [[NSDateFormatter alloc] init];
+			[formatter setTimeStyle: NSDateFormatterShortStyle];
+			[formatter setDateStyle: NSDateFormatterNoStyle];
+			NSString			*test = [formatter stringFromDate: [[NSDate date] dateWithHour: 13]];
+			NSArray				*components = [test componentsSeparatedByString: @":"];
+			NSString			*hour = components.count ? components[0] : @"1";
+			
+			hasChecked = YES;
+			isIn24HourMode = hour.length > 1;
+		}
+	}
+	
+	return isIn24HourMode;
+}
+
 + (NSDate *) dateWithUNIXString: (NSString *) string {			//@" YYYY-mm-ddTHH:mm:ss zzzz"
 	if (![string isKindOfClass: [NSString class]]) return nil;
 	NSInteger		intComponents[7];						//month, day, year, hours, minutes, seconds, timezone
