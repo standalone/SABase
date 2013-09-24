@@ -138,5 +138,18 @@
 	return results;
 }
 
+- (UIColor *) appropriateContrastingTextColor {
+	CGFloat					h, s, b, a;
+	
+	if ([self getHue: &h saturation: &s brightness: &b alpha: &a]) return (b > 0.5) ? [UIColor blackColor] : [UIColor whiteColor];
+	
+	CGFloat					w;
+	
+	if ([self getWhite: &w alpha: &a]) {
+		return (w > 0.5) ? [UIColor blackColor] : [UIColor whiteColor];
+	}
+	return [UIColor blackColor];
+}
+
 
 @end
