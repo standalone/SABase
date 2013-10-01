@@ -1193,7 +1193,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 
 
 - (NSString *) description {
-	NSMutableString				*desc = [NSMutableString stringWithFormat: @"<0x%@>%@", self, NSStringFromClass([self class])];
+	NSMutableString				*desc = [NSMutableString stringWithFormat: @"<0x%x>%@", (int) self, NSStringFromClass([self class])];
 	if (self.tag) [desc appendFormat: @", tag: %@", self.tag];
 	[desc appendFormat: @", Pri: %ld", (long)_priority];
 	if (self.delegate) [desc appendFormat: @", delegate: <0x%@> %@", self.delegate, NSStringFromClass([self.delegate class])];
