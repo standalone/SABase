@@ -179,9 +179,8 @@
 }
 
 - (NSString *) appBasedUDID {
-#if RUNNNING_ON_60
-	return [self identifierForVendor].UUIDString;
-#endif
+	if ([self respondsToSelector: @selector(identifierForVendor)]) return [self identifierForVendor].UUIDString;
+
     NSString *macaddress = [[UIDevice currentDevice] MACAddress];
     NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
     
@@ -192,9 +191,7 @@
 }
 
 - (NSString *) udid {
-#if RUNNNING_ON_60
-	return [self identifierForVendor].UUIDString;
-#endif
+	if ([self respondsToSelector: @selector(identifierForVendor)]) return [self identifierForVendor].UUIDString;
 	
     NSString *macaddress = [[UIDevice currentDevice] MACAddress];
     NSString *uniqueIdentifier = [macaddress SA_md5HashString];
