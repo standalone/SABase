@@ -25,4 +25,5 @@ typedef void (^CGContextBlock)(CGContextRef ctx);
 #endif
 
 - (UIImage *) maskWithColor: (UIColor *) color;
+- (instancetype) tintedImageWithColor: (UIColor *) tintColor;
 @end
