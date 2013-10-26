@@ -53,3 +53,4 @@
 #import "NSDictionary+SA_Additions.h"
 #import "NSData+SA_MD5.h"
 #import "NSString+SA_MD5.h"
+#import "UIFont+SA_Additions.h"

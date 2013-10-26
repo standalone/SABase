@@ -39,6 +39,12 @@
 		B542239115B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B542238E15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m */; };
 		B542239215B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B542238E15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m */; };
 		B55A94CF15F62442000F8992 /* UIButton+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E086C151660DD0097CC69 /* UIButton+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55AA639181C515C00C5B0EE /* UIFont+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55AA637181C515C00C5B0EE /* UIFont+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55AA63A181C515C00C5B0EE /* UIFont+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55AA637181C515C00C5B0EE /* UIFont+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55AA63B181C515C00C5B0EE /* UIFont+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55AA638181C515C00C5B0EE /* UIFont+SA_Additions.m */; };
+		B55AA63C181C515C00C5B0EE /* UIFont+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55AA638181C515C00C5B0EE /* UIFont+SA_Additions.m */; };
+		B55AA63D181C515C00C5B0EE /* UIFont+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55AA638181C515C00C5B0EE /* UIFont+SA_Additions.m */; };
+		B55AA63E181C515C00C5B0EE /* UIFont+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55AA638181C515C00C5B0EE /* UIFont+SA_Additions.m */; };
 		B55E0888151660DD0097CC69 /* dispatch_additions_SA.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0835151660DD0097CC69 /* dispatch_additions_SA.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B55E0889151660DD0097CC69 /* dispatch_additions_SA.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0835151660DD0097CC69 /* dispatch_additions_SA.h */; };
 		B55E088A151660DD0097CC69 /* dispatch_additions_SA.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0836151660DD0097CC69 /* dispatch_additions_SA.m */; };
@@ -360,6 +366,8 @@
 		B51F6FE11615CAB90015A037 /* NSSet+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSSet+SA_Additions.m"; sourceTree = "<group>"; };
 		B542238D15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+SA_Additions.h"; sourceTree = "<group>"; };
 		B542238E15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+SA_Additions.m"; sourceTree = "<group>"; };
+		B55AA637181C515C00C5B0EE /* UIFont+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+SA_Additions.h"; sourceTree = "<group>"; };
+		B55AA638181C515C00C5B0EE /* UIFont+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+SA_Additions.m"; sourceTree = "<group>"; };
 		B55E0835151660DD0097CC69 /* dispatch_additions_SA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dispatch_additions_SA.h; path = ../Foundation/dispatch_additions_SA.h; sourceTree = "<group>"; };
 		B55E0836151660DD0097CC69 /* dispatch_additions_SA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = dispatch_additions_SA.m; sourceTree = "<group>"; };
 		B55E0837151660DD0097CC69 /* NSBundle+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSBundle+SA_Additions.h"; path = "../Foundation/NSBundle+SA_Additions.h"; sourceTree = "<group>"; };
@@ -607,6 +615,8 @@
 			isa = PBXGroup;
 			children = (
 				B542238E15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m */,
+				B55AA637181C515C00C5B0EE /* UIFont+SA_Additions.h */,
+				B55AA638181C515C00C5B0EE /* UIFont+SA_Additions.m */,
 				B55E097F151661110097CC69 /* SA_BlockButton.m */,
 				B55E0859151660DD0097CC69 /* SA_AlertView.m */,
 				B55E085B151660DD0097CC69 /* SA_LazyLoadingScrollView.m */,
@@ -779,6 +789,7 @@
 				B583071D1516548600CC57DE /* NSData Tests.h in Headers */,
 				B58307231516548600CC57DE /* NSDate Tests.h in Headers */,
 				B58307291516548600CC57DE /* NSURL Tests.h in Headers */,
+				B55AA63A181C515C00C5B0EE /* UIFont+SA_Additions.h in Headers */,
 				B58307311516548600CC57DE /* RunTimeAppDelegate.h in Headers */,
 				B58307371516548600CC57DE /* TestController.h in Headers */,
 				B55E0889151660DD0097CC69 /* dispatch_additions_SA.h in Headers */,
@@ -844,6 +855,7 @@
 				B55E088E151660DD0097CC69 /* NSBundle+SA_Additions.h in Headers */,
 				B55E0894151660DD0097CC69 /* NSData+SA_Additions.h in Headers */,
 				B55E089A151660DD0097CC69 /* NSData+SA_MD5.h in Headers */,
+				B55AA639181C515C00C5B0EE /* UIFont+SA_Additions.h in Headers */,
 				B55E08A0151660DD0097CC69 /* NSDate+SA_Additions.h in Headers */,
 				B55E08A6151660DD0097CC69 /* NSFileManager+SA_Additions.h in Headers */,
 				B55E08AC151660DD0097CC69 /* NSManagedObject+SA_Additions.h in Headers */,
@@ -1128,6 +1140,7 @@
 				B55E0927151660DD0097CC69 /* UIBarButtonItem+SA_Additions.m in Sources */,
 				B55E092D151660DD0097CC69 /* UIButton+SA_Additions.m in Sources */,
 				B55E0933151660DD0097CC69 /* UIColor+SA_Additions.m in Sources */,
+				B55AA63C181C515C00C5B0EE /* UIFont+SA_Additions.m in Sources */,
 				B5E703F917A5DB2000435611 /* SA_Switch.m in Sources */,
 				B55E0939151660DD0097CC69 /* UIDevice+SA_Additions.m in Sources */,
 				B55E093F151660DD0097CC69 /* UIImage+SA_Additions.m in Sources */,
@@ -1182,6 +1195,7 @@
 				B55E08F2151660DD0097CC69 /* SA_AlertView.m in Sources */,
 				B55E08F8151660DD0097CC69 /* SA_LazyLoadingScrollView.m in Sources */,
 				B55E08FE151660DD0097CC69 /* SA_NavigationController.m in Sources */,
+				B55AA63D181C515C00C5B0EE /* UIFont+SA_Additions.m in Sources */,
 				B55E0904151660DD0097CC69 /* SA_PleaseWaitDisplay.m in Sources */,
 				B55E090A151660DD0097CC69 /* SA_SelfDrawingView.m in Sources */,
 				B55E0910151660DD0097CC69 /* SA_SplashScreenImageView.m in Sources */,
@@ -1231,6 +1245,7 @@
 				B55E08D5151660DD0097CC69 /* NSString+SA_MD5.m in Sources */,
 				B55E08DB151660DD0097CC69 /* NSString+UniqueStrings.m in Sources */,
 				B55E08E1151660DD0097CC69 /* NSURL+SA_Additions.m in Sources */,
+				B55AA63E181C515C00C5B0EE /* UIFont+SA_Additions.m in Sources */,
 				B55E08E7151660DD0097CC69 /* SA_ConnectionQueue.m in Sources */,
 				B55E08F3151660DD0097CC69 /* SA_AlertView.m in Sources */,
 				B55E08F9151660DD0097CC69 /* SA_LazyLoadingScrollView.m in Sources */,
@@ -1294,6 +1309,7 @@
 				B55E0926151660DD0097CC69 /* UIBarButtonItem+SA_Additions.m in Sources */,
 				B55E092C151660DD0097CC69 /* UIButton+SA_Additions.m in Sources */,
 				B55E0932151660DD0097CC69 /* UIColor+SA_Additions.m in Sources */,
+				B55AA63B181C515C00C5B0EE /* UIFont+SA_Additions.m in Sources */,
 				B5E703F817A5DB2000435611 /* SA_Switch.m in Sources */,
 				B55E0938151660DD0097CC69 /* UIDevice+SA_Additions.m in Sources */,
 				B55E093E151660DD0097CC69 /* UIImage+SA_Additions.m in Sources */,
