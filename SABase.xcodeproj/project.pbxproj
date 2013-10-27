@@ -337,6 +337,10 @@
 		B598E679124081EB00E7B7CF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B598E678124081EB00E7B7CF /* CoreGraphics.framework */; };
 		B598E67D124081F800E7B7CF /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B598E67C124081F800E7B7CF /* CoreData.framework */; };
 		B598E6811240820400E7B7CF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B598E6801240820400E7B7CF /* SystemConfiguration.framework */; };
+		B59F32CA181DCB1F0096DF9A /* UILocalNotification+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B59F32C8181DCB1F0096DF9A /* UILocalNotification+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B59F32CB181DCB1F0096DF9A /* UILocalNotification+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B59F32C8181DCB1F0096DF9A /* UILocalNotification+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B59F32CC181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B59F32C9181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m */; };
+		B59F32CD181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B59F32C9181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m */; };
 		B5A12A21152FEF4A0081FAAD /* SA_Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = B5A12A1F152FEF4A0081FAAD /* SA_Utilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B5A12A22152FEF4A0081FAAD /* SA_Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = B5A12A1F152FEF4A0081FAAD /* SA_Utilities.h */; };
 		B5A12A23152FEF4A0081FAAD /* SA_Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */; };
@@ -479,6 +483,8 @@
 		B598E678124081EB00E7B7CF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		B598E67C124081F800E7B7CF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		B598E6801240820400E7B7CF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		B59F32C8181DCB1F0096DF9A /* UILocalNotification+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UILocalNotification+SA_Additions.h"; path = "UIKit/UILocalNotification+SA_Additions.h"; sourceTree = "<group>"; };
+		B59F32C9181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UILocalNotification+SA_Additions.m"; path = "UIKit/UILocalNotification+SA_Additions.m"; sourceTree = "<group>"; };
 		B5A12A1F152FEF4A0081FAAD /* SA_Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SA_Utilities.h; path = ../Foundation/SA_Utilities.h; sourceTree = "<group>"; };
 		B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SA_Utilities.m; sourceTree = "<group>"; };
 		B5D3ABA915FD3E070052F459 /* CAAnimation+SA_Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CAAnimation+SA_Blocks.h"; path = "Foundation/CAAnimation+SA_Blocks.h"; sourceTree = SOURCE_ROOT; };
@@ -546,6 +552,8 @@
 		0867D691FE84028FC02AAC07 /* SABase */ = {
 			isa = PBXGroup;
 			children = (
+				B59F32C8181DCB1F0096DF9A /* UILocalNotification+SA_Additions.h */,
+				B59F32C9181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m */,
 				B55E099F1516682A0097CC69 /* Headers */,
 				B55E0834151660DD0097CC69 /* Foundation */,
 				B55E0855151660DD0097CC69 /* UIKit */,
@@ -830,6 +838,7 @@
 				B55E096D151660DD0097CC69 /* UIToolbar+SA_Additions.h in Headers */,
 				B55E0973151660DD0097CC69 /* UIView+SA_Additions.h in Headers */,
 				B55E0979151660DD0097CC69 /* UIViewController+SA_Additions.h in Headers */,
+				B59F32CB181DCB1F0096DF9A /* UILocalNotification+SA_Additions.h in Headers */,
 				B55E0981151661110097CC69 /* SA_BlockButton.h in Headers */,
 				B55E0989151661790097CC69 /* NSTimer+SA_Additions.h in Headers */,
 				B55E0991151661920097CC69 /* NSUserDefaults+SA_Additions.h in Headers */,
@@ -896,6 +905,7 @@
 				B55E0988151661790097CC69 /* NSTimer+SA_Additions.h in Headers */,
 				B5A12A21152FEF4A0081FAAD /* SA_Utilities.h in Headers */,
 				B55E0990151661920097CC69 /* NSUserDefaults+SA_Additions.h in Headers */,
+				B59F32CA181DCB1F0096DF9A /* UILocalNotification+SA_Additions.h in Headers */,
 				B5ED0B9416431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.h in Headers */,
 				B55E0998151661C10097CC69 /* NSArray+SA_Additions.h in Headers */,
 				B542238F15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.h in Headers */,
@@ -1153,6 +1163,7 @@
 				B55E096F151660DD0097CC69 /* UIToolbar+SA_Additions.m in Sources */,
 				B55E0975151660DD0097CC69 /* UIView+SA_Additions.m in Sources */,
 				B55E097B151660DD0097CC69 /* UIViewController+SA_Additions.m in Sources */,
+				B59F32CD181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m in Sources */,
 				B55E0983151661110097CC69 /* SA_BlockButton.m in Sources */,
 				B55E098B151661790097CC69 /* NSTimer+SA_Additions.m in Sources */,
 				B55E0993151661920097CC69 /* NSUserDefaults+SA_Additions.m in Sources */,
@@ -1322,6 +1333,7 @@
 				B55E096E151660DD0097CC69 /* UIToolbar+SA_Additions.m in Sources */,
 				B55E0974151660DD0097CC69 /* UIView+SA_Additions.m in Sources */,
 				B55E097A151660DD0097CC69 /* UIViewController+SA_Additions.m in Sources */,
+				B59F32CC181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m in Sources */,
 				B55E0982151661110097CC69 /* SA_BlockButton.m in Sources */,
 				B55E098A151661790097CC69 /* NSTimer+SA_Additions.m in Sources */,
 				B55E0992151661920097CC69 /* NSUserDefaults+SA_Additions.m in Sources */,
@@ -1343,6 +1355,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DSTROOT = /tmp/SABase.dst;
 				EXECUTABLE_PREFIX = lib;
@@ -1374,6 +1387,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				DSTROOT = /tmp/SABase.dst;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1426,6 +1440,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DSTROOT = /tmp/SABase.dst;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1451,6 +1466,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				DSTROOT = /tmp/SABase.dst;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
