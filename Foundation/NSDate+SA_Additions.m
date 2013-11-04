@@ -563,11 +563,16 @@
 }
 
 - (NSDate *) previousDay {
-	return [self dateByAddingTimeIntervalAmount: -1 * 60 * 60 * 24];
+	NSDate		*date = [self dateByAddingTimeIntervalAmount: -1 * 60 * 60 * 24];
+	
+	if (date.day == self.day) return [date dateByAddingTimeIntervalAmount: -1 * 60 * 60];
+	return date;
 }
 
 - (NSDate *) nextDay {
-	return [self dateByAddingTimeIntervalAmount: 60 * 60 * 24];
+	NSDate				*date = [self dateByAddingTimeIntervalAmount: 60 * 60 * 24];
+	if (date.day == self.day) return [date dateByAddingTimeInterval: 60.0 * 60.0];
+	return date;
 }
 
 
