@@ -30,6 +30,8 @@
 - (void) observeKey: (NSString *) key onObject: (id) object;
 - (void) observeKey: (NSString *) key onObject: (id) object options: (NSKeyValueObservingOptions) options context: (void *) ctx;
 
+- (id) nonNullValue;
+
 @end
 
 

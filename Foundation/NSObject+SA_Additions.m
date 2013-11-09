@@ -12,6 +12,8 @@
 
 @implementation NSObject (SA_SA_Additions)
 
+- (id) nonNullValue { return self; }
+
 - (void) cancelPendingSelector: (SEL) aSelector withObject: (id) anArgument {
 	[NSObject cancelPreviousPerformRequestsWithTarget: self selector: aSelector object: anArgument];
 }
@@ -166,3 +168,10 @@
 }
 @end
 #endif
+
+@interface  NSNull (SA_Additions)
+@end
+
+@implementation NSNull (SA_Additions)
+- (id) nonNullValue { return nil; }
+@end
