@@ -67,10 +67,16 @@
 }
 
 - (void) addAsObserverForNotificationName: (NSString *) note selector: (SEL) selector object: (id) object {
+	if (![self respondsToSelector: selector]) {
+		NSLog(@"********************* Adding as an observer, but selector (%@) not present on %@! *********************", NSStringFromSelector(selector), NSStringFromClass([self class]));
+	}
 	[[NSNotificationCenter defaultCenter] addObserver: self selector: selector name: note object: object];
 }
 
 - (void) addAsObserverForName: (NSString *) note selector: (SEL) selector {
+	if (![self respondsToSelector: selector]) {
+		NSLog(@"********************* Adding as an observer, but selector (%@) not present on %@! *********************", NSStringFromSelector(selector), NSStringFromClass([self class]));
+	}
 	[[NSNotificationCenter defaultCenter] addObserver: self selector: selector name: note object: nil];
 }
 
