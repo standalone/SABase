@@ -24,10 +24,14 @@
 	else if ([name.lowercaseString hasSuffix: @"-bold"]) { name = [name substringToIndex: 5]; traits = UIFontDescriptorTraitBold;}
 	
 	if (traits) {
-		UIFontDescriptor			*descriptor = [[UIFontDescriptor fontDescriptorWithName: name size: size] fontDescriptorWithSymbolicTraits: traits];
+		Class						descriptorClass = NSClassFromString(@"UIFontDescriptor");
 		
-		if (descriptor) font = [UIFont fontWithDescriptor: descriptor size: size];
-		if (font) return font;
+		if (descriptorClass) {
+			UIFontDescriptor			*descriptor = [[descriptorClass fontDescriptorWithName: name size: size] fontDescriptorWithSymbolicTraits: traits];
+			
+			if (descriptor) font = [UIFont fontWithDescriptor: descriptor size: size];
+			if (font) return font;
+		}
 	}
 	
 	return [UIFont systemFontOfSize: size];
