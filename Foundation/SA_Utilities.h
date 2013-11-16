@@ -34,8 +34,10 @@
 
 #if DEBUG
 	#define		IF_DEBUG(...)							{__VA_ARGS__;}
+	#define		IF_NOT_DEBUG(...)						{}
 #else
 	#define		IF_DEBUG(...)							{}
+	#define		IF_NOT_DEBUG(...)						{__VA_ARGS__;}
 #endif
 
 #if TARGET_IPHONE_SIMULATOR
@@ -289,6 +291,9 @@ typedef void (^idErrorArgumentBlock)(id arg, NSError *error);
 typedef id (^idArgumentBlockReturningID)(id arg);
 typedef void (^simpleArrayBlock)(NSArray *array);
 typedef void (^viewArgumentBlock)(UIView *view);
+#ifdef NSManagedObjectContext
+	typedef void (^mocArgumentBlock)(NSManagedObjectContext *moc);
+#endif
 
 #if TARGET_OS_IPHONE
 	typedef void (^simpleImageBlock)(UIImage *image);
