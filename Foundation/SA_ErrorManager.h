@@ -31,6 +31,7 @@ typedef NS_ENUM(UInt8, SA_Error_Filter_Level) {
 @interface SA_ErrorManager : NSObject
 SINGLETON_INTERFACE_FOR_CLASS_AND_METHOD(SA_ErrorManager, defaultManager);
 
+@property (nonatomic, assign) Class alertClass;
 @property (nonatomic) SA_Error_Filter_Level filterLevel;
 @property (nonatomic, unsafe_unretained) id <SA_ErrorManagerDelegate> delegate;
 

@@ -45,17 +45,17 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ErrorManager, defaultManager);
 	if (self.delegate && [self.delegate respondsToSelector: _cmd])
 		[self.delegate reportTitle: title message: message devNote: devNote];
 	else
-		[SA_AlertView showAlertWithTitle: title message: message];
+		[[self alertClass] showAlertWithTitle: title message: message];
 }
 
 - (void) reportTitle: (NSString *) title error: (NSError *) error devNote: (NSString *) devNote {
 	if (self.delegate && [self.delegate respondsToSelector: _cmd])
 		[self.delegate reportTitle: title error: error devNote: devNote];
 	else
-		[SA_AlertView showAlertWithTitle: title error: error];
+		[[self alertClass] showAlertWithTitle: title error: error];
 }
 
-
+- (Class) alertClass { return _alertClass ?: [SA_AlertView class]; }
 
 
 + (NSString *) convertErrLevelToString: (SA_Error_Level) level {
