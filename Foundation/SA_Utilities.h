@@ -290,9 +290,10 @@ typedef void (^errorArgumentBlock)(NSError *error);
 typedef void (^idErrorArgumentBlock)(id arg, NSError *error);
 typedef id (^idArgumentBlockReturningID)(id arg);
 typedef void (^simpleArrayBlock)(NSArray *array);
+typedef void (^simpleDateBlock)(NSDate *date);
 typedef void (^viewArgumentBlock)(UIView *view);
 #ifdef NSManagedObjectContext
-	typedef void (^mocArgumentBlock)(NSManagedObjectContext *moc);
+typedef void (^mocArgumentBlock)(NSManagedObjectContext *moc);
 #endif
 
 #if TARGET_OS_IPHONE
