@@ -175,8 +175,10 @@
 	return nil;
 }
 
-- (UIImage *) toImage {
-	if (RUNNING_ON_70) {
+- (UIImage *) toImage { return [self toImageUsingLayer: NO]; }
+
+- (UIImage *) toImageUsingLayer: (BOOL) useLayer {
+	if (RUNNING_ON_70 && !useLayer) {
 		CGSize					size = self.bounds.size;
 		UIGraphicsBeginImageContextWithOptions(CGSizeMake(size.width, size.height), YES, 0);
 		

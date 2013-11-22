@@ -48,6 +48,7 @@ typedef enum {
 - (id) firstSubviewOfClass: (Class) classToSearchFor searchHierarchy: (BOOL) searchHierarchy;
 - (void) logHierarchy;
 - (UIImage *) toImage;
+- (UIImage *) toImageUsingLayer: (BOOL) useLayer;			//pass YES to force the old style -renderInContext-based method
 - (NSArray *) allSubviews;
 - (void) removeAllSubviews;
 - (void) recursiveSetFont: (UIFont *) font;
