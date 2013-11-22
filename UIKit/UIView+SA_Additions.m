@@ -176,23 +176,35 @@
 }
 
 - (UIImage *) toImage {
-	UIGraphicsBeginImageContext(self.bounds.size);
-	
-	CGContextRef						context = UIGraphicsGetCurrentContext();
-	
-	if ([self respondsToSelector: @selector(contentOffset)]) {
-		CGPoint					contentOffset = [(id) self contentOffset];
+	if (RUNNING_ON_70) {
+		CGSize					size = self.bounds.size;
+		UIGraphicsBeginImageContextWithOptions(CGSizeMake(size.width, size.height), YES, 0);
 		
-		CGContextTranslateCTM(context, -contentOffset.x, -contentOffset.y);
+		[self drawViewHierarchyInRect: CGRectMake(0, 0, size.width, size.height) afterScreenUpdates: NO];
+
+		UIImage				*image = UIGraphicsGetImageFromCurrentImageContext();
+		UIGraphicsEndImageContext();
+		
+		return image;
+	} else {
+		UIGraphicsBeginImageContext(self.bounds.size);
+		
+		CGContextRef						context = UIGraphicsGetCurrentContext();
+		
+		if ([self respondsToSelector: @selector(contentOffset)]) {
+			CGPoint					contentOffset = [(id) self contentOffset];
+			
+			CGContextTranslateCTM(context, -contentOffset.x, -contentOffset.y);
+		}
+		
+		[self.layer renderInContext: context];
+		
+		UIImage					*viewImage = UIGraphicsGetImageFromCurrentImageContext();
+		
+		UIGraphicsEndImageContext();
+		
+		return viewImage;
 	}
-	
-	[self.layer renderInContext: context];
-	
-	UIImage					*viewImage = UIGraphicsGetImageFromCurrentImageContext();
-	
-	UIGraphicsEndImageContext();
-	
-	return viewImage;
 }
 
 - (NSArray *) allSubviews {
