@@ -38,9 +38,9 @@ static SA_ScreenshotFeedback			*s_screenshotFeedback = nil;
 }
 
 + (void) enableWithDefaultEmailAddress: (NSString *) emailAddress {
-	if (![self defaultManager].enabled) {
+	if (![self defaultManager].enabled && RUNNING_ON_70) {
 		s_screenshotFeedback.enabled = YES;
-		[[NSNotificationCenter defaultCenter] addObserver: s_screenshotFeedback selector: @selector(screenshotTaken:) name: UIApplicationUserDidTakeScreenshotNotification object: nil];
+		[[NSNotificationCenter defaultCenter] addObserver: s_screenshotFeedback selector: @selector(screenshotTaken:) name: @"UIApplicationUserDidTakeScreenshotNotification" object: nil];
 	}
 	s_screenshotFeedback.defaultEmailAddress = emailAddress;
 }
