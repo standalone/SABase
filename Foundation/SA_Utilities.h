@@ -325,3 +325,10 @@ typedef void (^mocArgumentBlock)(NSManagedObjectContext *moc);
 
 void dispatch_async_main(dispatch_block_t block);
 void dispatch_sync_main(dispatch_block_t block);
+
+typedef NS_ENUM(UInt8, XCodeBuildType) {
+	XCodeBuildType_dev,
+	XCodeBuildType_adhoc,
+	XCodeBuildType_appStore
+};
+XCodeBuildType XCODE_BUILD_TYPE(void);
