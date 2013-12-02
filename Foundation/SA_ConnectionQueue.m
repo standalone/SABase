@@ -508,9 +508,9 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 //=============================================================================================================================
 #pragma mark Activity Indicator
 - (void) setActivityIndicatorCount: (NSInteger) activityIndicatorCount {
-	_activityIndicatorCount = (activityIndicatorCount > 0) ? activityIndicatorCount : 0;
+	_activityIndicatorCount = activityIndicatorCount;
 	
-	if (_activityIndicatorCount == 0) {
+	if (_activityIndicatorCount <= 0) {
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[[SA_ConnectionQueue sharedQueue] performSelector: @selector(hideActivityIndicator) withObject: nil afterDelay: 0.05];
 		});
@@ -523,7 +523,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 
 - (void) hideActivityIndicator {
 	IF_IOS(
-		   if (self.activityIndicatorCount == 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+		   if (self.activityIndicatorCount <= 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 		   );
 }
 
