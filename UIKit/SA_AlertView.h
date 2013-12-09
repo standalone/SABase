@@ -18,13 +18,13 @@
 @property (nonatomic, copy) intArgumentBlock alertButtonHitBlock;
 
 
-+ (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *)message tag: (int)tag delegate: (id) delegate button: (NSString *) buttonTitle;
-+ (SA_AlertView *) showAlertWithTitle: (NSString *) title message: (NSString *) message tag: (int) tag;
++ (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *)message tag: (NSUInteger) tag delegate: (id) delegate button: (NSString *) buttonTitle;
++ (SA_AlertView *) showAlertWithTitle: (NSString *) title message: (NSString *) message tag: (NSUInteger) tag;
 + (SA_AlertView *) showAlertWithTitle: (NSString *) title message: (NSString *) message, ...;
 + (SA_AlertView *) showAlertWithTitle: (NSString *) title	error: (NSError *) error;
 + (SA_AlertView *) showAlertWithException: (NSException *) e;
 
-+ (SA_AlertView *) alertWithTitle: (NSString *)title message: (NSString *) message tag: (int) tag button: (NSString *) buttonTitle;
++ (SA_AlertView *) alertWithTitle: (NSString *)title message: (NSString *) message tag: (NSUInteger) tag button: (NSString *) buttonTitle;
 
 + (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *) message button: (NSString *) button buttonBlock: (booleanArgumentBlock) buttonHitBlock;
 + (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *) message buttons: (NSArray *) buttons buttonBlock: (intArgumentBlock) buttonHitBlock;

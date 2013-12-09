@@ -19,8 +19,8 @@
 	
 }
 
-@property (nonatomic, readwrite, assign) IBOutlet id <SA_StackedScrollViewDelegate> stackedScrollViewDelegate;
-@property (nonatomic, readwrite, retain) NSMutableArray *componentViews;
+@property (nonatomic, readwrite, weak) IBOutlet id <SA_StackedScrollViewDelegate> stackedScrollViewDelegate;
+@property (nonatomic, readwrite, strong) NSMutableArray *componentViews;
 @property (nonatomic) CGFloat indentationWidth;
 
 - (void) addComponents: (UIView *) component, ...;

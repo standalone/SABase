@@ -11,17 +11,12 @@
 #import "NSObject+SA_Additions.h"
 
 @interface SA_BlockButton ()
-@property (nonatomic, retain) NSMutableArray *actionBlocks;
+@property (nonatomic, strong) NSMutableArray *actionBlocks;
 @end
 
 
 @implementation SA_BlockButton
 @synthesize actionBlocks;
-- (void) dealloc {
-	self.actionBlocks = nil;
-	IF_NOTARC([super dealloc]);
-}
-
 - (id) addBlock: (simpleBlock) block forControlEvent: (UIControlEvents) event {
 	if (self.actionBlocks == nil) self.actionBlocks = [NSMutableArray array];
 	id				wrapper = [SA_BlockWrapper wrapperWithBlock: block];

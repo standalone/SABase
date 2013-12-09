@@ -16,8 +16,8 @@
 	if (path == nil) return nil;
 	
 	NSData			*data = [[NSData alloc] initWithContentsOfFile: path];
-	UIImage			*image = [[[UIImage alloc] initWithData: data] autorelease];
-	[data release];
+	UIImage			*image = [[UIImage alloc] initWithData: data];
+
 	return image;
 }
 

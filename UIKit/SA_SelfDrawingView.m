@@ -22,18 +22,12 @@
 	return self;
 }
 
-- (void) dealloc {
-	self.drawBlock = nil;
-    [super dealloc];
-}
-
 - (void) drawRect: (CGRect) rect {
 	if (_drawBlock) _drawBlock(self, rect);
 }
 
 - (void) setDrawBlock: (simpleDrawingBlock) block {
-	if (_drawBlock) Block_release(_drawBlock);
-	_drawBlock = Block_copy(block);
+	_drawBlock = block;
 	[self setNeedsDisplay];
 }
 #endif

@@ -102,7 +102,7 @@
 //}
 
 - (NSArray *) SA_randomizedCopy {
-	NSMutableArray					*copy = [[self mutableCopy] autorelease];
+	NSMutableArray					*copy = [self mutableCopy];
 	NSUInteger						count = self.count;
 	
 	for (NSUInteger i = 0; i < count; ++i) {		// Select a random element between i and end of array to swap with.
@@ -156,7 +156,7 @@
 - (NSArray *) SA_arrayByRemovingObject: (id) object {
 	if (![self containsObject: object]) return self;
 	
-	NSMutableArray				*copy = [[self mutableCopy] autorelease];
+	NSMutableArray				*copy = [self mutableCopy];
 	[copy removeObject: object];
 	return copy;
 }

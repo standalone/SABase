@@ -16,13 +16,8 @@
 
 @implementation SA_SplashScreenImageView
 
-
-- (void) dealloc {
-    [super dealloc];
-}
-
 + (id) splashScreenViewInParent: (UIView *) parent {
-	SA_SplashScreenImageView				*view = [[[self alloc] initWithFrame: parent.bounds] autorelease];
+	SA_SplashScreenImageView				*view = [[self alloc] initWithFrame: parent.bounds];
 	
 	view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	view.contentMode = UIViewContentModeBottom;

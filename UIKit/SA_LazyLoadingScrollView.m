@@ -10,7 +10,7 @@
 @interface SA_LazyLoadingScrollView ()
 
 @property (nonatomic, readwrite) NSUInteger numberOfPageViews;
-@property (nonatomic, assign) id <UIScrollViewDelegate> exteriorDelegate;
+@property (nonatomic, weak) id <UIScrollViewDelegate> exteriorDelegate;
 @property (nonatomic) BOOL customPageWidth;
 
 - (BOOL) isDisplayingPageForIndex: (NSUInteger) index;
@@ -26,13 +26,6 @@
 @synthesize unusedPageViews, visiblePageViews, mainPageIndex, dataSource = _dataSource, numberOfPageViews, exteriorDelegate;
 @synthesize interPageSpacing, pageWidth = _pageWidth, customPageWidth;
 
-- (void) dealloc {
-	self.visiblePageViews = nil;
-	self.unusedPageViews = nil;
-	self.dataSource = nil;
-    [super dealloc];
-}
-
 - (void) reloadData {
 	if (self.visiblePageViews == nil) self.visiblePageViews = [NSMutableSet set];
 	if (self.unusedPageViews == nil) self.unusedPageViews = [NSMutableSet set];
@@ -45,9 +38,9 @@
 - (id) dequeueReusablePageViewWithClass:(Class) pageViewClass {
     for (SA_LazyLoadingScrollViewPage *page in self.unusedPageViews) {
         if ([page isMemberOfClass:pageViewClass]) {
-            [[page retain] autorelease];
+            __strong SA_LazyLoadingScrollViewPage 			*strongPage = page;
             [self.unusedPageViews removeObject: page];
-            return page;
+            return strongPage;
         }
     }
     
@@ -168,10 +161,9 @@
 	
 	if (foundPage == nil) foundPage = [self.unusedPageViews anyObject];
     
-	if (foundPage) {
-        [[foundPage retain] autorelease];
-        [self.unusedPageViews removeObject: foundPage];
-    }
+	__strong SA_LazyLoadingScrollViewPage 			*strongPage = foundPage;
+
+	if (foundPage) [self.unusedPageViews removeObject: strongPage];
 
     return foundPage;
 }
@@ -298,11 +290,6 @@
 
 @implementation SA_LazyLoadingScrollViewPage
 @synthesize representedObject, pageIndex, isMainPageView;
-
-- (void)dealloc {
-	self.representedObject = nil;
-    [super dealloc];
-}
 
 //=============================================================================================================================
 #pragma mark Properties

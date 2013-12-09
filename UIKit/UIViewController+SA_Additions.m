@@ -28,7 +28,7 @@
 		if (self.modalViewController) [kids addObject: self.modalViewController];
 	#pragma clang diagnostic pop
 	
-	for (UIViewController *controller in [[kids copy] autorelease]) {
+	for (UIViewController *controller in kids.copy) {
 		[kids unionSet: [controller childControllers]];
 	}
 	[kids addObject: self];
@@ -109,7 +109,7 @@
 	if ([self isKindOfClass: [UINavigationController class]]) {
 		[(id) self popToRootViewControllerAnimated: NO];
 	} else if (RUNNING_ON_50) {
-		for (UIViewController *child in [[[(id) self childViewControllers] copy] autorelease]) {
+		for (UIViewController *child in [[(id) self childViewControllers] copy]) {
 			[child.view removeFromSuperview];
 			[(id) child removeFromParentViewController];
 		}

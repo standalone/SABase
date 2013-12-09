@@ -215,7 +215,7 @@
 	for (UIView *view in self.subviews) {
 		[subviews addObjectsFromArray: [view allSubviews]];
 	}
-	return [subviews autorelease];
+	return subviews;
 }
 
 - (void) offsetPositionByX: (float) x y: (float) y {
@@ -353,7 +353,7 @@
 //
 //- (void) slideAnimationEnded: (NSString *) anim complete: (BOOL) complete context: (id) delegate {
 //	if ([anim rangeOfString: @"remove"].location != NSNotFound) {
-//		[[self retain] autorelease];
+//		[[self strong] autorelease];
 //		[self removeFromSuperview];
 //	}
 //	if ([delegate respondsToSelector: @selector(slideDidFinishForView:)]) [delegate slideDidFinishForView: self];
@@ -372,7 +372,7 @@
 }
 
 - (void) removeAllSubviews {
-	for (UIView *subview in [[self.subviews copy] autorelease]) {
+	for (UIView *subview in [self.subviews copy]) {
 		[subview removeFromSuperview];
 	}
 }
@@ -473,28 +473,28 @@
 	UIView				*div;
 	
 	if (dividerWidths.left) {
-		div = [[[UIView alloc] initWithFrame: CGRectMake(0, 0, dividerWidths.left, self.bounds.size.height)] autorelease];
+		div = [[UIView alloc] initWithFrame: CGRectMake(0, 0, dividerWidths.left, self.bounds.size.height)];
 		div.backgroundColor = color;
 		div.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleRightMargin;
 		[self addSubview: div];
 	}
 	
 	if (dividerWidths.right) {
-		div = [[[UIView alloc] initWithFrame: CGRectMake(self.bounds.size.width - dividerWidths.right, 0, dividerWidths.right, self.bounds.size.height)] autorelease];
+		div = [[UIView alloc] initWithFrame: CGRectMake(self.bounds.size.width - dividerWidths.right, 0, dividerWidths.right, self.bounds.size.height)];
 		div.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin;
 		div.backgroundColor = color;
 		[self addSubview: div];
 	}
 	
 	if (dividerWidths.top) {
-		div = [[[UIView alloc] initWithFrame: CGRectMake(0, 0, self.bounds.size.width, dividerWidths.top)] autorelease];
+		div = [[UIView alloc] initWithFrame: CGRectMake(0, 0, self.bounds.size.width, dividerWidths.top)];
 		div.backgroundColor = color;
 		div.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
 		[self addSubview: div];
 	}
 	
 	if (dividerWidths.bottom) {
-		div = [[[UIView alloc] initWithFrame: CGRectMake(0, self.bounds.size.height - dividerWidths.bottom, self.bounds.size.width, dividerWidths.bottom)] autorelease];
+		div = [[UIView alloc] initWithFrame: CGRectMake(0, self.bounds.size.height - dividerWidths.bottom, self.bounds.size.width, dividerWidths.bottom)];
 		div.backgroundColor = color;
 		div.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
 		[self addSubview: div];
@@ -534,7 +534,7 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 - (UIImageView *) preBlur {
 	UIImageView				*view = [self associatedValueForKey: kBlurredViewKey];
 	
-	if (view == nil) view = [[[UIImageView alloc] initWithFrame: self.frame] autorelease];
+	if (view == nil) view = [[UIImageView alloc] initWithFrame: self.frame];
 	view.alpha = 0.0;
 	view.frame = self.frame;
 	view.alpha = 0.0;

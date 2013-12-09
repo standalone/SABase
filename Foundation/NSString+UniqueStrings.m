@@ -17,7 +17,7 @@
 
 	CFRelease(uuid);
 	
-	return [uuidString autorelease];
+	return uuidString;
 }
 
 + (NSString *) guid { return [self uuid]; }

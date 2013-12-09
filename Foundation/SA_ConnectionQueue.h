@@ -110,16 +110,16 @@ typedef enum {
 	connectionFinished		_connectionFinishedBlock;
 }
 
-@property (nonatomic, readwrite, retain) NSURL *url;								//the URL to be hit
-@property (nonatomic, readwrite, retain) NSData *payload;						//data to be pushed up, usually with a PUT or POST call
-@property (nonatomic, readwrite, retain) NSURLRequest *request;					//for pre-configured requests
+@property (nonatomic, readwrite, strong) NSURL *url;								//the URL to be hit
+@property (nonatomic, readwrite, strong) NSData *payload;						//data to be pushed up, usually with a PUT or POST call
+@property (nonatomic, readwrite, strong) NSURLRequest *request;					//for pre-configured requests
 @property (nonatomic, readonly) NSURLRequest *generatedRequest;					//takes the configured values and returns an NSURLRequest
-@property (nonatomic, readwrite, retain) NSData *data;							//the data returned by the server
+@property (nonatomic, readwrite, strong) NSData *data;							//the data returned by the server
 @property (nonatomic, readonly) NSFileHandle *file;								//if storing in a file, the file
-@property (nonatomic, readwrite, retain) NSString *filename;						//if storing in a file, the filenamel this can be set if a known filename is desired
-@property (nonatomic, readwrite, retain) NSString *method;						//what HTTP method should be used? Defaults to GET 
-@property (nonatomic, readwrite, retain) id <SA_ConnectionDelegate> delegate;	//where completed/failed messages are sent
-@property (nonatomic, readwrite, retain) NSString *tag;							//a tag, broken down into different.segment.types, for filtering and identification
+@property (nonatomic, readwrite, strong) NSString *filename;						//if storing in a file, the filenamel this can be set if a known filename is desired
+@property (nonatomic, readwrite, strong) NSString *method;						//what HTTP method should be used? Defaults to GET
+@property (nonatomic, readwrite, strong) id <SA_ConnectionDelegate> delegate;	//where completed/failed messages are sent
+@property (nonatomic, readwrite, strong) NSString *tag;							//a tag, broken down into different.segment.types, for filtering and identification
 @property (nonatomic, readwrite) NSInteger priority;									//where in the pending queue should this transaction fall?
 @property (nonatomic, readwrite) BOOL persists;									//should this transaction be freeze-dried for later retrieval and restart?  Defaults to YES
 @property (readwrite) NSInteger persistantID;
@@ -136,13 +136,13 @@ typedef enum {
 @property (nonatomic, readonly) NSString *dataString, *payloadString;
 @property (nonatomic) NSTimeInterval timeoutInterval;
 @property (nonatomic) BOOL disableNativeCookieHandling;
-@property (nonatomic, retain) NSArray *sentCookies, *receivedCookies;
+@property (nonatomic, strong) NSArray *sentCookies, *receivedCookies;
 
 @property (nonatomic, readwrite, copy) connectionFinished connectionFinishedBlock;
 
 #if DEBUG
-	@property (nonatomic, readwrite, retain) NSDate *requestStartedAt, *responseReceivedAt, *finishedLoadingAt;
-	@property (nonatomic, readwrite, retain) NSString *requestLogFileName;
+	@property (nonatomic, readwrite, strong) NSDate *requestStartedAt, *responseReceivedAt, *finishedLoadingAt;
+	@property (nonatomic, readwrite, strong) NSString *requestLogFileName;
 #endif
 
 @property(nonatomic, readonly) NSData *uploadedDataStream, *downloadedDataStream;
@@ -196,7 +196,7 @@ typedef enum {
 	
 	BOOL							_dontProcessFailedStatusCodes;
 
-	SA_Connection					*_currentTopPleaseWaitConnection;				//not retained, simply the address of the connection that currently has the please wait 'focus'
+	SA_Connection					*_currentTopPleaseWaitConnection;				//not strong, simply the address of the connection that currently has the please wait 'focus'
 	BOOL							_suppressPleaseWaitDisplay;						//if the app wants to show it's own 'please wait', set this to true
 	BOOL							_offlineAlertShown, _suppressOfflineAlerts;
 	NSInvocation					*_backOnlineInvocation;
@@ -213,19 +213,19 @@ typedef enum {
 @property (readwrite) BOOL offline, showProgressInPleaseWaitDisplay;
 @property (readonly) BOOL wifiAvailable, wlanAvailable;
 @property (readwrite) NSUInteger maxSimultaneousConnections;
-@property (nonatomic, readwrite, retain) NSString *dbPath;				//used for persistance
+@property (nonatomic, readwrite, strong) NSString *dbPath;				//used for persistance
 @property (nonatomic, readwrite) NSInteger defaultPriorityLevel, minimumIndicatedPriorityLevel, fileSwitchOverLimit;
 @property (nonatomic, readonly) NSUInteger connectionCount;
 @property (nonatomic, readwrite) BOOL dontProcessFailedStatusCodes;
 @property (nonatomic, readwrite) BOOL suppressPleaseWaitDisplay;
 @property (nonatomic, readonly) BOOL shouldPleaseWaitBeVisible;					//used to check if a pleaseWait SHOLD be shown, regardless of whether _suppressPleaseWaitDisplay is set 
 @property (nonatomic, readonly) BOOL connectionsArePending;
-@property (nonatomic, readwrite, retain) NSInvocation *backOnlineInvocation;
-@property (nonatomic, readwrite, retain) NSThread *backgroundThread;
+@property (nonatomic, readwrite, strong) NSInvocation *backOnlineInvocation;
+@property (nonatomic, readwrite, strong) NSThread *backgroundThread;
 @property (nonatomic, readwrite) BOOL managePleaseWaitDisplay, suppressOfflineAlerts;
-@property (nonatomic, assign) id <SA_ConnectionRouter> router;
+@property (nonatomic, weak) id <SA_ConnectionRouter> router;
 @property (atomic, readwrite) NSInteger activityIndicatorCount;
-@property (nonatomic, assign) dispatch_queue_t backgroundQueue;
+@property (nonatomic, weak) dispatch_queue_t backgroundQueue;
 @property (nonatomic) BOOL paused;
 #if DEBUG
 	@property (nonatomic, readwrite) connection_record_setting recordSetting;

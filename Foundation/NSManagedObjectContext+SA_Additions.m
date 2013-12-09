@@ -37,7 +37,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 }
 
 + (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator modelPath: (NSString *) modelPath concurrencyType: (int) type {
-	NSManagedObjectModel					*model = [[[NSManagedObjectModel alloc] initWithContentsOfURL: [NSURL fileURLWithPath: modelPath]] autorelease];
+	NSManagedObjectModel					*model = [[NSManagedObjectModel alloc] initWithContentsOfURL: [NSURL fileURLWithPath: modelPath]];
 	
 	SA_Assert(modelPath.length == 0 || model != nil, @"Trying to instantiate an invalid model. Check the path and current version.");
 	return [self contextAtPath: path inPersistentStoreCoordinator: coordinator model: model concurrencyType: type];
@@ -130,7 +130,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	NSArray							*results = nil;
 	
 	@try {
-		results = [[[self executeFetchRequest: request error: &error] retain] autorelease];
+		results = [self executeFetchRequest: request error: &error];
 	} @catch (NSException *e) {
 		[[NSNotificationCenter defaultCenter] postNotificationName: kNotification_SA_ErrorWhileGeneratingFetchRequest object: e userInfo: [NSDictionary dictionaryWithObjectsAndKeys: entityName, @"entity", predicate, @"predicate", nil]];
 	}
@@ -152,7 +152,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	NSArray							*results = nil;
 	
 	@try {
-		results = [[[self executeFetchRequest: request error: &error] retain] autorelease];
+		results = [self executeFetchRequest: request error: &error];
 	} @catch (NSException *e) {
 		[[NSNotificationCenter defaultCenter] postNotificationName: kNotification_SA_ErrorWhileGeneratingFetchRequest object: e userInfo: [NSDictionary dictionaryWithObjectsAndKeys: entityName, @"entity", predicate, @"predicate", sortDescriptors, @"sortBy", nil]];
 	}
@@ -174,7 +174,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	NSArray							*results = nil;
 	
 	@try {
-		results = [[[self executeFetchRequest: request error: &error] retain] autorelease];
+		results = [self executeFetchRequest: request error: &error];
 	} @catch (NSException *e) {
 		[[NSNotificationCenter defaultCenter] postNotificationName: kNotification_SA_ErrorWhileGeneratingFetchRequest object: e userInfo: [NSDictionary dictionaryWithObjectsAndKeys: entityName, @"entity", predicate, @"predicate", sortDescriptors, @"sortBy", nil]];
 	}
@@ -204,7 +204,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 		[[NSNotificationCenter defaultCenter] postNotificationName: kNotification_SA_ErrorWhileGeneratingFetchRequest object: e userInfo: [NSDictionary dictionaryWithObjectsAndKeys: entityName, @"entity", predicate, @"predicate", sortBy, @"sortBy", nil]];
 	}
 	
-	return [request autorelease];
+	return request;
 }
 
 - (NSArray *) allObjectsOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate {
@@ -326,7 +326,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 			if (failCount >= maxFailsBeforeReset) {
 				LOG(@"******************************* Too many fails, rolling database back to last safe version *******************************");
 				#if DEBUG && TARGET_OS_IPHONE
-					[SA_AlertView showAlertWithTitle: @"There was a problem saving the database. Recent changes will be discarded." message: [error fullDescription] tag: (int) objc_unretainedObject(self)];
+					[SA_AlertView showAlertWithTitle: @"There was a problem saving the database. Recent changes will be discarded." message: [error fullDescription] tag: self.hash];
 				#endif
 				[self performSelector: @selector(rollback) withObject: nil afterDelay: 0.0];
 				failCount = 0;
@@ -376,9 +376,9 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	
 	NSFetchedResultsController			*fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest: fetchRequest managedObjectContext: self sectionNameKeyPath: sectionNameKeyPath cacheName: cacheName];
 	
-	[fetchRequest release];
+	fetchRequest;
 	
-	return [fetchedResultsController autorelease];
+	return fetchedResultsController;
 }    
 #endif
 
@@ -407,35 +407,32 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	[allObjects setIncludesPropertyValues: NO]; //only fetch the managedObjectID
 	
 	while (true) {
-		NSError								*error = nil;
-		NSAutoreleasePool					*pool = [[NSAutoreleasePool alloc] init];
-		NSArray								*objects;
+		@autoreleasepool {
+			NSError								*error = nil;
+			NSArray								*objects;
+			
+			 @try {
+				 objects = [self executeFetchRequest: allObjects error: &error];
+			} @catch (NSException *e) {
+				LOG(@"Exception: %@", e);
+				break;
+			}
+			if (objects.count == 0) break;
+			
+			for (NSManagedObject *object in objects) {
+				[self deleteObject: object];
+			}
+			if (fetchLimit) {
+				[self save];
+				[self reset];
+			}
+			deleteCount += [objects count];
+			LOG(@"%d %@ objects deleted", deleteCount, entityName);
+		}
 		
-		 @try {
-			 objects = [self executeFetchRequest: allObjects error: &error];
-		} @catch (NSException *e) {
-			LOG(@"Exception: %@", e);
-			[pool release];
-			break;
-		}
-		if (objects.count == 0) {
-			[pool release];
-			break;
-		}
-		for (NSManagedObject *object in objects) {
-			[self deleteObject: object];
-		}
-		if (fetchLimit) {
-			[self save];
-			[self reset];
-		}
-		deleteCount += [objects count];
-		LOG(@"%d %@ objects deleted", deleteCount, entityName);
-		[pool release];
+		allObjects;
+		if (fetchLimit == 0) [self save];
 	}
-	
-	[allObjects release];
-	if (fetchLimit == 0) [self save];
 }
 
 - (void) setPrimaryStoreMetadata: (NSDictionary *) data {
@@ -457,7 +454,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 }
 
 - (void) setObjectInPrimaryStoreMetadata: (id) object forKey: (id) key {
-	NSMutableDictionary			*metadata = [[self.primaryStoreMetadata mutableCopy] autorelease];
+	NSMutableDictionary			*metadata = [self.primaryStoreMetadata mutableCopy];
 	
 	if (metadata == nil && object == nil) return;
 	
@@ -499,11 +496,11 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	NSMutableDictionary				*changeBlocks = [self associatedValueForKey: UPDATE_BLOCKS_KEY];
 	
 	if (changeBlocks == nil) {
-		changeBlocks = [[[NSMutableDictionary alloc] init] autorelease];
+		changeBlocks = [NSMutableDictionary dictionary];
 		[self associateValue: changeBlocks forKey: UPDATE_BLOCKS_KEY];
 		[[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(sa_mergeChangesFromContextDidSaveNotification:) name: NSManagedObjectContextDidSaveNotification object: self];
 	}
-	contextUpdatedBlock				copiedBlock = [[block copy] autorelease];
+	contextUpdatedBlock				copiedBlock = [block copy];
 	
 	[changeBlocks setObject: copiedBlock forKey: tag];
 }
@@ -543,7 +540,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	
 	controller.delegate = (id) self;
 	[controller performFetch: &error];
-	[self associateValue: [table retain] forKey: TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY];
+	[self associateValue: table forKey: TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY];
 	
 	if (error) {
 		[SA_AlertView showAlertWithTitle: $S(@"Problem Fetching %@", request.entity.name) error: error];
@@ -621,7 +618,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 - (NSManagedObjectContext *) createChildContext {
 	if (!RUNNING_ON_50) return nil;
 	
-	NSManagedObjectContext			*moc = [[[NSManagedObjectContext alloc] init] autorelease];
+	NSManagedObjectContext			*moc = [[NSManagedObjectContext alloc] init];
 	
 	moc.parentContext = self;
 	return moc;

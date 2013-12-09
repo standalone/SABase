@@ -14,7 +14,7 @@
 @synthesize window, navigationController;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
-	self.navigationController = [[[UINavigationController alloc] initWithRootViewController: [[[TestController alloc] init] autorelease]] autorelease];
+	self.navigationController = [[UINavigationController alloc] initWithRootViewController: [[TestController alloc] init]];
 	[self.window addSubview: self.navigationController.view];
 	[self.window makeKeyAndVisible];
 }

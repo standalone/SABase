@@ -62,7 +62,7 @@ static void NSFileManagerKQueueCallback(CFFileDescriptorRef kqRef, CFOptionFlags
 	
 	if ([s_currentInProgressDirectories containsObject: path]) return;
 	
-	if (s_currentInProgressDirectories == nil) s_currentInProgressDirectories = [[NSMutableArray array] retain];
+	if (s_currentInProgressDirectories == nil) s_currentInProgressDirectories = [NSMutableArray array];
 	[s_currentInProgressDirectories addObject: path];
 	if ([target respondsToSelector: action]) [target performSelector: action withObject: path afterDelay: 1.0];
 	[s_currentInProgressDirectories removeObject: path];
@@ -79,7 +79,7 @@ static void NSFileManagerKQueueCallback(CFFileDescriptorRef kqRef, CFOptionFlags
     int							retVal;
     struct kevent				eventToAdd;
 	NSMutableDictionary			*infoDictionary = [[NSMutableDictionary alloc] initWithObjectsAndKeys: target, @"target", NSStringFromSelector(action), @"action", path, @"path", nil];
-    CFFileDescriptorContext		context = { 0, infoDictionary, NULL, NULL, NULL };
+    CFFileDescriptorContext		context = { 0, CFBridgingRetain(infoDictionary), NULL, NULL, NULL };
     CFRunLoopSourceRef			rls;
 	CFFileDescriptorRef			ref;
 	
@@ -119,7 +119,7 @@ static void NSFileManagerKQueueCallback(CFFileDescriptorRef kqRef, CFOptionFlags
 }
 
 + (void) stopWatchingChangesAtPath: (NSString *) path {
-	for (NSDictionary *info in [[s_watchedDirectoryInfoDictionaries copy] autorelease]) {
+	for (NSDictionary *info in s_watchedDirectoryInfoDictionaries.copy) {
 		NSString			*watchedPath = [info objectForKey: @"path"];
 		
 		if ([path isEqualToString: watchedPath]) {

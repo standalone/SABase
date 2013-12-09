@@ -35,7 +35,6 @@
 	
 	NSURL					*url = [self URLWithString: fullString];
 
-	[fullString release];
 	return url;
 }
 @end

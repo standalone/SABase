@@ -50,11 +50,6 @@
     // e.g. self.myOutlet = nil;
 }
 
-
-- (void)dealloc {
-    [super dealloc];
-}
-
 - (void) viewDidAppear: (BOOL) animated {
 	NSDate			*date = [NSDate dateWithXMLString: @"2012-05-15"];
 	LOG(@"Date: %@", date);

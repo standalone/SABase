@@ -16,7 +16,7 @@
 @dynamic SA_CompletionBlock;
 - (void) setSA_CompletionBlock: (mailComposeCompletionBlock) completionBlock {
 	if (completionBlock) self.mailComposeDelegate = self;
-	[self associateValue: [[completionBlock copy] autorelease] forKey: COMPLETION_BLOCK_KEY];
+	[self associateValue: [completionBlock copy] forKey: COMPLETION_BLOCK_KEY];
 }
 
 - (mailComposeCompletionBlock) completionBlock {

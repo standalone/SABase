@@ -22,7 +22,7 @@
 }
 
 + (NSString *) stringWithData: (NSData *) data {
-	return [[[NSString alloc] initWithBytes: [data bytes] length: [data length] encoding: NSASCIIStringEncoding] autorelease];
+	return [[NSString alloc] initWithBytes: [data bytes] length: [data length] encoding: NSASCIIStringEncoding];
 }
 
 + (NSString *) stringWithDuration: (float) fullSeconds showingHours: (BOOL) showHours {
@@ -165,7 +165,7 @@
 
 #if TARGET_OS_IPHONE
 - (NSString *) stringTruncatedToWidth: (float) width usingFont: (UIFont *) font addingElipsis: (BOOL) addingElipsis {
-	NSMutableString						*copy = [[self mutableCopy] autorelease];
+	NSMutableString						*copy = self.mutableCopy;
 	float								elipsisWidth = addingElipsis ? [@"…" sizeWithFont: font].width : 0;
 	BOOL								reduced = NO;
 	
@@ -197,7 +197,7 @@
 
 
 - (NSString *) stringByStrippingCharactersInSet: (NSCharacterSet *) set options: (int) options {
-	NSMutableString				*copy = [[self mutableCopy] autorelease];
+	NSMutableString				*copy = self.mutableCopy;
 	
 	while (true) {
 		NSRange					range = [copy rangeOfCharacterFromSet: set options: options range: NSMakeRange(0, [copy length])];
@@ -307,14 +307,14 @@
 
 - (NSString *) stringByPrettyingForURL {
 	
-	NSString *string = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)self, NULL, CFSTR("!*'();:@&=+$,/?%#[]"), kCFStringEncodingUTF8);
-	return [string autorelease];
+	NSString *string = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)self, NULL, CFSTR("!*'();:@&=+$,/?%#[]"), kCFStringEncodingUTF8));
+	return string;
 }
 
 - (NSString *) stringByPrettyingForPOSTBody {
 	
-	NSString *string = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)self, NULL, CFSTR("&="), kCFStringEncodingUTF8);
-	return [string autorelease];
+	NSString *string = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)self, NULL, CFSTR("&="), kCFStringEncodingUTF8));
+	return string;
 }
 
 - (NSRange) fullRange {return NSMakeRange(0, [self length]);}
@@ -430,20 +430,20 @@
 
 - (NSString *) stringByStrippingTags {
 	NSRange				r;
-	NSString			*result = [[self copy] autorelease];
+	NSString			*result = self.copy;
 	
 	while ((r = [result rangeOfString: @"<[^>]+>" options: NSRegularExpressionSearch]).location != NSNotFound)
 		result = [result stringByReplacingCharactersInRange:r withString: @""];
 	return result; 
 }
 
-+ (NSString *) stringWithFormat: (NSString *) format array: (NSArray *) arguments {
-    id *argList = (id *) malloc(sizeof(id) * [arguments count]);
-    [arguments getObjects: (id *) argList];
-    NSString* result = [[[NSString alloc] initWithFormat: format arguments: (void *) argList] autorelease];
-    free(argList);
-    return result;
-}
+//+ (NSString *) stringWithFormat: (NSString *) format array: (NSArray *) arguments {
+//    __strong id *argList = (id *) malloc(sizeof(id) * [arguments count]);
+//    [arguments getObjects: argList range: NSMakeRange(0, arguments.count)];
+//    NSString* result = [[NSString alloc] initWithFormat: format arguments: (void *) argList];
+//    free(argList);
+//    return result;
+//}
 
 //- (NSString *) md5HashString {
 //	if (self.length == 0) return nil;
@@ -507,10 +507,6 @@
 
     NSString* strippedString = [parsee getCharsFound];
     
-    // clean up
-    [parser release];
-    [parsee release];
-    
     // get the raw text out of the parsee after parsing, and return it
     return strippedString;
 }
@@ -529,14 +525,11 @@
 @implementation NSString_HTMLStringDelegate
 - (id)init {
     if((self = [super init])) {
-        self.strings = [[[NSMutableArray alloc] init] autorelease];
+        self.strings = [[NSMutableArray alloc] init];
     }
     return self;
 }
-- (void)dealloc {
-    self.strings = nil;
-    [super dealloc];
-}
+
 - (void)parser:(NSXMLParser*)parser foundCharacters:(NSString*)string {
     [self.strings addObject:string];
 }
@@ -554,7 +547,7 @@
 }
 
 + (id) stringWithString: (NSString *) string attributes: (NSDictionary *) attr {
-	return [[[self alloc] initWithString: string ?: @"" attributes: attr ?: @{}] autorelease];
+	return [[self alloc] initWithString: string ?: @"" attributes: attr ?: @{}];
 }
 #endif
 @end

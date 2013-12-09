@@ -332,7 +332,7 @@
 		B583073D1516548600CC57DE /* TestController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B583070C1516548600CC57DE /* TestController.xib */; };
 		B58CA477183AD4DA0038753A /* SA_ScreenshotFeedback.h in Headers */ = {isa = PBXBuildFile; fileRef = B58CA475183AD4DA0038753A /* SA_ScreenshotFeedback.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B58CA478183AD4DA0038753A /* SA_ScreenshotFeedback.h in Headers */ = {isa = PBXBuildFile; fileRef = B58CA475183AD4DA0038753A /* SA_ScreenshotFeedback.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B58CA479183AD4DA0038753A /* SA_ScreenshotFeedback.m in Sources */ = {isa = PBXBuildFile; fileRef = B58CA476183AD4DA0038753A /* SA_ScreenshotFeedback.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		B58CA479183AD4DA0038753A /* SA_ScreenshotFeedback.m in Sources */ = {isa = PBXBuildFile; fileRef = B58CA476183AD4DA0038753A /* SA_ScreenshotFeedback.m */; };
 		B58CA47A183AD4DA0038753A /* SA_ScreenshotFeedback.m in Sources */ = {isa = PBXBuildFile; fileRef = B58CA476183AD4DA0038753A /* SA_ScreenshotFeedback.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		B598E66D124081B900E7B7CF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B598E66C124081B900E7B7CF /* UIKit.framework */; };
 		B598E66F124081C300E7B7CF /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B598E66E124081C300E7B7CF /* libsqlite3.0.dylib */; };
@@ -1421,13 +1421,14 @@
 		1DEB922308733DC00010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
@@ -1437,12 +1438,13 @@
 		1DEB922408733DC00010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 			};

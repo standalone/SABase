@@ -11,7 +11,7 @@
 @implementation UIToolbar (SA_SA_Additions)
 
 - (UIBarButtonItem *) replaceItem: (UIBarButtonItem *) item withNewItem: (UIBarButtonItem *) newItem {
-	NSMutableArray				*items = [[self.items mutableCopy] autorelease];
+	NSMutableArray				*items = [self.items mutableCopy];
 	NSInteger					index = [items indexOfObject: item];
 	
 	SA_AssertAndReturnNil(index != NSNotFound, @"Tried to replace an item in a toolbar to which it did not below");

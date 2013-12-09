@@ -63,13 +63,13 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 }
 
 + (void) setCancelButtonImageName: (NSString *) name withPressedImageName: (NSString *) pressed {
-	[g_cancelButtonImageName autorelease]; g_cancelButtonImageName = [name retain]; 
-	[g_cancelButtonImagePressedName autorelease]; g_cancelButtonImagePressedName = [pressed retain]; 
+	g_cancelButtonImageName = name;
+	g_cancelButtonImagePressedName = pressed;
 }
 
 + (void) setAuxButtonImageName: (NSString *) name withPressedImageName: (NSString *) pressed {
-	[g_auxButtonImageName autorelease]; g_auxButtonImageName = [name retain]; 
-	[g_auxButtonImagePressedName autorelease]; g_auxButtonImagePressedName = [pressed retain]; 
+	g_auxButtonImageName = name;
+	g_auxButtonImagePressedName = pressed;
 }
 
 //=============================================================================================================================
@@ -140,7 +140,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 		dispatch_async(dispatch_get_main_queue(), ^{ [self setAuxTitle: title]; });
 		return;
 	}
-	[_auxTitle autorelease]; _auxTitle = [title retain];
+	_auxTitle = title;
 	if (!self.hidden) [self setupButtons];
 }
 
@@ -150,7 +150,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 		return;
 	}
 
-	[_cancelTitle autorelease]; _cancelTitle = [title retain];
+	_cancelTitle = title;
 	if (!self.hidden) [self setupButtons];
 }
 
@@ -166,7 +166,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 		return;
 	}
 
-	[_majorText autorelease]; _majorText = [text retain];
+	_majorText = text;
 	if (!self.hidden) [self setupMajorLabel];
 }
 
@@ -176,7 +176,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 		return;
 	}
 
-	[_minorText autorelease]; _minorText = [text retain];
+	_minorText = text;
 	if (!self.hidden) [self setupMinorLabel];
 }
 
@@ -187,8 +187,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 	}
 
 	if (font == _majorFont) return;
-	[_majorFont release];
-	_majorFont = [font retain];
+	_majorFont = font;
 	
 	_majorLabel.font = font;
 }
@@ -200,8 +199,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 	}
 
 	if (font == _minorFont) return;
-	[_minorFont release];
-	_minorFont = [font retain];
+	_minorFont = font;
 	
 	_minorLabel.font = font;
 }
@@ -210,30 +208,10 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 #pragma mark Clean up
 - (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
-
-	[_minorFont release];
-	[_majorFont release];
-	[_view release];
-	[_progressIndicator release];
-	[_majorLabel release];
-	[_minorLabel release];
-	[_spinner release];
-	[_cancelButton release];
-	[_auxButton release];
-	
-	self.cancelBlock = nil;
-	self.majorText = nil;
-	self.minorText = nil;
-	self.cancelTitle = nil;
-	self.auxTitle = nil;
-	self.delegate = nil;
-	
-	[super dealloc];
 }
 
 - (void) setDelegate: (id <SA_PleaseWaitDisplayDelegate>) delegate {
-	TRY([_delegate release]);
-	_delegate = [delegate retain];
+	_delegate = delegate;
 }
 
 //=============================================================================================================================
@@ -500,7 +478,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 - (void) setupButtons {
 	if (_cancelTitle) {
 		if (_cancelButton == nil) {
-			_cancelButton = [[UIButton buttonWithType: UIButtonTypeCustom] retain];
+			_cancelButton = [UIButton buttonWithType: UIButtonTypeCustom];
 			_cancelButton.normalizedFrame = self.cancelButtonFrame;
 			_cancelButton.titleLabel.font = [UIFont boldSystemFontOfSize: 16];
 			[_cancelButton addTarget: self action: @selector(cancel:) forControlEvents: UIControlEventTouchUpInside];
@@ -516,7 +494,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 
 	if (_auxTitle) {
 		if (_auxButton == nil) {
-			_auxButton = [[UIButton buttonWithType: UIButtonTypeCustom] retain];
+			_auxButton = [UIButton buttonWithType: UIButtonTypeCustom];
 			_auxButton.normalizedFrame = self.auxButtonFrame;
 			_auxButton.titleLabel.font = [UIFont boldSystemFontOfSize: 16];
 			[_auxButton addTarget: self action: @selector(auxAction:) forControlEvents: UIControlEventTouchUpInside];
@@ -578,7 +556,6 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 #pragma mark Callbacks
 - (void) animationDidStop: (NSString *) animationID finished: (NSNumber *) finished context: (void *) context {
 	[_view removeFromSuperview];
-	[self autorelease];
 }
 
 

@@ -19,12 +19,6 @@
 @implementation SA_StackedScrollView
 @synthesize componentViews, stackedScrollViewDelegate, indentationWidth;
 
-- (void) dealloc {
-	self.delegate = nil;
-	self.componentViews = nil;
-    [super dealloc];
-}
-
 - (id) initWithFrame: (CGRect) frame {
     if ((self = [super initWithFrame: frame])) [self setup];
     return self;
@@ -159,7 +153,7 @@
 		cellIdentifier = @"spacer";
 		cell = [tableView dequeueReusableCellWithIdentifier: cellIdentifier];
 		if (cell == nil) {
-			cell = [[[UITableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: cellIdentifier] autorelease];
+			cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: cellIdentifier];
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			
 		}
@@ -169,7 +163,7 @@
 	cell = [tableView dequeueReusableCellWithIdentifier: cellIdentifier];
 	[cell.contentView removeAllSubviews];
 	if (cell == nil) {
-		cell = [[[UITableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: cellIdentifier] autorelease];
+		cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: cellIdentifier];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		cell.clipsToBounds = YES;
 	}

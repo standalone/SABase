@@ -15,7 +15,7 @@ static SA_BackgroundThread			*s_backgroundThread = nil;
 
 + (id) startBackgroundThread {
 	SA_Assert(s_backgroundThread == nil, @"Trying to start a second background thread.");
-	s_backgroundThread = [[self spawnThread] retain];
+	s_backgroundThread = [self spawnThread];
 	return s_backgroundThread;
 }
 
@@ -34,7 +34,7 @@ static SA_BackgroundThread			*s_backgroundThread = nil;
 }
 
 + (id) spawnThread {
-	SA_BackgroundThread			*thread = [[[SA_BackgroundThread alloc] init] autorelease];
+	SA_BackgroundThread			*thread = [[SA_BackgroundThread alloc] init];
 	
 	thread->_running = YES;
 	thread->_thread = [[NSThread alloc] initWithTarget: thread selector: @selector(main:) object: nil];
@@ -76,26 +76,24 @@ void BackgroundRunLoopObserverCallBack(CFRunLoopObserverRef observer, CFRunLoopA
 }
 
 - (void) main: (id) unused {
-	NSAutoreleasePool			*pool = [[NSAutoreleasePool alloc] init];
-	
-	#if 0
-		while (_running) {
-			SInt32    result = CFRunLoopRunInMode(kCFRunLoopDefaultMode, 100000, YES);
-			if ((result == kCFRunLoopRunStopped)) {
-				_running = NO;
+	@autoreleasepool {
+		#if 0
+			while (_running) {
+				SInt32    result = CFRunLoopRunInMode(kCFRunLoopDefaultMode, 100000, YES);
+				if ((result == kCFRunLoopRunStopped)) {
+					_running = NO;
+				}
 			}
-		}
-	#else
-		NSRunLoop								*loop = [NSRunLoop currentRunLoop];
-		
-		[NSTimer scheduledTimerWithTimeInterval: 100000.0 target: self selector: @selector(doNothing) userInfo: nil repeats: YES];
-		
-		while (_running) {
-			[loop runUntilDate: [NSDate distantFuture]];
-		}
-	#endif
-	
-	[pool release];
+		#else
+			NSRunLoop								*loop = [NSRunLoop currentRunLoop];
+			
+			[NSTimer scheduledTimerWithTimeInterval: 100000.0 target: self selector: @selector(doNothing) userInfo: nil repeats: YES];
+			
+			while (_running) {
+				[loop runUntilDate: [NSDate distantFuture]];
+			}
+		#endif
+	}
 }
 
 @end

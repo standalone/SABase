@@ -31,15 +31,15 @@
 }
 
 - (void) associateValue: (id) value forKey: (id) key {
-	objc_setAssociatedObject(self, key, value, OBJC_ASSOCIATION_RETAIN);
+	objc_setAssociatedObject(self, (__bridge const void *)(key), value, OBJC_ASSOCIATION_RETAIN);
 }
 
 - (void) associateValueCopy: (id) value forKey: (id) key {
-	objc_setAssociatedObject(self, key, value, OBJC_ASSOCIATION_COPY);
+	objc_setAssociatedObject(self, (__bridge const void *)(key), value, OBJC_ASSOCIATION_COPY);
 }
 
 - (id) associatedValueForKey: (id) key {
-	return objc_getAssociatedObject(self, key);
+	return objc_getAssociatedObject(self, (__bridge const void *)(key));
 }
 
 - (BOOL) hasValueForKey: (NSString *) key {
@@ -128,20 +128,14 @@
 
 @implementation SA_BlockWrapper
 @synthesize block, idBlock;
-- (void) dealloc {
-	self.block = nil;
-	self.idBlock = nil;
-	[super dealloc];
-}
-
 + (id) wrapperWithBlock: (simpleBlock) block {
-	SA_BlockWrapper		*wrapper = [[[self alloc] init] autorelease];
+	SA_BlockWrapper		*wrapper = [[self alloc] init];
 	wrapper.block = block;
 	return wrapper;
 }
 
 + (id) wrapperWithIDBlock: (idArgumentBlock) block {
-	SA_BlockWrapper		*wrapper = [[[self alloc] init] autorelease];
+	SA_BlockWrapper		*wrapper = [[self alloc] init];
 	wrapper.idBlock = block;
 	return wrapper;
 }

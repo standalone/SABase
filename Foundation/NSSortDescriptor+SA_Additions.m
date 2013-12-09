@@ -11,11 +11,11 @@
 @implementation NSSortDescriptor (ConvenienceAdditions)
 
 + (NSSortDescriptor *) SA_descWithKey: (NSString *) key ascending: (BOOL) ascending {
-	return [[[NSSortDescriptor alloc] initWithKey: key ascending: ascending] autorelease];
+	return [[NSSortDescriptor alloc] initWithKey: key ascending: ascending];
 }
 
 + (NSSortDescriptor *) SA_descWithKey: (NSString *) key ascending: (BOOL) ascending selector: (SEL) selector {
-	return [[[NSSortDescriptor alloc] initWithKey: key ascending: ascending selector: selector] autorelease];
+	return [[NSSortDescriptor alloc] initWithKey: key ascending: ascending selector: selector];
 }
 
 + (NSArray *) SA_arrayWithDescWithKey: (NSString *) key ascending: (BOOL) ascending {
