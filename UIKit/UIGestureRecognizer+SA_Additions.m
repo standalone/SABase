@@ -20,7 +20,7 @@
 	if (wrapper) wrapper.idBlock(recog);
 }
 
-- (id) SA_initWithBlock: (gestureArgumentBlock) block {
+- (id) initWithSA_Block: (gestureArgumentBlock) block {
 	if ((self = [self initWithTarget: self action: @selector(sa_blockRecognizerAction:)])) {
 		[self associateValue: [SA_BlockWrapper wrapperWithIDBlock: (idArgumentBlock) block] forKey: GESTURE_BLOCK_KEY];
 	}
@@ -28,7 +28,7 @@
 }
 
 + (id) SA_longPressRecognizerWithPressBlock: (gestureArgumentBlock) block {
-	return [[UILongPressGestureRecognizer alloc] SA_initWithBlock: ^(UIGestureRecognizer *recog) {
+	return [[UILongPressGestureRecognizer alloc] initWithSA_Block: ^(UIGestureRecognizer *recog) {
 		static BOOL			presented = NO;
 		
 		switch (recog.state) {

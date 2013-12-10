@@ -155,8 +155,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 }
 
 - (void) setCancelBlock:(simpleBlock)cancelBlock {
-	if (self.cancelBlock) Block_release(self.cancelBlock);
-	_cancelBlock = cancelBlock ? Block_copy(cancelBlock) : nil;
+	_cancelBlock = [cancelBlock copy];
 	if (cancelBlock && self.cancelTitle == nil) self.cancelTitle = NSLocalizedString(@"Cancel", @"Cancel");
 }
 

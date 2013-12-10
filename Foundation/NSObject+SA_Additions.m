@@ -95,7 +95,7 @@
 }
 
 + (void) performBlock: (simpleBlock) block onThread: (NSThread *) thread waitUntilDone: (BOOL) waitUntilDone {
-	[self performSelector: @selector(performBlock:) onThread: thread withObject: (id) Block_copy(block) waitUntilDone: waitUntilDone];
+	[self performSelector: @selector(performBlock:) onThread: thread withObject: [block copy] waitUntilDone: waitUntilDone];
 }
 
 + (void) performBlock: (simpleBlock) block {
@@ -119,7 +119,11 @@
 - (void) observeValueForKeyPath: (NSString *) keyPath ofObject: (id) object change: (NSDictionary *) change context: (void *)context {
 	SEL					changeSelector = NSSelectorFromString([NSString stringWithFormat: @"%@ChangedOn:change:", keyPath]);
 	
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+
 	if ([self respondsToSelector: changeSelector]) [self performSelector: changeSelector withObject: object withObject: change];
+#pragma clang diagnostic pop
 }
 
 

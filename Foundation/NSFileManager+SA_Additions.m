@@ -79,10 +79,11 @@ static void NSFileManagerKQueueCallback(CFFileDescriptorRef kqRef, CFOptionFlags
     int							retVal;
     struct kevent				eventToAdd;
 	NSMutableDictionary			*infoDictionary = [[NSMutableDictionary alloc] initWithObjectsAndKeys: target, @"target", NSStringFromSelector(action), @"action", path, @"path", nil];
-    CFFileDescriptorContext		context = { 0, CFBridgingRetain(infoDictionary), NULL, NULL, NULL };
+    CFFileDescriptorContext		context = { 0, NULL, NULL, NULL, NULL };
     CFRunLoopSourceRef			rls;
 	CFFileDescriptorRef			ref;
 	
+	context.info = (__bridge void *) (infoDictionary);
     dirFD = open([path fileSystemRepresentation], O_EVTONLY);
     assert(dirFD >= 0);
 	

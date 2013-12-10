@@ -375,9 +375,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	if (predicate) [fetchRequest setPredicate: predicate];
 	
 	NSFetchedResultsController			*fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest: fetchRequest managedObjectContext: self sectionNameKeyPath: sectionNameKeyPath cacheName: cacheName];
-	
-	fetchRequest;
-	
+		
 	return fetchedResultsController;
 }    
 #endif
@@ -430,7 +428,6 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 			LOG(@"%d %@ objects deleted", deleteCount, entityName);
 		}
 		
-		allObjects;
 		if (fetchLimit == 0) [self save];
 	}
 }
@@ -492,6 +489,16 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	} onThread: thread waitUntilDone: NO];
 }
 
+- (void) sa_mergeChangesFromContextDidSaveNotification: (NSNotification *) note {
+	NSManagedObjectContext				*context = note.object;
+	NSDictionary						*changeBlocks = [self associatedValueForKey: UPDATE_BLOCKS_KEY];
+	
+	for (NSString *tag in changeBlocks) {
+		contextUpdatedBlock			block = [changeBlocks objectForKey: tag];
+		block(context, tag);
+	}
+}
+
 - (void) registerForContextUpdatesUsingBlock: (contextUpdatedBlock) block withTag: (NSString *) tag {
 	NSMutableDictionary				*changeBlocks = [self associatedValueForKey: UPDATE_BLOCKS_KEY];
 	
@@ -505,24 +512,13 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	[changeBlocks setObject: copiedBlock forKey: tag];
 }
 
-- (void) sa_mergeChangesFromContextDidSaveNotification: (NSNotification *) note {
-	NSManagedObjectContext				*context = note.object;
-	NSDictionary						*changeBlocks = [self associatedValueForKey: UPDATE_BLOCKS_KEY];
-	
-	for (NSString *tag in changeBlocks) {
-		contextUpdatedBlock			block = [changeBlocks objectForKey: tag];
-		block(context, tag);
-	}
-}
-
 - (void) unregisterForContextUpdates: (NSString *) tag {
 	NSMutableDictionary				*changeBlocks = [self associatedValueForKey: UPDATE_BLOCKS_KEY];
 	
 	if (changeBlocks == nil) return;
 	
-	contextUpdatedBlock			block = [changeBlocks objectForKey: tag];
-	
-	if (block)  Block_release(block);
+//	contextUpdatedBlock			block = [changeBlocks objectForKey: tag];
+//	if (block) Block_release(block);
 
 	[changeBlocks removeObjectForKey: tag];
 	if (changeBlocks.count == 0) {

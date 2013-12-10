@@ -57,12 +57,11 @@ static SA_BackgroundThread			*s_backgroundThread = nil;
 
 #if NS_BLOCKS_AVAILABLE
 + (void) performBlockInBackgroundThread: (simpleBlock) block {
-	[[self backgroundThread] performSelector: @selector(performWithBlock:) onThread: [self backgroundThread].thread withObject: Block_copy(block) waitUntilDone: NO];
+	[[self backgroundThread] performSelector: @selector(performWithBlock:) onThread: [self backgroundThread].thread withObject: [block copy] waitUntilDone: NO];
 }
 
 - (void) performWithBlock: (simpleBlock) block {
 	block();
-	Block_release(block);
 }
 #endif
 

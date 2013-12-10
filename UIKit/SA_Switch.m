@@ -27,10 +27,8 @@
 - (void) setSwitchedBlock: (switchedBlock) block {
 	if (_switchedBlock == nil)
 		[self addTarget: self action: @selector(switchFlipped) forControlEvents: UIControlEventValueChanged];
-	else
-		Block_release(_switchedBlock);
-		
-	_switchedBlock = block ? Block_copy(block) : nil;
+
+	_switchedBlock = [block copy];
 }
 
 - (void) switchFlipped {

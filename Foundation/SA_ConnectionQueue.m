@@ -969,13 +969,10 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 }
 - (void) reset {
 	_statusCode = 0;
-	[_data release];
 	_data = nil;
 	[_connection cancel];
 	_connection = nil;
-	[_file release];
 	_file = nil;
-	[_filename release];
 	_filename = nil;
 }
 
@@ -1215,8 +1212,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	}
 	
 	if (_data.length) [_file writeData: _data];
-	[_data release];
-	_data = nil;	
+	_data = nil;
 }
 
 - (void) setUsername:(NSString *)username password:(NSString *) password {
@@ -1352,7 +1348,6 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	NSString				*string = [[NSString alloc] initWithData: data encoding: NSASCIIStringEncoding];
 	NSDictionary			*results = [self dictionaryWithParameterString: string];
 	
-	[string release];
 	return results;
 }
 

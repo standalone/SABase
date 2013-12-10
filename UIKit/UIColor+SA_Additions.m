@@ -31,8 +31,10 @@
 	}
 	
 	SEL						sel = NSSelectorFromString(string);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 	UIColor					*color = ([self respondsToSelector: sel]) ? [self performSelector: sel] : nil;
-
+#pragma clang diagnostic pop
 	if (color) return color;
 	return [[UIColor alloc] initWithSA_HexString: string];
 }
