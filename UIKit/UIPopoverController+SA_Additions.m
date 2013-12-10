@@ -31,8 +31,11 @@ static NSMutableArray					*s_activePopovers = nil;
 		if ([content respondsToSelector: @selector(preferredContentSize)]) size = [content preferredContentSize];
 		else
 	#endif
-	if ([content respondsToSelector: @selector(contentSizeForViewInPopover)]) size = [content contentSizeForViewInPopover];
-	
+	if ([content respondsToSelector: @selector(preferredContentSize)]) size = [content preferredContentSize];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+	else if ([content respondsToSelector: @selector(contentSizeForViewInPopover)]) size = [content contentSizeForViewInPopover];
+#pragma clang diagnostic pop
 	if (size.width && size.height)
 		controller.popoverContentSize = size;
 	
@@ -160,8 +163,13 @@ static NSMutableArray					*s_activePopovers = nil;
 		if (RUNNING_ON_70)
 			dummyController.preferredContentSize = subject.bounds.size;
 		else
-	#endif
+	#endif 
+		{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 		dummyController.contentSizeForViewInPopover = subject.bounds.size;
+#pragma clang diagnostic pop
+		}
 	dummyController.view = parent;
 	return [self presentSA_PopoverForViewController: dummyController fromRect: rect inView: view permittedArrowDirections: arrowDirections animated: animated];
 }
@@ -178,7 +186,12 @@ static NSMutableArray					*s_activePopovers = nil;
 			dummyController.preferredContentSize = subject.bounds.size;
 		else
 	#endif
-		dummyController.contentSizeForViewInPopover = subject.bounds.size;
+		{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+			dummyController.contentSizeForViewInPopover = subject.bounds.size;
+#pragma clang diagnostic pop
+		}
 	dummyController.view = parent;
 	return [self presentSA_PopoverForViewController: dummyController fromBarButtonItem: item permittedArrowDirections: arrowDirections animated: animated];
 }

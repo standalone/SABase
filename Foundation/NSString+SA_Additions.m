@@ -166,11 +166,11 @@
 #if TARGET_OS_IPHONE
 - (NSString *) stringTruncatedToWidth: (float) width usingFont: (UIFont *) font addingElipsis: (BOOL) addingElipsis {
 	NSMutableString						*copy = self.mutableCopy;
-	float								elipsisWidth = addingElipsis ? [@"…" sizeWithFont: font].width : 0;
+	float								elipsisWidth = addingElipsis ? [@"…" SA_sizeWithFont: font].width : 0;
 	BOOL								reduced = NO;
 	
 	while (true) {
-		if ([copy sizeWithFont: font].width <= (width - (reduced ? elipsisWidth : 0))) {
+		if ([copy SA_sizeWithFont: font].width <= (width - (reduced ? elipsisWidth : 0))) {
 			if (reduced) return [NSString stringWithFormat: @"%@…", [copy stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]]];
 			return copy;
 		}
@@ -180,6 +180,29 @@
 		[copy deleteCharactersInRange: NSMakeRange(copy.length - 1, 1)];
 	}
 	return copy;
+}
+
+- (CGSize) SA_sizeWithFont: (UIFont *) font {
+	if (RUNNING_ON_70) {
+		return [self sizeWithAttributes: @{ NSFontAttributeName: font }];
+	}
+	
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+	return [self sizeWithFont: font];
+#pragma clang diagnostic pop
+}
+- (CGSize) SA_sizeWithFont: (UIFont *)font constrainedToSize: (CGSize) size lineBreakMode: (NSLineBreakMode) lineBreakMode {
+	if (RUNNING_ON_70) {
+		NSDictionary				*attr = @{ NSFontAttributeName: font };
+		
+		return [self boundingRectWithSize: size options: NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesLineFragmentOrigin attributes: attr context: nil].size;
+	}
+	
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+	return [self sizeWithFont: font constrainedToSize: size lineBreakMode: lineBreakMode];
+#pragma clang diagnostic pop
 }
 #else
 - (CGSize) sizeWithFont:(NSFont *)font {

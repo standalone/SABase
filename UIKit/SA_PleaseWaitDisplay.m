@@ -6,7 +6,7 @@
 //
 
 #import "SA_PleaseWaitDisplay.h"
-
+#import "NSString+SA_Additions.h"
 
 
 #import <QuartzCore/QuartzCore.h>
@@ -235,7 +235,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 	CGRect							bounds = CGRectMake(contentFrame.origin.x + 10, labelTop, contentFrame.size.width - 20, 21);
 
 	if (_majorLabelPositionedWithSpinner) {
-		float						textWidth = [_majorText sizeWithFont: [self majorFont]].width;
+		float						textWidth = [_majorText SA_sizeWithFont: [self majorFont]].width;
 		float						spinnerWidth = 20, space = 10;
 		float						textLeft = contentFrame.origin.x + (contentFrame.size.width - (textWidth + spinnerWidth + space)) / 2;
 		
@@ -299,7 +299,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 
 - (CGRect) spinnerFrame {
 	CGRect						spinnerFrame = _majorLabel.frame;
-	CGSize						textSize = [_majorText sizeWithFont: _majorFont];
+	CGSize						textSize = [_majorText SA_sizeWithFont: _majorFont];
 	
 	spinnerFrame.origin.x = spinnerFrame.origin.x + (spinnerFrame.size.width / 2) + textSize.width / 2 + 20;
 	spinnerFrame.size.width = 20;

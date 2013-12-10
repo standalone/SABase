@@ -121,7 +121,6 @@
 	
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-
 	if ([self respondsToSelector: changeSelector]) [self performSelector: changeSelector withObject: object withObject: change];
 #pragma clang diagnostic pop
 }

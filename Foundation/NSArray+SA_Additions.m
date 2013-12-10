@@ -54,8 +54,10 @@
 	NSMutableArray				*result = [NSMutableArray arrayWithCapacity: self.count];
 	
 	for (id object in self) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 		id				newObject = [object respondsToSelector: method] ? [object performSelector: method] : nil;
-		
+#pragma clang diagnostic pop
 		if (newObject) [result addObject: newObject];
 	}
 	

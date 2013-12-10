@@ -11,14 +11,14 @@
 @implementation UILabel  (SA_textAdditions)
 - (CGSize) sizeOfCurrentTextInExistingWidth {
 	CGSize				constraint = CGSizeMake(self.bounds.size.width, 500000);
-	CGSize				size = [self.text sizeWithFont: self.font constrainedToSize: constraint lineBreakMode: self.lineBreakMode];
+	CGSize				size = [self.text SA_sizeWithFont: self.font constrainedToSize: constraint lineBreakMode: self.lineBreakMode];
 	
 	return size;
 }
 
 - (void) autosizeForExistingWidth: (float) width {
 	CGSize				constraint = CGSizeMake(width, 500000);
-	CGSize				size = [self.text sizeWithFont: self.font constrainedToSize: constraint lineBreakMode: self.lineBreakMode];
+	CGSize				size = [self.text SA_sizeWithFont: self.font constrainedToSize: constraint lineBreakMode: self.lineBreakMode];
 	CGRect				frame = self.frame;
 	
 	switch (self.textAlignment) {
@@ -39,7 +39,7 @@
 
 - (void) autosizeForExistingSize {
 	CGSize				constraint = self.bounds.size;
-	CGSize				size = [self.text sizeWithFont: self.font constrainedToSize: constraint lineBreakMode: self.lineBreakMode];
+	CGSize				size = [self.text SA_sizeWithFont: self.font constrainedToSize: constraint lineBreakMode: self.lineBreakMode];
 	CGRect				frame = self.frame;
 	
 	switch (self.textAlignment) {
