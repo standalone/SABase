@@ -18,3 +18,8 @@
 @property (nonatomic, strong) UIColor *backgroundViewColor, *dividerViewColor;
 
 @end
+
+
+@interface UICollectionViewCell (UICollectionViewCell_SA_Additions)
+@property (nonatomic,readonly) UICollectionView *collectionView;
+@end

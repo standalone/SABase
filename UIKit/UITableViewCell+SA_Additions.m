@@ -70,3 +70,15 @@
 - (UIColor *) backgroundViewColor { return self.backgroundView.backgroundColor; }
 
 @end
+
+@implementation UICollectionViewCell (UICollectionViewCell_SA_Additions)
+- (UICollectionView *) collectionView {
+	UICollectionView		*view = (id) self.superview;
+	
+	while (![view isKindOfClass: [UICollectionView class]]) {
+		view = (id) view.superview;
+		if (view == nil) break;
+	}
+	return view;
+}
+@end
