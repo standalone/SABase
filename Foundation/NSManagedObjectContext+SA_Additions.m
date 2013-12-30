@@ -308,10 +308,11 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 			NSLog(@"Problem while saving database: %@", e);
 		}
 		if (error) {
+			NSLog(@"Error while saving context: %@", error);
+			
+#if DEBUG
 			NSDictionary				*info = error.userInfo;
-			
-			NSLog(@"Error while saving context: %@", error);	
-			
+
 			if ([info objectForKey: @"NSDetailedErrors"]) {for (NSError *detailedError in [info objectForKey: @"NSDetailedErrors"]) {
 				LOG(@"Detailed Error: %@, %@", detailedError, [detailedError userInfo]);
 			}} else if ([info objectForKey: @"conflictList"]) {
@@ -320,7 +321,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 				}
 				LOG(@"All Objects: %@", [info objectForKey: @"NSDetailedErrors"]);
 			}
-
+#endif
 			failCount++;
 			
 			if (failCount >= maxFailsBeforeReset) {
