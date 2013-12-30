@@ -22,6 +22,8 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ErrorManager, defaultManager);
 	if (error == nil) return;
 	if (self.filterLevel != SA_Error_Level_User) {
 		NSLog(@"****** Error Received: %@ (%@) ********\n%@%@%@\n", title, [SA_ErrorManager convertErrLevelToString: level], devNote ?: @"", devNote.length ? @"\n" : @"", error);
+	
+		if ([error.domain isEqual: NSURLErrorDomain] && error.code == NSURLErrorNotConnectedToInternet) return;
 	}
 	if (self.filterLevel < (int) level) return;
 	[self reportTitle: title error: error devNote: devNote];
