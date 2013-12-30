@@ -177,8 +177,10 @@
 
 - (UIImageView *) imageViewCloneUsingLayer: (BOOL) useLayer {
 	UIImage		*image = [self toImageUsingLayer: useLayer];
+	UIImageView	*view = [[UIImageView alloc] initWithImage: image];
 	
-	return [[UIImageView alloc] initWithImage: image];
+	view.backgroundColor = self.backgroundColor;
+	return view;
 }
 
 - (UIImage *) toImage { return [self toImageUsingLayer: NO]; }
