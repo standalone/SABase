@@ -175,6 +175,12 @@
 	return nil;
 }
 
+- (UIImageView *) imageViewCloneUsingLayer: (BOOL) useLayer {
+	UIImage		*image = [self toImageUsingLayer: useLayer];
+	
+	return [[UIImageView alloc] initWithImage: image];
+}
+
 - (UIImage *) toImage { return [self toImageUsingLayer: NO]; }
 
 - (UIImage *) toImageUsingLayer: (BOOL) useLayer {

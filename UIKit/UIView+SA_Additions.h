@@ -42,6 +42,7 @@ typedef enum {
 - (void) setCenter: (CGPoint) center andSize: (CGSize) size;
 - (void) expandWidth: (float) additionalWidth andHeight: (float) additionalHeight;
 - (void) compressWidth: (float) removedWidth andHeight: (float) removedHeight;
+- (UIImageView *) imageViewCloneUsingLayer: (BOOL) useLayer;
 
 - (BOOL) hasAncestor: (UIView *) ancestor;
 - (NSString *) hierarchyToStringWithLevel: (int) level;
