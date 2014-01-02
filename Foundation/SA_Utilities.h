@@ -109,10 +109,32 @@
 	#define				GCD_AVAILABLE					(RUNNING_ON_40)
 	#define				RUNNING_ON_IPAD					([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
 	#define				RUNNING_ON_IPHONE				([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
-	#define				RUNNING_ON_40					(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_4_0)
-	#define				RUNNING_ON_50					(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_5_0)
-	#define				RUNNING_ON_60					(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_6_0)
-	#define				RUNNING_ON_70					(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_7po _0)
+
+
+	#ifdef NSFoundationVersionNumber_iOS_4_0
+		#define				RUNNING_ON_40					(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_4_0)
+	#else
+		#define				RUNNING_ON_40					([[UIDevice currentDevice].systemVersion intValue] >= 4)
+	#endif
+
+	#ifdef NSFoundationVersionNumber_iOS_5_0
+		#define				RUNNING_ON_50					(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_5_0)
+	#else
+		#define				RUNNING_ON_50					([[UIDevice currentDevice].systemVersion intValue] >= 5)
+	#endif
+
+	#ifdef NSFoundationVersionNumber_iOS_6_0
+		#define				RUNNING_ON_60					(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_6_0)
+	#else
+		#define				RUNNING_ON_60					([[UIDevice currentDevice].systemVersion intValue] >= 6)
+	#endif
+
+	#if NSFoundationVersionNumber_iOS_7_0
+		#define				RUNNING_ON_70					(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_7_0)
+	#else
+		#define				RUNNING_ON_70					([[UIDevice currentDevice].systemVersion intValue] >= 7)
+	#endif
+
 	#define				IS_RETINA_DEVICE				([UIScreen mainScreen].scale > 1.0)
 	#define				IS_4INCH_SCREEN					(RUNNING_ON_IPHONE && [UIScreen mainScreen].bounds.size.height == 568)
 	#define				IF_IOS(...)						{__VA_ARGS__;}
