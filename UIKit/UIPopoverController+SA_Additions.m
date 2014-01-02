@@ -12,6 +12,10 @@
 
 #define SA_POPOVER_DISMISS_BLOCK_KEY			@"com.standalone.SA_POPOVER_DISMISS_BLOCK_KEY"
 
+@interface UIViewController (Compatibility_70)
+- (CGSize) preferredContentSize;
+@end
+
 static NSMutableArray					*s_activePopovers = nil;
 
 @implementation UIPopoverController (SA_PopoverAdditions)

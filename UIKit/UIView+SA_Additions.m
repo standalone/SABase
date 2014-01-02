@@ -12,6 +12,10 @@
 #import <objc/message.h>
 #import "CAAnimation+SA_Blocks.h"
 
+@interface UIView (OS7_Compatibility)
+- (BOOL) drawViewHierarchyInRect: (CGRect) rect afterScreenUpdates: (BOOL) afterUpdates;
+
+@end
 
 @interface SA_BlockerView : UIView <UIGestureRecognizerDelegate>
 @property (nonatomic, copy) viewArgumentBlock viewTappedBlock;

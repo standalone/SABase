@@ -14,6 +14,14 @@
 - (NSString *) getCharsFound;
 @end
 
+@interface NSString(NSStringDrawing)
+- (CGSize)sizeWithAttributes:(NSDictionary *)attrs;
+- (void)drawAtPoint:(CGPoint)point withAttributes:(NSDictionary *)attrs;
+- (void)drawInRect:(CGRect)rect withAttributes:(NSDictionary *)attrs;
+- (CGRect)boundingRectWithSize:(CGSize)size options:(NSStringDrawingOptions)options attributes:(NSDictionary *)attributes context:(NSStringDrawingContext *)context;
+@end
+
+
 @implementation NSString (SA_Additions)
 @dynamic characters;
 
