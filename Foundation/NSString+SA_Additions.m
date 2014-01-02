@@ -184,7 +184,7 @@
 
 - (CGSize) SA_sizeWithFont: (UIFont *) font {
 	if (RUNNING_ON_70) {
-		return [self sizeWithAttributes: @{ NSFontAttributeName: font }];
+		return [self sizeWithAttributes: @{ @"NSFontAttributeName": font }];
 	}
 	
 #pragma clang diagnostic push
@@ -194,7 +194,7 @@
 }
 - (CGSize) SA_sizeWithFont: (UIFont *)font constrainedToSize: (CGSize) size lineBreakMode: (NSLineBreakMode) lineBreakMode {
 	if (RUNNING_ON_70) {
-		NSDictionary				*attr = @{ NSFontAttributeName: font };
+		NSDictionary				*attr = @{ @"NSFontAttributeName": font };
 		
 		return [self boundingRectWithSize: size options: NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesLineFragmentOrigin attributes: attr context: nil].size;
 	}
@@ -206,7 +206,7 @@
 }
 #else
 - (CGSize) sizeWithFont:(NSFont *)font {
-	NSSize				size = [self sizeWithAttributes: $D(font, NSFontAttributeName)];
+	NSSize				size = [self sizeWithAttributes: {@"NSFontAttributeName": font} ];
 	
 	return NSSizeToCGSize(size);
 }
@@ -566,7 +566,7 @@
 @implementation NSAttributedString (SA_Additions)
 #if TARGET_OS_IPHONE
 + (id) stringWithString: (NSString *) string {
-	return [self stringWithString: string ?: @"" attributes: @{ NSFontAttributeName: [UIFont boldSystemFontOfSize: 14] }];
+	return [self stringWithString: string ?: @"" attributes: @{ @"NSFontAttributeName": [UIFont boldSystemFontOfSize: 14] }];
 }
 
 + (id) stringWithString: (NSString *) string attributes: (NSDictionary *) attr {
@@ -579,10 +579,10 @@
 @implementation NSMutableAttributedString (SA_Additions)
 #if TARGET_OS_IPHONE
 - (void) setFont: (UIFont *) font {
-	[self setAttributes: @{ NSFontAttributeName: font } range: NSMakeRange(0, self.length)];
+	[self setAttributes: @{ @"NSFontAttributeName": font } range: NSMakeRange(0, self.length)];
 }
 - (void) setColor: (UIColor *) color {
-	[self setAttributes: @{ NSForegroundColorAttributeName: color } range: NSMakeRange(0, self.length)];
+	[self setAttributes: @{ @"NSForegroundColorAttributeName": color } range: NSMakeRange(0, self.length)];
 }
 #endif
 @end
