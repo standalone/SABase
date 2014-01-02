@@ -34,6 +34,10 @@
 		B51F6FE31615CAB90015A037 /* NSSet+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B51F6FE01615CAB90015A037 /* NSSet+SA_Additions.h */; };
 		B51F6FE41615CAB90015A037 /* NSSet+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B51F6FE11615CAB90015A037 /* NSSet+SA_Additions.m */; };
 		B51F6FE51615CAB90015A037 /* NSSet+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B51F6FE11615CAB90015A037 /* NSSet+SA_Additions.m */; };
+		B52BF7E71871CD2C009F4A4C /* NSError+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B52BF7E51871CD2C009F4A4C /* NSError+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B52BF7E81871CD2C009F4A4C /* NSError+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B52BF7E51871CD2C009F4A4C /* NSError+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B52BF7E91871CD2C009F4A4C /* NSError+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B52BF7E61871CD2C009F4A4C /* NSError+SA_Additions.m */; };
+		B52BF7EA1871CD2C009F4A4C /* NSError+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B52BF7E61871CD2C009F4A4C /* NSError+SA_Additions.m */; };
 		B542238F15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B542238D15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B542239015B64FB8001776BA /* UIGestureRecognizer+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B542238D15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.h */; };
 		B542239115B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B542238E15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m */; };
@@ -372,6 +376,8 @@
 		B5095CAD15F4063400EC3C8F /* NSDictionary+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+SA_Additions.m"; sourceTree = "<group>"; };
 		B51F6FE01615CAB90015A037 /* NSSet+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSSet+SA_Additions.h"; path = "../Foundation/NSSet+SA_Additions.h"; sourceTree = "<group>"; };
 		B51F6FE11615CAB90015A037 /* NSSet+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSSet+SA_Additions.m"; sourceTree = "<group>"; };
+		B52BF7E51871CD2C009F4A4C /* NSError+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+SA_Additions.h"; sourceTree = "<group>"; };
+		B52BF7E61871CD2C009F4A4C /* NSError+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+SA_Additions.m"; sourceTree = "<group>"; };
 		B542238D15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+SA_Additions.h"; sourceTree = "<group>"; };
 		B542238E15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+SA_Additions.m"; sourceTree = "<group>"; };
 		B55AA637181C515C00C5B0EE /* UIFont+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+SA_Additions.h"; sourceTree = "<group>"; };
@@ -595,6 +601,8 @@
 		B55E0834151660DD0097CC69 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				B52BF7E51871CD2C009F4A4C /* NSError+SA_Additions.h */,
+				B52BF7E61871CD2C009F4A4C /* NSError+SA_Additions.m */,
 				B5ED0B9216431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.h */,
 				B5ED0B9316431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.m */,
 				B5D3ABAA15FD3E070052F459 /* CAAnimation+SA_Blocks.m */,
@@ -841,6 +849,7 @@
 				B55E0943151660DD0097CC69 /* UIImageView+SA_Additions.h in Headers */,
 				B55E0949151660DD0097CC69 /* UILabel+SA_Additions.h in Headers */,
 				B55E0955151660DD0097CC69 /* UIPopoverController+SA_Additions.h in Headers */,
+				B52BF7E81871CD2C009F4A4C /* NSError+SA_Additions.h in Headers */,
 				B55E095B151660DD0097CC69 /* UIScrollView+SA_Additions.h in Headers */,
 				B55E0961151660DD0097CC69 /* UISegmentedControl+SA_Additions.h in Headers */,
 				B55E0967151660DD0097CC69 /* UITableViewCell+SA_Additions.h in Headers */,
@@ -909,6 +918,7 @@
 				B55E096C151660DD0097CC69 /* UIToolbar+SA_Additions.h in Headers */,
 				B55E0972151660DD0097CC69 /* UIView+SA_Additions.h in Headers */,
 				B55E09A215166D3C0097CC69 /* SA_BackgroundThread.h in Headers */,
+				B52BF7E71871CD2C009F4A4C /* NSError+SA_Additions.h in Headers */,
 				B51F6FE21615CAB90015A037 /* NSSet+SA_Additions.h in Headers */,
 				B55E0978151660DD0097CC69 /* UIViewController+SA_Additions.h in Headers */,
 				B55E0980151661110097CC69 /* SA_BlockButton.h in Headers */,
@@ -1146,6 +1156,7 @@
 				B55E08C7151660DD0097CC69 /* NSSortDescriptor+SA_Additions.m in Sources */,
 				B55E08CD151660DD0097CC69 /* NSString+SA_Additions.m in Sources */,
 				B55E08D3151660DD0097CC69 /* NSString+SA_MD5.m in Sources */,
+				B52BF7EA1871CD2C009F4A4C /* NSError+SA_Additions.m in Sources */,
 				B55E08D9151660DD0097CC69 /* NSString+UniqueStrings.m in Sources */,
 				B55E08DF151660DD0097CC69 /* NSURL+SA_Additions.m in Sources */,
 				B55E08E5151660DD0097CC69 /* SA_ConnectionQueue.m in Sources */,
@@ -1317,6 +1328,7 @@
 				B55E08C6151660DD0097CC69 /* NSSortDescriptor+SA_Additions.m in Sources */,
 				B55E08CC151660DD0097CC69 /* NSString+SA_Additions.m in Sources */,
 				B55E08D2151660DD0097CC69 /* NSString+SA_MD5.m in Sources */,
+				B52BF7E91871CD2C009F4A4C /* NSError+SA_Additions.m in Sources */,
 				B55E08D8151660DD0097CC69 /* NSString+UniqueStrings.m in Sources */,
 				B55E08DE151660DD0097CC69 /* NSURL+SA_Additions.m in Sources */,
 				B55E08E4151660DD0097CC69 /* SA_ConnectionQueue.m in Sources */,
