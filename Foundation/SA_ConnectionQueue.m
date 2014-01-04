@@ -57,9 +57,11 @@ NSString *kConnectionNotification_ConnectionStateChanged = @"SA_Connection: stat
 @interface SA_ConnectionQueue () 
 - (void) fireReachabilityStatus;
 - (void) reorderPendingConnectionsByPriority;
+- (void) incrementBytesDownloaded: (long long) byteCount;
 
 @property (nonatomic, strong) NSOperationQueue *privateQueue;
 @property (nonatomic, weak) NSTimer *queueProcessingTimer;
+@property (nonatomic) long long bytesDownloaded;
 @end
 
 //=============================================================================================================================
@@ -523,6 +525,18 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 	}
 #endif
 
+- (void) incrementBytesDownloaded: (long long) byteCount {
+	[self.privateQueue addOperationWithBlock:^{
+		_bytesDownloaded += byteCount;
+	}];
+}
+
+- (void) resetBytesDownloaded {
+	[self.privateQueue addOperationWithBlock:^{
+		_bytesDownloaded = 0;
+	}];
+}
+
 //=============================================================================================================================
 #pragma mark Please Wait Support
 - (void) updatePleaseWaitDisplay {
@@ -901,6 +915,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 
 	[[SA_ConnectionQueue sharedQueue] dequeueConnection: strongSelf];
 
+	[_connection cancel];
 	_canceled = YES;
 	[strongSelf reset];
 	[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_ConnectionCancelled object: strongSelf];
@@ -1089,6 +1104,8 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 		[_file writeData: data];
 	else
 		[_data appendData: data];
+	
+	[[SA_ConnectionQueue sharedQueue] incrementBytesDownloaded: data.length];
 }
 
 

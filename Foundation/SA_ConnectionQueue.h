@@ -227,6 +227,8 @@ typedef enum {
 @property (atomic, readwrite) NSInteger activityIndicatorCount;
 @property (nonatomic) dispatch_queue_t backgroundQueue;
 @property (nonatomic) BOOL paused;
+@property (nonatomic, readonly) long long bytesDownloaded;
+
 #if DEBUG
 	@property (nonatomic, readwrite) connection_record_setting recordSetting;
 #endif
@@ -259,6 +261,8 @@ SINGLETON_INTERFACE_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 - (void) dequeueConnection: (SA_Connection *) connection;
 - (void) updatePleaseWaitDisplay;
 - (void) hideActivityIndicator;
+
+- (void) resetBytesDownloaded;
 
 + (NSString *) nextPrefixed: (NSString *) prefix pathForTag: (NSString *) tag;
 + (NSString *) logDirectoryPath;
