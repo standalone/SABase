@@ -248,9 +248,9 @@ SINGLETON_INTERFACE_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 - (void) removeAllHeaders;
 - (BOOL) isExistingConnectionsTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate;
 - (BOOL) isExistingConnectionSimilar: (SA_Connection *) targetConnection;
-- (NSInteger) removeConnectionsTaggedWith: (NSString *) tag;
-- (NSInteger) removeConnectionsWithDelegate: (id) delegate;
-- (NSInteger) removeConnectionsTaggedWith: (NSString *) tag delegate: (id) delegate;
+- (void) removeConnectionsTaggedWith: (NSString *) tag;
+- (void) removeConnectionsWithDelegate: (id) delegate;
+- (void) removeConnectionsTaggedWith: (NSString *) tag delegate: (id) delegate;
 - (void) cancelAllConnections;
 - (SA_Connection *) existingConnectionsTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate;
 
