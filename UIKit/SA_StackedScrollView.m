@@ -51,6 +51,13 @@
 	}
 }
 
+- (void) insertComponent: (UIView *) component afterComponent: (UIView *) prevComponent animated: (BOOL) animated {
+	NSUInteger			index = [self.componentViews indexOfObject: prevComponent];
+	
+	index = (index == NSNotFound) ? self.componentViews.count : index + 1;
+	[self insertComponent: component atIndex: index animated: animated];
+}
+
 - (void) replaceExistingComponent: (UIView *) oldComponent withComponent: (UIView *) newComponent animated: (BOOL) animated {
 	NSUInteger				index = [self.componentViews indexOfObject: oldComponent];
 	
@@ -98,6 +105,13 @@
 		[self reloadData];
 	}
 	
+}
+
+- (void) addComponentViews: (NSArray *) components {
+	for (UIView *component in components) {
+		[self.componentViews addObject: component];
+	}
+	[self reloadData];
 }
 
 - (void) addComponents: (UIView *) component, ... {

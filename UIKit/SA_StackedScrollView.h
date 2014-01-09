@@ -24,9 +24,11 @@
 @property (nonatomic) CGFloat indentationWidth;
 
 - (void) addComponents: (UIView *) component, ...;
+- (void) addComponentViews: (NSArray *) components;
 
 - (void) addComponent: (UIView *) component animated: (BOOL) animated;
 - (void) insertComponent: (UIView *) component atIndex: (NSUInteger) index animated: (BOOL) animated;
+- (void) insertComponent: (UIView *) component afterComponent: (UIView *) prevComponent animated: (BOOL) animated;
 - (void) replaceComponent: (UIView *) component atIndex: (NSUInteger) index animated: (BOOL) animated;
 - (void) replaceExistingComponent: (UIView *) oldComponent withComponent: (UIView *) newComponent animated: (BOOL) animated;
 - (void) removeComponentAtIndex: (NSUInteger) index animated: (BOOL) animated;
@@ -34,6 +36,7 @@
 - (BOOL) isComponentInStack: (UIView *) component;
 - (void) removeAllComponents;
 - (void) addSpacer: (CGFloat) spacerHeight;
+
 @end
 
 @interface UIView (SA_StackedScrollView)
