@@ -325,7 +325,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 	}];
 }
 
-- (void) addHeader: (NSString *) header label: (NSString *) label { _headers[header] = label; }
+- (void) addHeader: (NSString *) header label: (NSString *) label { _headers[label] = header; }
 - (void) removeHeader: (NSString *) label { [_headers removeObjectForKey: label]; }
 - (void) removeAllHeaders { [_headers removeAllObjects]; }
 
