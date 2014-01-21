@@ -882,8 +882,13 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 		}
 	#endif
 	_connection = [[NSURLConnection alloc] initWithRequest: self.request delegate: self startImmediately: NO];
-	[_connection setDelegateQueue: [SA_ConnectionQueue sharedQueue].privateQueue];
-	[_connection start];
+	
+	if (RUNNING_ON_60) {
+		[_connection setDelegateQueue: [SA_ConnectionQueue sharedQueue].privateQueue];
+		[_connection start];
+	} else {
+		[_connection performSelectorOnMainThread: @selector(start) withObject: nil waitUntilDone: NO];
+	}
 	#if DEBUG
 		self.requestStartedAt = [NSDate date];
 		//LOG(@"Request started at: %@", self.requestStartedAt);

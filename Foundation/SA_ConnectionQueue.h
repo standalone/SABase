@@ -91,7 +91,7 @@ typedef enum {
 	NSString					*_tag;
 	id <SA_ConnectionDelegate>	_delegate;
 	NSInteger 					_priority, _order;
-	NSURLConnection				*_connection;
+	__strong NSURLConnection	*_connection;
 	BOOL						_persists, _canceled, _replaceOlder, _ignoreLater;
 	NSMutableDictionary			*_headers;
 	NSInteger 					_persistantID;
