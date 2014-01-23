@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface NSError (SA_Additions)
-@property (nonatomic, readonly) BOOL isNoInternetConnectionError;
+@property (nonatomic, readonly) BOOL isNoInternetConnectionError, shouldProbablyBeSupressedForMostUsers;
 @end
