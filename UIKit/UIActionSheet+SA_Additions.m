@@ -21,7 +21,7 @@
 		[self associateValue: dictionary forKey: kButtonTagsKey];
 	}
 	
-	[dictionary setObject: $I(tag) forKey: title];
+	[dictionary setObject: @(tag) forKey: title];
 	[self addButtonWithTitle: title];
 }
 

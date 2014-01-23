@@ -155,3 +155,15 @@
 
 
 @end
+
+NSString *				NSStringFromCGColor(CGColorRef color) {
+	size_t					componentCount = CGColorGetNumberOfComponents(color);
+	const CGFloat			*comp = CGColorGetComponents(color);
+	
+	if (componentCount == 2) return $S(@"White: %.0f, a: %.0f", comp[0], comp[1]);
+	
+	if (componentCount != 4) return $S(@"not an RGB color (%d comp)", (int) componentCount);
+	return $S(@"R: %.0f, G: %.0f, B: %.0f, a: %.0f", comp[0], comp[1], comp[2], comp[3]);
+}
+
+

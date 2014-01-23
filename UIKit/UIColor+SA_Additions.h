@@ -11,6 +11,8 @@
 
 #define	GENERATE_UICOLOR(r, g, b)	[UIColor colorWithRed:(CGFloat)r/255.0 green:(CGFloat)g/255.0 blue:(CGFloat)b/255.0 alpha:1.0]
 
+NSString *				NSStringFromCGColor(CGColorRef color);
+
 @interface UIColor (UIColor_SA_Additions)
 
 @property(readonly) const CGFloat * SA_RGBAComponents;

@@ -145,7 +145,7 @@
 }
 
 - (void) addSpacer: (CGFloat) spacerHeight {
-	[self.componentViews addObject: $F(spacerHeight)];
+	[self.componentViews addObject: @(spacerHeight)];
 }
 
 //=============================================================================================================================

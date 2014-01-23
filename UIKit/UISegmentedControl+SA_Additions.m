@@ -21,12 +21,12 @@
 }
 
 - (void) insertSegmentWithImage: (UIImage *) image atIndex: (NSUInteger) segment animated: (BOOL) animated tag: (SInt16) tag {
-	[self.tags setObject: $I(tag) forKey: $S(@"%d", (SInt16) segment)];
+	[self.tags setObject: @(tag) forKey: $S(@"%d", (SInt16) segment)];
 	[self insertSegmentWithImage: image atIndex: segment animated: animated];
 }
 
 - (void) insertSegmentWithTitle: (NSString *) title atIndex: (NSUInteger) segment animated: (BOOL) animated tag: (SInt16) tag {
-	[self.tags setObject: $I(tag) forKey: $S(@"%d", (SInt16) segment)];
+	[self.tags setObject: @(tag) forKey: $S(@"%d", (SInt16) segment)];
 	[self insertSegmentWithTitle: title atIndex: segment animated: animated];
 }
 

@@ -157,7 +157,7 @@
 #pragma mark Logging			
 
 void		RedirectConsoleLogToDocumentFolder(void);
-NSString*	RedirectedFilePath(void);
+NSString *	RedirectedFilePath(void);
 void		ClearConsoleLog(void);
 
 
@@ -201,7 +201,7 @@ void		ClearConsoleLog(void);
 	#define			INCR_COUNT_LABELED(_X_, l)	if (g_##_X_##_objectCount++ > 0) LOG(@"%d %@ instances created", g_##_X_##_objectCount, l);
 	#define			DECR_COUNT_RELEASE(_X_, o)	if ([o retainCount] <= 1) g_##_X_##_objectCount--; RELEASE(o);
 
-	#define			LOG_DATA(d, n)						[d writeToFile: [[NSString stringWithFormat: @"~/tmp/%@.txt", n] stringByExpandingTildeInPath] options: 0 error: nil]
+	#define			LOG_DATA(d, n)				[d writeToFile: [[NSString stringWithFormat: @"~/tmp/%@.txt", n] stringByExpandingTildeInPath] options: 0 error: nil]
 
 	#define			DISPLAY_ALERT(t, m)			displayAlert(t, m);
 #else
@@ -227,19 +227,13 @@ void				displayAlert(NSString *title, NSString *message);
 #define		IS_KIND_OF(o, c)			([o isKindOf: [c class]])
 
 #define		$D(...)						[NSDictionary dictionaryWithObjectsAndKeys: __VA_ARGS__, nil]
-#define		$Dm(...)					[NSMutableDictionary dictionaryWithObjectsAndKeys: __VA_ARGS__, nil]
 #define		$A(...)						[NSArray arrayWithObjects: __VA_ARGS__, nil]
-#define		$Am(...)					[NSMutableArray arrayWithObjects: __VA_ARGS__, nil]
 #define		$S(format, ...)				[NSString stringWithFormat: format, ##  __VA_ARGS__]
 #define		$U(format, ...)				[NSURL URLWithString: [NSString stringWithFormat: format, ##  __VA_ARGS__]]
 #define		$P(format, ...)				[NSPredicate predicateWithFormat: format, ##  __VA_ARGS__]
-#define		$F(f)						[NSNumber numberWithFloat: f]
-#define		$I(i)						[NSNumber numberWithInt: i]
-#define		$B(b)						[NSNumber numberWithBool: b]
 #define		$Vrect(r)					[NSValue valueWithCGRect: r]
 #define		$Vpoint(x, y)				[NSValue valueWithCGPoint: CGPointMake(x, y)]
 #define		$Vsize(w, h)				[NSValue valueWithCGSize: CGSizeMake(w, h)]
-#define		$C(r, b, g, a)				[UIColor colorWithRed: r green: g blue: blue alpha: a]
 
 
 #define		CGRectCenter(r)					(CGPointMake(CGRectGetMidX(r), CGRectGetMidY(r)))
@@ -289,7 +283,6 @@ typedef enum {dir_left, dir_up, dir_right, dir_down} direction;
 	NSString *				NSStringFromInterfaceOrientation(UIInterfaceOrientation orientation);
 #endif
 
-NSString *				NSStringFromCGColor(CGColorRef color);
 
 
 void					MailDataWithTitle(NSData *data, NSString *title);
@@ -302,10 +295,10 @@ void					MailDataWithTitle(NSData *data, NSString *title);
 
 #define				PERFORM_ON_MAIN_THREAD(f)				{simpleBlock	b = ^{f}; if ([NSThread isMainThread]) b(); else dispatch_async(dispatch_get_main_queue(), b); }
 
+typedef void (^simpleBlock)(void);
 typedef void (^booleanArgumentBlock)(BOOL value);
 typedef void (^intArgumentBlock)(NSInteger index);
 typedef void (^floatArgumentBlock)(float value);
-typedef void (^simpleBlock)(void);
 typedef void (^idArgumentBlock)(id arg);
 typedef void (^stringArgumentBlock)(NSString *arg);
 typedef void (^errorArgumentBlock)(NSError *error);
@@ -314,9 +307,7 @@ typedef id (^idArgumentBlockReturningID)(id arg);
 typedef void (^simpleArrayBlock)(NSArray *array);
 typedef void (^simpleDateBlock)(NSDate *date);
 typedef void (^viewArgumentBlock)(UIView *view);
-#ifdef NSManagedObjectContext
 typedef void (^mocArgumentBlock)(NSManagedObjectContext *moc);
-#endif
 
 #if TARGET_OS_IPHONE
 	typedef void (^simpleImageBlock)(UIImage *image);
@@ -344,9 +335,7 @@ typedef void (^mocArgumentBlock)(NSManagedObjectContext *moc);
 		return s_##methodName; \
 	}
 
-
-void dispatch_async_main(dispatch_block_t block);
-void dispatch_sync_main(dispatch_block_t block);
+#define	DEFAULT_VIEW_INIT_METHODS - (id) initWithFrame: (CGRect) frame { return [[super initWithFrame: frame] postInitSetup]; } - (id) initWithCoder: (NSCoder *) aDecoder { return [[super initWithCoder: aDecoder] postInitSetup]; }
 
 typedef NS_ENUM(UInt8, XCodeBuildType) {
 	XCodeBuildType_dev,
