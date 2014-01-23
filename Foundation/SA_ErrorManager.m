@@ -20,6 +20,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ErrorManager, defaultManager);
 
 - (void) handleError: (NSError *) error withTitle: (NSString *) title devNote: (NSString *) devNote ofLevel: (SA_Error_Level) level {
 	if (error == nil) return;
+	
 	if (self.filterLevel != SA_Error_Level_User) {
 		NSLog(@"****** Error Received: %@ (%@) ********\n%@%@%@\n", title, [SA_ErrorManager convertErrLevelToString: level], devNote ?: @"", devNote.length ? @"\n" : @"", error);
 	
@@ -44,6 +45,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ErrorManager, defaultManager);
 }
 
 - (void) reportTitle: (NSString *) title message: (NSString *) message devNote: (NSString *) devNote {
+	
 	if (self.delegate && [self.delegate respondsToSelector: _cmd])
 		[self.delegate reportTitle: title message: message devNote: devNote];
 	else
@@ -51,6 +53,8 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ErrorManager, defaultManager);
 }
 
 - (void) reportTitle: (NSString *) title error: (NSError *) error devNote: (NSString *) devNote {
+	if (error.shouldProbablyBeSupressedForMostUsers) return;
+	
 	if (self.delegate && [self.delegate respondsToSelector: _cmd])
 		[self.delegate reportTitle: title error: error devNote: devNote];
 	else
