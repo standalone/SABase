@@ -343,3 +343,6 @@ typedef NS_ENUM(UInt8, XCodeBuildType) {
 	XCodeBuildType_appStore
 };
 XCodeBuildType XCODE_BUILD_TYPE(void);
+
+#define weakify(s)				__weak typeof(s)		weak##_s = s
+#define strongify(s)			weak##_s
