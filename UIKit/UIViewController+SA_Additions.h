@@ -25,6 +25,7 @@ typedef enum {
 - (void) slideViewController: (UIViewController *) controller outTowardsDirection: (UIViewControllerAnimationDirection) direction;
 - (void) removeAllChildViewControllers;
 - (UIViewController *) farthestAncestorController;
+- (void) addFullSizeChildViewController: (UIViewController *) controller;
 @end
 
 

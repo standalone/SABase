@@ -16,6 +16,12 @@
 
 @implementation UIViewController (UIViewController_SA_Additions)
 @dynamic farthestAncestorController;
+- (void) addFullSizeChildViewController: (UIViewController *) controller {
+	controller.view.frame = self.view.bounds;
+	controller.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	[self.view addSubview: controller.view];
+	[self addChildViewController: controller];
+}
 
 - (NSSet *) childControllers {
 	if (![self isKindOfClass: [UINavigationController class]] && ![self isKindOfClass: [UITabBarController class]]) {
