@@ -630,6 +630,16 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 }
 #endif
 
+- (UIScrollView *) scrollView {
+	UIView			*parent = self.superview;
+	
+	while (parent) {
+		if ([parent isKindOfClass: [UIScrollView class]] && ![parent.superview isKindOfClass: [UITableViewCell class]]) return (id) parent;
+		parent = parent.superview;
+	}
+	return nil;
+}
+
 #define kBlockerViewTappedBlockKey			@"com.standalone.tapped.block"
 
 - (UIView *) blockingViewWithTappedBlock: (viewArgumentBlock) block {
