@@ -165,28 +165,31 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 		} else if (connection.replaceOlder) {
 			[self removeConnectionsTaggedWith: connection.tag delegate: connection.delegate];
 		}
-		SA_Assert(!connection.alreadyStarted, @"Can't queue an already started connection");
+		
+		[self.privateQueue addOperationWithBlock: ^{
+			SA_Assert(!connection.alreadyStarted, @"Can't queue an already started connection");
 
-		[_pending addObject: connection];
-		connection.order = _pending.count;
-		if (connection.persists && [self respondsToSelector: @selector(persistConnection:)]) {
-			if (connection.completeInBackground) {LOG(@"Trying to persist a background connection. This is not allowed. (%@)", connection);}
-		}
+			[_pending addObject: connection];
+			connection.order = _pending.count;
+			if (connection.persists && [self respondsToSelector: @selector(persistConnection:)]) {
+				if (connection.completeInBackground) {LOG(@"Trying to persist a background connection. This is not allowed. (%@)", connection);}
+			}
 
-		[self reorderPendingConnectionsByPriority];
-		if (self.managePleaseWaitDisplay && connection.showsPleaseWait) {
-			[_pleaseWaitConnections addObject: connection];
-		}
-		
-		#if TARGET_OS_IPHONE
-			if (self.managePleaseWaitDisplay && connection.priority >= _minimumIndicatedPriorityLevel && self.showProgressInPleaseWaitDisplay) _highwaterMark++;
-		#endif
-		
-		[self deferQueueProcessing];
-	//	if (_active.count < self.maxSimultaneousConnections) [self processQueue];
-		if (self.managePleaseWaitDisplay) [self updatePleaseWaitDisplay]; 
-		
-		[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_Queued object: connection];
+			[self reorderPendingConnectionsByPriority];
+			if (self.managePleaseWaitDisplay && connection.showsPleaseWait) {
+				[_pleaseWaitConnections addObject: connection];
+			}
+			
+			#if TARGET_OS_IPHONE
+				if (self.managePleaseWaitDisplay && connection.priority >= _minimumIndicatedPriorityLevel && self.showProgressInPleaseWaitDisplay) _highwaterMark++;
+			#endif
+			
+			[self deferQueueProcessing];
+		//	if (_active.count < self.maxSimultaneousConnections) [self processQueue];
+			if (self.managePleaseWaitDisplay) [self updatePleaseWaitDisplay]; 
+			
+			[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_Queued object: connection];
+		}];
 	}];
 	return YES;
 }
