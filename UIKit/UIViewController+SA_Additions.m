@@ -16,6 +16,11 @@
 
 @implementation UIViewController (UIViewController_SA_Additions)
 @dynamic farthestAncestorController;
+
++ (id) simpleController {
+	return [[self alloc] init];
+}
+
 - (void) addFullSizeChildViewController: (UIViewController *) controller {
 	controller.view.frame = self.view.bounds;
 	controller.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;

@@ -19,6 +19,8 @@ typedef enum {
 
 @interface UIViewController (UIViewController_SA_Additions)
 @property (nonatomic, readonly) UIViewController *farthestAncestorController;
++ (id) simpleController;
+
 - (NSSet *) childControllers;
 
 - (void) slideViewController: (UIViewController *) controller inToView: (UIView *) view fromDirection: (UIViewControllerAnimationDirection) direction withBounce: (BOOL) bounce;
