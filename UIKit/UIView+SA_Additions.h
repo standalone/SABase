@@ -51,6 +51,7 @@ typedef enum {
 - (void) logHierarchy;
 - (UIImage *) toImage;
 - (UIImage *) toImageUsingLayer: (BOOL) useLayer;			//pass YES to force the old style -renderInContext-based method
+- (UIImage *) toImageUsingLayer: (BOOL) useLayer fromRect: (CGRect) rect;
 - (NSArray *) allSubviews;
 - (void) removeAllSubviews;
 - (void) recursiveSetFont: (UIFont *) font;

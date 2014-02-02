@@ -187,31 +187,36 @@
 	return view;
 }
 
-- (UIImage *) toImage { return [self toImageUsingLayer: NO]; }
+- (UIImage *) toImage { return [self toImageUsingLayer: NO fromRect: self.bounds]; }
 
-- (UIImage *) toImageUsingLayer: (BOOL) useLayer {
+- (UIImage *) toImageUsingLayer: (BOOL) useLayer { return [self toImageUsingLayer: useLayer fromRect: self.bounds]; }
+- (UIImage *) toImageUsingLayer: (BOOL) useLayer fromRect: (CGRect) rect {
 	if (RUNNING_ON_70 && !useLayer) {
 		CGSize					size = self.bounds.size;
-		UIGraphicsBeginImageContextWithOptions(CGSizeMake(size.width, size.height), YES, 0);
+		UIGraphicsBeginImageContextWithOptions(CGSizeMake(rect.size.width, rect.size.height), YES, 0);
 		
-		[self drawViewHierarchyInRect: CGRectMake(0, 0, size.width, size.height) afterScreenUpdates: NO];
+		CGContextRef		ctx = UIGraphicsGetCurrentContext();
+		CGContextConcatCTM(ctx, CGAffineTransformMakeTranslation(-rect.origin.x, -rect.origin.y));
+
+		[self drawViewHierarchyInRect: CGRectMake(0, 0, size.width, size.height) afterScreenUpdates: YES];
 
 		UIImage				*image = UIGraphicsGetImageFromCurrentImageContext();
 		UIGraphicsEndImageContext();
 		
 		return image;
 	} else {
-		UIGraphicsBeginImageContext(self.bounds.size);
+		UIGraphicsBeginImageContext(rect.size);
 		
-		CGContextRef						context = UIGraphicsGetCurrentContext();
+		CGContextRef						ctx = UIGraphicsGetCurrentContext();
 		
 		if ([self respondsToSelector: @selector(contentOffset)]) {
 			CGPoint					contentOffset = [(id) self contentOffset];
 			
-			CGContextTranslateCTM(context, -contentOffset.x, -contentOffset.y);
+			CGContextTranslateCTM(ctx, -contentOffset.x, -contentOffset.y);
 		}
 		
-		[self.layer renderInContext: context];
+		CGContextConcatCTM(ctx, CGAffineTransformMakeTranslation(-rect.origin.x, -rect.origin.y));
+		[self.layer renderInContext: ctx];
 		
 		UIImage					*viewImage = UIGraphicsGetImageFromCurrentImageContext();
 		
