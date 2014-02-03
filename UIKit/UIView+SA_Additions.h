@@ -68,6 +68,9 @@ typedef enum {
 - (void) stopPulsing;
 - (UIView *) blockingViewWithTappedBlock: (viewArgumentBlock) block;
 
+- (UIView *) commonAncestorWith: (UIView *) view;
+- (BOOL) isSubviewOf: (UIView *) view;
+
 #if BLUR_SUPPORTED
 - (BOOL) isBlurred;
 - (UIImageView *) blur: (int) blurriness withDuration: (NSTimeInterval) duration;	//returns the UIImageView that was created with the blurred image

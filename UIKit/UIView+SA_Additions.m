@@ -539,6 +539,32 @@
 	CGPathRelease(path);
 }
 
+- (UIView *) commonAncestorWith: (UIView *) other {
+	UIView					*myParent = self.superview;
+	
+	while (myParent) {
+		UIView					*theirParent = other.superview;
+		
+		while (theirParent) {
+			if (theirParent == myParent) return myParent;
+			
+			theirParent = theirParent.superview;
+		}
+		
+		myParent = myParent.superview;
+	}
+	
+	return nil;
+}
+
+- (BOOL) isSubviewOf: (UIView *) view {
+	for (UIView *child in view.subviews) {
+		if (child == self) return YES;
+		if ([self isSubviewOf: child]) return YES;
+	}
+	return NO;
+}
+
 
 #if BLUR_SUPPORTED
 const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
