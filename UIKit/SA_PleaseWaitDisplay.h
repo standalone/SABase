@@ -40,7 +40,7 @@
 @property (nonatomic, readwrite, strong) UIFont *majorFont, *minorFont;
 @property (nonatomic, readonly) UIView *sibling;
 @property (nonatomic, readwrite) UIInterfaceOrientation currentOrientation;
-@property (nonatomic, readonly) CGRect majorLabelBounds, minorLabelBounds, contentBounds, contentFrame, auxButtonFrame, spinnerFrame, progressIndicatorFrame;
+@property (nonatomic, readonly) CGRect majorLabelFrame, minorLabelBounds, contentBounds, contentFrame, auxButtonFrame, spinnerFrame, progressIndicatorFrame;
 @property (nonatomic, copy) simpleBlock cancelBlock;
 
 @property(nonatomic, readonly) UIView *view;

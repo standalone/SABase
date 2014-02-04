@@ -229,13 +229,15 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 	return child;
 }
 
-- (CGRect) majorLabelBounds {
+- (CGRect) majorLabelFrame {
 	CGRect							contentFrame = self.contentFrame;
 	float							labelTop = contentFrame.origin.y + (RUNNING_ON_IPAD ? contentFrame.size.height * 0.1 :  contentFrame.size.height * 0.3);
 	CGRect							bounds = CGRectMake(contentFrame.origin.x + 10, labelTop, contentFrame.size.width - 20, 21);
 
+	[_majorLabel sizeToFit];
+
 	if (_majorLabelPositionedWithSpinner) {
-		float						textWidth = [_majorText SA_sizeWithFont: [self majorFont]].width;
+		float						textWidth = _majorLabel.bounds.size.width;
 		float						spinnerWidth = 20, space = 10;
 		float						textLeft = contentFrame.origin.x + (contentFrame.size.width - (textWidth + spinnerWidth + space)) / 2;
 		
@@ -298,12 +300,10 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 }
 
 - (CGRect) spinnerFrame {
-	CGRect						spinnerFrame = _majorLabel.frame;
-	CGSize						textSize = [_majorText SA_sizeWithFont: _majorFont];
-	
-	spinnerFrame.origin.x = spinnerFrame.origin.x + (spinnerFrame.size.width / 2) + textSize.width / 2 + 20;
-	spinnerFrame.size.width = 20;
-	spinnerFrame.size.height = 20;
+	CGRect						textFrame = self.majorLabelFrame;
+	CGFloat						spinnerSize = 20;
+	CGRect						spinnerFrame = CGRectMake(textFrame.origin.x + textFrame.size.width + 25, textFrame.origin.y + (textFrame.size.height - spinnerSize) / 2, spinnerSize, spinnerSize);
+
 	return spinnerFrame;
 }
 
@@ -434,7 +434,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 		_grayLayer.position = _view.contentCenter;
 	}
 	
-	_majorLabel.normalizedFrame = self.majorLabelBounds;
+	_majorLabel.normalizedFrame = self.majorLabelFrame;
 	_minorLabel.normalizedFrame = self.minorLabelBounds;
 	_cancelButton.normalizedFrame = self.cancelButtonFrame;
 	_auxButton.normalizedFrame = self.auxButtonFrame;
@@ -445,7 +445,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 
 - (void) setupMajorLabel {
 	if (_majorLabel == nil) {			
-		_majorLabel = [[UILabel alloc] initWithFrame: self.majorLabelBounds];
+		_majorLabel = [[UILabel alloc] initWithFrame: self.majorLabelFrame];
 		_majorLabel.textAlignment = NSTextAlignmentCenter;
 		_majorLabel.font = [self majorFont];
 		_majorLabel.backgroundColor = kLabelBackgroundColor;
@@ -453,7 +453,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 	[self.view addSubview: _majorLabel];
 	
 	_majorLabel.text = _majorText;
-	_majorLabel.normalizedFrame = self.majorLabelBounds;
+	_majorLabel.normalizedFrame = self.majorLabelFrame;
 	if (_majorLabelPositionedWithSpinner) [self setupSpinner];
 	_majorLabel.textColor = [UIColor whiteColor];
 }
