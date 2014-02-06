@@ -346,3 +346,11 @@ XCodeBuildType XCODE_BUILD_TYPE(void);
 
 #define weakify(s)				__weak typeof(s)		weak##_s = s
 #define strongify(s)			weak##_s
+
+
+
+@protocol SA_JSONEncoding <NSObject>
+@property (nonatomic, readonly) NSDictionary *JSONDictionary;
+- (id) initWithJSONDictionary: (NSDictionary *) JSONDictionary;
+@end
+
