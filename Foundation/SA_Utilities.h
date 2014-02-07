@@ -351,6 +351,7 @@ XCodeBuildType XCODE_BUILD_TYPE(void);
 
 @protocol SA_JSONEncoding <NSObject>
 @property (nonatomic, readonly) NSDictionary *JSONDictionary;
+@optional
 - (id) initWithJSONDictionary: (NSDictionary *) JSONDictionary;
 @end
 

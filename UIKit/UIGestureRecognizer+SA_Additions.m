@@ -52,4 +52,12 @@
 
 }
 
+- (UIView *) SA_touchedView {
+	CGPoint					pt = [self locationInView: self.view];
+	UIView					*hit = [self.view hitTest: pt withEvent: nil];
+	
+	return hit;
+	
+}
+
 @end
