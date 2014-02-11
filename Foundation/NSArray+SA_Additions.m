@@ -194,4 +194,17 @@
 	return string;
 }
 
+- (void) map: (idArgumentBlock) block {
+	for (id object in self) {
+		block(object);
+	}
+}
+
+- (NSArray *) collectMappedResults: (idArgumentBlockReturningID) block {
+	NSMutableArray	*results = [NSMutableArray array];
+	for (id object in self) {
+		[results addObject: block(object)];
+	}
+	return results;
+}
 @end

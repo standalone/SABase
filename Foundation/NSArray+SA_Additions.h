@@ -30,4 +30,5 @@
 - (id) SA_firstObject;
 - (NSArray *) SA_arrayByRemovingObject: (id) object;
 - (NSString *) SA_checksumString;
+- (void) map: (idArgumentBlock) block;
 @end
