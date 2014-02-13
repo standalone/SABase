@@ -7,6 +7,7 @@
 
 
 #import "NSManagedObject+SA_Additions.h"
+#import "NSManagedObjectContext+SA_Additions.h"
 #import "NSObject+SA_Additions.h"
 
 @implementation NSManagedObject (NSManagedObject_SA_Additions)

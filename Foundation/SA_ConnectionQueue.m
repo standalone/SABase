@@ -12,6 +12,7 @@
 #import "NSNotificationCenter+SA_Additions.h"
 #import "SA_Utilities.h"
 #import "NSObject+SA_Additions.h"
+#import "NSBundle+SA_Additions.h"
 #if TARGET_OS_IPHONE
 	
 #endif

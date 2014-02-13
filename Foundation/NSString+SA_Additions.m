@@ -18,7 +18,14 @@
 @dynamic characters;
 
 + (NSString *) tempFileNameWithSeed: (NSString *) seed ofType: (NSString *) type {
-	return [NSTemporaryDirectory() stringByAppendingPathComponent: [NSString stringWithFormat: @"%d-%d-%@.%@", (int) [NSDate timeIntervalSinceReferenceDate], ((int) rand()) % 10000, seed, type]];
+    NSString *name = [NSString stringWithFormat:@"%d-%d",(int) [NSDate timeIntervalSinceReferenceDate], ((int) rand()) % 10000];
+    if (seed && ![seed isEqualToString:@""]) {
+        name = [NSString stringWithFormat:@"%@-%@", name, seed];
+    }
+    if (type && ![type isEqualToString:@""]) {
+        name = [name stringByAppendingPathExtension:type];
+    }
+	return [NSTemporaryDirectory() stringByAppendingPathComponent: name];
 }
 
 + (NSString *) stringWithData: (NSData *) data {

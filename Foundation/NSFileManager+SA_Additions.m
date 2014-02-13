@@ -6,7 +6,7 @@
 //
 
 #import "NSFileManager+SA_Additions.h"
-
+#import "NSBundle+SA_Additions.h"
 
 #if TARGET_OS_IPHONE
 
