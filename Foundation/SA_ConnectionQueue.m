@@ -276,6 +276,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 	[self.privateQueue addOperationWithBlock:^{
 		[self.queueProcessingTimer invalidate];
 		#ifdef kUIBackgroundTaskInvalid
+        #if !TARGET_OS_MAC
 			if (_active.count == 0 && _pending.count == 0 && _backgroundTaskID == kUIBackgroundTaskInvalid) return;
 			if (_active.count == 0 && _backgroundTaskID == kUIBackgroundTaskInvalid) {
 				_backgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler: ^{
@@ -291,6 +292,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 				}];
 			}
 		#endif
+        #endif
 		
 		while (!_offline && !self.paused && _active.count < self.maxSimultaneousConnections && _pending.count) {
 			SA_Connection				*connection = _pending[0];
@@ -313,6 +315,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 				[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_AllConnectionsCompleted object: self];
 			}
 			#ifdef kUIBackgroundTaskInvalid
+            #if !TARGET_OS_MAC
 				if (_backgroundTaskID != kUIBackgroundTaskInvalid) {
 					dispatch_on_main_queue(^{
 						if (_backgroundTaskID != kUIBackgroundTaskInvalid && _active.count == 0) {
@@ -322,6 +325,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 					});
 				}
 			#endif
+            #endif
 		}
 		
 		if (self.managePleaseWaitDisplay) [self updatePleaseWaitDisplay];
