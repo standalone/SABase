@@ -14,6 +14,16 @@
 - (NSString *) getCharsFound;
 @end
 
+#if !OS_70_BUILD
+@interface NSString(NSStringDrawing)
+- (CGSize) sizeWithAttributes: (NSDictionary *) attrs;
+- (void) drawAtPoint: (CGPoint) point withAttributes: (NSDictionary *) attrs;
+- (void) drawInRect: (CGRect) rect withAttributes: (NSDictionary *) attrs;
+- (CGRect) boundingRectWithSize: (CGSize) size options: (NSStringDrawingOptions) options attributes: (NSDictionary *) attributes context: (NSStringDrawingContext *) context;
+@end
+#endif
+
+
 @implementation NSString (SA_Additions)
 @dynamic characters;
 
@@ -29,7 +39,7 @@
 }
 
 + (NSString *) stringWithData: (NSData *) data {
-	return [[[NSString alloc] initWithBytes: [data bytes] length: [data length] encoding: NSASCIIStringEncoding] autorelease];
+	return [[NSString alloc] initWithBytes: [data bytes] length: [data length] encoding: NSASCIIStringEncoding];
 }
 
 + (NSString *) stringWithDuration: (float) fullSeconds showingHours: (BOOL) showHours {
@@ -172,12 +182,12 @@
 
 #if TARGET_OS_IPHONE
 - (NSString *) stringTruncatedToWidth: (float) width usingFont: (UIFont *) font addingElipsis: (BOOL) addingElipsis {
-	NSMutableString						*copy = [[self mutableCopy] autorelease];
-	float								elipsisWidth = addingElipsis ? [@"…" sizeWithFont: font].width : 0;
+	NSMutableString						*copy = self.mutableCopy;
+	float								elipsisWidth = addingElipsis ? [@"…" SA_sizeWithFont: font].width : 0;
 	BOOL								reduced = NO;
 	
 	while (true) {
-		if ([copy sizeWithFont: font].width <= (width - (reduced ? elipsisWidth : 0))) {
+		if ([copy SA_sizeWithFont: font].width <= (width - (reduced ? elipsisWidth : 0))) {
 			if (reduced) return [NSString stringWithFormat: @"%@…", [copy stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]]];
 			return copy;
 		}
@@ -188,9 +198,32 @@
 	}
 	return copy;
 }
+
+- (CGSize) SA_sizeWithFont: (UIFont *) font {
+	if (RUNNING_ON_70) {
+		return [self sizeWithAttributes: @{ @"NSFontAttributeName": font }];
+	}
+	
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+	return [self sizeWithFont: font];
+#pragma clang diagnostic pop
+}
+- (CGSize) SA_sizeWithFont: (UIFont *)font constrainedToSize: (CGSize) size lineBreakMode: (NSLineBreakMode) lineBreakMode {
+	if (RUNNING_ON_70) {
+		NSDictionary				*attr = @{ @"NSFontAttributeName": font };
+		
+		return [self boundingRectWithSize: size options: NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesLineFragmentOrigin attributes: attr context: nil].size;
+	}
+	
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+	return [self sizeWithFont: font constrainedToSize: size lineBreakMode: lineBreakMode];
+#pragma clang diagnostic pop
+}
 #else
 - (CGSize) sizeWithFont:(NSFont *)font {
-	NSSize				size = [self sizeWithAttributes: $D(font, NSFontAttributeName)];
+	NSSize				size = [self sizeWithAttributes: {@"NSFontAttributeName": font} ];
 	
 	return NSSizeToCGSize(size);
 }
@@ -204,7 +237,7 @@
 
 
 - (NSString *) stringByStrippingCharactersInSet: (NSCharacterSet *) set options: (int) options {
-	NSMutableString				*copy = [[self mutableCopy] autorelease];
+	NSMutableString				*copy = self.mutableCopy;
 	
 	while (true) {
 		NSRange					range = [copy rangeOfCharacterFromSet: set options: options range: NSMakeRange(0, [copy length])];
@@ -314,14 +347,14 @@
 
 - (NSString *) stringByPrettyingForURL {
 	
-	NSString *string = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)self, NULL, CFSTR("!*'();:@&=+$,/?%#[]"), kCFStringEncodingUTF8);
-	return [string autorelease];
+	NSString *string = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)self, NULL, CFSTR("!*'();:@&=+$,/?%#[]"), kCFStringEncodingUTF8));
+	return string;
 }
 
 - (NSString *) stringByPrettyingForPOSTBody {
 	
-	NSString *string = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)self, NULL, CFSTR("&="), kCFStringEncodingUTF8);
-	return [string autorelease];
+	NSString *string = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)self, NULL, CFSTR("&="), kCFStringEncodingUTF8));
+	return string;
 }
 
 - (NSRange) fullRange {return NSMakeRange(0, [self length]);}
@@ -437,20 +470,20 @@
 
 - (NSString *) stringByStrippingTags {
 	NSRange				r;
-	NSString			*result = [[self copy] autorelease];
+	NSString			*result = self.copy;
 	
 	while ((r = [result rangeOfString: @"<[^>]+>" options: NSRegularExpressionSearch]).location != NSNotFound)
 		result = [result stringByReplacingCharactersInRange:r withString: @""];
 	return result; 
 }
 
-+ (NSString *) stringWithFormat: (NSString *) format array: (NSArray *) arguments {
-    id *argList = (id *) malloc(sizeof(id) * [arguments count]);
-    [arguments getObjects: (id *) argList];
-    NSString* result = [[[NSString alloc] initWithFormat: format arguments: (void *) argList] autorelease];
-    free(argList);
-    return result;
-}
+//+ (NSString *) stringWithFormat: (NSString *) format array: (NSArray *) arguments {
+//    __strong id *argList = (id *) malloc(sizeof(id) * [arguments count]);
+//    [arguments getObjects: argList range: NSMakeRange(0, arguments.count)];
+//    NSString* result = [[NSString alloc] initWithFormat: format arguments: (void *) argList];
+//    free(argList);
+//    return result;
+//}
 
 //- (NSString *) md5HashString {
 //	if (self.length == 0) return nil;
@@ -514,10 +547,6 @@
 
     NSString* strippedString = [parsee getCharsFound];
     
-    // clean up
-    [parser release];
-    [parsee release];
-    
     // get the raw text out of the parsee after parsing, and return it
     return strippedString;
 }
@@ -536,14 +565,11 @@
 @implementation NSString_HTMLStringDelegate
 - (id)init {
     if((self = [super init])) {
-        self.strings = [[[NSMutableArray alloc] init] autorelease];
+        self.strings = [[NSMutableArray alloc] init];
     }
     return self;
 }
-- (void)dealloc {
-    self.strings = nil;
-    [super dealloc];
-}
+
 - (void)parser:(NSXMLParser*)parser foundCharacters:(NSString*)string {
     [self.strings addObject:string];
 }
@@ -557,11 +583,11 @@
 @implementation NSAttributedString (SA_Additions)
 #if TARGET_OS_IPHONE
 + (id) stringWithString: (NSString *) string {
-	return [self stringWithString: string ?: @"" attributes: @{ NSFontAttributeName: [UIFont boldSystemFontOfSize: 14] }];
+	return [self stringWithString: string ?: @"" attributes: @{ @"NSFontAttributeName": [UIFont boldSystemFontOfSize: 14] }];
 }
 
 + (id) stringWithString: (NSString *) string attributes: (NSDictionary *) attr {
-	return [[[self alloc] initWithString: string ?: @"" attributes: attr ?: @{}] autorelease];
+	return [[self alloc] initWithString: string ?: @"" attributes: attr ?: @{}];
 }
 #endif
 @end
@@ -570,10 +596,10 @@
 @implementation NSMutableAttributedString (SA_Additions)
 #if TARGET_OS_IPHONE
 - (void) setFont: (UIFont *) font {
-	[self setAttributes: @{ NSFontAttributeName: font } range: NSMakeRange(0, self.length)];
+	[self setAttributes: @{ @"NSFontAttributeName": font } range: NSMakeRange(0, self.length)];
 }
 - (void) setColor: (UIColor *) color {
-	[self setAttributes: @{ NSForegroundColorAttributeName: color } range: NSMakeRange(0, self.length)];
+	[self setAttributes: @{ @"NSForegroundColorAttributeName": color } range: NSMakeRange(0, self.length)];
 }
 #endif
 @end

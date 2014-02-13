@@ -17,6 +17,17 @@
 @implementation UIViewController (UIViewController_SA_Additions)
 @dynamic farthestAncestorController;
 
++ (id) simpleController {
+	return [[self alloc] init];
+}
+
+- (void) addFullSizeChildViewController: (UIViewController *) controller {
+	controller.view.frame = self.view.bounds;
+	controller.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	[self.view addSubview: controller.view];
+	[self addChildViewController: controller];
+}
+
 - (NSSet *) childControllers {
 	if (![self isKindOfClass: [UINavigationController class]] && ![self isKindOfClass: [UITabBarController class]]) {
 		if ([self respondsToSelector: @selector(childViewControllers)]) return [NSSet setWithArray: [(id) self childViewControllers]];
@@ -28,7 +39,7 @@
 		if (self.modalViewController) [kids addObject: self.modalViewController];
 	#pragma clang diagnostic pop
 	
-	for (UIViewController *controller in [[kids copy] autorelease]) {
+	for (UIViewController *controller in kids.copy) {
 		[kids unionSet: [controller childControllers]];
 	}
 	[kids addObject: self];
@@ -109,7 +120,7 @@
 	if ([self isKindOfClass: [UINavigationController class]]) {
 		[(id) self popToRootViewControllerAnimated: NO];
 	} else if (RUNNING_ON_50) {
-		for (UIViewController *child in [[[(id) self childViewControllers] copy] autorelease]) {
+		for (UIViewController *child in [[(id) self childViewControllers] copy]) {
 			[child.view removeFromSuperview];
 			[(id) child removeFromParentViewController];
 		}

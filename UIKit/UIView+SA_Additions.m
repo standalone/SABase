@@ -12,6 +12,10 @@
 #import <objc/message.h>
 #import "CAAnimation+SA_Blocks.h"
 
+@interface UIView (OS7_Compatibility)
+- (BOOL) drawViewHierarchyInRect: (CGRect) rect afterScreenUpdates: (BOOL) afterUpdates;
+
+@end
 
 @interface SA_BlockerView : UIView <UIGestureRecognizerDelegate>
 @property (nonatomic, copy) viewArgumentBlock viewTappedBlock;
@@ -175,24 +179,51 @@
 	return nil;
 }
 
-- (UIImage *) toImage {
-	UIGraphicsBeginImageContext(self.bounds.size);
+- (UIImageView *) imageViewCloneUsingLayer: (BOOL) useLayer {
+	UIImage		*image = [self toImageUsingLayer: useLayer];
+	UIImageView	*view = [[UIImageView alloc] initWithImage: image];
 	
-	CGContextRef						context = UIGraphicsGetCurrentContext();
-	
-	if ([self respondsToSelector: @selector(contentOffset)]) {
-		CGPoint					contentOffset = [(id) self contentOffset];
+	view.backgroundColor = self.backgroundColor;
+	return view;
+}
+
+- (UIImage *) toImage { return [self toImageUsingLayer: NO fromRect: self.bounds]; }
+
+- (UIImage *) toImageUsingLayer: (BOOL) useLayer { return [self toImageUsingLayer: useLayer fromRect: self.bounds]; }
+- (UIImage *) toImageUsingLayer: (BOOL) useLayer fromRect: (CGRect) rect {
+	if (RUNNING_ON_70 && !useLayer) {
+		CGSize					size = self.bounds.size;
+		UIGraphicsBeginImageContextWithOptions(CGSizeMake(rect.size.width, rect.size.height), YES, 0);
 		
-		CGContextTranslateCTM(context, -contentOffset.x, -contentOffset.y);
+		CGContextRef		ctx = UIGraphicsGetCurrentContext();
+		CGContextConcatCTM(ctx, CGAffineTransformMakeTranslation(-rect.origin.x, -rect.origin.y));
+
+		[self drawViewHierarchyInRect: CGRectMake(0, 0, size.width, size.height) afterScreenUpdates: YES];
+
+		UIImage				*image = UIGraphicsGetImageFromCurrentImageContext();
+		UIGraphicsEndImageContext();
+		
+		return image;
+	} else {
+		UIGraphicsBeginImageContext(rect.size);
+		
+		CGContextRef						ctx = UIGraphicsGetCurrentContext();
+		
+		if ([self respondsToSelector: @selector(contentOffset)]) {
+			CGPoint					contentOffset = [(id) self contentOffset];
+			
+			CGContextTranslateCTM(ctx, -contentOffset.x, -contentOffset.y);
+		}
+		
+		CGContextConcatCTM(ctx, CGAffineTransformMakeTranslation(-rect.origin.x, -rect.origin.y));
+		[self.layer renderInContext: ctx];
+		
+		UIImage					*viewImage = UIGraphicsGetImageFromCurrentImageContext();
+		
+		UIGraphicsEndImageContext();
+		
+		return viewImage;
 	}
-	
-	[self.layer renderInContext: context];
-	
-	UIImage					*viewImage = UIGraphicsGetImageFromCurrentImageContext();
-	
-	UIGraphicsEndImageContext();
-	
-	return viewImage;
 }
 
 - (NSArray *) allSubviews {
@@ -201,7 +232,7 @@
 	for (UIView *view in self.subviews) {
 		[subviews addObjectsFromArray: [view allSubviews]];
 	}
-	return [subviews autorelease];
+	return subviews;
 }
 
 - (void) offsetPositionByX: (float) x y: (float) y {
@@ -339,7 +370,7 @@
 //
 //- (void) slideAnimationEnded: (NSString *) anim complete: (BOOL) complete context: (id) delegate {
 //	if ([anim rangeOfString: @"remove"].location != NSNotFound) {
-//		[[self retain] autorelease];
+//		[[self strong] autorelease];
 //		[self removeFromSuperview];
 //	}
 //	if ([delegate respondsToSelector: @selector(slideDidFinishForView:)]) [delegate slideDidFinishForView: self];
@@ -358,7 +389,7 @@
 }
 
 - (void) removeAllSubviews {
-	for (UIView *subview in [[self.subviews copy] autorelease]) {
+	for (UIView *subview in [self.subviews copy]) {
 		[subview removeFromSuperview];
 	}
 }
@@ -459,28 +490,28 @@
 	UIView				*div;
 	
 	if (dividerWidths.left) {
-		div = [[[UIView alloc] initWithFrame: CGRectMake(0, 0, dividerWidths.left, self.bounds.size.height)] autorelease];
+		div = [[UIView alloc] initWithFrame: CGRectMake(0, 0, dividerWidths.left, self.bounds.size.height)];
 		div.backgroundColor = color;
 		div.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleRightMargin;
 		[self addSubview: div];
 	}
 	
 	if (dividerWidths.right) {
-		div = [[[UIView alloc] initWithFrame: CGRectMake(self.bounds.size.width - dividerWidths.right, 0, dividerWidths.right, self.bounds.size.height)] autorelease];
+		div = [[UIView alloc] initWithFrame: CGRectMake(self.bounds.size.width - dividerWidths.right, 0, dividerWidths.right, self.bounds.size.height)];
 		div.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin;
 		div.backgroundColor = color;
 		[self addSubview: div];
 	}
 	
 	if (dividerWidths.top) {
-		div = [[[UIView alloc] initWithFrame: CGRectMake(0, 0, self.bounds.size.width, dividerWidths.top)] autorelease];
+		div = [[UIView alloc] initWithFrame: CGRectMake(0, 0, self.bounds.size.width, dividerWidths.top)];
 		div.backgroundColor = color;
 		div.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
 		[self addSubview: div];
 	}
 	
 	if (dividerWidths.bottom) {
-		div = [[[UIView alloc] initWithFrame: CGRectMake(0, self.bounds.size.height - dividerWidths.bottom, self.bounds.size.width, dividerWidths.bottom)] autorelease];
+		div = [[UIView alloc] initWithFrame: CGRectMake(0, self.bounds.size.height - dividerWidths.bottom, self.bounds.size.width, dividerWidths.bottom)];
 		div.backgroundColor = color;
 		div.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
 		[self addSubview: div];
@@ -513,6 +544,32 @@
 	CGPathRelease(path);
 }
 
+- (UIView *) commonAncestorWith: (UIView *) other {
+	UIView					*myParent = self.superview;
+	
+	while (myParent) {
+		UIView					*theirParent = other.superview;
+		
+		while (theirParent) {
+			if (theirParent == myParent) return myParent;
+			
+			theirParent = theirParent.superview;
+		}
+		
+		myParent = myParent.superview;
+	}
+	
+	return nil;
+}
+
+- (BOOL) isSubviewOf: (UIView *) view {
+	for (UIView *child in view.subviews) {
+		if (child == self) return YES;
+		if ([self isSubviewOf: child]) return YES;
+	}
+	return NO;
+}
+
 
 #if BLUR_SUPPORTED
 const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
@@ -520,7 +577,7 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 - (UIImageView *) preBlur {
 	UIImageView				*view = [self associatedValueForKey: kBlurredViewKey];
 	
-	if (view == nil) view = [[[UIImageView alloc] initWithFrame: self.frame] autorelease];
+	if (view == nil) view = [[UIImageView alloc] initWithFrame: self.frame];
 	view.alpha = 0.0;
 	view.frame = self.frame;
 	view.alpha = 0.0;
@@ -604,6 +661,16 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 }
 #endif
 
+- (UIScrollView *) scrollView {
+	UIView			*parent = self.superview;
+	
+	while (parent) {
+		if ([parent isKindOfClass: [UIScrollView class]] && ![parent.superview isKindOfClass: [UITableViewCell class]]) return (id) parent;
+		parent = parent.superview;
+	}
+	return nil;
+}
+
 #define kBlockerViewTappedBlockKey			@"com.standalone.tapped.block"
 
 - (UIView *) blockingViewWithTappedBlock: (viewArgumentBlock) block {
@@ -618,7 +685,7 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 		__block UIView *localBlocker = blocker;
 		blocker.viewTappedBlock = block;
 		
-		UITapGestureRecognizer				*dismissRecog = [[UITapGestureRecognizer alloc] SA_initWithBlock:^(UIGestureRecognizer *recog) {
+		UITapGestureRecognizer				*dismissRecog = [[UITapGestureRecognizer alloc] initWithSA_Block: ^(UIGestureRecognizer *recog) {
 			if (recog.state != UIGestureRecognizerStateRecognized) return;
 			UIView					*hit = [recog.view hitTest: [recog locationInView: recog.view] withEvent: nil];
 			

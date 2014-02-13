@@ -35,6 +35,7 @@
 #import "UIButton+SA_Additions.h"
 #import "UIGestureRecognizer+SA_Additions.h"
 #import "UILocalNotification+SA_Additions.h"
+#import "NSError+SA_Additions.h"
 
 
 #import "MFMailComposeViewController+SA_Additions.h"
@@ -57,3 +58,4 @@
 #import "NSData+SA_MD5.h"
 #import "NSString+SA_MD5.h"
 #import "UIFont+SA_Additions.h"
+#import "SA_ScreenshotFeedback.h"

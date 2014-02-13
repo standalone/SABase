@@ -22,8 +22,8 @@
 @interface SA_LazyLoadingScrollView : UIScrollView <UIScrollViewDelegate> {
 }
 
-@property (nonatomic, readwrite, assign) IBOutlet id <SA_LazyLoadingScrollViewDataSource> dataSource;
-@property (nonatomic, readwrite, retain) NSMutableSet *unusedPageViews, *visiblePageViews;
+@property (nonatomic, readwrite, weak) IBOutlet id <SA_LazyLoadingScrollViewDataSource> dataSource;
+@property (nonatomic, readwrite, strong) NSMutableSet *unusedPageViews, *visiblePageViews;
 @property (nonatomic, readwrite) NSUInteger mainPageIndex;
 @property (nonatomic, readonly) SA_LazyLoadingScrollViewPage *mainPageView;
 @property (nonatomic) CGFloat interPageSpacing, pageWidth;
@@ -44,7 +44,7 @@
 @interface SA_LazyLoadingScrollViewPage : UIView {
 }
 
-@property (nonatomic, readwrite, retain) id representedObject;
+@property (nonatomic, readwrite, strong) id representedObject;
 @property (nonatomic, readwrite) NSUInteger pageIndex;
 @property (nonatomic, readwrite) BOOL isMainPageView;
 @property (nonatomic, readonly) CGRect contentFrame, visibleBounds;

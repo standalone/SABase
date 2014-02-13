@@ -12,14 +12,12 @@
 void		RunTestsWithClassNamed(NSString *className);
 
 int main(int argc, char *argv[]) {
-    
-    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-	
-	RunTestsWithClassNamed(@"NSDate_Tests");
-	RunTestsWithClassNamed(@"NSURL_Tests");
-	
-	UIApplicationMain(argc, argv, nil, nil);
-    [pool release];
+    @autoreleasepool {
+		RunTestsWithClassNamed(@"NSDate_Tests");
+		RunTestsWithClassNamed(@"NSURL_Tests");
+		
+		UIApplicationMain(argc, argv, nil, nil);
+	}
     return 0;
 }
 
@@ -41,5 +39,4 @@ void		RunTestsWithClassNamed(NSString *className) {
 	}
 	
 	LOG(@"%@ passed %d tests", className, numMethods);
-	[class release];
 }

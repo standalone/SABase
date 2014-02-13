@@ -31,14 +31,16 @@
 	}
 	
 	SEL						sel = NSSelectorFromString(string);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 	UIColor					*color = ([self respondsToSelector: sel]) ? [self performSelector: sel] : nil;
-
+#pragma clang diagnostic pop
 	if (color) return color;
-	return [[[UIColor alloc] initWithSA_HexString: string] autorelease];
+	return [[UIColor alloc] initWithSA_HexString: string];
 }
 
 + (UIColor *)  colorWithSA_HexString: (NSString *) string {
-	return [[[UIColor alloc] initWithSA_HexString: string] autorelease];
+	return [[UIColor alloc] initWithSA_HexString: string];
 }
 
 - (UIColor *)  initWithSA_HexString: (NSString *) string {
@@ -66,8 +68,8 @@
 		if (strlen(raw) == 8) alpha = CharToInteger(raw[5]) * 16 + CharToInteger(raw[6]);
 	} 
 	
-	if (values[0] == 0 && values[1] == 0 && values[2] == 0) return [[UIColor blackColor] retain];
-	if (values[0] == 255 && values[1] == 255 && values[2] == 255) return [[UIColor whiteColor] retain];
+	if (values[0] == 0 && values[1] == 0 && values[2] == 0) return [UIColor blackColor];
+	if (values[0] == 255 && values[1] == 255 && values[2] == 255) return [UIColor whiteColor];
 
 	return [self initWithRed: values[0] / 255.0 green: values[1] / 255.0 blue: values[2] / 255.0 alpha: alpha];
 }
@@ -153,3 +155,15 @@
 
 
 @end
+
+NSString *				NSStringFromCGColor(CGColorRef color) {
+	size_t					componentCount = CGColorGetNumberOfComponents(color);
+	const CGFloat			*comp = CGColorGetComponents(color);
+	
+	if (componentCount == 2) return $S(@"White: %.0f, a: %.0f", comp[0], comp[1]);
+	
+	if (componentCount != 4) return $S(@"not an RGB color (%d comp)", (int) componentCount);
+	return $S(@"R: %.0f, G: %.0f, B: %.0f, a: %.0f", comp[0], comp[1], comp[2], comp[3]);
+}
+
+

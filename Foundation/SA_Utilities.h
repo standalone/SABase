@@ -109,18 +109,42 @@
 	#define				GCD_AVAILABLE					(RUNNING_ON_40)
 	#define				RUNNING_ON_IPAD					([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
 	#define				RUNNING_ON_IPHONE				([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
-	#define				RUNNING_ON_40					([[UIDevice currentDevice].systemVersion intValue] >= 4)
-	#define				RUNNING_ON_50					([[UIDevice currentDevice].systemVersion intValue] >= 5)
-	#define				RUNNING_ON_60					([[UIDevice currentDevice].systemVersion intValue] >= 6)
-	#define				RUNNING_ON_70					([[UIDevice currentDevice].systemVersion intValue] >= 7)
+
+
+	#ifdef NSFoundationVersionNumber_iOS_4_0
+		#define				RUNNING_ON_40					(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_4_0)
+	#else
+		#define				RUNNING_ON_40					([[UIDevice currentDevice].systemVersion intValue] >= 4)
+	#endif
+
+	#ifdef NSFoundationVersionNumber_iOS_5_0
+		#define				RUNNING_ON_50					(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_5_0)
+	#else
+		#define				RUNNING_ON_50					([[UIDevice currentDevice].systemVersion intValue] >= 5)
+	#endif
+
+	#ifdef NSFoundationVersionNumber_iOS_6_0
+		#define				RUNNING_ON_60					(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_6_0)
+	#else
+		#define				RUNNING_ON_60					([[UIDevice currentDevice].systemVersion intValue] >= 6)
+	#endif
+
+	#if NSFoundationVersionNumber_iOS_7_0
+		#define				RUNNING_ON_70					(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_7_0)
+	#else
+		#define				RUNNING_ON_70					([[UIDevice currentDevice].systemVersion intValue] >= 7)
+	#endif
+
 	#define				IS_RETINA_DEVICE				([UIScreen mainScreen].scale > 1.0)
 	#define				IS_4INCH_SCREEN					(RUNNING_ON_IPHONE && [UIScreen mainScreen].bounds.size.height == 568)
 	#define				IF_IOS(...)						{__VA_ARGS__;}
 	#define				IF_MACOS(...)
 #else
 	#define				RUNNING_ON_40					NO
-	#define				RUNNING_ON_50					NO
-	#define				MULTITASKING_AVAILABLE			NO
+    #define				RUNNING_ON_50					NO
+    #define				RUNNING_ON_60					NO
+    #define				RUNNING_ON_70					NO
+    #define				MULTITASKING_AVAILABLE			NO
 	#define				MAJOR_OS_VERSION				10
 	#define				GCD_AVAILABLE					YES
 	#define				IF_IOS(...)
@@ -135,7 +159,7 @@
 #pragma mark Logging			
 
 void		RedirectConsoleLogToDocumentFolder(void);
-NSString*	RedirectedFilePath(void);
+NSString *	RedirectedFilePath(void);
 void		ClearConsoleLog(void);
 
 
@@ -179,7 +203,7 @@ void		ClearConsoleLog(void);
 	#define			INCR_COUNT_LABELED(_X_, l)	if (g_##_X_##_objectCount++ > 0) LOG(@"%d %@ instances created", g_##_X_##_objectCount, l);
 	#define			DECR_COUNT_RELEASE(_X_, o)	if ([o retainCount] <= 1) g_##_X_##_objectCount--; RELEASE(o);
 
-	#define			LOG_DATA(d, n)						[d writeToFile: [[NSString stringWithFormat: @"~/tmp/%@.txt", n] stringByExpandingTildeInPath] options: 0 error: nil]
+	#define			LOG_DATA(d, n)				[d writeToFile: [[NSString stringWithFormat: @"~/tmp/%@.txt", n] stringByExpandingTildeInPath] options: 0 error: nil]
 
 	#define			DISPLAY_ALERT(t, m)			displayAlert(t, m);
 #else
@@ -205,19 +229,13 @@ void				displayAlert(NSString *title, NSString *message);
 #define		IS_KIND_OF(o, c)			([o isKindOf: [c class]])
 
 #define		$D(...)						[NSDictionary dictionaryWithObjectsAndKeys: __VA_ARGS__, nil]
-#define		$Dm(...)					[NSMutableDictionary dictionaryWithObjectsAndKeys: __VA_ARGS__, nil]
 #define		$A(...)						[NSArray arrayWithObjects: __VA_ARGS__, nil]
-#define		$Am(...)					[NSMutableArray arrayWithObjects: __VA_ARGS__, nil]
 #define		$S(format, ...)				[NSString stringWithFormat: format, ##  __VA_ARGS__]
 #define		$U(format, ...)				[NSURL URLWithString: [NSString stringWithFormat: format, ##  __VA_ARGS__]]
 #define		$P(format, ...)				[NSPredicate predicateWithFormat: format, ##  __VA_ARGS__]
-#define		$F(f)						[NSNumber numberWithFloat: f]
-#define		$I(i)						[NSNumber numberWithInt: i]
-#define		$B(b)						[NSNumber numberWithBool: b]
 #define		$Vrect(r)					[NSValue valueWithCGRect: r]
 #define		$Vpoint(x, y)				[NSValue valueWithCGPoint: CGPointMake(x, y)]
 #define		$Vsize(w, h)				[NSValue valueWithCGSize: CGSizeMake(w, h)]
-#define		$C(r, b, g, a)				[UIColor colorWithRed: r green: g blue: blue alpha: a]
 
 
 #define		CGRectCenter(r)					(CGPointMake(CGRectGetMidX(r), CGRectGetMidY(r)))
@@ -267,7 +285,6 @@ typedef enum {dir_left, dir_up, dir_right, dir_down} direction;
 	NSString *				NSStringFromInterfaceOrientation(UIInterfaceOrientation orientation);
 #endif
 
-NSString *				NSStringFromCGColor(CGColorRef color);
 
 
 void					MailDataWithTitle(NSData *data, NSString *title);
@@ -280,10 +297,10 @@ void					MailDataWithTitle(NSData *data, NSString *title);
 
 #define				PERFORM_ON_MAIN_THREAD(f)				{simpleBlock	b = ^{f}; if ([NSThread isMainThread]) b(); else dispatch_async(dispatch_get_main_queue(), b); }
 
+typedef void (^simpleBlock)(void);
 typedef void (^booleanArgumentBlock)(BOOL value);
 typedef void (^intArgumentBlock)(NSInteger index);
 typedef void (^floatArgumentBlock)(float value);
-typedef void (^simpleBlock)(void);
 typedef void (^idArgumentBlock)(id arg);
 typedef void (^stringArgumentBlock)(NSString *arg);
 typedef void (^errorArgumentBlock)(NSError *error);
@@ -296,6 +313,8 @@ typedef void (^viewArgumentBlock)(UIView *view);
 #ifdef NSManagedObjectContext
 	typedef void (^mocArgumentBlock)(NSManagedObjectContext *moc);
 #endif
+typedef void (^simpleDateBlock)(NSDate *date);
+typedef void (^mocArgumentBlock)(NSManagedObjectContext *moc);
 
 #if TARGET_OS_IPHONE
 	typedef void (^simpleImageBlock)(UIImage *image);
@@ -323,6 +342,23 @@ typedef void (^viewArgumentBlock)(UIView *view);
 		return s_##methodName; \
 	}
 
+#define	DEFAULT_VIEW_INIT_METHODS - (id) initWithFrame: (CGRect) frame { return [[super initWithFrame: frame] postInitSetup]; } - (id) initWithCoder: (NSCoder *) aDecoder { return [[super initWithCoder: aDecoder] postInitSetup]; }
 
-void dispatch_async_main(dispatch_block_t block);
-void dispatch_sync_main(dispatch_block_t block);
+typedef NS_ENUM(UInt8, XCodeBuildType) {
+	XCodeBuildType_dev,
+	XCodeBuildType_adhoc,
+	XCodeBuildType_appStore
+};
+XCodeBuildType XCODE_BUILD_TYPE(void);
+
+#define weakify(s)				__weak typeof(s)		weak##_s = s
+#define strongify(s)			weak##_s
+
+
+
+@protocol SA_JSONEncoding <NSObject>
+@property (nonatomic, readonly) NSDictionary *JSONDictionary;
+@optional
+- (id) initWithJSONDictionary: (NSDictionary *) JSONDictionary;
+@end
+

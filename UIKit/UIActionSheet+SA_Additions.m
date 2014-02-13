@@ -21,7 +21,7 @@
 		[self associateValue: dictionary forKey: kButtonTagsKey];
 	}
 	
-	[dictionary setObject: $I(tag) forKey: title];
+	[dictionary setObject: @(tag) forKey: title];
 	[self addButtonWithTitle: title];
 }
 
@@ -39,7 +39,6 @@
 - (void) actionSheet: (UIActionSheet *) actionSheet clickedButtonAtIndex: (NSInteger) buttonIndex {
 	actionSheetButtonSelectedBlock			block = [self associatedValueForKey: kButtonBlockKey];
 	block(buttonIndex);
-	Block_release(block);
 	[self associateValue: nil forKey: kButtonBlockKey];
 }
 
@@ -65,12 +64,12 @@
 
 - (void) setSA_buttonSelectBlock: (actionSheetButtonSelectedBlock) block {
 	self.delegate = (id <UIActionSheetDelegate>) self;
-	[self associateValue: Block_copy(block) forKey: kButtonBlockKey];
+	[self associateValue: [block copy] forKey: kButtonBlockKey];
 }
 
 - (actionSheetButtonSelectedBlock) SA_buttonSelectBlock {
 	actionSheetButtonSelectedBlock			block = [self associatedValueForKey: kButtonBlockKey];
-	return block ? Block_copy(block) : nil;
+	return [block copy];
 }
 
 - (void) SA_showFromView: (UIView *) view {

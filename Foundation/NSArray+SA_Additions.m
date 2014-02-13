@@ -54,8 +54,10 @@
 	NSMutableArray				*result = [NSMutableArray arrayWithCapacity: self.count];
 	
 	for (id object in self) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 		id				newObject = [object respondsToSelector: method] ? [object performSelector: method] : nil;
-		
+#pragma clang diagnostic pop
 		if (newObject) [result addObject: newObject];
 	}
 	
@@ -102,7 +104,7 @@
 //}
 
 - (NSArray *) SA_randomizedCopy {
-	NSMutableArray					*copy = [[self mutableCopy] autorelease];
+	NSMutableArray					*copy = [self mutableCopy];
 	NSUInteger						count = self.count;
 	
 	for (NSUInteger i = 0; i < count; ++i) {		// Select a random element between i and end of array to swap with.
@@ -156,7 +158,7 @@
 - (NSArray *) SA_arrayByRemovingObject: (id) object {
 	if (![self containsObject: object]) return self;
 	
-	NSMutableArray				*copy = [[self mutableCopy] autorelease];
+	NSMutableArray				*copy = [self mutableCopy];
 	[copy removeObject: object];
 	return copy;
 }
@@ -192,4 +194,17 @@
 	return string;
 }
 
+- (void) map: (idArgumentBlock) block {
+	for (id object in self) {
+		block(object);
+	}
+}
+
+- (NSArray *) collectMappedResults: (idArgumentBlockReturningID) block {
+	NSMutableArray	*results = [NSMutableArray array];
+	for (id object in self) {
+		[results addObject: block(object)];
+	}
+	return results;
+}
 @end

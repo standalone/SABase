@@ -12,9 +12,14 @@
 @interface UITableViewCell (UITableViewCell_SA_Additions) 
 @property (nonatomic, readonly) UITableView *tableView;
 @property (nonatomic, readonly) NSIndexPath *indexPath;
-@property (nonatomic, retain) UIImage *dividerImage;
+@property (nonatomic, strong) UIImage *dividerImage;
 
 @property (nonatomic, readonly) UIView *dividerView;
-@property (nonatomic, retain) UIColor *backgroundViewColor, *dividerViewColor;
+@property (nonatomic, strong) UIColor *backgroundViewColor, *dividerViewColor;
 
+@end
+
+
+@interface UICollectionViewCell (UICollectionViewCell_SA_Additions)
+@property (nonatomic,readonly) UICollectionView *collectionView;
 @end

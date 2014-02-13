@@ -19,7 +19,7 @@
 	} else {\
 		variable = [[[NSThread currentThread] threadDictionary] objectForKey: $S(@"%s: %s", #type, #variable)];\
 		if (variable == nil) {\
-			variable = [[[type alloc] init] autorelease];\
+			variable = [[type alloc] init];\
 			[[[NSThread currentThread] threadDictionary] setObject: variable forKey: $S(@"%s: %s", #type, #variable)];\
 		}\
 	}
@@ -28,7 +28,7 @@
 	type			*variable;\
 	static type		*static_##variable = nil;\
 	if ([NSThread isMainThread]) {\
-	if (static_##variable == nil) static_##variable = [[type factory] retain];\
+	if (static_##variable == nil) static_##variable = [type factory];\
 		variable = static_##variable;\
 	} else {\
 		variable = [[[NSThread currentThread] threadDictionary] objectForKey: $S(@"%s: %s", #type, #variable)];\
@@ -49,12 +49,12 @@
 	} else {\
 		variable = [[[NSThread currentThread] threadDictionary] objectForKey: $S(@"%s: %s", #type, #variable)];\
 		if (variable == nil) {\
-			variable = [[[type alloc] initializer: arg] autorelease];\
+			variable = [[type alloc] initializer: arg];\
 			[[[NSThread currentThread] threadDictionary] setObject: variable forKey: $S(@"%s: %s", #type, #variable)];\
 		}\
 	}
 
-#define			CLEANUP_THREAD_SAFE_STATIC(variable)	if (variable != static_##variable) [variable release];
+#define			CLEANUP_THREAD_SAFE_STATIC(variable)	{}
 
 @implementation NSDate (NSDate_SA_Additions)
 
@@ -124,7 +124,7 @@
 			
 			if (month && day && year < 70) year += 2000;
 
-			NSDateComponents	*components = [[[NSDateComponents alloc] init] autorelease];
+			NSDateComponents	*components = [[NSDateComponents alloc] init];
 			//BOOL				valid = NO;
 			
 			if (year && month && day) {
@@ -188,7 +188,7 @@
 	intComponents[5] = atoi(&raw[17]);
 	intComponents[6] = atoi(&raw[20]);
 	
-	NSDateComponents			*components = [[[NSDateComponents alloc] init] autorelease];
+	NSDateComponents			*components = [[NSDateComponents alloc] init];
 	
 	components.year = intComponents[0];
 	components.month = intComponents[1];
@@ -366,7 +366,7 @@
 	static NSString			*dateFormat = nil;
 	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
 	
-	if (dateFormat == nil) dateFormat = [[NSDateFormatter dateFormatFromTemplate: @"EEE d LLL" options: 0 locale: [NSLocale currentLocale]] retain];
+	if (dateFormat == nil) dateFormat = [NSDateFormatter dateFormatFromTemplate: @"EEE d LLL" options: 0 locale: [NSLocale currentLocale]];
 	
 	[formatter setDateFormat: dateFormat];
 	return [formatter stringFromDate: self];
@@ -383,7 +383,6 @@
 
 	NSString				*dateString = [formatter stringFromDate: self];
 	
-	[locale release];
 	return dateString;
 	
 	//[NSString stringWithFormat: @"%@", [self dateByAddingTimeIntervalAmount: -1 * [[NSTimeZone localTimeZone] secondsFromGMTForDate: self]]];

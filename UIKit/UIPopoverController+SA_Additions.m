@@ -12,13 +12,17 @@
 
 #define SA_POPOVER_DISMISS_BLOCK_KEY			@"com.standalone.SA_POPOVER_DISMISS_BLOCK_KEY"
 
+@interface UIViewController (Compatibility_70)
+- (CGSize) preferredContentSize;
+@end
+
 static NSMutableArray					*s_activePopovers = nil;
 
 @implementation UIPopoverController (SA_PopoverAdditions)
 @dynamic SA_didDismissBlock;
 
 + (UIPopoverController *) SA_PopoverControllerWithContentController: (UIViewController *) content {
-	UIPopoverController				*controller = [[[UIPopoverController alloc] initWithContentViewController: content] autorelease];
+	UIPopoverController				*controller = [[UIPopoverController alloc] initWithContentViewController: content];
 	UIViewController				*root = ([content isKindOfClass: [UINavigationController class]] && [[(id) content viewControllers] count]) ? [[(id) content viewControllers] objectAtIndex: 0] : content;
 	
 	
@@ -31,8 +35,11 @@ static NSMutableArray					*s_activePopovers = nil;
 		if ([content respondsToSelector: @selector(preferredContentSize)]) size = [content preferredContentSize];
 		else
 	#endif
-	if ([content respondsToSelector: @selector(contentSizeForViewInPopover)]) size = [content contentSizeForViewInPopover];
-	
+	if ([content respondsToSelector: @selector(preferredContentSize)]) size = [content preferredContentSize];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+	else if ([content respondsToSelector: @selector(contentSizeForViewInPopover)]) size = [content contentSizeForViewInPopover];
+#pragma clang diagnostic pop
 	if (size.width && size.height)
 		controller.popoverContentSize = size;
 	
@@ -119,7 +126,7 @@ static NSMutableArray					*s_activePopovers = nil;
 }
 
 + (void) dismissAllVisibleSA_PopoversAnimated: (BOOL) animated {
-	for (UIPopoverController *controller in [s_activePopovers.copy autorelease]) {
+	for (UIPopoverController *controller in s_activePopovers.copy) {
 		[controller dismissSA_PopoverAnimated: animated];
 	}
 }
@@ -150,8 +157,8 @@ static NSMutableArray					*s_activePopovers = nil;
 
 
 + (UIPopoverController *) presentSA_PopoverForView: (UIView *) subject fromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
-	UIViewController		*dummyController = [[[UIViewController alloc] init] autorelease];
-	UIView					*parent = [[[UIView alloc] initWithFrame: subject.bounds] autorelease];
+	UIViewController		*dummyController = [[UIViewController alloc] init];
+	UIView					*parent = [[UIView alloc] initWithFrame: subject.bounds];
 	
 	subject.center = parent.contentCenter;
 	[parent addSubview: subject];
@@ -160,15 +167,20 @@ static NSMutableArray					*s_activePopovers = nil;
 		if (RUNNING_ON_70)
 			dummyController.preferredContentSize = subject.bounds.size;
 		else
-	#endif
+	#endif 
+		{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 		dummyController.contentSizeForViewInPopover = subject.bounds.size;
+#pragma clang diagnostic pop
+		}
 	dummyController.view = parent;
 	return [self presentSA_PopoverForViewController: dummyController fromRect: rect inView: view permittedArrowDirections: arrowDirections animated: animated];
 }
 
 + (UIPopoverController *) presentSA_PopoverForView: (UIView *) subject fromBarButtonItem: (UIBarButtonItem *) item permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
-	UIViewController		*dummyController = [[[UIViewController alloc] init] autorelease];
-	UIView					*parent = [[[UIView alloc] initWithFrame: subject.bounds] autorelease];
+	UIViewController		*dummyController = [[UIViewController alloc] init];
+	UIView					*parent = [[UIView alloc] initWithFrame: subject.bounds];
 	
 	subject.center = parent.contentCenter;
 	[parent addSubview: subject];
@@ -178,7 +190,12 @@ static NSMutableArray					*s_activePopovers = nil;
 			dummyController.preferredContentSize = subject.bounds.size;
 		else
 	#endif
-		dummyController.contentSizeForViewInPopover = subject.bounds.size;
+		{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+			dummyController.contentSizeForViewInPopover = subject.bounds.size;
+#pragma clang diagnostic pop
+		}
 	dummyController.view = parent;
 	return [self presentSA_PopoverForViewController: dummyController fromBarButtonItem: item permittedArrowDirections: arrowDirections animated: animated];
 }
@@ -223,12 +240,12 @@ static NSMutableArray					*s_activePopovers = nil;
 }
 
 - (void) presentInSA_NavigationPopoverFromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
-	UINavigationController				*nav = [self isKindOfClass: [UINavigationController class]] ? (id) self : [[[UINavigationController alloc] initWithRootViewController: self] autorelease];
+	UINavigationController				*nav = [self isKindOfClass: [UINavigationController class]] ? (id) self : [[UINavigationController alloc] initWithRootViewController: self];
 	[UIPopoverController presentSA_PopoverForViewController: nav fromRect: rect inView: view permittedArrowDirections: arrowDirections animated: YES];
 }
 
 - (void) presentInSA_NavigationPopoverFromBarButtonItem: (UIBarButtonItem *) item permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
-	UINavigationController				*nav = [[[UINavigationController alloc] initWithRootViewController: self] autorelease];
+	UINavigationController				*nav = [[UINavigationController alloc] initWithRootViewController: self];
 	[UIPopoverController presentSA_PopoverForViewController: nav fromBarButtonItem: item permittedArrowDirections: arrowDirections animated: animated];
 }
 

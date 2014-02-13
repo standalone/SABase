@@ -32,15 +32,15 @@
 	UIInterfaceOrientation				_currentOrientation;
 }
 
-@property (nonatomic, readwrite, retain) NSString *cancelTitle, *auxTitle, *minorText, *majorText;
+@property (nonatomic, readwrite, strong) NSString *cancelTitle, *auxTitle, *minorText, *majorText;
 @property (nonatomic, readwrite) float progressValue;
-@property (nonatomic, readwrite, retain) id <SA_PleaseWaitDisplayDelegate> delegate;
+@property (nonatomic, readwrite, strong) id <SA_PleaseWaitDisplayDelegate> delegate;
 @property (nonatomic, readwrite) BOOL spinnerHidden, progressBarHidden;
 @property (nonatomic, readonly) BOOL hidden;
-@property (nonatomic, readwrite, retain) UIFont *majorFont, *minorFont;
+@property (nonatomic, readwrite, strong) UIFont *majorFont, *minorFont;
 @property (nonatomic, readonly) UIView *sibling;
 @property (nonatomic, readwrite) UIInterfaceOrientation currentOrientation;
-@property (nonatomic, readonly) CGRect majorLabelBounds, minorLabelBounds, contentBounds, contentFrame, auxButtonFrame, spinnerFrame, progressIndicatorFrame;
+@property (nonatomic, readonly) CGRect majorLabelFrame, minorLabelBounds, contentBounds, contentFrame, auxButtonFrame, spinnerFrame, progressIndicatorFrame;
 @property (nonatomic, copy) simpleBlock cancelBlock;
 
 @property(nonatomic, readonly) UIView *view;

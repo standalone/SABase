@@ -23,6 +23,7 @@ typedef enum {
 
 @property (nonatomic, readwrite) CGRect normalizedFrame;
 @property (nonatomic, readonly) UIView *firstScrollviewChild;
+@property (nonatomic, readonly) UIScrollView *scrollView;
 @property (nonatomic, readonly) CGPoint contentCenter;
 @property (nonatomic, readonly) UIViewController *viewController;
 @property (nonatomic, readonly) UITableViewCell *tableViewCell;
@@ -42,12 +43,15 @@ typedef enum {
 - (void) setCenter: (CGPoint) center andSize: (CGSize) size;
 - (void) expandWidth: (float) additionalWidth andHeight: (float) additionalHeight;
 - (void) compressWidth: (float) removedWidth andHeight: (float) removedHeight;
+- (UIImageView *) imageViewCloneUsingLayer: (BOOL) useLayer;
 
 - (BOOL) hasAncestor: (UIView *) ancestor;
 - (NSString *) hierarchyToStringWithLevel: (int) level;
 - (id) firstSubviewOfClass: (Class) classToSearchFor searchHierarchy: (BOOL) searchHierarchy;
 - (void) logHierarchy;
 - (UIImage *) toImage;
+- (UIImage *) toImageUsingLayer: (BOOL) useLayer;			//pass YES to force the old style -renderInContext-based method
+- (UIImage *) toImageUsingLayer: (BOOL) useLayer fromRect: (CGRect) rect;
 - (NSArray *) allSubviews;
 - (void) removeAllSubviews;
 - (void) recursiveSetFont: (UIFont *) font;
@@ -64,6 +68,9 @@ typedef enum {
 - (void) animateAndBounceToPoint: (CGPoint) point;
 - (void) stopPulsing;
 - (UIView *) blockingViewWithTappedBlock: (viewArgumentBlock) block;
+
+- (UIView *) commonAncestorWith: (UIView *) view;
+- (BOOL) isSubviewOf: (UIView *) view;
 
 #if BLUR_SUPPORTED
 - (BOOL) isBlurred;

@@ -26,7 +26,7 @@
 + (NSString *) stringWithDuration: (float) seconds showingHours: (BOOL) showHours;
 + (NSString *) stringWithDuration: (float) fullSeconds showingHours: (BOOL) showHours showMinutes: (BOOL) showMinutes andSeconds: (BOOL) showSeconds;
 + (NSString *) stringWithData: (NSData *) data;
-+ (NSString *) stringWithFormat: (NSString *) format array: (NSArray *) arguments;
+//+ (NSString *) stringWithFormat: (NSString *) format array: (NSArray *) arguments;
 
 - (NSString *) stringByStrippingCharactersInSet: (NSCharacterSet *) set options: (int) options;
 
@@ -52,6 +52,9 @@
 
 #if TARGET_OS_IPHONE
 	- (NSString *) stringTruncatedToWidth: (float) width usingFont: (UIFont *) font addingElipsis: (BOOL) addingElipsis;
+	- (CGSize) SA_sizeWithFont: (UIFont *) font;
+	- (CGSize) SA_sizeWithFont: (UIFont *)font constrainedToSize: (CGSize) size lineBreakMode: (NSLineBreakMode) lineBreakMode;
+
 #else
 	- (CGSize) sizeWithFont: (NSFont *) font;
 #endif
@@ -68,6 +71,7 @@
 - (NSString *) rot13;
 - (NSString *) stringByStrippingTags;
 - (NSString *) stringByStrippingHTMLTags;
+
 @end
 
 @interface NSAttributedString (SA_Additions)			//NSFontAttributeName

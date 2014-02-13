@@ -13,6 +13,7 @@
 + (UIImage *) uncachedImageNamed: (NSString *) name;
 
 - (UIImage *) scaledImageOfSize: (CGSize) newSize;
+- (UIImage *) scaledImageOfSize: (CGSize) newSize withBorderOfWidth: (CGFloat) borderWidth andColor: (UIColor *) color;
 - (NSString *) description;
 - (void) drawInRect: (CGRect) rect withContentMode: (UIViewContentMode) mode blendMode: (CGBlendMode) blendMode alpha: (CGFloat) alpha;
 - (void) drawInRect: (CGRect) rect withContentMode: (UIViewContentMode) mode;

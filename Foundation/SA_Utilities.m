@@ -75,17 +75,6 @@ NSString *		NSStringFromInterfaceOrientation(UIInterfaceOrientation orientation)
 }
 #endif
 
-NSString *				NSStringFromCGColor(CGColorRef color) {
-	size_t					componentCount = CGColorGetNumberOfComponents(color);
-	const CGFloat			*comp = CGColorGetComponents(color);
-	
-	if (componentCount == 2) return $S(@"White: %.0f, a: %.0f", comp[0], comp[1]);
-	
-	if (componentCount != 4) return $S(@"not an RGB color (%d comp)", (int) componentCount);
-	return $S(@"R: %.0f, G: %.0f, B: %.0f, a: %.0f", comp[0], comp[1], comp[2], comp[3]);
-}
-
-
 //=============================================================================================================================
 #pragma mark Logging
 NSString *		RedirectedFilePath(void) {
@@ -271,12 +260,25 @@ CGRect	CGRectPlacedInRectWithContentMode(CGRect child, CGRect parent, UIViewCont
 	newRect.size = newSize;
 	return newRect;
 }
+
+
+XCodeBuildType XCODE_BUILD_TYPE(void) {
+	IF_SIM(return XCodeBuildType_dev);
+
+    static XCodeBuildType type = XCodeBuildType_appStore;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{// There is no provisioning profile in AppStore Apps.
+        NSData			*data = [NSData dataWithContentsOfFile: [NSBundle.mainBundle pathForResource: @"embedded" ofType: @"mobileprovision"]];
+        if (data) {
+            const char *bytes = [data bytes];
+            NSMutableString *profile = [[NSMutableString alloc] initWithCapacity: data.length];
+            for (NSUInteger i = 0; i < data.length; i++) {
+                [profile appendFormat:@"%c", bytes[i]];
+            }
+            NSString		*cleared = [[profile componentsSeparatedByCharactersInSet: NSCharacterSet.whitespaceAndNewlineCharacterSet] componentsJoinedByString: @""];
+            type = [cleared rangeOfString:@"<key>get-task-allow</key><true/>"].length > 0 ? XCodeBuildType_dev : XCodeBuildType_adhoc;
+        }
+    });
+    return type;
+}
 #endif
-
-void dispatch_async_main(dispatch_block_t block) {
-	dispatch_async(dispatch_get_main_queue(), block);
-}
-
-void dispatch_sync_main(dispatch_block_t block) {
-	dispatch_sync(dispatch_get_main_queue(), block);
-}

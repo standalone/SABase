@@ -43,7 +43,7 @@
 //actual creators
 + (id) SA_itemWithTitle: (NSString *) title target: (id) target action: (SEL) action block: (barButtonItemArgumentBlock) block style: (UIBarButtonItemStyle) style {
 	Class						factory = block ? [SA_BarButtonItem class] : [UIBarButtonItem class];
-	SA_BarButtonItem			*barItem = [[[factory alloc] initWithTitle: title style: style target: target action: action] autorelease];
+	SA_BarButtonItem			*barItem = [[factory alloc] initWithTitle: title style: style target: target action: action];
 
 	if (block) {
 		barItem.target = barItem;
@@ -55,7 +55,7 @@
 
 + (id) SA_itemWithSystemItem: (UIBarButtonSystemItem) item target: (id) target action: (SEL) action block: (barButtonItemArgumentBlock) block style: (UIBarButtonItemStyle) style {
 	Class						factory = block ? [SA_BarButtonItem class] : [UIBarButtonItem class];
-	SA_BarButtonItem				*barItem = [[[factory alloc] initWithBarButtonSystemItem: item target: target action: action] autorelease];
+	SA_BarButtonItem				*barItem = [[factory alloc] initWithBarButtonSystemItem: item target: target action: action];
 	barItem.style = style;
 
 	if (block) {
@@ -68,7 +68,7 @@
 
 + (id) SA_itemWithImage: (UIImage *) image target: (id) target action: (SEL) action block: (barButtonItemArgumentBlock) block style: (UIBarButtonItemStyle) style {
 	Class						factory = block ? [SA_BarButtonItem class] : [UIBarButtonItem class];
-	SA_BarButtonItem				*barItem = [[[factory alloc] initWithImage: image style: style target: target action: action] autorelease];
+	SA_BarButtonItem				*barItem = [[factory alloc] initWithImage: image style: style target: target action: action];
 
 	if (block) {
 		barItem.target = barItem;
@@ -94,13 +94,13 @@
 }
 
 + (id) SA_itemWithView: (UIView *) view {
-	return [[[UIBarButtonItem alloc] initWithCustomView: view] autorelease];
+	return [[UIBarButtonItem alloc] initWithCustomView: view];
 }
 
 
 + (id) SA_activityIndicatorItemWithStyle: (UIActivityIndicatorViewStyle) style forToolbar: (BOOL) forToolbar {
-	UIActivityIndicatorView					*indicator = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle: style] autorelease];
-	UIView									*holder = [[[UIView alloc] initWithFrame: CGRectMake(0, 0, 30, 30)] autorelease];
+	UIActivityIndicatorView					*indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle: style];
+	UIView									*holder = [[UIView alloc] initWithFrame: CGRectMake(0, 0, 30, 30)];
 	
 	holder.backgroundColor = [UIColor clearColor];
 	indicator.center = forToolbar ? CGPointMake(holder.bounds.size.width / 2 - 5, holder.bounds.size.height / 2 + 1) : CGPointMake(holder.bounds.size.width / 2 + 4, holder.bounds.size.height / 2);
@@ -113,10 +113,6 @@
 
 @implementation SA_BarButtonItem
 @synthesize block;
-- (void) dealloc {
-	self.block = nil;
-	[super dealloc];
-}
 
 - (void) __evaluateBlockAsAction {
 	self.block(self);

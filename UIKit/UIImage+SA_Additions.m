@@ -16,12 +16,16 @@
 	if (path == nil) return nil;
 	
 	NSData			*data = [[NSData alloc] initWithContentsOfFile: path];
-	UIImage			*image = [[[UIImage alloc] initWithData: data] autorelease];
-	[data release];
+	UIImage			*image = [[UIImage alloc] initWithData: data];
+
 	return image;
 }
 
 - (UIImage *) scaledImageOfSize: (CGSize) newSize {
+	return [self scaledImageOfSize: newSize withBorderOfWidth: 0 andColor: nil];
+}
+
+- (UIImage *) scaledImageOfSize: (CGSize) newSize withBorderOfWidth: (CGFloat) borderWidth andColor: (UIColor *) borderColor {
 	UIGraphicsBeginImageContext(newSize);
 	CGContextRef					context = UIGraphicsGetCurrentContext();
 	CGRect							rect = CGRectMake(0, 0, newSize.width, newSize.height);
@@ -29,6 +33,14 @@
 	CGContextConcatCTM(context, CGAffineTransformMakeScale(1.0, -1.0));
 	CGContextConcatCTM(context, CGAffineTransformMakeTranslation(0, -newSize.height));
 	CGContextDrawImage(context, rect, self.CGImage);
+	
+	if (borderWidth) {
+		CGRect		rect = CGRectMake(borderWidth / 2, borderWidth / 2, newSize.width - borderWidth, newSize.height - borderWidth);
+		
+		CGContextSetLineWidth(context, borderWidth);
+		[borderColor setStroke];
+		UIRectFrame(rect);
+	}
 	
 	UIImage							*newImage = UIGraphicsGetImageFromCurrentImageContext();
 	

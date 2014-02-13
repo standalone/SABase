@@ -14,13 +14,13 @@
 @dynamic SA_animationDidStartBlock, SA_animationDidStopBlock;
 
 - (void) setSA_AnimationDidStartBlock:(animationDidStartBlock)animationDidStartBlock {
-	[self setValue: Block_copy(animationDidStartBlock) forKey: ANIMATION_DID_START_BLOCK_KEY];
+	[self setValue: [animationDidStartBlock copy] forKey: ANIMATION_DID_START_BLOCK_KEY];
 	self.delegate = self;
 	
 }
 
 - (void) setSA_AnimationDidStopBlock: (animationDidStopBlock) animationDidStopBlock {
-	[self setValue: Block_copy(animationDidStopBlock) forKey: ANIMATION_DID_STOP_BLOCK_KEY];
+	[self setValue: [animationDidStopBlock copy] forKey: ANIMATION_DID_STOP_BLOCK_KEY];
 	self.delegate = self;
 }
 

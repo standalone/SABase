@@ -31,15 +31,15 @@
 }
 
 - (void) associateValue: (id) value forKey: (id) key {
-	objc_setAssociatedObject(self, key, value, OBJC_ASSOCIATION_RETAIN);
+	objc_setAssociatedObject(self, (__bridge const void *)(key), value, OBJC_ASSOCIATION_RETAIN);
 }
 
 - (void) associateValueCopy: (id) value forKey: (id) key {
-	objc_setAssociatedObject(self, key, value, OBJC_ASSOCIATION_COPY);
+	objc_setAssociatedObject(self, (__bridge const void *)(key), value, OBJC_ASSOCIATION_COPY);
 }
 
 - (id) associatedValueForKey: (id) key {
-	return objc_getAssociatedObject(self, key);
+	return objc_getAssociatedObject(self, (__bridge const void *)(key));
 }
 
 - (BOOL) hasValueForKey: (NSString *) key {
@@ -95,7 +95,7 @@
 }
 
 + (void) performBlock: (simpleBlock) block onThread: (NSThread *) thread waitUntilDone: (BOOL) waitUntilDone {
-	[self performSelector: @selector(performBlock:) onThread: thread withObject: (id) Block_copy(block) waitUntilDone: waitUntilDone];
+	[self performSelector: @selector(performBlock:) onThread: thread withObject: [block copy] waitUntilDone: waitUntilDone];
 }
 
 + (void) performBlock: (simpleBlock) block {
@@ -119,7 +119,10 @@
 - (void) observeValueForKeyPath: (NSString *) keyPath ofObject: (id) object change: (NSDictionary *) change context: (void *)context {
 	SEL					changeSelector = NSSelectorFromString([NSString stringWithFormat: @"%@ChangedOn:change:", keyPath]);
 	
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 	if ([self respondsToSelector: changeSelector]) [self performSelector: changeSelector withObject: object withObject: change];
+#pragma clang diagnostic pop
 }
 
 
@@ -128,20 +131,14 @@
 
 @implementation SA_BlockWrapper
 @synthesize block, idBlock;
-- (void) dealloc {
-	self.block = nil;
-	self.idBlock = nil;
-	[super dealloc];
-}
-
 + (id) wrapperWithBlock: (simpleBlock) block {
-	SA_BlockWrapper		*wrapper = [[[self alloc] init] autorelease];
+	SA_BlockWrapper		*wrapper = [[self alloc] init];
 	wrapper.block = block;
 	return wrapper;
 }
 
 + (id) wrapperWithIDBlock: (idArgumentBlock) block {
-	SA_BlockWrapper		*wrapper = [[[self alloc] init] autorelease];
+	SA_BlockWrapper		*wrapper = [[self alloc] init];
 	wrapper.idBlock = block;
 	return wrapper;
 }
