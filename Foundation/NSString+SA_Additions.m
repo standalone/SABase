@@ -15,12 +15,14 @@
 @end
 
 #if !OS_70_BUILD
+#if !TARGET_OS_MAC
 @interface NSString(NSStringDrawing)
 - (CGSize) sizeWithAttributes: (NSDictionary *) attrs;
 - (void) drawAtPoint: (CGPoint) point withAttributes: (NSDictionary *) attrs;
 - (void) drawInRect: (CGRect) rect withAttributes: (NSDictionary *) attrs;
 - (CGRect) boundingRectWithSize: (CGSize) size options: (NSStringDrawingOptions) options attributes: (NSDictionary *) attributes context: (NSStringDrawingContext *) context;
 @end
+#endif
 #endif
 
 
@@ -223,7 +225,7 @@
 }
 #else
 - (CGSize) sizeWithFont:(NSFont *)font {
-	NSSize				size = [self sizeWithAttributes: {@"NSFontAttributeName": font} ];
+	NSSize				size = [self sizeWithAttributes: @{@"NSFontAttributeName": font} ];
 	
 	return NSSizeToCGSize(size);
 }
