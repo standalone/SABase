@@ -35,7 +35,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 		g_display->_hidden = YES;
 	}
 	
-	dispatch_async(dispatch_get_main_queue(), ^{
+	simpleBlock				block = ^{
 		if (g_display == nil) return;
 		g_display.view.layer.zPosition = 100;
 		g_display.majorText = major;
@@ -49,7 +49,12 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 		g_display.minorFont = [UIFont systemFontOfSize: 15];
 		g_display.majorFont = [UIFont boldSystemFontOfSize: 17];
 		[g_display performSelector: @selector(display) withObject: nil afterDelay: 0.0];
-	});
+	};
+	
+	if ([NSThread isMainThread])
+		block();
+	else
+		dispatch_async(dispatch_get_main_queue(), block);
 		
 	return g_display;
 }
