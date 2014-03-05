@@ -1129,8 +1129,11 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	if (self.delegate) [desc appendFormat: @", delegate: <0x%@> %@", self.delegate, NSStringFromClass([self.delegate class])];
 	
 	[desc appendFormat: @"\nHeaders:\n"];
-	for (NSString *field in _headers) {
-		[desc appendFormat: @"\t%@:\t\t\t%@\n", field, [_headers valueForKey: field]];
+	NSMutableDictionary			*headers = [NSMutableDictionary dictionaryWithDictionary: _headers ?: @{}];
+	for (NSString *header in self.request.allHTTPHeaderFields) { headers[header] = self.request.allHTTPHeaderFields[header]; }
+	
+	for (NSString *field in headers) {
+		[desc appendFormat: @"\t%@:\t\t\t%@\n", field, [headers valueForKey: field]];
 	}
 	[desc appendFormat: @"URL:\t\t\t%@\nMethod:\t\t\t%@\n", self.url, self.method];
 	if (self.payload.length) [desc appendFormat: @"Payload:\n%@\n", self.payloadString];
