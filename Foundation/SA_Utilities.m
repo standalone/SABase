@@ -15,6 +15,11 @@
 	#import "SA_AlertView.h"
 #endif
 
+static BOOL s_DEBUG_mode = NO;
+
+BOOL		SA_Base_DebugMode(void) { return s_DEBUG_mode; }
+void		set_SA_Base_DebugMode(BOOL debug) { s_DEBUG_mode = debug; }
+
 const CGPoint		CGPointNone = {-10001.10001, -10001.10001};			
 
 

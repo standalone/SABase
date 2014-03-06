@@ -30,10 +30,10 @@
 	if (![newText isEqualToString: nothingFound]) 
 		return newText;
 	else {
-		#if DEBUG
+		if (SA_Base_DebugMode()) {
 			if (self.length > 0 && ![self isEqual: @"-"] && ![self isEqual: @"--"])
 				LOG(@"Missing translation for %@", self);
-		#endif
+		}
 	}
 	return self;
 }

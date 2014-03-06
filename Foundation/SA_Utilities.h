@@ -316,6 +316,8 @@ typedef void (^viewArgumentBlock)(UIView *view);
 typedef void (^simpleDateBlock)(NSDate *date);
 typedef void (^mocArgumentBlock)(NSManagedObjectContext *moc);
 
+BOOL		SA_Base_DebugMode(void);
+
 #if TARGET_OS_IPHONE
 	typedef void (^simpleImageBlock)(UIImage *image);
  #endif
@@ -351,8 +353,8 @@ typedef NS_ENUM(UInt8, XCodeBuildType) {
 };
 XCodeBuildType XCODE_BUILD_TYPE(void);
 
-#define weakify(s)				__weak typeof(s)		weak##_s = s
-#define strongify(s)			weak##_s
+#define weakify(s)				__weak typeof(s)		w##_s = s
+#define strongify(s)			w##_s
 
 
 

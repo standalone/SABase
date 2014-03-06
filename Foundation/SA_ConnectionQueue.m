@@ -107,18 +107,16 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 		self.privateQueue = [[NSOperationQueue alloc] init];
 		self.privateQueue.maxConcurrentOperationCount = 1;
 		
-		#if LOG_ALL_CONNECTIONS
-				NSError							*error = nil;
-				NSFileManager					*mgr = [NSFileManager defaultManager];
+		if (self.logAllConnections) {
+			NSError							*error = nil;
+			NSFileManager					*mgr = [NSFileManager defaultManager];
+			
+			[mgr removeItemAtPath: [SA_ConnectionQueue logDirectoryPath] error: &error];
+			[mgr createDirectoryAtPath: [SA_ConnectionQueue logDirectoryPath] withIntermediateDirectories: YES attributes: nil error: &error];
 				
-				[mgr removeItemAtPath: [SA_ConnectionQueue logDirectoryPath] error: &error];
-				[mgr createDirectoryAtPath: [SA_ConnectionQueue logDirectoryPath] withIntermediateDirectories: YES attributes: nil error: &error];
-		#endif
-				
-		#if DEBUG
-				NSError							*dirError = nil;
-				[[NSFileManager defaultManager] createDirectoryAtPath: [@"~/Library/Downloads/" stringByExpandingTildeInPath] withIntermediateDirectories: YES attributes: nil error: &dirError];
-		#endif
+			NSError							*dirError = nil;
+			[[NSFileManager defaultManager] createDirectoryAtPath: [@"~/Library/Downloads/" stringByExpandingTildeInPath] withIntermediateDirectories: YES attributes: nil error: &dirError];
+		}
 		self.router = self;
 		_pending = [[NSMutableArray alloc] init];
 		_active = [[NSMutableSet alloc] init];
@@ -612,7 +610,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	} else {
 		LOG(@"SCNetworkReachabilityGetFlags failed");
 		#if TARGET_OS_IPHONE
-			IF_DEBUG([SA_AlertView showAlertWithTitle: @"SCNetworkReachabilityGetFlags failed" message: @"Failed to update connection status"]);
+			if (SA_Base_DebugMode()) [SA_AlertView showAlertWithTitle: @"SCNetworkReachabilityGetFlags failed" message: @"Failed to update connection status"];
 		#endif
 	}
 }
@@ -645,7 +643,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 		} else if (_reachabilityRef == nil) {
 			LOG(@"Failed to create a ReachabilityRef");
 			#if TARGET_OS_IPHONE
-				IF_DEBUG([SA_AlertView showAlertWithTitle: @"Failed to create a ReachabilityRef" message: @"Unable to track connection status"]);
+				if (SA_Base_DebugMode()) [SA_AlertView showAlertWithTitle: @"Failed to create a ReachabilityRef" message: @"Unable to track connection status"];
 			#endif
 		}
 	} else {
@@ -705,10 +703,8 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 @synthesize suppressConnectionAlerts = _suppressConnectionAlerts, canceled = _canceled, inProgress = _inProgress, request = _request;
 @synthesize allowRepeatedKeys = _allowRepeatedKeys, discardIfOffline = _discardIfOffline, connectionFinishedBlock = _connectionFinishedBlock, timeoutInterval = _timeoutInterval;
 
-#if DEBUG
-	@synthesize requestLogFileName = _requestLogFileName;
-	@synthesize requestStartedAt = _requestStartedAt, responseReceivedAt = _responseReceivedAt, finishedLoadingAt = _finishedLoadingAt;
-#endif
+@synthesize requestLogFileName = _requestLogFileName;
+@synthesize requestStartedAt = _requestStartedAt, responseReceivedAt = _responseReceivedAt, finishedLoadingAt = _finishedLoadingAt;
 
 + (id) connectionWithURL: (NSURL *) url completionBlock: (connectionFinished) completionBlock {
 	SA_Connection		*connection = [[self alloc] initWithURL: url payload: nil method: @"GET" priority: [SA_ConnectionQueue sharedQueue].defaultPriorityLevel tag: nil delegate: nil];
@@ -811,10 +807,12 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 }
 
 - (void) setPayload: (NSData *) payload {
-	#if DEBUG && VALIDATE_XML_UPLOADS
+	#if VALIDATE_XML_UPLOADS
+	if (SA_Base_DebugMode()) {
 		if (payload.length && strstr((char *) [payload bytes], "<?xml version=\"1.0\"") != NULL) {
 			SA_Assert([SA_XMLGenerator validateXML: payload], @"SA_Connection: XML Validation failed");
 		}
+	}
 	#endif
 	
 	if (_payload != payload) {
@@ -896,19 +894,12 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	} else {
 		[_connection performSelectorOnMainThread: @selector(start) withObject: nil waitUntilDone: NO];
 	}
-	#if DEBUG
-		self.requestStartedAt = [NSDate date];
-		//LOG(@"Request started at: %@", self.requestStartedAt);
-	#endif
+	
+	self.requestStartedAt = [NSDate date];
 	
 	LOG_CONNECTION_START(self);
 	if (_connection == nil) LOG_ERR(@"Error while starting connection: %@", self);
-	
-//	#ifdef LOG_ALL_CONNECTIONS
-//		self.requestLogFileName = [SA_ConnectionQueue nextPrefixed: @"request" pathForTag: self.tag];
-//		[[self uploadedDataStream] writeToFile: self.requestLogFileName atomically: YES];
-//	#endif
-		
+			
 	if (_connection) { 
 		[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_ConnectionStarted object: self];
 	}
@@ -977,7 +968,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 - (void) connection: (NSURLConnection *) connection didFailWithError: (NSError *) error {
 	_inProgress = NO;
 	LOG_CONNECTION_PHASE(@"Failed", self);
-	IF_DEBUG(self.finishedLoadingAt = [NSDate date];LOG(@"Connection %@ failed: %@", self, error.internetConnectionFailed ? @"NO CONNECTION" : (id) error));
+	if (SA_Base_DebugMode()) self.finishedLoadingAt = [NSDate date];LOG(@"Connection %@ failed: %@", self, error.internetConnectionFailed ? @"NO CONNECTION" : (id) error);
 	
 	if (_canceled) return;
 
@@ -996,16 +987,16 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	#if ENABLE_RECORDING
 		if ([SA_ConnectionQueue sharedQueue].recordSetting == connection_record) [self record]; 
 	#endif
-	IF_DEBUG(self.finishedLoadingAt = [NSDate date];)
+	self.finishedLoadingAt = [NSDate date];
 	if (_canceled) return;
 
 	LOG_CONNECTION_PHASE(@"Finished", self);
 	
-	#if DEBUG && LOG_ALL_CONNECTIONS
+	if ([SA_ConnectionQueue sharedQueue].logAllConnections) {
 		NSError								*error = nil;
 		if (self.requestLogFileName) [[NSFileManager defaultManager] removeItemAtPath: self.requestLogFileName error: &error];
 		[[self downloadedDataStream] writeToFile: [SA_ConnectionQueue nextPrefixed: @"download" pathForTag: self.tag] atomically: YES];
-	#endif
+	}
 	
 	if (_file) [_file closeFile];
 	
@@ -1081,10 +1072,9 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 //=============================================================================================================================
 #pragma mark Other callbacks
 - (void) connection: (NSURLConnection *) connection didReceiveResponse: (NSURLResponse *) response {
-#if DEBUG
+
 	//LOG(@"Request Response Time: %@, Start Time: %@", [NSDate date], [NSDate dateWithTimeIntervalSinceReferenceDate: _requestStart]);
 	self.responseReceivedAt = [NSDate date];
-#endif
 	
 	LOG_CONNECTION_PHASE(@"Received Response", self);
 	if (_file == nil && [SA_ConnectionQueue sharedQueue].fileSwitchOverLimit && [response expectedContentLength] > [SA_ConnectionQueue sharedQueue].fileSwitchOverLimit) {
@@ -1241,13 +1231,13 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	char				*resultString = (char *) [[NSString stringWithFormat: @"\nStatus Code: %ld\n\n", (long)self.statusCode] UTF8String];
 	
 	[raw appendBytes: "\n" length: 1];
-	#if DEBUG
+	if (SA_Base_DebugMode()) {
 		NSString			*timeString = [NSString stringWithFormat: @"\nRequest: %.5fs, Data: %.5fs", [self.responseReceivedAt timeIntervalSinceDate: self.requestStartedAt], [self.finishedLoadingAt timeIntervalSinceDate: self.responseReceivedAt]];
 		char				*timeChars = (char *) [timeString UTF8String];
 		[raw appendBytes: timeChars length: strlen(timeChars)];
 		
 		//LOG(@"============================================================%@", timeString);
-	#endif
+	}
 	
 	[raw appendBytes: resultString length: strlen(resultString)];
 	

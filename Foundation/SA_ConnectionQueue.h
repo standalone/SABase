@@ -16,15 +16,9 @@
 	#define					LOG_CONNECTION_PHASE(phase, conn)
 #endif
 
-#if DEBUG
-	#define			LOG_CONNECTION(connection)				LOG_DATA(connection.uploadedDataStream, connection.tag) 
-	#define			LOG_UPLOAD(connection, name)			[connection.uploadedDataStream writeToFile: [[NSString stringWithFormat: @"~/Library/Downloads/%@ up.txt", name] stringByExpandingTildeInPath] options: 0 error: nil]
-	#define			LOG_DOWNLOAD(connection, name)			[connection.downloadedDataStream writeToFile: [[NSString stringWithFormat: @"~/Library/Downloads/%@ down.txt", name] stringByExpandingTildeInPath] options: 0 error: nil]
-#else
-	#define			LOG_CONNECTION(connection)
-	#define			LOG_UPLOAD(connection, name)
-	#define			LOG_DOWNLOAD(connection, nam)
-#endif
+#define			LOG_CONNECTION(connection)				if (SA_Base_DebugMode()) {LOG_DATA(connection.uploadedDataStream, connection.tag);}
+#define			LOG_UPLOAD(connection, name)			if (SA_Base_DebugMode()) [connection.uploadedDataStream writeToFile: [[NSString stringWithFormat: @"~/Library/Downloads/%@ up.txt", name] stringByExpandingTildeInPath] options: 0 error: nil]
+#define			LOG_DOWNLOAD(connection, name)			if (SA_Base_DebugMode()) [connection.downloadedDataStream writeToFile: [[NSString stringWithFormat: @"~/Library/Downloads/%@ down.txt", name] stringByExpandingTildeInPath] options: 0 error: nil]
 
 #if !TARGET_OS_IPHONE
 	typedef NSUInteger 		UIBackgroundTaskIdentifier;
@@ -102,10 +96,8 @@ typedef enum {
 	BOOL						_allowRepeatedKeys;
 	NSURLRequest				*_request;
 	
-	#if DEBUG
-		NSDate					*_requestStartedAt, *_responseReceivedAt, *_finishedLoadingAt;
-		NSString				*_requestLogFileName;
-	#endif
+	NSDate					*_requestStartedAt, *_responseReceivedAt, *_finishedLoadingAt;
+	NSString				*_requestLogFileName;
 
 	connectionFinished		_connectionFinishedBlock;
 }
@@ -140,10 +132,8 @@ typedef enum {
 
 @property (nonatomic, readwrite, copy) connectionFinished connectionFinishedBlock;
 
-#if DEBUG
-	@property (nonatomic, readwrite, strong) NSDate *requestStartedAt, *responseReceivedAt, *finishedLoadingAt;
-	@property (nonatomic, readwrite, strong) NSString *requestLogFileName;
-#endif
+@property (nonatomic, readwrite, strong) NSDate *requestStartedAt, *responseReceivedAt, *finishedLoadingAt;
+@property (nonatomic, readwrite, strong) NSString *requestLogFileName;
 
 @property(nonatomic, readonly) NSData *uploadedDataStream, *downloadedDataStream;
 
@@ -205,12 +195,10 @@ typedef enum {
 	UIBackgroundTaskIdentifier		_backgroundTaskID;
 	NSThread						*_backgroundThread;
 	SCNetworkReachabilityRef		_reachabilityRef;
-	#if DEBUG
-		connection_record_setting		_recordSetting;
-	#endif
+	connection_record_setting		_recordSetting;
 }
 
-@property (readwrite) BOOL offline, showProgressInPleaseWaitDisplay;
+@property (readwrite) BOOL offline, showProgressInPleaseWaitDisplay, logAllConnections;
 @property (readonly) BOOL wifiAvailable, wlanAvailable;
 @property (readwrite) NSUInteger maxSimultaneousConnections;
 @property (nonatomic, readwrite, strong) NSString *dbPath;				//used for persistance
@@ -229,9 +217,7 @@ typedef enum {
 @property (nonatomic) BOOL paused;
 @property (nonatomic, readonly) long long bytesDownloaded;
 
-#if DEBUG
-	@property (nonatomic, readwrite) connection_record_setting recordSetting;
-#endif
+@property (nonatomic, readwrite) connection_record_setting recordSetting;
 
 SINGLETON_INTERFACE_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 

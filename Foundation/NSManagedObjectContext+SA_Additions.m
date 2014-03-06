@@ -77,23 +77,21 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	
 	NSManagedObjectContext			*objectContext = nil;
 	#if TARGET_OS_IPHONE
-		if (RUNNING_ON_50)
-			objectContext = (NSManagedObjectContext *) [(id) [self alloc] initWithConcurrencyType: type];
-		else
-	#endif
+		objectContext = (NSManagedObjectContext *) [(id) [self alloc] initWithConcurrencyType: type];
+	#else
 		objectContext = [[self alloc] init];
-	
+	#endif
+
 	[objectContext setPersistentStoreCoordinator: coordinator];
 	
 	return objectContext;
 }
 
 + (void) displayFailedDatabaseCreationMessage: (NSString *) message {
-	#if DEBUG && TARGET_OS_IPHONE
-		[SA_AlertView showAlertWithTitle: message message: @"A new database will be created."];
-	#else
-		NSLog(@"*******************\n%@\nA new database will be created.\n********************************", message);
+	#if TARGET_OS_IPHONE
+		if (SA_Base_DebugMode()) [SA_AlertView showAlertWithTitle: message message: @"A new database will be created."];
 	#endif
+	NSLog(@"*******************\n%@\nA new database will be created.\n********************************", message);
 }
 
 - (Class) classFromEntityName: (NSString *) entityName {
@@ -297,9 +295,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 		static int							failCount = 0;
 		int									maxFailsBeforeReset = 2;
 		 
-		#if DEBUG
-			maxFailsBeforeReset = 1;  
-		#endif
+		if (SA_Base_DebugMode()) maxFailsBeforeReset = 1;
 
 		[self cancelQueuedSave]; 
 		@try {  
@@ -310,18 +306,18 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 		if (error) {
 			NSLog(@"Error while saving context: %@", error);
 			
-#if DEBUG
-			NSDictionary				*info = error.userInfo;
+			if (SA_Base_DebugMode()) {
+				NSDictionary				*info = error.userInfo;
 
-			if ([info objectForKey: @"NSDetailedErrors"]) {for (NSError *detailedError in [info objectForKey: @"NSDetailedErrors"]) {
-				LOG(@"Detailed Error: %@, %@", detailedError, [detailedError userInfo]);
-			}} else if ([info objectForKey: @"conflictList"]) {
-				for (NSManagedObject *object in [info objectForKey: @"NSDetailedErrors"]) {
-					LOG(@"Conflicted object: %@", object);
+				if ([info objectForKey: @"NSDetailedErrors"]) {for (NSError *detailedError in [info objectForKey: @"NSDetailedErrors"]) {
+					LOG(@"Detailed Error: %@, %@", detailedError, [detailedError userInfo]);
+				}} else if ([info objectForKey: @"conflictList"]) {
+					for (NSManagedObject *object in [info objectForKey: @"NSDetailedErrors"]) {
+						LOG(@"Conflicted object: %@", object);
+					}
+					LOG(@"All Objects: %@", [info objectForKey: @"NSDetailedErrors"]);
 				}
-				LOG(@"All Objects: %@", [info objectForKey: @"NSDetailedErrors"]);
 			}
-#endif
 			failCount++;
 			
 			if (failCount >= maxFailsBeforeReset) {
