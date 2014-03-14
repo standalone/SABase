@@ -36,7 +36,7 @@
 #import "UIGestureRecognizer+SA_Additions.h"
 #import "UILocalNotification+SA_Additions.h"
 #import "NSError+SA_Additions.h"
-
+#import "NSAttributedString+SA_Additions.h"
 
 #import "MFMailComposeViewController+SA_Additions.h"
 

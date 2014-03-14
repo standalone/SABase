@@ -74,17 +74,3 @@
 
 @end
 
-@interface NSAttributedString (SA_Additions)			//NSFontAttributeName
-#if TARGET_OS_IPHONE
-+ (id) stringWithString: (NSString *) string;
-+ (id) stringWithString: (NSString *) string attributes: (NSDictionary *) attr;
-#endif
-@end
-
-@interface NSMutableAttributedString (SA_Additions)
-#if TARGET_OS_IPHONE
-- (void) setFont: (UIFont *) font;
-- (void) setColor: (UIColor *) color;
-#endif
-@end
-

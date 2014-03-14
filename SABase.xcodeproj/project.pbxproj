@@ -338,6 +338,9 @@
 		B58CA478183AD4DA0038753A /* SA_ScreenshotFeedback.h in Headers */ = {isa = PBXBuildFile; fileRef = B58CA475183AD4DA0038753A /* SA_ScreenshotFeedback.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B58CA479183AD4DA0038753A /* SA_ScreenshotFeedback.m in Sources */ = {isa = PBXBuildFile; fileRef = B58CA476183AD4DA0038753A /* SA_ScreenshotFeedback.m */; };
 		B58CA47A183AD4DA0038753A /* SA_ScreenshotFeedback.m in Sources */ = {isa = PBXBuildFile; fileRef = B58CA476183AD4DA0038753A /* SA_ScreenshotFeedback.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		B592127018D374BD00FBC16D /* NSAttributedString+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B592126E18D374BD00FBC16D /* NSAttributedString+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B592127118D374BD00FBC16D /* NSAttributedString+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B592126F18D374BD00FBC16D /* NSAttributedString+SA_Additions.m */; };
+		B592127218D37A6600FBC16D /* NSAttributedString+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B592126F18D374BD00FBC16D /* NSAttributedString+SA_Additions.m */; };
 		B598E66D124081B900E7B7CF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B598E66C124081B900E7B7CF /* UIKit.framework */; };
 		B598E66F124081C300E7B7CF /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B598E66E124081C300E7B7CF /* libsqlite3.0.dylib */; };
 		B598E670124081CA00E7B7CF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
@@ -489,14 +492,16 @@
 		B583070D1516548600CC57DE /* Run-Time Tests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Run-Time Tests-Info.plist"; sourceTree = "<group>"; };
 		B58CA475183AD4DA0038753A /* SA_ScreenshotFeedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SA_ScreenshotFeedback.h; sourceTree = "<group>"; };
 		B58CA476183AD4DA0038753A /* SA_ScreenshotFeedback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SA_ScreenshotFeedback.m; sourceTree = "<group>"; };
+		B592126E18D374BD00FBC16D /* NSAttributedString+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+SA_Additions.h"; sourceTree = "<group>"; };
+		B592126F18D374BD00FBC16D /* NSAttributedString+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+SA_Additions.m"; sourceTree = "<group>"; };
 		B598E66C124081B900E7B7CF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B598E66E124081C300E7B7CF /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		B598E673124081D200E7B7CF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		B598E678124081EB00E7B7CF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		B598E67C124081F800E7B7CF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		B598E6801240820400E7B7CF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		B59F32C8181DCB1F0096DF9A /* UILocalNotification+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UILocalNotification+SA_Additions.h"; path = "UIKit/UILocalNotification+SA_Additions.h"; sourceTree = "<group>"; };
-		B59F32C9181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UILocalNotification+SA_Additions.m"; path = "UIKit/UILocalNotification+SA_Additions.m"; sourceTree = "<group>"; };
+		B59F32C8181DCB1F0096DF9A /* UILocalNotification+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILocalNotification+SA_Additions.h"; sourceTree = "<group>"; };
+		B59F32C9181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILocalNotification+SA_Additions.m"; sourceTree = "<group>"; };
 		B5A12A1F152FEF4A0081FAAD /* SA_Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SA_Utilities.h; path = ../Foundation/SA_Utilities.h; sourceTree = "<group>"; };
 		B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SA_Utilities.m; sourceTree = "<group>"; };
 		B5D3ABA915FD3E070052F459 /* CAAnimation+SA_Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CAAnimation+SA_Blocks.h"; path = "Foundation/CAAnimation+SA_Blocks.h"; sourceTree = SOURCE_ROOT; };
@@ -564,8 +569,6 @@
 		0867D691FE84028FC02AAC07 /* SABase */ = {
 			isa = PBXGroup;
 			children = (
-				B59F32C8181DCB1F0096DF9A /* UILocalNotification+SA_Additions.h */,
-				B59F32C9181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m */,
 				B55E099F1516682A0097CC69 /* Headers */,
 				B55E0834151660DD0097CC69 /* Foundation */,
 				B55E0855151660DD0097CC69 /* UIKit */,
@@ -629,6 +632,8 @@
 				B55E0850151660DD0097CC69 /* NSString+UniqueStrings.m */,
 				B55E0852151660DD0097CC69 /* NSURL+SA_Additions.m */,
 				B55E0854151660DD0097CC69 /* SA_ConnectionQueue.m */,
+				B592126E18D374BD00FBC16D /* NSAttributedString+SA_Additions.h */,
+				B592126F18D374BD00FBC16D /* NSAttributedString+SA_Additions.m */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -664,6 +669,8 @@
 				B5E703F617A5D9B700435611 /* SA_Switch.h */,
 				B5E703F717A5D9B700435611 /* SA_Switch.m */,
 				B55E0887151660DD0097CC69 /* UIViewController+SA_Additions.m */,
+				B59F32C8181DCB1F0096DF9A /* UILocalNotification+SA_Additions.h */,
+				B59F32C9181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -931,6 +938,7 @@
 				B542238F15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.h in Headers */,
 				B5D3ABAB15FD3E070052F459 /* CAAnimation+SA_Blocks.h in Headers */,
 				B583071C1516548600CC57DE /* NSData Tests.h in Headers */,
+				B592127018D374BD00FBC16D /* NSAttributedString+SA_Additions.h in Headers */,
 				B58307301516548600CC57DE /* RunTimeAppDelegate.h in Headers */,
 				B58307221516548600CC57DE /* NSDate Tests.h in Headers */,
 				B58307281516548600CC57DE /* NSURL Tests.h in Headers */,
@@ -1149,6 +1157,7 @@
 				B55E089D151660DD0097CC69 /* NSData+SA_MD5.m in Sources */,
 				B55E08A3151660DD0097CC69 /* NSDate+SA_Additions.m in Sources */,
 				B55E08A9151660DD0097CC69 /* NSFileManager+SA_Additions.m in Sources */,
+				B592127218D37A6600FBC16D /* NSAttributedString+SA_Additions.m in Sources */,
 				B55E08AF151660DD0097CC69 /* NSManagedObject+SA_Additions.m in Sources */,
 				B55E08B5151660DD0097CC69 /* NSManagedObjectContext+SA_Additions.m in Sources */,
 				B55E08BB151660DD0097CC69 /* NSNotificationCenter+SA_Additions.m in Sources */,
@@ -1321,6 +1330,7 @@
 				B55E089C151660DD0097CC69 /* NSData+SA_MD5.m in Sources */,
 				B55E08A2151660DD0097CC69 /* NSDate+SA_Additions.m in Sources */,
 				B55E08A8151660DD0097CC69 /* NSFileManager+SA_Additions.m in Sources */,
+				B592127118D374BD00FBC16D /* NSAttributedString+SA_Additions.m in Sources */,
 				B55E08AE151660DD0097CC69 /* NSManagedObject+SA_Additions.m in Sources */,
 				B55E08B4151660DD0097CC69 /* NSManagedObjectContext+SA_Additions.m in Sources */,
 				B55E08BA151660DD0097CC69 /* NSNotificationCenter+SA_Additions.m in Sources */,

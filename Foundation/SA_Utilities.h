@@ -317,6 +317,7 @@ typedef void (^simpleDateBlock)(NSDate *date);
 typedef void (^mocArgumentBlock)(NSManagedObjectContext *moc);
 
 BOOL		SA_Base_DebugMode(void);
+void		set_SA_Base_DebugMode(BOOL debug);
 
 #if TARGET_OS_IPHONE
 	typedef void (^simpleImageBlock)(UIImage *image);
