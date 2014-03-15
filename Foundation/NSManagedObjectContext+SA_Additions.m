@@ -310,10 +310,10 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 				NSDictionary				*info = error.userInfo;
 
 				if ([info objectForKey: @"NSDetailedErrors"]) {for (NSError *detailedError in [info objectForKey: @"NSDetailedErrors"]) {
-					LOG(@"Detailed Error: %@, %@", detailedError, [detailedError userInfo]);
+					NSLog(@"Detailed Error: %@, %@", detailedError, [detailedError userInfo]);
 				}} else if ([info objectForKey: @"conflictList"]) {
 					for (NSManagedObject *object in [info objectForKey: @"NSDetailedErrors"]) {
-						LOG(@"Conflicted object: %@", object);
+						NSLog(@"Conflicted object: %@", object);
 					}
 					LOG(@"All Objects: %@", [info objectForKey: @"NSDetailedErrors"]);
 				}
