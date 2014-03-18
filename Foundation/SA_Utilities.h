@@ -366,3 +366,14 @@ XCodeBuildType XCODE_BUILD_TYPE(void);
 - (id) initWithJSONDictionary: (NSDictionary *) JSONDictionary;
 @end
 
+
+
+#define SUPPRESS_LEAK_WARNING(STUFF) do { \
+	_Pragma("clang diagnostic push") \
+	_Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"") \
+	STUFF; \
+	_Pragma("clang diagnostic pop") \
+} while (0)
+
+
+
