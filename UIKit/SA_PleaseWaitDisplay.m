@@ -7,13 +7,12 @@
 
 #import "SA_PleaseWaitDisplay.h"
 #import "NSString+SA_Additions.h"
-
-
-#import <QuartzCore/QuartzCore.h>
+#import "dispatch_additions_SA.h"
+#import "NSObject+SA_Additions.h"
 
 #define		kLabelBackgroundColor				[UIColor clearColor]
 
-static SA_PleaseWaitDisplay *g_display = nil;
+static SA_PleaseWaitDisplay *s_pleaseWaitDisplay = nil;
 static NSString *g_cancelButtonImageName = @"black-button.png";
 static NSString *g_cancelButtonImagePressedName = @"black-button-highlight.png";
 static NSString *g_auxButtonImageName = @"black-button.png";
@@ -23,48 +22,48 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 @synthesize cancelTitle = _cancelTitle, auxTitle = _auxTitle, minorText = _minorText, majorText = _majorText, delegate = _delegate, view = _view, spinnerHidden = _spinnerHidden, progressBarHidden = _progressBarHidden, majorFont = _majorFont, minorFont = _minorFont;
 @synthesize currentOrientation = _currentOrientation, cancelBlock = _cancelBlock;
 
+
 + (SA_PleaseWaitDisplay *) showPleaseWaitDisplay: (NSString *) major {
 	return [self showPleaseWaitDisplayWithMajorText: major minorText: nil cancelLabel: nil showProgressBar: NO delegate: nil];
 }
 
 + (SA_PleaseWaitDisplay *) showPleaseWaitDisplayWithMajorText: (NSString *) major minorText: (NSString *) minor cancelLabel: (NSString *) cancel showProgressBar: (BOOL) showProgressBar delegate: (id <SA_PleaseWaitDisplayDelegate>) delegate {
-	if (g_display == nil) {
-		g_display = [[self alloc] init];
-		g_display.currentOrientation = [UIDevice currentDevice].userInterfaceOrientation;
-		[[NSNotificationCenter defaultCenter] addObserver: g_display selector: @selector(deviceOrientationDidChange:) name: UIDeviceOrientationDidChangeNotification object: nil];
-		g_display->_hidden = YES;
+
+	if (s_pleaseWaitDisplay == nil) {
+		s_pleaseWaitDisplay = [[self alloc] init];
+		s_pleaseWaitDisplay.currentOrientation = [UIDevice currentDevice].userInterfaceOrientation;
+		[s_pleaseWaitDisplay addAsObserverForName: UIDeviceOrientationDidChangeNotification selector: @selector(deviceOrientationDidChange:)];
+		s_pleaseWaitDisplay->_hidden = YES;
 	}
 	
+
 	simpleBlock				block = ^{
-		if (g_display == nil) return;
-		g_display.view.layer.zPosition = 100;
-		g_display.majorText = major;
-		g_display.minorText = minor;
-		g_display.cancelTitle = cancel;
-		g_display.delegate = delegate;
-		if (g_display == nil) return;
-		g_display->_progressBarHidden = !showProgressBar;
-		g_display.spinnerHidden = showProgressBar;					//if there's a progress max, we hide the spinner
-		g_display->_majorLabelPositionedWithSpinner = !g_display.spinnerHidden;
-		g_display.minorFont = [UIFont systemFontOfSize: 15];
-		g_display.majorFont = [UIFont boldSystemFontOfSize: 17];
-		[g_display performSelector: @selector(display) withObject: nil afterDelay: 0.0];
+		if (s_pleaseWaitDisplay == nil) return;
+		s_pleaseWaitDisplay.view.layer.zPosition = 100;
+		s_pleaseWaitDisplay.majorText = major;
+		s_pleaseWaitDisplay.minorText = minor;
+		s_pleaseWaitDisplay.cancelTitle = cancel;
+		s_pleaseWaitDisplay.delegate = delegate;
+		if (s_pleaseWaitDisplay == nil) return;
+		s_pleaseWaitDisplay->_progressBarHidden = !showProgressBar;
+		s_pleaseWaitDisplay.spinnerHidden = showProgressBar;					//if there's a progress max, we hide the spinner
+		s_pleaseWaitDisplay->_majorLabelPositionedWithSpinner = !s_pleaseWaitDisplay.spinnerHidden;
+		s_pleaseWaitDisplay.minorFont = [UIFont systemFontOfSize: 15];
+		s_pleaseWaitDisplay.majorFont = [UIFont boldSystemFontOfSize: 17];
+		[s_pleaseWaitDisplay performSelector: @selector(display) withObject: nil afterDelay: 0.0];
 	};
 	
-	if ([NSThread isMainThread])
-		block();
-	else
-		dispatch_async(dispatch_get_main_queue(), block);
+	dispatch_async_main_queue(block);
 		
-	return g_display;
+	return s_pleaseWaitDisplay;
 }
 
 + (void) hidePleaseWaitDisplay {
-	[g_display performSelectorOnMainThread: @selector(hide) withObject: nil waitUntilDone: NO];
+	[s_pleaseWaitDisplay performSelectorOnMainThread: @selector(hide) withObject: nil waitUntilDone: NO];
 }
 
 + (SA_PleaseWaitDisplay *) pleaseWaitDisplay {
-	return g_display;
+	return s_pleaseWaitDisplay;
 }
 
 + (void) setCancelButtonImageName: (NSString *) name withPressedImageName: (NSString *) pressed {
@@ -95,7 +94,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 	self.view.alpha = 0.0;
 	[UIView commitAnimations];
 	
-	g_display = nil; 	
+	s_pleaseWaitDisplay = nil; 	
 }
 - (BOOL) hidden {return (_hidden);}
 - (void) setProgressValueAsNumber: (NSNumber *) number {
@@ -112,6 +111,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 }
 
 - (void) setProgressBarHidden: (BOOL) hidden {
+	dispatch_
 	if (![NSThread isMainThread]) {
 		dispatch_async(dispatch_get_main_queue(), ^{ [self setProgressBarHidden: hidden]; });
 		return;
@@ -211,7 +211,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 //=============================================================================================================================
 #pragma mark Clean up
 - (void) dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver: self];
+	[self removeAsObserver];
 }
 
 - (void) setDelegate: (id <SA_PleaseWaitDisplayDelegate>) delegate {
