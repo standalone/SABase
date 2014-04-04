@@ -10,6 +10,7 @@
 #import "SA_PleaseWaitDisplay.h"
 #import "SA_Utilities.h"
 #import "NSObject+SA_Additions.h"
+#import "dispatch_additions_SA.h"
 
 static NSInteger				g_alertsVisible = 0;
 
@@ -62,7 +63,7 @@ NSMutableArray			*s_displayedAlerts = nil;
 
 + (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *)message tag: (NSUInteger) tag delegate: (id) delegate button: (NSString *) buttonTitle {
 	if (![NSThread isMainThread]) {
-		dispatch_async(dispatch_get_main_queue(), ^{
+		dispatch_async_main_queue_async(^{
 			[self showAlertWithTitle: title message: message tag: tag delegate: delegate button: buttonTitle];
 		});
 		return nil;
@@ -128,7 +129,7 @@ NSMutableArray			*s_displayedAlerts = nil;
 
 + (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *) message button: (NSString *) button buttonBlock: (booleanArgumentBlock) buttonHitBlock {
 	if (![NSThread isMainThread]) {
-		dispatch_async(dispatch_get_main_queue(), ^{
+		dispatch_async_main_queue_async(^{
 			[self showAlertWithTitle: title message: message button: button buttonBlock: buttonHitBlock];
 		});
 		return nil;
@@ -150,7 +151,7 @@ NSMutableArray			*s_displayedAlerts = nil;
 
 + (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *) message buttons: (NSArray *) buttons buttonBlock: (intArgumentBlock) buttonHitBlock {
 	if (![NSThread isMainThread]) {
-		dispatch_async(dispatch_get_main_queue(), ^{
+		dispatch_async_main_queue_async(^{
 			[self showAlertWithTitle: title message: message buttons: buttons buttonBlock: buttonHitBlock];
 		});
 		return nil;
