@@ -279,7 +279,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 			if (_active.count == 0 && _backgroundTaskID == kUIBackgroundTaskInvalid) {
 				_backgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler: ^{
 					if (_backgroundTaskID != kUIBackgroundTaskInvalid) {
-						dispatch_on_main_queue(^{
+						dispatch_async_main_queue_async(^{
 							if (_backgroundTaskID != kUIBackgroundTaskInvalid) {
 								LOG(@"Expiring background task (forced)");
 								[[UIApplication sharedApplication] endBackgroundTask: _backgroundTaskID];
@@ -315,7 +315,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 			#ifdef kUIBackgroundTaskInvalid
             #if !TARGET_OS_MAC
 				if (_backgroundTaskID != kUIBackgroundTaskInvalid) {
-					dispatch_on_main_queue(^{
+					dispatch_async_main_queue_async(^{
 						if (_backgroundTaskID != kUIBackgroundTaskInvalid && _active.count == 0) {
 							[[UIApplication sharedApplication] endBackgroundTask: _backgroundTaskID];
 							_backgroundTaskID = kUIBackgroundTaskInvalid;
@@ -463,7 +463,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 	_activityIndicatorCount = activityIndicatorCount;
 	
 	if (_activityIndicatorCount <= 0) {
-		dispatch_on_main_queue(^{
+		dispatch_async_main_queue_async(^{
 			[[SA_ConnectionQueue sharedQueue] performSelector: @selector(hideActivityIndicator) withObject: nil afterDelay: 0.05];
 		});
 	} else {
