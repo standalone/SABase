@@ -127,6 +127,12 @@ NSMutableArray			*s_displayedAlerts = nil;
 #pragma mark Overrides
 
 + (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *) message button: (NSString *) button buttonBlock: (booleanArgumentBlock) buttonHitBlock {
+	if (![NSThread isMainThread]) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self showAlertWithTitle: title message: message button: button buttonBlock: buttonHitBlock];
+		});
+		return nil;
+	}
 	SA_AlertView				*alert = [self showAlertWithTitle: title message: message tag: 0 delegate: nil button: button];
 	
 	alert.delegate = alert;
@@ -143,6 +149,13 @@ NSMutableArray			*s_displayedAlerts = nil;
 }
 
 + (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *) message buttons: (NSArray *) buttons buttonBlock: (intArgumentBlock) buttonHitBlock {
+	if (![NSThread isMainThread]) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self showAlertWithTitle: title message: message buttons: buttons buttonBlock: buttonHitBlock];
+		});
+		return nil;
+	}
+
 	SA_AlertView			*alert = [[SA_AlertView alloc] initWithTitle: title ?: @"" message: message ?: @"" delegate: nil cancelButtonTitle: nil otherButtonTitles: nil];
 	
 	for (NSString *title in buttons) [alert addButtonWithTitle: title];
