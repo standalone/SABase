@@ -111,7 +111,6 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 }
 
 - (void) setProgressBarHidden: (BOOL) hidden {
-	dispatch_
 	if (![NSThread isMainThread]) {
 		dispatch_async(dispatch_get_main_queue(), ^{ [self setProgressBarHidden: hidden]; });
 		return;
