@@ -19,3 +19,10 @@ void	dispatch_sync_main_queue(dispatch_block_t block) {
 void	dispatch_async_main_queue(dispatch_block_t block) {
 	dispatch_async(dispatch_get_main_queue(), block);
 }
+
+void	dispatch_on_main_queue(dispatch_block_t block) {
+	if ([NSThread isMainThread])
+		block();
+	else
+		dispatch_async(dispatch_get_main_queue(), block);
+}
