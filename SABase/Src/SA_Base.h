@@ -59,3 +59,5 @@
 #import "NSString+SA_MD5.h"
 #import "UIFont+SA_Additions.h"
 #import "SA_ScreenshotFeedback.h"
+
+#import "SA_Sentinel.h"

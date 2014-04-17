@@ -30,6 +30,10 @@
 		B5095CAF15F4063400EC3C8F /* NSDictionary+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B5095CAC15F4063400EC3C8F /* NSDictionary+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B5095CB015F4063400EC3C8F /* NSDictionary+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B5095CAD15F4063400EC3C8F /* NSDictionary+SA_Additions.m */; };
 		B5095CB115F4063400EC3C8F /* NSDictionary+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B5095CAD15F4063400EC3C8F /* NSDictionary+SA_Additions.m */; };
+		B510288E19000A6C001B32A9 /* SA_Sentinel.h in Headers */ = {isa = PBXBuildFile; fileRef = B510288C19000A6C001B32A9 /* SA_Sentinel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B510288F19000A6C001B32A9 /* SA_Sentinel.h in Headers */ = {isa = PBXBuildFile; fileRef = B510288C19000A6C001B32A9 /* SA_Sentinel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B510289019000A6C001B32A9 /* SA_Sentinel.m in Sources */ = {isa = PBXBuildFile; fileRef = B510288D19000A6C001B32A9 /* SA_Sentinel.m */; };
+		B510289119000A6C001B32A9 /* SA_Sentinel.m in Sources */ = {isa = PBXBuildFile; fileRef = B510288D19000A6C001B32A9 /* SA_Sentinel.m */; };
 		B51F6FE21615CAB90015A037 /* NSSet+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B51F6FE01615CAB90015A037 /* NSSet+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B51F6FE31615CAB90015A037 /* NSSet+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B51F6FE01615CAB90015A037 /* NSSet+SA_Additions.h */; };
 		B51F6FE41615CAB90015A037 /* NSSet+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B51F6FE11615CAB90015A037 /* NSSet+SA_Additions.m */; };
@@ -377,6 +381,8 @@
 		B50261D711CD233E00417EA6 /* Unit Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5095CAC15F4063400EC3C8F /* NSDictionary+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+SA_Additions.h"; path = "../Foundation/NSDictionary+SA_Additions.h"; sourceTree = "<group>"; };
 		B5095CAD15F4063400EC3C8F /* NSDictionary+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+SA_Additions.m"; sourceTree = "<group>"; };
+		B510288C19000A6C001B32A9 /* SA_Sentinel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SA_Sentinel.h; sourceTree = "<group>"; };
+		B510288D19000A6C001B32A9 /* SA_Sentinel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SA_Sentinel.m; sourceTree = "<group>"; };
 		B51F6FE01615CAB90015A037 /* NSSet+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSSet+SA_Additions.h"; path = "../Foundation/NSSet+SA_Additions.h"; sourceTree = "<group>"; };
 		B51F6FE11615CAB90015A037 /* NSSet+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSSet+SA_Additions.m"; sourceTree = "<group>"; };
 		B52BF7E51871CD2C009F4A4C /* NSError+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+SA_Additions.h"; sourceTree = "<group>"; };
@@ -606,6 +612,8 @@
 			children = (
 				B52BF7E51871CD2C009F4A4C /* NSError+SA_Additions.h */,
 				B52BF7E61871CD2C009F4A4C /* NSError+SA_Additions.m */,
+				B510288C19000A6C001B32A9 /* SA_Sentinel.h */,
+				B510288D19000A6C001B32A9 /* SA_Sentinel.m */,
 				B5ED0B9216431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.h */,
 				B5ED0B9316431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.m */,
 				B5D3ABAA15FD3E070052F459 /* CAAnimation+SA_Blocks.m */,
@@ -858,6 +866,7 @@
 				B55E0955151660DD0097CC69 /* UIPopoverController+SA_Additions.h in Headers */,
 				B52BF7E81871CD2C009F4A4C /* NSError+SA_Additions.h in Headers */,
 				B55E095B151660DD0097CC69 /* UIScrollView+SA_Additions.h in Headers */,
+				B510288F19000A6C001B32A9 /* SA_Sentinel.h in Headers */,
 				B55E0961151660DD0097CC69 /* UISegmentedControl+SA_Additions.h in Headers */,
 				B55E0967151660DD0097CC69 /* UITableViewCell+SA_Additions.h in Headers */,
 				B55E096D151660DD0097CC69 /* UIToolbar+SA_Additions.h in Headers */,
@@ -907,6 +916,7 @@
 				B55E08F4151660DD0097CC69 /* SA_LazyLoadingScrollView.h in Headers */,
 				B55E08FA151660DD0097CC69 /* SA_NavigationController.h in Headers */,
 				B55E0900151660DD0097CC69 /* SA_PleaseWaitDisplay.h in Headers */,
+				B510288E19000A6C001B32A9 /* SA_Sentinel.h in Headers */,
 				B55E0906151660DD0097CC69 /* SA_SelfDrawingView.h in Headers */,
 				B55E090C151660DD0097CC69 /* SA_SplashScreenImageView.h in Headers */,
 				B55E0912151660DD0097CC69 /* SA_StackedScrollView.h in Headers */,
@@ -1196,6 +1206,7 @@
 				B55E097B151660DD0097CC69 /* UIViewController+SA_Additions.m in Sources */,
 				B59F32CD181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m in Sources */,
 				B55E0983151661110097CC69 /* SA_BlockButton.m in Sources */,
+				B510289119000A6C001B32A9 /* SA_Sentinel.m in Sources */,
 				B55E098B151661790097CC69 /* NSTimer+SA_Additions.m in Sources */,
 				B55E0993151661920097CC69 /* NSUserDefaults+SA_Additions.m in Sources */,
 				B55E099B151661C10097CC69 /* NSArray+SA_Additions.m in Sources */,
@@ -1369,6 +1380,7 @@
 				B55E097A151660DD0097CC69 /* UIViewController+SA_Additions.m in Sources */,
 				B59F32CC181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m in Sources */,
 				B55E0982151661110097CC69 /* SA_BlockButton.m in Sources */,
+				B510289019000A6C001B32A9 /* SA_Sentinel.m in Sources */,
 				B55E098A151661790097CC69 /* NSTimer+SA_Additions.m in Sources */,
 				B55E0992151661920097CC69 /* NSUserDefaults+SA_Additions.m in Sources */,
 				B55E099A151661C10097CC69 /* NSArray+SA_Additions.m in Sources */,
