@@ -8,6 +8,8 @@
 
 #import "NSError+SA_Additions.h"
 
+const NSString			*SA_BaseErrorDomain = @"SA_BaseErrorDomain";
+
 @implementation NSError (SA_Additions)
 - (BOOL) isNoInternetConnectionError {
 	return [self.domain isEqual: NSURLErrorDomain] && self.code == NSURLErrorNotConnectedToInternet;

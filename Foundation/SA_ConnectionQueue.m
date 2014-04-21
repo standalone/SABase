@@ -15,6 +15,7 @@
 #import "NSBundle+SA_Additions.h"
 #import "NSError+SA_Additions.h"
 #import "dispatch_additions_SA.h"
+#import "NSError+SA_Additions.h"
 #if TARGET_OS_IPHONE
 	
 #endif
@@ -1090,7 +1091,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 //				 [self cancel: YES];
 //			} 
 			if ([SA_ConnectionQueue sharedQueue].dontProcessFailedStatusCodes && [_delegate respondsToSelector: @selector(connectionFailed:withError:)]) {
-				[_delegate connectionFailed: self withError: [NSError errorWithDomain: NSLocalizedString(@"Connection failed", @"Connection failed") code: _statusCode userInfo: nil]];
+				[_delegate connectionFailed: self withError: [NSError errorWithDomain: SA_BaseErrorDomain code: sa_base_error_connection_failed userInfo: @{ @"statusCode": @(_statusCode)} ]];
 			}
 		}  else {
 			NSString			*cookieString = _responseHeaders[@"Set-Cookie"];
