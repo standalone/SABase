@@ -7,22 +7,63 @@
 //
 
 #import "SA_Sentinel.h"
+#import "NSError+SA_Additions.h"
+
+static NSMutableSet			*s_activeSentinels = nil;
 
 @interface SA_Sentinel ()
 
-@property (nonatomic, copy) simpleBlock completion;
+@property (nonatomic, copy) booleanArgumentBlock completion;
 @property (nonatomic) NSUInteger watchCount;
+@property (nonatomic, weak) NSTimer *timeoutTimer, *decrementTimeoutTimer;
 
 @end
 
 @implementation SA_Sentinel
 
-+ (instancetype) sentinelWithCompletionBlock: (simpleBlock) block {
+- (void) dealloc {
+	[self.decrementTimeoutTimer invalidate];
+	[self.timeoutTimer invalidate];
+}
+
++ (instancetype) sentinelWithCompletionBlock: (booleanArgumentBlock) block {
 	SA_Sentinel				*sentinel = [SA_Sentinel new];
 	
 	sentinel.completion = block;
+	[sentinel increment];
+	[sentinel performSelector: @selector(decrement) withObject: nil afterDelay: 0.0];
+	
+	if (s_activeSentinels == nil) s_activeSentinels = [NSMutableSet new];
+	[s_activeSentinels addObject: sentinel];
 	return sentinel;
 }
+
+
+//================================================================================================================
+#pragma mark Properties
+- (void) setTimeout: (NSTimeInterval) timeout {
+	[self.timeoutTimer invalidate];
+	if (timeout)
+		self.timeoutTimer = [NSTimer scheduledTimerWithTimeInterval: timeout target: self selector: @selector(timedOut) userInfo: nil repeats: NO];
+}
+
+- (void) setDecrementTimeout: (NSTimeInterval) decrementTimeout {
+	[self.decrementTimeoutTimer invalidate];
+	if (decrementTimeout)
+		self.decrementTimeoutTimer = [NSTimer scheduledTimerWithTimeInterval: decrementTimeout target: self selector: @selector(decremenetTimedOut) userInfo: nil repeats: NO];
+}
+
+- (void) timedout {
+	[self abortWithError: [NSError errorWithDomain: SA_BaseErrorDomain code: sa_base_error_sentinel_timeout userInfo: nil]];
+}
+
+- (void) decremenetTimedOut {
+	[self abortWithError: [NSError errorWithDomain: SA_BaseErrorDomain code: sa_base_error_sentinel_decrement_timeout userInfo: nil]];
+}
+
+
+//================================================================================================================
+#pragma mark Actions
 
 - (void) increment {
 	@synchronized (self) {
@@ -32,13 +73,33 @@
 
 - (void) decrement {
 	@synchronized (self) {
+		self.decrementTimeout = self.decrementTimeout;
 		if (self.watchCount > 0) self.watchCount--;
-		if (self.watchCount == 0 && self.completion) {
-			self.completion();
-			self.completion = nil;
+		if (self.watchCount == 0) {
+			[self completion: YES];
 		}
 	}
 }
 
+- (void) decrementWithError: (NSError *) error {
+	if (self.errorBlock) self.errorBlock(error);
+	[self decrement];
+}
+
+- (void) abort {
+	[self completion: NO];
+}
+
+- (void) abortWithError: (NSError *) error {
+	if (self.errorBlock) self.errorBlock(error);
+	[self abort];
+}
+
+
+- (void) completion: (BOOL) complete {
+	if (self.completion) self.completion(complete);
+	self.completion = nil;
+	[s_activeSentinels removeObject: self];
+}
 
 @end
