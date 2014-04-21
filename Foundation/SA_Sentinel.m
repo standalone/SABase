@@ -8,6 +8,8 @@
 
 #import "SA_Sentinel.h"
 #import "NSError+SA_Additions.h"
+#import "SA_Utilities.h"
+#import "dispatch_additions_SA.h"
 
 static NSMutableSet			*s_activeSentinels = nil;
 
@@ -30,12 +32,17 @@ static NSMutableSet			*s_activeSentinels = nil;
 	SA_Sentinel				*sentinel = [SA_Sentinel new];
 	
 	sentinel.completion = block;
-	[sentinel increment];
+	sentinel.watchCount = 1;
 	[sentinel performSelector: @selector(decrement) withObject: nil afterDelay: 0.0];
 	
 	if (s_activeSentinels == nil) s_activeSentinels = [NSMutableSet new];
 	[s_activeSentinels addObject: sentinel];
+	dispatch_async_main_queue(^{ [sentinel decrement]; });
 	return sentinel;
+}
+
+- (NSString *) description {
+	return $S(@"Sentinel: %d remaining", (UInt16) self.watchCount);
 }
 
 
