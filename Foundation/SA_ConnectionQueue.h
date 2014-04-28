@@ -167,8 +167,7 @@ typedef enum {
 
 
 @interface SA_ConnectionQueue : NSObject <SA_ConnectionRouter> {
-	NSMutableArray					*_pending, *_pleaseWaitConnections;
-	NSMutableSet					*_active;
+	NSMutableArray					*_pleaseWaitConnections;
 	NSMutableDictionary				*_headers;
 	
 	BOOL							_offline, _showProgressInPleaseWaitDisplay;

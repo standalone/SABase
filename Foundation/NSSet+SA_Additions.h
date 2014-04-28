@@ -10,4 +10,5 @@
 
 @interface NSSet (SA_Additions)
 @property (nonatomic, readonly) NSUInteger md5Hash;
+- (NSSet *) sa_setByRemovingObject: (id) object;
 @end

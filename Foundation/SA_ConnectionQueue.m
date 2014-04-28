@@ -16,6 +16,9 @@
 #import "NSError+SA_Additions.h"
 #import "dispatch_additions_SA.h"
 #import "NSError+SA_Additions.h"
+#import "NSArray+SA_Additions.h"
+#import "NSSet+SA_Additions.h"
+
 #if TARGET_OS_IPHONE
 	
 #endif
@@ -63,6 +66,9 @@ NSString *kConnectionNotification_ConnectionStateChanged = @"SA_Connection: stat
 @property (nonatomic, strong) NSOperationQueue *privateQueue;
 @property (nonatomic, weak) NSTimer *queueProcessingTimer;
 @property (nonatomic) long long bytesDownloaded;
+
+@property (nonatomic, strong) NSArray *pending;
+@property (nonatomic, strong) NSSet *active;
 @end
 
 //=============================================================================================================================
@@ -119,8 +125,8 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 			[[NSFileManager defaultManager] createDirectoryAtPath: [@"~/Library/Downloads/" stringByExpandingTildeInPath] withIntermediateDirectories: YES attributes: nil error: &dirError];
 		}
 		self.router = self;
-		_pending = [[NSMutableArray alloc] init];
-		_active = [[NSMutableSet alloc] init];
+		self.pending = @[];
+		self.active = [NSSet set];
 		_pleaseWaitConnections = [[NSMutableArray alloc] init];
 		_headers = [[NSMutableDictionary alloc] init];
 		_defaultPriorityLevel = 5;
@@ -168,8 +174,8 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 		[self.privateQueue addOperationWithBlock: ^{
 			SA_Assert(!connection.alreadyStarted, @"Can't queue an already started connection");
 
-			[_pending addObject: connection];
-			connection.order = _pending.count;
+			self.pending = [self.pending arrayByAddingObject: connection];
+			connection.order = self.pending.count;
 			if (connection.persists && [self respondsToSelector: @selector(persistConnection:)]) {
 				if (connection.completeInBackground) {LOG(@"Trying to persist a background connection. This is not allowed. (%@)", connection);}
 			}
@@ -184,8 +190,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 			#endif
 			
 			[self deferQueueProcessing];
-		//	if (_active.count < self.maxSimultaneousConnections) [self processQueue];
-			if (self.managePleaseWaitDisplay) [self updatePleaseWaitDisplay]; 
+			if (self.managePleaseWaitDisplay) [self updatePleaseWaitDisplay];
 			
 			[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_Queued object: connection];
 		}];
@@ -232,7 +237,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 }
 
 - (void) reorderPendingConnectionsByPriority {
-	if (_pending.count > 1) [_pending sortUsingDescriptors: _connectionSortDescriptors];
+	if (self.pending.count > 1) self.pending = [self.pending sortedArrayUsingDescriptors: _connectionSortDescriptors];
 }
 
 - (BOOL) performInvocationIfOffline: (NSInvocation *) invocation {
@@ -264,11 +269,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 }
 
 - (void) deferQueueProcessing {
-	[self.privateQueue addOperationWithBlock: ^{
-		[self processQueue];
-	}];
-//	[self.queueProcessingTimer invalidate];
-//	self.queueProcessingTimer = [NSTimer scheduledTimerWithTimeInterval: 0.01 target: self selector: @selector(processQueue) userInfo: nil repeats: nil];
+	[self.privateQueue addOperationWithBlock: ^{ [self processQueue]; }];
 }
 
 - (void) processQueue {
@@ -276,8 +277,8 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 		[self.queueProcessingTimer invalidate];
 		#ifdef kUIBackgroundTaskInvalid
         #if !TARGET_OS_MAC
-			if (_active.count == 0 && _pending.count == 0 && _backgroundTaskID == kUIBackgroundTaskInvalid) return;
-			if (_active.count == 0 && _backgroundTaskID == kUIBackgroundTaskInvalid) {
+			if (self.active.count == 0 && self.pending.count == 0 && _backgroundTaskID == kUIBackgroundTaskInvalid) return;
+			if (self.active.count == 0 && _backgroundTaskID == kUIBackgroundTaskInvalid) {
 				_backgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler: ^{
 					if (_backgroundTaskID != kUIBackgroundTaskInvalid) {
 						dispatch_async_main_queue(^{
@@ -293,23 +294,23 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 		#endif
         #endif
 		
-		while (!_offline && !self.paused && _active.count < self.maxSimultaneousConnections && _pending.count) {
-			SA_Connection				*connection = _pending[0];
+		while (!_offline && !self.paused && self.active.count < self.maxSimultaneousConnections && self.pending.count) {
+			SA_Connection				*connection = self.pending[0];
 			
 			SA_Assert(!connection.alreadyStarted, @"Somehow a previously started connection is in the pending list: %@", connection);
 			for (NSString *key in _headers) {[connection addHeader: _headers[key] label: key];}
 			if ([connection start]) {
 				self.activityIndicatorCount++;
-				[_active addObject: connection];
+				self.active = [self.active setByAddingObject: connection];
 			} else {
 				LOG(@"Connection failed to start: %@", connection);
 				[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_ConnectionFailedToStart object: connection];
 			}
-			[_pending removeObject: connection];
+			self.pending = [self.pending SA_arrayByRemovingObject: connection];
 		}
 
-		if (_active.count == 0 && !_paused) {
-			if (_pending.count == 0) {
+		if (self.active.count == 0 && !_paused) {
+			if (self.pending.count == 0) {
 				_highwaterMark = 0;
 				[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_AllConnectionsCompleted object: self];
 			}
@@ -317,7 +318,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
             #if !TARGET_OS_MAC
 				if (_backgroundTaskID != kUIBackgroundTaskInvalid) {
 					dispatch_async_main_queue(^{
-						if (_backgroundTaskID != kUIBackgroundTaskInvalid && _active.count == 0) {
+						if (_backgroundTaskID != kUIBackgroundTaskInvalid && self.active.count == 0) {
 							[[UIApplication sharedApplication] endBackgroundTask: _backgroundTaskID];
 							_backgroundTaskID = kUIBackgroundTaskInvalid;
 						}
@@ -340,14 +341,14 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 - (void) removeConnectionsWithDelegate: (id) delegate { [self removeConnectionsTaggedWith: nil delegate: delegate]; }
 - (void) removeConnectionsTaggedWith: (NSString *) tag delegate: (id) delegate {
 	[self.privateQueue addOperationWithBlock:^{
-		for (SA_Connection *connection in [_active allObjects]) {
+		for (SA_Connection *connection in self.active) {
 			if ((tag == nil || [connection.tag rangeOfString: tag].location != NSNotFound) && (delegate == nil || connection.delegate == delegate)) {
 				[connection cancel: YES];
 				self.activityIndicatorCount--;
 			}
 		}
 		
-		for (SA_Connection *connection in _pending.copy) {
+		for (SA_Connection *connection in self.pending) {
 			if ((tag == nil || [connection.tag rangeOfString: tag].location != NSNotFound) && (delegate == nil || connection.delegate == delegate)) {
 				[connection cancel: YES];
 			}
@@ -361,19 +362,19 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 - (void) cancelAllConnections { [self removeConnectionsTaggedWith: nil delegate: nil]; }
 
 - (BOOL) isExistingConnectionSimilar: (SA_Connection *) targetConnection {
-	if (targetConnection.tag || targetConnection.delegate) return [self isExistingConnectionsTaggedWith: targetConnection.tag delegate: targetConnection.delegate];
-	
-	NSURL				*url = targetConnection.url;
-	NSSet				*active = _active.copy;
-	
-	for (SA_Connection *connection in active) {
-		if (!connection.canceled &&  [url isEqual: connection.url]) return YES;
-	}
-	
-	NSArray				*pending = _pending.copy;
-	for (SA_Connection *connection in pending) {
-		if (!connection.canceled &&  [url isEqual: connection.url]) return YES;
-	}
+	@try {
+		if (targetConnection.tag || targetConnection.delegate) return [self isExistingConnectionsTaggedWith: targetConnection.tag delegate: targetConnection.delegate];
+		
+		NSURL				*url = targetConnection.url;
+		
+		for (SA_Connection *connection in self.active) {
+			if (!connection.canceled &&  [url isEqual: connection.url]) return YES;
+		}
+		
+		for (SA_Connection *connection in self.pending) {
+			if (!connection.canceled &&  [url isEqual: connection.url]) return YES;
+		}
+	} @catch (NSException *e) {}
 	
 	return NO;
 	
@@ -384,27 +385,25 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 }
 
 - (SA_Connection *) existingConnectionsTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate {
-	NSSet				*active = _active.copy;
-
-	for (SA_Connection *connection in active) {
-		if (tag == nil && connection.tag != nil) continue;
-		if (tag != nil && connection.tag == nil) continue;
-		if (tag && [connection.tag rangeOfString: tag].location == NSNotFound) continue;
+	@try {
+		for (SA_Connection *connection in self.active) {
+			if (tag == nil && connection.tag != nil) continue;
+			if (tag != nil && connection.tag == nil) continue;
+			if (tag && [connection.tag rangeOfString: tag].location == NSNotFound) continue;
+			
+			if (delegate == nil && connection.delegate == nil) return connection;
+			if (delegate == connection.delegate) return connection;
+		}
 		
-		if (delegate == nil && connection.delegate == nil) return connection;
-		if (delegate == connection.delegate) return connection;
-	}
-	
-	NSArray						*pending = _pending.copy;
-
-	for (SA_Connection *connection in pending) {
-		if (tag == nil && connection.tag != nil) continue;
-		if (tag != nil && connection.tag == nil) continue;
-		if (tag && [connection.tag rangeOfString: tag].location == NSNotFound) continue;
-		
-		if (delegate == nil && connection.delegate == nil) return connection;
-		if (delegate == connection.delegate) return connection;
-	}
+		for (SA_Connection *connection in self.pending) {
+			if (tag == nil && connection.tag != nil) continue;
+			if (tag != nil && connection.tag == nil) continue;
+			if (tag && [connection.tag rangeOfString: tag].location == NSNotFound) continue;
+			
+			if (delegate == nil && connection.delegate == nil) return connection;
+			if (delegate == connection.delegate) return connection;
+		}
+	} @catch (NSException *e) {};
 	
 	return nil;
 }
@@ -420,11 +419,11 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 
 	if (_offline) {				//need too cancel all active connections
 		[self.privateQueue addOperationWithBlock:^{
-			for (SA_Connection *connection in _active) {
+			for (SA_Connection *connection in self.active) {
 				SA_Assert(!connection.alreadyStarted, @"There was an unstarted connection in the active list: %@", connection);
 				[connection reset];
 				self.activityIndicatorCount--;
-				if (![_pending containsObject: connection]) [_pending addObject: connection];
+				if (![self.pending containsObject: connection]) self.pending = [self.pending arrayByAddingObject: connection];
 			}
 
 			if (self.managePleaseWaitDisplay) {
@@ -432,7 +431,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 				[self updatePleaseWaitDisplay];
 			}
 
-			[_active removeAllObjects];
+			self.active = [NSSet set];
 			[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_NotConnectedToInternet object: self];
 			[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_ConnectionStateChanged object: @(!offline)];
 		}];
@@ -455,8 +454,8 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 }
 
 - (void) setMaxSimultaneousConnections: (NSUInteger) max { _maxSimultaneousConnections = max; }
-- (BOOL) connectionsArePending { return (_pending.count > 0 || _active.count > 0); }
-- (NSUInteger) connectionCount { return _active.count + _pending.count; }
+- (BOOL) connectionsArePending { return (self.pending.count > 0 || self.active.count > 0); }
+- (NSUInteger) connectionCount { return self.active.count + self.pending.count; }
 
 //=============================================================================================================================
 #pragma mark Activity Indicator
@@ -485,12 +484,12 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 - (void) dequeueConnection: (SA_Connection *) connection {
 	
 	[self.privateQueue addOperationWithBlock:^{
-		if ([_active containsObject: connection]) {
+		if ([self.active containsObject: connection]) {
 			self.activityIndicatorCount--;
-			[_active removeObject: connection];
+			self.active = [self.active sa_setByRemovingObject: connection];
 		}
 		if (self.managePleaseWaitDisplay) [_pleaseWaitConnections removeObject: connection];
-		[_pending removeObject: connection];
+		self.pending = [self.pending SA_arrayByRemovingObject: connection];
 
 		[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_Dequeued object: connection];
 		[self deferQueueProcessing];
@@ -501,9 +500,9 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 	if (error.isNoInternetConnectionError) {					//if we're not connected, then we'll stop all future connections, and save this one
 		[connection reset];
 		[self.privateQueue addOperationWithBlock:^{
-			if (![_pending containsObject: connection] && connection.persists) {
+			if (![self.pending containsObject: connection] && connection.persists) {
 				SA_Assert(!connection.alreadyStarted, @"Can't queue an already started connection");
-				[_pending addObject: connection];
+				self.pending = [self.pending arrayByAddingObject: connection];
 			}
 		}];
 		
@@ -656,11 +655,9 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 #pragma mark Misc
 - (float) remainingConnectionsAboveMinimum {
 	float				count = 0;
-	NSSet				*active = _active.copy;
-	NSArray				*pending = _pending.copy;
 	
-	for (SA_Connection *connection in active) { if (connection.priority >= _minimumIndicatedPriorityLevel) count++; }
-	for (SA_Connection *connection in pending) { if (connection.priority >= _minimumIndicatedPriorityLevel) count++; }
+	for (SA_Connection *connection in self.active) { if (connection.priority >= _minimumIndicatedPriorityLevel) count++; }
+	for (SA_Connection *connection in self.pending) { if (connection.priority >= _minimumIndicatedPriorityLevel) count++; }
 	
 	return count;
 }
@@ -668,14 +665,14 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 - (NSString *) description {
 	NSMutableString				*results = [NSMutableString string];
 	
-	[results appendFormat: @"\nActive (%ld):\n", (long) _active.count];
-	for (SA_Connection *connection in _active) {
+	[results appendFormat: @"\nActive (%ld):\n", (long) self.active.count];
+	for (SA_Connection *connection in self.active) {
 		[results appendFormat: @"\t\t%@\n", connection];
 	}
 	
-	if (_active.count && _pending.count) [results appendString: @"\n"];
-	[results appendFormat: @"Pending (%ld):\n", (long) _pending.count];
-	for (SA_Connection *connection in _pending) {
+	if (self.active.count && self.pending.count) [results appendString: @"\n"];
+	[results appendFormat: @"Pending (%ld):\n", (long) self.pending.count];
+	for (SA_Connection *connection in self.pending) {
 		[results appendFormat: @"\t\t%@\n", connection];
 	}
 	

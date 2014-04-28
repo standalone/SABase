@@ -22,5 +22,12 @@
 	return value;
 }
 
+- (NSSet *) sa_setByRemovingObject: (id) object {
+	if (![self containsObject: object]) return self;
+	
+	NSMutableSet				*copy = [self mutableCopy];
+	[copy removeObject: object];
+	return copy;
+}
 
 @end
