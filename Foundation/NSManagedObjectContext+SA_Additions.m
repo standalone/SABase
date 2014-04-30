@@ -118,8 +118,14 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	return object;
 }
 
-- (id) anyObjectOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate {
-	NSFetchRequest					*request = [self fetchRequestWithEntityName: entityName predicate: predicate sortBy: nil fetchLimit: 1];
+- (id) nth: (NSUInteger) n objectOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate sortedBy: (NSArray *) sort {
+	NSFetchRequest		*request = [self fetchRequestWithEntityName: entityName predicate: predicate sortBy: sort fetchLimit: 1];
+	request.fetchOffset = n;
+	
+	return [self recordFromFetchRequest: request];
+}
+
+- (id) recordFromFetchRequest: (NSFetchRequest *) request {
 	if (request == nil) {
 		NSLog(@"Bad entity for anyObjectOfType:matchingPredicate:");
 		return nil;
@@ -130,13 +136,20 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	@try {
 		results = [self executeFetchRequest: request error: &error];
 	} @catch (NSException *e) {
-		[[NSNotificationCenter defaultCenter] postNotificationName: kNotification_SA_ErrorWhileGeneratingFetchRequest object: e userInfo: [NSDictionary dictionaryWithObjectsAndKeys: entityName, @"entity", predicate, @"predicate", nil]];
+		[[NSNotificationCenter defaultCenter] postNotificationName: kNotification_SA_ErrorWhileGeneratingFetchRequest object: e userInfo: [NSDictionary dictionaryWithObjectsAndKeys: request.entityName, @"entity", request.predicate, @"predicate", nil]];
 	}
 
-	if (error) NSLog(@"Error while attempting to fetch %@ matching (%@): %@", entityName, predicate, error);
+	if (error) NSLog(@"Error while attempting to fetch %@ matching (%@): %@", request.entityName, request.predicate, error);
+	
+	if (request.fetchLimit != 1) return results;
 	
 	if (results.count) return [results objectAtIndex: 0];
 	return nil;
+}
+
+- (id) anyObjectOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate {
+	NSFetchRequest					*request = [self fetchRequestWithEntityName: entityName predicate: predicate sortBy: nil fetchLimit: 1];
+	return [self recordFromFetchRequest: request];
 }
 
 - (id) firstObjectOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate sortedBy: (NSArray *) sortDescriptors {
@@ -145,20 +158,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 		NSLog(@"Bad entity for firstObjectOfType:matchingPredicate:sortedBy:");
 		return nil;
 	}
-	NSError							*error = nil;
-
-	NSArray							*results = nil;
-	
-	@try {
-		results = [self executeFetchRequest: request error: &error];
-	} @catch (NSException *e) {
-		[[NSNotificationCenter defaultCenter] postNotificationName: kNotification_SA_ErrorWhileGeneratingFetchRequest object: e userInfo: [NSDictionary dictionaryWithObjectsAndKeys: entityName, @"entity", predicate, @"predicate", sortDescriptors, @"sortBy", nil]];
-	}
-
-	if (error) NSLog(@"Error while attempting to fetch %@ matching (%@): %@", entityName, predicate, error);
-	
-	if (results.count) return [results objectAtIndex: 0];
-	return nil;
+	return [self recordFromFetchRequest: request];
 }
 
 - (NSArray *) allObjectsOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate sortedBy: (NSArray *) sortDescriptors fetchLimit: (int) fetchLimit {
@@ -167,19 +167,8 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 		NSLog(@"Bad entity for allObjectsOfType:matchingPredicate:sortedBy:fetchLimit:");
 		return nil;
 	}
-	NSError							*error = nil;
 
-	NSArray							*results = nil;
-	
-	@try {
-		results = [self executeFetchRequest: request error: &error];
-	} @catch (NSException *e) {
-		[[NSNotificationCenter defaultCenter] postNotificationName: kNotification_SA_ErrorWhileGeneratingFetchRequest object: e userInfo: [NSDictionary dictionaryWithObjectsAndKeys: entityName, @"entity", predicate, @"predicate", sortDescriptors, @"sortBy", nil]];
-	}
-
-	if (error) NSLog(@"Error while attempting to fetch %@ matching (%@): %@", entityName, predicate, error);
-	
-	return results;
+	return [self recordFromFetchRequest: request];
 }
 
 - (NSFetchRequest *) fetchRequestWithEntityName: (NSString *) entityName predicate: (NSPredicate *) predicate sortBy: (NSArray *) sortBy fetchLimit: (int) fetchLimit {
