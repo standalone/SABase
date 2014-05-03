@@ -12,6 +12,8 @@
 #import <objc/message.h>
 #import "CAAnimation+SA_Blocks.h"
 
+#define kSA_OriginalCenterBeforeKeyboardShift			@"SA_OriginalCenterBeforeKeyboardShift"
+
 @interface UIView (OS7_Compatibility)
 - (BOOL) drawViewHierarchyInRect: (CGRect) rect afterScreenUpdates: (BOOL) afterUpdates;
 
@@ -699,6 +701,48 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 	[self addSubview: blocker];
 	return blocker;
 }
+
+
+//================================================================================================================
+#pragma mark Keyboard Observing
+
+- (void) setObservingKeyboard: (BOOL) observing {
+	[[NSNotificationCenter defaultCenter] removeObserver: self name: UIKeyboardWillShowNotification object: nil];
+	[[NSNotificationCenter defaultCenter] removeObserver: self name: UIKeyboardWillHideNotification object: nil];
+
+	if (observing) {
+		[self addAsObserverForName: UIKeyboardWillShowNotification selector: @selector(sa_keyboardWillShow:)];
+		[self addAsObserverForName: UIKeyboardWillHideNotification selector: @selector(sa_keyboardWillHide:)];
+	}
+}
+
+- (void) sa_keyboardWillShow: (NSNotification *) note {
+	CGRect			fieldFrame = self.frame;
+	CGRect			kbdFrame = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+	NSTimeInterval	duration = [note.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue];
+	CGPoint			center = self.center;
+	
+	[self associateValue: [NSValue valueWithCGPoint: self.center] forKey: kSA_OriginalCenterBeforeKeyboardShift];
+	kbdFrame = [self.superview convertRect: kbdFrame fromView: nil];
+	CGRect			intersect = CGRectIntersection(kbdFrame, fieldFrame);
+	
+	if (intersect.size.height >= fieldFrame.size.height) {
+		center.y = kbdFrame.origin.y - fieldFrame.size.height * 1.1;
+	} else {
+		center.y -= intersect.size.height * 1.1;
+	}
+	
+	[UIView animateWithDuration: duration animations: ^{ self.center = center; }];
+}
+
+- (void) sa_keyboardWillHide: (NSNotification *) note {
+	NSTimeInterval	duration = [note.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue];
+	CGPoint			originalCenter = [[self associatedValueForKey: kSA_OriginalCenterBeforeKeyboardShift] CGPointValue];
+	
+	
+	[UIView animateWithDuration: duration animations: ^{ self.center = originalCenter; }];
+}
+
 @end
 
 @implementation SA_BlockerView

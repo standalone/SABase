@@ -27,6 +27,7 @@ typedef enum {
 @property (nonatomic, readonly) CGPoint contentCenter;
 @property (nonatomic, readonly) UIViewController *viewController;
 @property (nonatomic, readonly) UITableViewCell *tableViewCell;
+@property (nonatomic) BOOL observingKeyboard;
 //@property (nonatomic, readwrite) CGSize size;
 
 + (UIView *) firstResponderView;

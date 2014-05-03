@@ -16,7 +16,7 @@ static NSMutableSet			*s_activeSentinels = nil;
 @interface SA_Sentinel ()
 
 @property (nonatomic, copy) booleanArgumentBlock completion;
-@property (nonatomic) NSUInteger watchCount;
+@property (nonatomic) unsigned long watchCount;
 @property (nonatomic, weak) NSTimer *timeoutTimer, *decrementTimeoutTimer;
 
 @end
