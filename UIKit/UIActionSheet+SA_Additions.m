@@ -48,6 +48,8 @@
 		return;
 	}
 
+	if (view.window == nil) view = [[UIApplication sharedApplication] keyWindow];
+	
 	self.SA_buttonSelectBlock = block;
 	[self SA_showFromView: view];
 }
