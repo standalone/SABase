@@ -61,3 +61,4 @@
 #import "SA_ScreenshotFeedback.h"
 
 #import "SA_Sentinel.h"
+#import "SA_ThreadsafeMutableCollections.h"

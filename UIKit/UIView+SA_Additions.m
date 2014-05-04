@@ -706,6 +706,7 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 //================================================================================================================
 #pragma mark Keyboard Observing
 
+- (BOOL) observingKeyboard { return NO; }
 - (void) setObservingKeyboard: (BOOL) observing {
 	[[NSNotificationCenter defaultCenter] removeObserver: self name: UIKeyboardWillShowNotification object: nil];
 	[[NSNotificationCenter defaultCenter] removeObserver: self name: UIKeyboardWillHideNotification object: nil];
