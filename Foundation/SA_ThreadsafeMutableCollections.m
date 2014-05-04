@@ -42,6 +42,10 @@
 	@synchronized (self) { [self.backingArray removeObject: object]; }
 }
 
+- (void) removeAllObjects {
+	@synchronized (self) { [self.backingArray removeAllObjects]; }
+}
+
 
 @end
 
@@ -76,6 +80,10 @@
 
 - (void) removeObject: (id) object {
 	@synchronized (self) { [self.backingSet removeObject: object]; }
+}
+
+- (void) removeAllObjects {
+	@synchronized (self) { [self.backingSet removeAllObjects]; }
 }
 
 @end

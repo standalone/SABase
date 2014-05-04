@@ -15,6 +15,7 @@
 - (void) setObject: (id) object atIndexedSubscript: (NSUInteger) idx;
 - (void) addObject: (id) object;
 - (void) removeObject: (id) object;
+- (void) removeAllObjects;
 @end
 
 
@@ -25,6 +26,7 @@
 - (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState *) state objects: (id __unsafe_unretained []) buffer count: (NSUInteger) len;
 - (void) addObject: (id) object;
 - (void) removeObject: (id) object;
+- (void) removeAllObjects;
 @end
 
 
