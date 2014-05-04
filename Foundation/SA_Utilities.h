@@ -183,15 +183,10 @@ void		ClearConsoleLog(void);
 	#define			SA_TRY(a)										@try {a;} @catch (id e) {}
 #endif
 
-#ifdef DDLogError
-	#define		LOG				DDLogVerbose
-	#define		LOG_ERR			DDLogError
-#elif DEBUG || ADHOC
-	#define		LOG				NSLog
-	#define		LOG_ERR			NSLog
+#if DEBUG || ADHOC
+	#define			LOG							NSLog
 #else
 	#define			LOG(...)					{}
-	#define			LOG_ERR(...)				{}
 #endif
 
 

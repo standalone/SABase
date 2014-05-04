@@ -509,7 +509,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 		if (!_offline) {
 			_offline = YES;
 	
-			LOG_ERR(@"Tried to push connection: %@, but not connected to the internet", connection);
+			LOG(@"Tried to push connection: %@, but not connected to the internet", connection);
 			if (!connection.suppressConnectionAlerts) [self queueConnection: nil andPromptIfOffline: YES];
 			
 			[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_NotConnectedToInternet object: self];
@@ -896,7 +896,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	self.requestStartedAt = [NSDate date];
 	
 	LOG_CONNECTION_START(self);
-	if (_connection == nil) LOG_ERR(@"Error while starting connection: %@", self);
+	if (_connection == nil) LOG(@"Error while starting connection: %@", self);
 			
 	if (_connection) { 
 		[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_ConnectionStarted object: self];
@@ -1175,7 +1175,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	//LOG(@"Created file: %@, (%@)", _filename, [[NSFileManager defaultManager] fileExistsAtPath: _filename] ? @"exists" : @"doesn't exist");
 	_file = [NSFileHandle fileHandleForUpdatingAtPath: _filename];
 	if (_file == nil) {
-		LOG_ERR(@"Failed to create switched-over file at %@", _filename);
+		LOG(@"Failed to create switched-over file at %@", _filename);
 		return;
 	}
 	

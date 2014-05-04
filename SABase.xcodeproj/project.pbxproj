@@ -38,7 +38,7 @@
 		B51F6FE31615CAB90015A037 /* NSSet+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B51F6FE01615CAB90015A037 /* NSSet+SA_Additions.h */; };
 		B51F6FE41615CAB90015A037 /* NSSet+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B51F6FE11615CAB90015A037 /* NSSet+SA_Additions.m */; };
 		B51F6FE51615CAB90015A037 /* NSSet+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B51F6FE11615CAB90015A037 /* NSSet+SA_Additions.m */; };
-		B52550AE1915DF5400411D4B /* SA_ThreadsafeMutableCollections.h in Headers */ = {isa = PBXBuildFile; fileRef = B52550AC1915DF5300411D4B /* SA_ThreadsafeMutableCollections.h */; };
+		B52550AE1915DF5400411D4B /* SA_ThreadsafeMutableCollections.h in Headers */ = {isa = PBXBuildFile; fileRef = B52550AC1915DF5300411D4B /* SA_ThreadsafeMutableCollections.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B52550AF1915DF5400411D4B /* SA_ThreadsafeMutableCollections.m in Sources */ = {isa = PBXBuildFile; fileRef = B52550AD1915DF5400411D4B /* SA_ThreadsafeMutableCollections.m */; };
 		B52550B01915DF5F00411D4B /* SA_ThreadsafeMutableCollections.m in Sources */ = {isa = PBXBuildFile; fileRef = B52550AD1915DF5400411D4B /* SA_ThreadsafeMutableCollections.m */; };
 		B52BF7E71871CD2C009F4A4C /* NSError+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B52BF7E51871CD2C009F4A4C /* NSError+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -49,6 +49,7 @@
 		B542239015B64FB8001776BA /* UIGestureRecognizer+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B542238D15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.h */; };
 		B542239115B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B542238E15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m */; };
 		B542239215B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B542238E15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m */; };
+		B54A7E7C1916E0F6002B06B0 /* SA_ThreadsafeMutableCollections.h in Headers */ = {isa = PBXBuildFile; fileRef = B52550AC1915DF5300411D4B /* SA_ThreadsafeMutableCollections.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B55A94CF15F62442000F8992 /* UIButton+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E086C151660DD0097CC69 /* UIButton+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B55AA639181C515C00C5B0EE /* UIFont+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55AA637181C515C00C5B0EE /* UIFont+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B55AA63A181C515C00C5B0EE /* UIFont+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55AA637181C515C00C5B0EE /* UIFont+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -891,6 +892,7 @@
 				B5E703FB17A5DC6700435611 /* SA_Switch.h in Headers */,
 				B5D3ABAC15FD3E070052F459 /* CAAnimation+SA_Blocks.h in Headers */,
 				B51F6FE31615CAB90015A037 /* NSSet+SA_Additions.h in Headers */,
+				B54A7E7C1916E0F6002B06B0 /* SA_ThreadsafeMutableCollections.h in Headers */,
 				B5ED0B9516431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1411,6 +1413,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DSTROOT = /tmp/SABase.dst;
@@ -1440,6 +1443,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DSTROOT = /tmp/SABase.dst;
 				GCC_MODEL_TUNING = G5;
@@ -1495,6 +1499,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DSTROOT = /tmp/SABase.dst;
@@ -1521,6 +1526,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DSTROOT = /tmp/SABase.dst;
 				GCC_MODEL_TUNING = G5;
