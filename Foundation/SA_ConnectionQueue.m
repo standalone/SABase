@@ -341,14 +341,14 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 - (void) removeConnectionsWithDelegate: (id) delegate { [self removeConnectionsTaggedWith: nil delegate: delegate]; }
 - (void) removeConnectionsTaggedWith: (NSString *) tag delegate: (id) delegate {
 	[self.privateQueue addOperationWithBlock:^{
-		for (SA_Connection *connection in self.active) {
+		for (SA_Connection *connection in self.active.copy) {
 			if ((tag == nil || [connection.tag rangeOfString: tag].location != NSNotFound) && (delegate == nil || connection.delegate == delegate)) {
 				[connection cancel: YES];
 				self.activityIndicatorCount--;
 			}
 		}
 		
-		for (SA_Connection *connection in self.pending) {
+		for (SA_Connection *connection in self.pending.copy) {
 			if ((tag == nil || [connection.tag rangeOfString: tag].location != NSNotFound) && (delegate == nil || connection.delegate == delegate)) {
 				[connection cancel: YES];
 			}
@@ -367,11 +367,11 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 		
 		NSURL				*url = targetConnection.url;
 		
-		for (SA_Connection *connection in self.active) {
+		for (SA_Connection *connection in self.active.copy) {
 			if (!connection.canceled &&  [url isEqual: connection.url]) return YES;
 		}
 		
-		for (SA_Connection *connection in self.pending) {
+		for (SA_Connection *connection in self.pending.copy) {
 			if (!connection.canceled &&  [url isEqual: connection.url]) return YES;
 		}
 	} @catch (NSException *e) {}
@@ -386,7 +386,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 
 - (SA_Connection *) existingConnectionsTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate {
 	@try {
-		for (SA_Connection *connection in self.active) {
+		for (SA_Connection *connection in self.active.copy) {
 			if (tag == nil && connection.tag != nil) continue;
 			if (tag != nil && connection.tag == nil) continue;
 			if (tag && [connection.tag rangeOfString: tag].location == NSNotFound) continue;
@@ -395,7 +395,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 			if (delegate == connection.delegate) return connection;
 		}
 		
-		for (SA_Connection *connection in self.pending) {
+		for (SA_Connection *connection in self.pending.copy) {
 			if (tag == nil && connection.tag != nil) continue;
 			if (tag != nil && connection.tag == nil) continue;
 			if (tag && [connection.tag rangeOfString: tag].location == NSNotFound) continue;
@@ -419,7 +419,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 
 	if (_offline) {				//need too cancel all active connections
 		[self.privateQueue addOperationWithBlock:^{
-			for (SA_Connection *connection in self.active) {
+			for (SA_Connection *connection in self.active.copy) {
 				SA_Assert(!connection.alreadyStarted, @"There was an unstarted connection in the active list: %@", connection);
 				[connection reset];
 				self.activityIndicatorCount--;
@@ -554,7 +554,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 		[SA_PleaseWaitDisplay hidePleaseWaitDisplay];
 		return;
 	}
-	 for (SA_Connection *connection in _pleaseWaitConnections) {
+	 for (SA_Connection *connection in _pleaseWaitConnections.copy) {
 		 if ([connection.delegate respondsToSelector: @selector(pleaseWaitMajorStringForConnection:)]) {
 			 topConnection = connection;
 			 break;
@@ -656,8 +656,8 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 - (float) remainingConnectionsAboveMinimum {
 	float				count = 0;
 	
-	for (SA_Connection *connection in self.active) { if (connection.priority >= _minimumIndicatedPriorityLevel) count++; }
-	for (SA_Connection *connection in self.pending) { if (connection.priority >= _minimumIndicatedPriorityLevel) count++; }
+	for (SA_Connection *connection in self.active.copy) { if (connection.priority >= _minimumIndicatedPriorityLevel) count++; }
+	for (SA_Connection *connection in self.pending.copy) { if (connection.priority >= _minimumIndicatedPriorityLevel) count++; }
 	
 	return count;
 }
@@ -666,13 +666,13 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	NSMutableString				*results = [NSMutableString string];
 	
 	[results appendFormat: @"\nActive (%ld):\n", (long) self.active.count];
-	for (SA_Connection *connection in self.active) {
+	for (SA_Connection *connection in self.active.copy) {
 		[results appendFormat: @"\t\t%@\n", connection];
 	}
 	
 	if (self.active.count && self.pending.count) [results appendString: @"\n"];
 	[results appendFormat: @"Pending (%ld):\n", (long) self.pending.count];
-	for (SA_Connection *connection in self.pending) {
+	for (SA_Connection *connection in self.pending.copy) {
 		[results appendFormat: @"\t\t%@\n", connection];
 	}
 	
