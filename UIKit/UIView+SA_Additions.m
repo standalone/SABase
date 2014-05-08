@@ -11,6 +11,8 @@
 #import <objc/runtime.h>
 #import <objc/message.h>
 #import "CAAnimation+SA_Blocks.h"
+#import "UIImageView+SA_Additions.h"
+#import "dispatch_additions_SA.h"
 
 #define kSA_OriginalCenterBeforeKeyboardShift			@"SA_OriginalCenterBeforeKeyboardShift"
 
@@ -701,6 +703,38 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 	[self addSubview: blocker];
 	return blocker;
 }
+
+
++ (void) maskedTransitionFromView: (UIView *) initialView toView: (UIView *) finalView duration: (NSTimeInterval) duration options: (UIViewAnimationOptions) options completion: (booleanArgumentBlock) completion {
+	CGRect				originalFrame = initialView.frame;
+	CGRect				flipFrame = originalFrame;
+	
+	if ([initialView isKindOfClass: [UIImageView class]]) {
+		flipFrame = [(id) initialView imageContentFrame];
+		
+		flipFrame.origin.x = originalFrame.origin.x + flipFrame.origin.x;
+		flipFrame.origin.y = originalFrame.origin.y + flipFrame.origin.y;
+	}
+	
+	UIView				*flipHost = [[UIView alloc] initWithFrame: flipFrame];
+	
+	[initialView.superview addSubview: flipHost];
+	[initialView removeFromSuperview];
+	initialView.center = flipHost.contentCenter;
+	[flipHost addSubview: initialView];
+	finalView.frame = flipHost.bounds;
+	
+	dispatch_after_main_queue(0.0001, ^{
+		[UIView transitionFromView: initialView toView: finalView duration: duration options: options completion:^(BOOL finished) {
+			initialView.frame = originalFrame;
+			[flipHost.superview addSubview: finalView];
+			[flipHost removeFromSuperview];
+			finalView.frame = flipFrame;
+			if (completion) completion(finished);
+		}];
+	});
+}
+
 
 
 //================================================================================================================

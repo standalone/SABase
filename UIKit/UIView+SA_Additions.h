@@ -73,6 +73,9 @@ typedef enum {
 - (UIView *) commonAncestorWith: (UIView *) view;
 - (BOOL) isSubviewOf: (UIView *) view;
 
++ (void) maskedTransitionFromView: (UIView *) initialView toView: (UIView *) finalView duration: (NSTimeInterval) duration options: (UIViewAnimationOptions) options completion: (booleanArgumentBlock) completion;
+
+
 #if BLUR_SUPPORTED
 - (BOOL) isBlurred;
 - (UIImageView *) blur: (int) blurriness withDuration: (NSTimeInterval) duration;	//returns the UIImageView that was created with the blurred image
