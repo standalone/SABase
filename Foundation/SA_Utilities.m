@@ -220,7 +220,7 @@ CGRect	CGRectPlacedInRectWithContentMode(CGRect child, CGRect parent, UIViewCont
 			}
 			break;
 			
-		case UIViewContentModeRedraw: break;              // redraw on bounds change (calls -setNeedsDisplay)
+		case UIViewContentModeRedraw: newSize = parent.size; break;              // redraw on bounds change (calls -setNeedsDisplay)
 		case UIViewContentModeCenter:
 			newRect.origin.x += (newRect.size.width - newSize.width) / 2;
 			newRect.origin.y += (newRect.size.height - newSize.height) / 2;
