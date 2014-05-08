@@ -26,3 +26,7 @@ void	dispatch_on_main_queue(dispatch_block_t block) {
 	else
 		dispatch_async(dispatch_get_main_queue(), block);
 }
+
+void	dispatch_after_main_queue(NSTimeInterval delay, dispatch_block_t block) {
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)( delay * NSEC_PER_SEC)), dispatch_get_main_queue(), block);
+}

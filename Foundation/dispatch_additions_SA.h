@@ -11,3 +11,4 @@
 void	dispatch_sync_main_queue(dispatch_block_t block);		//if running on the main queue, fires now, otherwise fires sync
 void	dispatch_async_main_queue(dispatch_block_t block);
 void	dispatch_on_main_queue(dispatch_block_t block);			//if running on the main queue, fires now, otherwise fires async
+void	dispatch_after_main_queue(NSTimeInterval delay, dispatch_block_t block);
