@@ -15,7 +15,7 @@
 
 - (void) setSA_AnimationDidStartBlock:(animationDidStartBlock)animationDidStartBlock {
 	[self setValue: [animationDidStartBlock copy] forKey: ANIMATION_DID_START_BLOCK_KEY];
-	self.delegate = self;
+	self.delegate = self;			//danger! possible retain cycle.
 	
 }
 
@@ -31,12 +31,14 @@
 	animationDidStopBlock			block = self.SA_animationDidStopBlock;
 	
 	if (block) block(anim, flag);
+	self.delegate = nil;			//otherwise we get a retain cycle
 }
 
 - (void) animationDidStart: (CAAnimation *) anim {
 	animationDidStartBlock			block = self.SA_animationDidStartBlock;
 	
-	if (block) block(anim);	
+	if (block) block(anim);
+	if (self.SA_animationDidStopBlock == nil) self.delegate = nil;	//prevent retain cycles
 }
 
 @end
