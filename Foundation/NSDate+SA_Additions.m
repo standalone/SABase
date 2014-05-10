@@ -467,7 +467,7 @@
 - (BOOL) isWeekend {
 	NSUInteger			day = self.weekday;
 	
-	return (day == 0 || day == 6);
+	return (day == 1 || day == 7);
 }
 
 - (BOOL) isThisMonth {
