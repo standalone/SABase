@@ -22,7 +22,7 @@ typedef enum {
 
 @property (nonatomic, readonly) NSUInteger hour, minute, second, nearestHour, nextNearestHour;
 @property (nonatomic, readonly) NSUInteger year, month, day, weekday, numberOfDaysInMonth;
-@property (nonatomic) NSString *weekdayAsLongString, *weekdayAsMediumString, *weekdayAsShortString, *monthName, *shortMonthName;
+@property (nonatomic, readonly) NSString *weekdayAsLongString, *weekdayAsMediumString, *weekdayAsShortString, *monthName, *shortMonthName;
 @property (nonatomic, readonly) NSTimeInterval absoluteTimeIntervalFromNow, fractionalSecond;
 @property (nonatomic, readonly) BOOL isWeekend;
 
