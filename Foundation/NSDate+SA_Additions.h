@@ -20,10 +20,11 @@ typedef enum {
 
 @interface NSDate (NSDate_SA_Additions) 	
 
-@property(readonly) NSUInteger hour, minute, second, nearestHour, nextNearestHour;
-@property(readonly) NSUInteger year, month, day, weekday, numberOfDaysInMonth;
-@property(readonly) NSString *weekdayAsLongString, *weekdayAsMediumString, *weekdayAsShortString, *monthName, *shortMonthName;
-@property(readonly) NSTimeInterval absoluteTimeIntervalFromNow, fractionalSecond;
+@property (nonatomic, readonly) NSUInteger hour, minute, second, nearestHour, nextNearestHour;
+@property (nonatomic, readonly) NSUInteger year, month, day, weekday, numberOfDaysInMonth;
+@property (nonatomic) NSString *weekdayAsLongString, *weekdayAsMediumString, *weekdayAsShortString, *monthName, *shortMonthName;
+@property (nonatomic, readonly) NSTimeInterval absoluteTimeIntervalFromNow, fractionalSecond;
+@property (nonatomic, readonly) BOOL isWeekend;
 
 + (BOOL) isIn24HourMode;
 

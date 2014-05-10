@@ -464,6 +464,12 @@
 	return [self isSameDayAs: [NSDate dateWithTimeIntervalSinceNow: -24L * 60L * 60L]];
 }
 
+- (BOOL) isWeekend {
+	NSUInteger			day = self.weekday;
+	
+	return (day == 0 || day == 6);
+}
+
 - (BOOL) isThisMonth {
 	time_t				mySeconds = [self timeIntervalSince1970], dateSeconds = [[NSDate date] timeIntervalSince1970];
 	struct tm			myInfo = *localtime(&mySeconds), dateInfo = *localtime(&dateSeconds);
