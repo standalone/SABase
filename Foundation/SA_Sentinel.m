@@ -60,7 +60,7 @@ static NSMutableSet			*s_activeSentinels = nil;
 		self.decrementTimeoutTimer = [NSTimer scheduledTimerWithTimeInterval: decrementTimeout target: self selector: @selector(decremenetTimedOut) userInfo: nil repeats: NO];
 }
 
-- (void) timedout {
+- (void) timedOut {
 	[self abortWithError: [NSError errorWithDomain: SA_BaseErrorDomain code: sa_base_error_sentinel_timeout userInfo: nil]];
 }
 
