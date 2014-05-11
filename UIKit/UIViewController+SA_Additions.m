@@ -36,7 +36,7 @@
 	[self addChildViewController: controller];
 }
 
-- (void) removeFullSizeViewControllerFromParent {
+- (void) removeFromParentViewControllerAndView {
 	[self.view removeFromSuperview];
 	[self removeFromParentViewController];
 }
