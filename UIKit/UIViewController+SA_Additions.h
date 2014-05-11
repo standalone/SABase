@@ -28,6 +28,8 @@ typedef enum {
 - (void) removeAllChildViewControllers;
 - (UIViewController *) farthestAncestorController;
 - (void) addFullSizeChildViewController: (UIViewController *) controller;
+- (void) addChildViewController: (UIViewController *) controller withViewInFrame: (CGRect) frame;
+- (void) removeFullSizeViewControllerFromParent;
 @end
 
 

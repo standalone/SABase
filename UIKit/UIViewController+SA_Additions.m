@@ -22,10 +22,23 @@
 }
 
 - (void) addFullSizeChildViewController: (UIViewController *) controller {
-	controller.view.frame = self.view.bounds;
-	controller.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	[self addChildViewController: controller withViewInFrame: CGRectZero];
+}
+
+- (void) addChildViewController: (UIViewController *) controller withViewInFrame: (CGRect) frame {
+	if (CGRectEqualToRect(frame, CGRectZero)) {
+		controller.view.frame = self.view.bounds;
+		controller.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	} else
+		controller.view.frame = frame;
+		
 	[self.view addSubview: controller.view];
 	[self addChildViewController: controller];
+}
+
+- (void) removeFullSizeViewControllerFromParent {
+	[self.view removeFromSuperview];
+	[self removeFromParentViewController];
 }
 
 - (NSSet *) childControllers {
