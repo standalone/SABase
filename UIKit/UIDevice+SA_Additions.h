@@ -21,13 +21,13 @@ typedef enum {
 @interface UIDevice (UIDevice_UserInfo)
 
 + (connection_type) connectionType;
-+ (float) availableMemory;
-+ (float) availableStorageSpace;
-+ (NSString*) deviceMachineName;
+- (float) availableMemory;
 
+- (float) availableStorageSpace;
+- (NSString*) deviceMachineName;
+
+- (NSString *) displayName;
 - (float) OSVersion;
-- (NSString *) udid;			//based off of MAC address
-- (NSString *) appBasedUDID;	//based off of MAC address and app identifier
 
 - (UIInterfaceOrientation) userInterfaceOrientation;
 - (NSString *) shortLocalizedModel;

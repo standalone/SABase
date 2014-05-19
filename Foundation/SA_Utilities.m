@@ -41,7 +41,7 @@ natural_t			freeMemory(BOOL logIt) {
 //    if (logIt) LOG(@"used: %uk free: %uk total: %uk", mem_used / 1024, mem_free / 1024, mem_total / 1024);
 	if (logIt) LOG(@"Logging memory no longer supported");
 	#if TARGET_OS_IPHONE
-		return [UIDevice availableMemory];
+		return [[UIDevice currentDevice] availableMemory];
 	#endif
 	return -1;
 }

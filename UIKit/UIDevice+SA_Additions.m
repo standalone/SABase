@@ -66,7 +66,7 @@
 	return version;
 }
 
-+ (float) availableStorageSpace {
+- (float) availableStorageSpace {
 	NSArray					*paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	struct statfs			tStats;
 	
@@ -74,7 +74,7 @@
 	return (float)(tStats.f_bavail * tStats.f_bsize);
 }
 
-+ (float) availableMemory {
+- (float) availableMemory {
     mach_port_t					host_port = mach_host_self();
     mach_msg_type_number_t		host_size = sizeof(vm_statistics_data_t) / sizeof(integer_t);
     vm_size_t					pagesize;
@@ -178,28 +178,7 @@
     return outstring;
 }
 
-- (NSString *) appBasedUDID {
-	if ([self respondsToSelector: @selector(identifierForVendor)]) return [self identifierForVendor].UUIDString;
-
-    NSString *macaddress = [[UIDevice currentDevice] MACAddress];
-    NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
-    
-    NSString *stringToHash = [NSString stringWithFormat:@"%@%@",macaddress,bundleIdentifier];
-    NSString *uniqueIdentifier = [stringToHash SA_md5HashString];
-    
-    return uniqueIdentifier;
-}
-
-- (NSString *) udid {
-	if ([self respondsToSelector: @selector(identifierForVendor)]) return [self identifierForVendor].UUIDString;
-	
-    NSString *macaddress = [[UIDevice currentDevice] MACAddress];
-    NSString *uniqueIdentifier = [macaddress SA_md5HashString];
-    
-    return uniqueIdentifier;
-}
-
-+ (NSString*) deviceMachineName {
+- (NSString *) deviceMachineName {
     /*
      i386           Simulator
      x86_64         Simulator
@@ -233,5 +212,17 @@
     
     return [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
 }
+
+#if TARGET_IPHONE_SIMULATOR
+	- (NSString *) displayName {
+		struct			utsname name = {};
+		uname(&name);
+		
+		return [NSString stringWithFormat:@"iOS Simulator: %s", name.nodename];
+	}
+#else
+	- (NSString *) displayName { return [[UIDevice currentDevice] name]; }
+#endif
+
 
 @end
