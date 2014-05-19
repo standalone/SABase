@@ -9,54 +9,21 @@
 #import "NSString+SA_Additions.h"
 #include <time.h>
 
-
-#define			THREAD_SAFE_STATIC(type, variable)		\
-	type			*variable;\
-	static type		*static_##variable = nil;\
-	if ([NSThread isMainThread]) {\
-		if (static_##variable == nil) static_##variable = [[type alloc] init];\
-		variable = static_##variable;\
-	} else {\
-		variable = [[[NSThread currentThread] threadDictionary] objectForKey: $S(@"%s: %s", #type, #variable)];\
-		if (variable == nil) {\
-			variable = [[type alloc] init];\
-			[[[NSThread currentThread] threadDictionary] setObject: variable forKey: $S(@"%s: %s", #type, #variable)];\
-		}\
-	}
-
-#define			THREAD_SAFE_STATIC_WITH_FACTORY(type, variable, factory)		\
-	type			*variable;\
-	static type		*static_##variable = nil;\
-	if ([NSThread isMainThread]) {\
-	if (static_##variable == nil) static_##variable = [type factory];\
-		variable = static_##variable;\
-	} else {\
-		variable = [[[NSThread currentThread] threadDictionary] objectForKey: $S(@"%s: %s", #type, #variable)];\
-		if (variable == nil) {\
-			variable = [type factory];\
-			[[[NSThread currentThread] threadDictionary] setObject: variable forKey: $S(@"%s: %s", #type, #variable)];\
-		}\
-	}
-
-
-
-#define			THREAD_SAFE_STATIC_WTIH_INITIALIZER(type, variable, initializer, arg)		\
-	type			*variable;\
-	static type		*static_##variable = nil;\
-	if ([NSThread isMainThread]) {\
-		if (static_##variable == nil) static_##variable = [[type alloc] initializer: arg];\
-		variable = static_##variable;\
-	} else {\
-		variable = [[[NSThread currentThread] threadDictionary] objectForKey: $S(@"%s: %s", #type, #variable)];\
-		if (variable == nil) {\
-			variable = [[type alloc] initializer: arg];\
-			[[[NSThread currentThread] threadDictionary] setObject: variable forKey: $S(@"%s: %s", #type, #variable)];\
-		}\
-	}
-
-#define			CLEANUP_THREAD_SAFE_STATIC(variable)	{}
-
 @implementation NSDate (NSDate_SA_Additions)
++ (NSDateFormatter *) dateFormatterInCurrentThread {
+	NSMutableDictionary			*dict = [[NSThread currentThread] threadDictionary];
+	NSString					*key = @"SA_DateFormatter_NSDate_SA_Additions";
+	NSDateFormatter				*fmtr = dict[key];
+	
+	if (fmtr == nil) {
+		fmtr = [NSDateFormatter new];
+		dict[key] = fmtr;
+		[fmtr setLocale: [NSLocale currentLocale]];
+	}
+	return fmtr;
+}
+
+
 
 - (NSDate *) dateByAddingTimeIntervalAmount: (NSTimeInterval) interval {
 	#if (__IPHONE_OS_VERSION_MAX_ALLOWED < 40000 && TARGET_OS_IPHONE) || (!TARGET_OS_IPHONE && __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_OS_X_VERSION_10_6)
@@ -67,18 +34,17 @@
 }
 
 + (NSDate *) dateWithHTTPHeaderString: (NSString *) string {
-	THREAD_SAFE_STATIC_WTIH_INITIALIZER(NSLocale, enUSPOSIXLocale, initWithLocaleIdentifier, @"en_US");
-	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
-	
-	//	NSDateFormatter			*formatter = [[NSDateFormatter alloc] init];
+	NSLocale			*enUSPOSIXLocale = [NSLocale localeWithLocaleIdentifier: @"en_US_POSIX"];
+	NSDateFormatter		*formatter = [NSDateFormatter new];
+
 	[formatter setLocale: enUSPOSIXLocale];
 	[formatter setDateFormat: @"EEE, dd MMM yyyy HH:mm:ss ZZZ"];
 	return [formatter dateFromString: string];
 }
 
 - (NSString *) HTTPHeaderString {
-	THREAD_SAFE_STATIC_WTIH_INITIALIZER(NSLocale, enUSPOSIXLocale, initWithLocaleIdentifier, @"en_US");
-	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
+	NSLocale			*enUSPOSIXLocale = [NSLocale localeWithLocaleIdentifier: @"en_US_POSIX"];
+	NSDateFormatter		*formatter = [NSDateFormatter new];
 	
 	[formatter setLocale: enUSPOSIXLocale];
 	[formatter setDateFormat: @"EEE, dd MMM yyyy HH:mm:ss ZZZ"];
@@ -93,7 +59,7 @@
 + (NSDate *) dateWithNaturalLanguageString: (NSString *) date andFormatHint: (NSString *) formatHint {
 	if (date.length < 5) return nil;
 	NSString				*trimmedDate = [date substringFromIndex: 4];
-	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
+	NSDateFormatter			*formatter = [NSDateFormatter new];
 	
 	[formatter setDateFormat: formatHint ? formatHint : @"MMM dd HH:mm:ss zzzz yyyy"];
 	[formatter setTimeZone: [NSTimeZone timeZoneWithName: @"GMT"]];
@@ -146,7 +112,7 @@
 			}
 			
 			
-			THREAD_SAFE_STATIC_WITH_FACTORY(NSCalendar, calendar, currentCalendar);
+			NSCalendar				*calendar = [NSCalendar currentCalendar];
 			result = [calendar dateFromComponents: components];
 		}
 	}
@@ -197,7 +163,7 @@
 	components.minute = intComponents[4];
 	components.second = intComponents[5];
 	
-	THREAD_SAFE_STATIC_WITH_FACTORY(NSCalendar, calendar, currentCalendar);
+	NSCalendar				*calendar = [NSCalendar currentCalendar];
 	NSTimeZone		*original = [calendar timeZone];
 	
 	[calendar setTimeZone: [NSTimeZone timeZoneForSecondsFromGMT: 0]];
@@ -209,8 +175,8 @@
 
 + (NSDate *) dateWithXMLString: (NSString *) string {
 	if (string.length == 0) return nil;
-	THREAD_SAFE_STATIC_WTIH_INITIALIZER(NSLocale, enUSPOSIXLocale, initWithLocaleIdentifier, @"en_US_POSIX");
-	THREAD_SAFE_STATIC(NSDateFormatter, rfc3339DateFormatter);
+	NSLocale					*enUSPOSIXLocale = [NSLocale localeWithLocaleIdentifier: @"en_US_POSIX"];
+	NSDateFormatter				*rfc3339DateFormatter = [NSDateFormatter new];
 	NSDate						*date = nil;
 	NSInteger					i;
 //	BOOL						isMainThread = [NSThread isMainThread];
@@ -278,7 +244,7 @@
 }
 
 - (NSString *) internetFormattedDateTimeString {
-	THREAD_SAFE_STATIC_WITH_FACTORY(NSCalendar, calendar, currentCalendar);
+	NSCalendar				*calendar = [NSCalendar currentCalendar];
 
 	NSDateComponents		*myComponents = [calendar components: NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSYearCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit fromDate: self];
 	SInt16						secondsOff = [[NSTimeZone localTimeZone] secondsFromGMT];
@@ -287,7 +253,7 @@
 }
 
 - (NSString *) internetFormattedTDateTimeString {
-	THREAD_SAFE_STATIC_WITH_FACTORY(NSCalendar, calendar, currentCalendar);
+	NSCalendar				*calendar = [NSCalendar currentCalendar];
 	NSDateComponents		*myComponents = [calendar components: NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSYearCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit fromDate: self];
 	SInt16						secondsOff = [[NSTimeZone localTimeZone] secondsFromGMT];
 	
@@ -312,7 +278,7 @@
 
 - (NSString *) veryShortTimeString {
 	NSInteger				hour = self.hour;
-	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
+	NSDateFormatter			*formatter = [NSDate dateFormatterInCurrentThread];
 	NSString				*pmSymbol = [formatter PMSymbol];
 
 	if (pmSymbol.length) {
@@ -325,8 +291,8 @@
 
 
 - (NSString *) shortTimeString {
-	THREAD_SAFE_STATIC_WITH_FACTORY(NSCalendar, calendar, currentCalendar);
-	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
+	NSCalendar				*calendar = [NSCalendar currentCalendar];
+	NSDateFormatter			*formatter = [NSDate dateFormatterInCurrentThread];
 	NSDateComponents		*myComponents = [calendar components: NSHourCalendarUnit | NSMinuteCalendarUnit fromDate: self];
 	NSInteger				hour = [myComponents hour], minute = [myComponents minute];
 	NSInteger				moddedHour = (hour == 0 || hour == 12) ? 12 : (hour % 12);
@@ -344,7 +310,7 @@
 }
 
 - (NSString *) dateStringWithFormat: (NSDateFormatterStyle) dateFormat timeFormat: (NSDateFormatterStyle) timeFormat {
-	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
+	NSDateFormatter			*formatter = [NSDateFormatter new];
 	NSLocale				*locale = [NSLocale currentLocale];
 	
 	if (formatter.timeStyle != timeFormat) [formatter setTimeStyle: timeFormat];
@@ -364,7 +330,7 @@
 
 - (NSString *) dayMonthDateString {
 	static NSString			*dateFormat = nil;
-	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
+	NSDateFormatter			*formatter = [NSDateFormatter new];
 	
 	if (dateFormat == nil) dateFormat = [NSDateFormatter dateFormatFromTemplate: @"EEE d LLL" options: 0 locale: [NSLocale currentLocale]];
 	
@@ -374,7 +340,7 @@
 
 - (NSString *) UTCString {
 	NSString				*format = @"yyyy'-'MM'-'dd' 'HH':'mm':'ss' GMT'";
-	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
+	NSDateFormatter			*formatter = [NSDateFormatter new];
 	NSLocale				*locale = [[NSLocale alloc] initWithLocaleIdentifier: @"en_US_POSIX"];
 	
 	[formatter setDateFormat: format];
@@ -401,8 +367,7 @@
 }
 
 - (NSString *) descriptionWithCalendarFormat: (NSString *) format {
-	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
-	
+	NSDateFormatter			*formatter = [NSDateFormatter new];
 	[formatter setDateFormat: format];
 
 	NSString				*string = [formatter stringFromDate: self];
@@ -681,21 +646,21 @@
 - (NSTimeInterval) fractionalSecond { return fmod(self.timeIntervalSince1970, 1.0); }
 
 - (NSString *) weekdayAsShortString {NSInteger weekday = self.weekday; if (weekday < 1 || weekday > 7) return @"";
-	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
+	NSDateFormatter			*formatter = [NSDate dateFormatterInCurrentThread];
 
 	return [[formatter veryShortWeekdaySymbols] objectAtIndex: weekday - 1];}
 
 - (NSString *) weekdayAsMediumString {NSInteger weekday = self.weekday; if (weekday < 1 || weekday > 7) return @"";
-	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
+	NSDateFormatter			*formatter = [NSDate dateFormatterInCurrentThread];
 	return [[formatter shortWeekdaySymbols] objectAtIndex: weekday - 1];}
 - (NSString *) weekdayAsLongString {NSInteger weekday = self.weekday; if (weekday < 1 || weekday > 7) return @"";
-	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
+	NSDateFormatter			*formatter = [NSDate dateFormatterInCurrentThread];
 	return [[formatter weekdaySymbols] objectAtIndex: weekday - 1];}
 - (NSString *) monthName {NSInteger month = self.month;
-	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
+	NSDateFormatter			*formatter = [NSDate dateFormatterInCurrentThread];
 	return [[formatter monthSymbols] objectAtIndex: month - 1];}
 - (NSString *) shortMonthName {NSInteger month = self.month;
-	THREAD_SAFE_STATIC(NSDateFormatter, formatter);
+	NSDateFormatter			*formatter = [NSDate dateFormatterInCurrentThread];
 	return [[formatter shortMonthSymbols] objectAtIndex: month - 1];}
 
 - (NSUInteger ) nextNearestHour {
@@ -728,7 +693,7 @@
 }
 
 - (NSDate *) dateWithHour: (NSUInteger) hour minute: (NSUInteger) minute second: (NSUInteger) second {
-	THREAD_SAFE_STATIC_WITH_FACTORY(NSCalendar, calendar, currentCalendar);
+	NSCalendar				*calendar = [NSCalendar currentCalendar];
 	NSDateComponents					*myComponents = [calendar components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
 	
 	[myComponents setHour: hour];
@@ -739,7 +704,7 @@
 }
 
 - (NSDate *) futureDateByAddingDays: (NSUInteger) days months: (NSUInteger) months years: (NSUInteger) years {
-	THREAD_SAFE_STATIC_WITH_FACTORY(NSCalendar, calendar, currentCalendar);
+	NSCalendar				*calendar = [NSCalendar currentCalendar];
 	NSDateComponents					*myComponents = [calendar components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
 	
 	if (years) myComponents.year = myComponents.year + years;
@@ -750,14 +715,14 @@
 }
 
 - (NSString *) monthDayYearDateString: (BOOL) addLeadingZeroes {
-	THREAD_SAFE_STATIC_WITH_FACTORY(NSCalendar, calendar, currentCalendar);
+	NSCalendar				*calendar = [NSCalendar currentCalendar];
 	NSDateComponents	*components = [calendar components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate: self];
 	
 	return [NSString stringWithFormat: addLeadingZeroes ? @"%02d/%02d/%d" : @"%d/%d/%d", (int) [components month], (int) [components day], (int) [components year]];
 }
 
 - (NSString *) yearMonthDayDateString: (BOOL) addLeadingZeroes {
-	THREAD_SAFE_STATIC_WITH_FACTORY(NSCalendar, calendar, currentCalendar);
+	NSCalendar				*calendar = [NSCalendar currentCalendar];
 	NSDateComponents	*components = [calendar components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate: self];
 	
 	return [NSString stringWithFormat: addLeadingZeroes ? @"%d/%02d/%02d" : @"%d/%d/%d", (int) [components year], (int) [components month], (int) [components day]];
