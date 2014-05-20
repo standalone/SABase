@@ -66,6 +66,14 @@
 	return version;
 }
 
+- (float) totalStorageSpace {
+	NSArray					*paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	struct statfs			tStats;
+	
+	statfs([[paths lastObject] fileSystemRepresentation], &tStats);
+	return (float)(tStats.f_blocks * tStats.f_bsize);
+}
+
 - (float) availableStorageSpace {
 	NSArray					*paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	struct statfs			tStats;

@@ -24,6 +24,7 @@ typedef enum {
 - (float) availableMemory;
 
 - (float) availableStorageSpace;
+- (float) totalStorageSpace;
 - (NSString*) deviceMachineName;
 
 - (NSString *) displayName;
