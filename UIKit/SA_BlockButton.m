@@ -17,13 +17,16 @@
 
 @implementation SA_BlockButton
 @synthesize actionBlocks;
-- (id) addBlock: (simpleBlock) block forControlEvent: (UIControlEvents) event {
+- (void) addBlock: (simpleBlock) block forControlEvent: (UIControlEvents) event {
 	if (self.actionBlocks == nil) self.actionBlocks = [NSMutableArray array];
-	id				wrapper = [SA_BlockWrapper wrapperWithBlock: block];
 	
-	[self.actionBlocks addObject: wrapper];
-	[self addTarget: wrapper action: @selector(evaluate) forControlEvents: event];
+	[self.actionBlocks addObject: block];
+	[self addTarget: self action: @selector(evaluateActionBlocks) forControlEvents: event];
+}
 
-	return wrapper;
+- (void) evaluateActionBlocks {
+	for (simpleBlock block in self.actionBlocks) {
+		block();
+	}
 }
 @end

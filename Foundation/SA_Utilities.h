@@ -320,7 +320,6 @@ void		set_SA_Base_DebugMode(BOOL debug);
 #if TARGET_OS_IPHONE
 	typedef void (^simpleImageBlock)(UIImage *image);
  #endif
-#define				$BW(b)					([SA_BlockWrapper wrapperWithBlock: (simpleBlock) b])
 
 #define	SWAP_OBJ(a, b)				{id ____tempSwap = a; a = b; b = ____tempSwap; }
 #define	ENSURE_MAIN_THREAD(b)		if (![NSThread isMainThread]) dispatch_async(dispatch_get_main_queue(), ^{b}); else ^{b}();

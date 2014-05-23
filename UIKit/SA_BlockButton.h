@@ -10,6 +10,6 @@
 
 @interface SA_BlockButton : UIButton
 
-- (id) addBlock: (simpleBlock) block forControlEvent: (UIControlEvents) event;
+- (void) addBlock: (simpleBlock) block forControlEvent: (UIControlEvents) event;
 
 @end
