@@ -20,17 +20,11 @@ typedef enum {
 
 @interface UIDevice (UIDevice_UserInfo)
 
-+ (connection_type) connectionType;
-- (float) availableMemory;
+@property (nonatomic, readonly) BOOL isHookedUpToDebugger;
+@property (nonatomic, readonly) natural_t totalStorageSpace, availableStorageSpace, availableMemory;
+@property (nonatomic, readonly) connection_type connectionType;
+@property (nonatomic, readonly) NSString *deviceMachineName, *shortLocalizedModel, *displayName;
+@property (nonatomic, readonly) float OSVersion;
+@property (nonatomic, readonly) UIInterfaceOrientation userInterfaceOrientation;
 
-- (float) availableStorageSpace;
-- (float) totalStorageSpace;
-- (NSString*) deviceMachineName;
-
-- (NSString *) displayName;
-- (float) OSVersion;
-
-- (UIInterfaceOrientation) userInterfaceOrientation;
-- (NSString *) shortLocalizedModel;
-- (NSString *) MACAddress;
 @end

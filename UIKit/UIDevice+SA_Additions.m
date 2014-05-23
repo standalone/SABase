@@ -33,7 +33,7 @@
 	return [words objectAtIndex: 0];
 }
 
-+ (connection_type) connectionType {
+- (connection_type) connectionType {
 	struct sockaddr_in				zeroAddress;
 	
 	bzero(&zeroAddress, sizeof(zeroAddress));
@@ -66,23 +66,23 @@
 	return version;
 }
 
-- (float) totalStorageSpace {
+- (natural_t) totalStorageSpace {
 	NSArray					*paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	struct statfs			tStats;
 	
 	statfs([[paths lastObject] fileSystemRepresentation], &tStats);
-	return (float)(tStats.f_blocks * tStats.f_bsize);
+	return (natural_t) (tStats.f_blocks * tStats.f_bsize);
 }
 
-- (float) availableStorageSpace {
+- (natural_t) availableStorageSpace {
 	NSArray					*paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	struct statfs			tStats;
 	
 	statfs([[paths lastObject] fileSystemRepresentation], &tStats);
-	return (float)(tStats.f_bavail * tStats.f_bsize);
+	return (natural_t) (tStats.f_bavail * tStats.f_bsize);
 }
 
-- (float) availableMemory {
+- (natural_t) availableMemory {
     mach_port_t					host_port = mach_host_self();
     mach_msg_type_number_t		host_size = sizeof(vm_statistics_data_t) / sizeof(integer_t);
     vm_size_t					pagesize;
@@ -140,52 +140,6 @@
 	return UIInterfaceOrientationPortrait;
 }
 
-- (NSString *) MACAddress{
-    
-    int                 mib[6];
-    size_t              len;
-    char                *buf;
-    unsigned char       *ptr;
-    struct if_msghdr    *ifm;
-    struct sockaddr_dl  *sdl;
-    
-    mib[0] = CTL_NET;
-    mib[1] = AF_ROUTE;
-    mib[2] = 0;
-    mib[3] = AF_LINK;
-    mib[4] = NET_RT_IFLIST;
-    
-    if ((mib[5] = if_nametoindex("en0")) == 0) {
-        printf("Error: if_nametoindex error\n");
-        return NULL;
-    }
-    
-    if (sysctl(mib, 6, NULL, &len, NULL, 0) < 0) {
-        printf("Error: sysctl, take 1\n");
-        return NULL;
-    }
-    
-    if ((buf = malloc(len)) == NULL) {
-        printf("Could not allocate memory. error!\n");
-        return NULL;
-    }
-    
-    if (sysctl(mib, 6, buf, &len, NULL, 0) < 0) {
-        printf("Error: sysctl, take 2");
-        free(buf);
-        return NULL;
-    }
-    
-    ifm = (struct if_msghdr *)buf;
-    sdl = (struct sockaddr_dl *)(ifm + 1);
-    ptr = (unsigned char *)LLADDR(sdl);
-    NSString *outstring = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X", 
-                           *ptr, *(ptr+1), *(ptr+2), *(ptr+3), *(ptr+4), *(ptr+5)];
-    free(buf);
-    
-    return outstring;
-}
-
 - (NSString *) deviceMachineName {
     /*
      i386           Simulator
@@ -232,5 +186,37 @@
 	- (NSString *) displayName { return [[UIDevice currentDevice] name]; }
 #endif
 
+- (BOOL) isHookedUpToDebugger {
+	if (SA_Base_DebugMode()) {
+		int                 junk;
+		int                 mib[4];
+		struct kinfo_proc   info;
+		size_t              size;
+		
+		// Initialize the flags so that, if sysctl fails for some bizarre
+		// reason, we get a predictable result.
+		
+		info.kp_proc.p_flag = 0;
+		
+		// Initialize mib, which tells sysctl the info we want, in this case
+		// we're looking for information about a specific process ID.
+		
+		mib[0] = CTL_KERN;
+		mib[1] = KERN_PROC;
+		mib[2] = KERN_PROC_PID;
+		mib[3] = getpid();
+		
+		// Call sysctl.
+		
+		size = sizeof(info);
+		junk = sysctl(mib, sizeof(mib) / sizeof(*mib), &info, &size, NULL, 0);
+		assert(junk == 0);
+		
+		// We're being debugged if the P_TRACED flag is set.
+		
+		return ( (info.kp_proc.p_flag & P_TRACED) != 0 );
+	}
+	return NO;
+}
 
 @end
