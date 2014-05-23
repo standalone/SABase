@@ -9,6 +9,7 @@
 
 #import "UIViewController+SA_Additions.h"
 #import "NSObject+SA_Additions.h"
+#import "UIView+SA_Additions.h"
 
 #define SA_POPOVER_DISMISS_BLOCK_KEY			@"com.standalone.SA_POPOVER_DISMISS_BLOCK_KEY"
 
@@ -201,13 +202,13 @@ static NSMutableArray					*s_activePopovers = nil;
 }
 
 - (void) setSA_didDismissBlock: (idArgumentBlock) didDismissBlock {
-	SA_BlockWrapper			*block = [SA_BlockWrapper wrapperWithIDBlock: didDismissBlock];
-	
-	[self associateValue: block forKey: SA_POPOVER_DISMISS_BLOCK_KEY];
+	[self associateValue: didDismissBlock forKey: SA_POPOVER_DISMISS_BLOCK_KEY];
 }
 
 - (idArgumentBlock) SA_didDismissBlock {
-	return [[self associatedValueForKey: SA_POPOVER_DISMISS_BLOCK_KEY] idBlock];
+	idArgumentBlock				block = [self associatedValueForKey: SA_POPOVER_DISMISS_BLOCK_KEY];
+	
+	return block;
 }
 
 @end

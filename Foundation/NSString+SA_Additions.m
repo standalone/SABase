@@ -504,23 +504,35 @@
 //}
 
 - (BOOL) isValidEmail {
-	if ([self rangeOfCharacterFromSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]].location != NSNotFound) return NO;
-	if (![self containsCString: "@"]) return NO;
-	if (![self containsCString: "."]) return NO;
-	if (self.length < 5) return NO;
+	NSString *emailRegex =  @"(?:[a-z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-z0-9!#$%\\&'*+/=?\\^_`{|}"
+							@"~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\"
+							@"x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-"
+							@"z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5"
+							@"]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-"
+							@"9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21"
+							@"-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
 	
-	NSArray				*majors = [self componentsSeparatedByString: @"@"];
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES[c] %@", emailRegex];
 	
-	if (majors.count != 2) return NO;
-	
-	NSArray				*domain = [[majors objectAtIndex: 1] componentsSeparatedByString: @"."];
-	
-	if (domain.count < 2) return NO;
-	
-	NSString			*tld = domain.lastObject;
-	
-	if (tld.length < 2) return NO;
-	return YES;
+    return [emailTest evaluateWithObject: self];
+
+//	if ([self rangeOfCharacterFromSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]].location != NSNotFound) return NO;
+//	if (![self containsCString: "@"]) return NO;
+//	if (![self containsCString: "."]) return NO;
+//	if (self.length < 5) return NO;
+//	
+//	NSArray				*majors = [self componentsSeparatedByString: @"@"];
+//	
+//	if (majors.count != 2) return NO;
+//	
+//	NSArray				*domain = [[majors objectAtIndex: 1] componentsSeparatedByString: @"."];
+//	
+//	if (domain.count < 2) return NO;
+//	
+//	NSString			*tld = domain.lastObject;
+//	
+//	if (tld.length < 2) return NO;
+//	return YES;
 }
 
 - (NSArray *) characters {

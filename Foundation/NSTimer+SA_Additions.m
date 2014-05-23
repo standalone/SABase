@@ -19,14 +19,14 @@
 	return [NSTimer scheduledTimerWithTimeInterval: ti 
 											target: self 
 										  selector: @selector(SA_BlockTimerFired:) 
-										  userInfo: [SA_BlockWrapper wrapperWithIDBlock: block] 
+										  userInfo: block
 										   repeats: YES];
 }
 
 + (void) SA_BlockTimerFired: (NSTimer *) timer {
-	SA_BlockWrapper				*wrapper = timer.userInfo;
+	idArgumentBlock				block = (idArgumentBlock) timer.userInfo;
 	
-	[wrapper evaluate: timer];
+	if (block) block(timer);
 }
 
 

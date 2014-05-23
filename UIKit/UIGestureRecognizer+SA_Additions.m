@@ -15,14 +15,14 @@
 @implementation UIGestureRecognizer (SA_SA_Additions)
 
 - (void) sa_blockRecognizerAction: (UIGestureRecognizer *) recog {
-	SA_BlockWrapper			*wrapper = [self associatedValueForKey: GESTURE_BLOCK_KEY];
+	idArgumentBlock			block = (idArgumentBlock) [self associatedValueForKey: GESTURE_BLOCK_KEY];
 	
-	if (wrapper) wrapper.idBlock(recog);
+	if (block) block(recog);
 }
 
 - (id) initWithSA_Block: (gestureArgumentBlock) block {
 	if ((self = [self initWithTarget: self action: @selector(sa_blockRecognizerAction:)])) {
-		[self associateValue: [SA_BlockWrapper wrapperWithIDBlock: (idArgumentBlock) block] forKey: GESTURE_BLOCK_KEY];
+		[self associateValue: (block) forKey: GESTURE_BLOCK_KEY];
 	}
 	return self;
 }

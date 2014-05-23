@@ -9,6 +9,8 @@
 #import "NSString+SA_Additions.h"
 #import "dispatch_additions_SA.h"
 #import "NSObject+SA_Additions.h"
+#import "UIDevice+SA_Additions.h"
+#import "UIView+SA_Additions.h"
 
 #define		kLabelBackgroundColor				[UIColor clearColor]
 

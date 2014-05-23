@@ -128,50 +128,6 @@
 
 @end
 
-
-@implementation SA_BlockWrapper
-@synthesize block, idBlock;
-+ (id) wrapperWithBlock: (simpleBlock) block {
-	SA_BlockWrapper		*wrapper = [[self alloc] init];
-	wrapper.block = block;
-	return wrapper;
-}
-
-+ (id) wrapperWithIDBlock: (idArgumentBlock) block {
-	SA_BlockWrapper		*wrapper = [[self alloc] init];
-	wrapper.idBlock = block;
-	return wrapper;
-}
-
-- (void) evaluate {
-	if (self.block) self.block();
-}
-
-- (void) evaluate: (id) arg {
-	if (self.idBlock) self.idBlock(arg);
-}
-
-@end
-
-#if RUNNING_UNDER_ARC
-@implementation SA_WeakWrapper
-@synthesize object;
-+ (id) wrappedObject: (id) object {
-	SA_WeakWrapper			*wrapper = [[SA_WeakWrapper alloc] init];
-	
-	wrapper.object = object;
-	return wrapper;
-}
-
-- (id) copy { return [[self class] wrappedObject: self.object]; }
-- (BOOL) isEqual: (id) other {
-	if ([self class] != [other class]) return NO;
-	if (self.object == nil || [other object] == nil) return NO;
-	return self.object == [other object]; 
-}
-@end
-#endif
-
 @interface  NSNull (SA_Additions)
 @end
 

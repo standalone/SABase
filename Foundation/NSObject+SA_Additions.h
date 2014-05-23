@@ -33,20 +33,3 @@
 - (id) nonNullValue;
 
 @end
-
-
-@interface SA_BlockWrapper : NSObject
-@property (nonatomic, copy) simpleBlock block;
-@property (nonatomic, copy) idArgumentBlock idBlock;
-+ (id) wrapperWithBlock: (simpleBlock) block;
-+ (id) wrapperWithIDBlock: (idArgumentBlock) block;
-- (void) evaluate;
-- (void) evaluate: (id) arg;
-@end
-
-#if RUNNING_UNDER_ARC
-@interface SA_WeakWrapper : NSObject
-@property (nonatomic, weak) id object;
-+ (id) wrappedObject: (id) object;
-@end
-#endif
