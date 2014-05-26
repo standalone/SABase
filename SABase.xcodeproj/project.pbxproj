@@ -38,6 +38,14 @@
 		B51F6FE31615CAB90015A037 /* NSSet+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B51F6FE01615CAB90015A037 /* NSSet+SA_Additions.h */; };
 		B51F6FE41615CAB90015A037 /* NSSet+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B51F6FE11615CAB90015A037 /* NSSet+SA_Additions.m */; };
 		B51F6FE51615CAB90015A037 /* NSSet+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B51F6FE11615CAB90015A037 /* NSSet+SA_Additions.m */; };
+		B523D5B61933EA7F00FC2C4E /* UIWindow+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B523D5B41933EA7F00FC2C4E /* UIWindow+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B523D5B71933EA7F00FC2C4E /* UIWindow+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B523D5B51933EA7F00FC2C4E /* UIWindow+SA_Additions.m */; };
+		B523D5B81933EB2000FC2C4E /* UIWindow+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B523D5B41933EA7F00FC2C4E /* UIWindow+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B523D5BA1933EBBB00FC2C4E /* CGContextRef_additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B523D5B91933EBBB00FC2C4E /* CGContextRef_additions.m */; };
+		B523D5BB1933EBBB00FC2C4E /* CGContextRef_additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B523D5B91933EBBB00FC2C4E /* CGContextRef_additions.m */; };
+		B523D5BD1933EBCC00FC2C4E /* CGContextRef_additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B523D5BC1933EBC900FC2C4E /* CGContextRef_additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B523D5BE1933EBCD00FC2C4E /* CGContextRef_additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B523D5BC1933EBC900FC2C4E /* CGContextRef_additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B523D5BF1933ED8300FC2C4E /* UIWindow+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B523D5B51933EA7F00FC2C4E /* UIWindow+SA_Additions.m */; };
 		B52550AE1915DF5400411D4B /* SA_ThreadsafeMutableCollections.h in Headers */ = {isa = PBXBuildFile; fileRef = B52550AC1915DF5300411D4B /* SA_ThreadsafeMutableCollections.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B52550AF1915DF5400411D4B /* SA_ThreadsafeMutableCollections.m in Sources */ = {isa = PBXBuildFile; fileRef = B52550AD1915DF5400411D4B /* SA_ThreadsafeMutableCollections.m */; };
 		B52550B01915DF5F00411D4B /* SA_ThreadsafeMutableCollections.m in Sources */ = {isa = PBXBuildFile; fileRef = B52550AD1915DF5400411D4B /* SA_ThreadsafeMutableCollections.m */; };
@@ -318,7 +326,7 @@
 		B58307161516548600CC57DE /* Run-TimePrefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = B58306FC1516548600CC57DE /* Run-TimePrefix.pch */; };
 		B58307171516548600CC57DE /* Run-TimePrefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = B58306FC1516548600CC57DE /* Run-TimePrefix.pch */; };
 		B58307181516548600CC57DE /* SA_Base.h in Headers */ = {isa = PBXBuildFile; fileRef = B58306FD1516548600CC57DE /* SA_Base.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B58307191516548600CC57DE /* SA_Base.h in Headers */ = {isa = PBXBuildFile; fileRef = B58306FD1516548600CC57DE /* SA_Base.h */; };
+		B58307191516548600CC57DE /* SA_Base.h in Headers */ = {isa = PBXBuildFile; fileRef = B58306FD1516548600CC57DE /* SA_Base.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B583071A1516548600CC57DE /* SABase_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = B58306FE1516548600CC57DE /* SABase_Prefix.pch */; };
 		B583071B1516548600CC57DE /* SABase_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = B58306FE1516548600CC57DE /* SABase_Prefix.pch */; };
 		B583071C1516548600CC57DE /* NSData Tests.h in Headers */ = {isa = PBXBuildFile; fileRef = B58307001516548600CC57DE /* NSData Tests.h */; settings = {ATTRIBUTES = (); }; };
@@ -389,6 +397,10 @@
 		B510288D19000A6C001B32A9 /* SA_Sentinel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SA_Sentinel.m; sourceTree = "<group>"; };
 		B51F6FE01615CAB90015A037 /* NSSet+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSSet+SA_Additions.h"; path = "../Foundation/NSSet+SA_Additions.h"; sourceTree = "<group>"; };
 		B51F6FE11615CAB90015A037 /* NSSet+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSSet+SA_Additions.m"; sourceTree = "<group>"; };
+		B523D5B41933EA7F00FC2C4E /* UIWindow+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow+SA_Additions.h"; sourceTree = "<group>"; };
+		B523D5B51933EA7F00FC2C4E /* UIWindow+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+SA_Additions.m"; sourceTree = "<group>"; };
+		B523D5B91933EBBB00FC2C4E /* CGContextRef_additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGContextRef_additions.m; sourceTree = "<group>"; };
+		B523D5BC1933EBC900FC2C4E /* CGContextRef_additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CGContextRef_additions.h; sourceTree = "<group>"; };
 		B52550AC1915DF5300411D4B /* SA_ThreadsafeMutableCollections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SA_ThreadsafeMutableCollections.h; path = Foundation/SA_ThreadsafeMutableCollections.h; sourceTree = SOURCE_ROOT; };
 		B52550AD1915DF5400411D4B /* SA_ThreadsafeMutableCollections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SA_ThreadsafeMutableCollections.m; path = Foundation/SA_ThreadsafeMutableCollections.m; sourceTree = SOURCE_ROOT; };
 		B52BF7E51871CD2C009F4A4C /* NSError+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+SA_Additions.h"; sourceTree = "<group>"; };
@@ -648,6 +660,8 @@
 				B55E0854151660DD0097CC69 /* SA_ConnectionQueue.m */,
 				B592126E18D374BD00FBC16D /* NSAttributedString+SA_Additions.h */,
 				B592126F18D374BD00FBC16D /* NSAttributedString+SA_Additions.m */,
+				B523D5B91933EBBB00FC2C4E /* CGContextRef_additions.m */,
+				B523D5BC1933EBC900FC2C4E /* CGContextRef_additions.h */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -685,6 +699,8 @@
 				B55E0887151660DD0097CC69 /* UIViewController+SA_Additions.m */,
 				B59F32C8181DCB1F0096DF9A /* UILocalNotification+SA_Additions.h */,
 				B59F32C9181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m */,
+				B523D5B41933EA7F00FC2C4E /* UIWindow+SA_Additions.h */,
+				B523D5B51933EA7F00FC2C4E /* UIWindow+SA_Additions.m */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -846,6 +862,7 @@
 				B55E08A1151660DD0097CC69 /* NSDate+SA_Additions.h in Headers */,
 				B55E08A7151660DD0097CC69 /* NSFileManager+SA_Additions.h in Headers */,
 				B55E08AD151660DD0097CC69 /* NSManagedObject+SA_Additions.h in Headers */,
+				B523D5B81933EB2000FC2C4E /* UIWindow+SA_Additions.h in Headers */,
 				B55E08B3151660DD0097CC69 /* NSManagedObjectContext+SA_Additions.h in Headers */,
 				B55E08B9151660DD0097CC69 /* NSNotificationCenter+SA_Additions.h in Headers */,
 				B55E08BF151660DD0097CC69 /* NSObject+SA_Additions.h in Headers */,
@@ -863,6 +880,7 @@
 				B55E090D151660DD0097CC69 /* SA_SplashScreenImageView.h in Headers */,
 				B55E0913151660DD0097CC69 /* SA_StackedScrollView.h in Headers */,
 				B55E091F151660DD0097CC69 /* UIActionSheet+SA_Additions.h in Headers */,
+				B523D5BE1933EBCD00FC2C4E /* CGContextRef_additions.h in Headers */,
 				B55E0925151660DD0097CC69 /* UIBarButtonItem+SA_Additions.h in Headers */,
 				B55E092B151660DD0097CC69 /* UIButton+SA_Additions.h in Headers */,
 				B55E0931151660DD0097CC69 /* UIColor+SA_Additions.h in Headers */,
@@ -929,6 +947,7 @@
 				B55E0906151660DD0097CC69 /* SA_SelfDrawingView.h in Headers */,
 				B55E090C151660DD0097CC69 /* SA_SplashScreenImageView.h in Headers */,
 				B55E0912151660DD0097CC69 /* SA_StackedScrollView.h in Headers */,
+				B523D5B61933EA7F00FC2C4E /* UIWindow+SA_Additions.h in Headers */,
 				B55E091E151660DD0097CC69 /* UIActionSheet+SA_Additions.h in Headers */,
 				B55E0924151660DD0097CC69 /* UIBarButtonItem+SA_Additions.h in Headers */,
 				B55E0930151660DD0097CC69 /* UIColor+SA_Additions.h in Headers */,
@@ -963,6 +982,7 @@
 				B58307221516548600CC57DE /* NSDate Tests.h in Headers */,
 				B58307281516548600CC57DE /* NSURL Tests.h in Headers */,
 				B58307361516548600CC57DE /* TestController.h in Headers */,
+				B523D5BD1933EBCC00FC2C4E /* CGContextRef_additions.h in Headers */,
 				B58307161516548600CC57DE /* Run-TimePrefix.pch in Headers */,
 				B583071A1516548600CC57DE /* SABase_Prefix.pch in Headers */,
 				B5095CAE15F4063400EC3C8F /* NSDictionary+SA_Additions.h in Headers */,
@@ -1223,11 +1243,13 @@
 				B55E099B151661C10097CC69 /* NSArray+SA_Additions.m in Sources */,
 				B55E09A515166D3C0097CC69 /* SA_BackgroundThread.m in Sources */,
 				B5A12A24152FEF4A0081FAAD /* SA_Utilities.m in Sources */,
+				B523D5BF1933ED8300FC2C4E /* UIWindow+SA_Additions.m in Sources */,
 				B542239215B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m in Sources */,
 				B5095CB115F4063400EC3C8F /* NSDictionary+SA_Additions.m in Sources */,
 				B5D3ABAE15FD3E070052F459 /* CAAnimation+SA_Blocks.m in Sources */,
 				B51F6FE51615CAB90015A037 /* NSSet+SA_Additions.m in Sources */,
 				B5ED0B9716431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.m in Sources */,
+				B523D5BB1933EBBB00FC2C4E /* CGContextRef_additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1371,6 +1393,7 @@
 				B55E0902151660DD0097CC69 /* SA_PleaseWaitDisplay.m in Sources */,
 				B55E0908151660DD0097CC69 /* SA_SelfDrawingView.m in Sources */,
 				B55E090E151660DD0097CC69 /* SA_SplashScreenImageView.m in Sources */,
+				B523D5B71933EA7F00FC2C4E /* UIWindow+SA_Additions.m in Sources */,
 				B55E0914151660DD0097CC69 /* SA_StackedScrollView.m in Sources */,
 				B55E0920151660DD0097CC69 /* UIActionSheet+SA_Additions.m in Sources */,
 				B55E0926151660DD0097CC69 /* UIBarButtonItem+SA_Additions.m in Sources */,
@@ -1401,6 +1424,7 @@
 				B542239115B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m in Sources */,
 				B5095CB015F4063400EC3C8F /* NSDictionary+SA_Additions.m in Sources */,
 				B5D3ABAD15FD3E070052F459 /* CAAnimation+SA_Blocks.m in Sources */,
+				B523D5BA1933EBBB00FC2C4E /* CGContextRef_additions.m in Sources */,
 				B51F6FE41615CAB90015A037 /* NSSet+SA_Additions.m in Sources */,
 				B5ED0B9616431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.m in Sources */,
 			);
