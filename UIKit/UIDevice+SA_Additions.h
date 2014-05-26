@@ -27,4 +27,6 @@ typedef enum {
 @property (nonatomic, readonly) float OSVersion;
 @property (nonatomic, readonly) UIInterfaceOrientation userInterfaceOrientation;
 
+@property (nonatomic, readonly) NSString *legacyUniqueIdentifier;
+
 @end

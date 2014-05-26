@@ -219,4 +219,10 @@
 	return NO;
 }
 
+- (NSString *) legacyUniqueIdentifier {
+	if (RUNNING_ON_60) return self.identifierForVendor.UUIDString;
+	
+	SUPPRESS_LEAK_WARNING(return [self performSelector: NSSelectorFromString(@"uniqueIdentifier")];);
+}
+
 @end
