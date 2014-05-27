@@ -291,6 +291,7 @@ void					MailDataWithTitle(NSData *data, NSString *title);
 #endif
 
 #define				PERFORM_ON_MAIN_THREAD(f)				{simpleBlock	b = ^{f}; if ([NSThread isMainThread]) b(); else dispatch_async(dispatch_get_main_queue(), b); }
+#define				CLASS_PROPERTY(type, name, uname)		+ (void) set##uname: (type) name; + (type) name;
 
 typedef void (^simpleBlock)(void);
 typedef void (^booleanArgumentBlock)(BOOL value);

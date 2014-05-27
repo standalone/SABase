@@ -369,7 +369,7 @@
 		B59F32CC181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B59F32C9181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m */; };
 		B59F32CD181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B59F32C9181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m */; };
 		B5A12A21152FEF4A0081FAAD /* SA_Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = B5A12A1F152FEF4A0081FAAD /* SA_Utilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B5A12A22152FEF4A0081FAAD /* SA_Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = B5A12A1F152FEF4A0081FAAD /* SA_Utilities.h */; };
+		B5A12A22152FEF4A0081FAAD /* SA_Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = B5A12A1F152FEF4A0081FAAD /* SA_Utilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B5A12A23152FEF4A0081FAAD /* SA_Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */; };
 		B5A12A24152FEF4A0081FAAD /* SA_Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */; };
 		B5A1764F157D7AD200BA3FEC /* SA_Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */; };
