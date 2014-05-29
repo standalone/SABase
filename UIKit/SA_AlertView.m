@@ -100,6 +100,10 @@ NSMutableArray			*s_displayedAlerts = nil;
 #pragma mark Please Wait interactions
 
 - (void) show {
+	if (![NSThread isMainThread]) {
+		[self performSelectorOnMainThread: @selector(show) withObject: nil waitUntilDone: NO];
+		return;
+	}
 	[SA_PleaseWaitDisplay pleaseWaitDisplay].view.alpha = 0.0;
 	g_alertsVisible++;
 	
