@@ -60,6 +60,7 @@
 #import "UIFont+SA_Additions.h"
 #import "NSError+SA_Additions.h"
 #import "NSAttributedString+SA_Additions.h"
+#import "NSParagraphStyle+SA_Additions.h"
 
 #import "SA_Sentinel.h"
 #import "SA_ThreadsafeMutableCollections.h"
