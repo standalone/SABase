@@ -9,8 +9,8 @@
 #import <SystemConfiguration/SCNetworkReachability.h>
 
 #ifdef LOG_CONNECTION_PROGRESS
-	#define					LOG_CONNECTION_START(c)				LOG(@"Starting: <0x%X> %@ (%@)", c, [[[c url] absoluteString] truncateToLength: 40], c.delegate)
-	#define					LOG_CONNECTION_PHASE(phase, conn)	LOG(@"%@: <0x%X>", phase, [conn url])
+	#define					LOG_CONNECTION_START(c)				SA_BASE_LOG(@"Starting: <0x%X> %@ (%@)", c, [[[c url] absoluteString] truncateToLength: 40], c.delegate)
+	#define					LOG_CONNECTION_PHASE(phase, conn)	SA_BASE_LOG(@"%@: <0x%X>", phase, [conn url])
 #else
 	#define					LOG_CONNECTION_START(c)	
 	#define					LOG_CONNECTION_PHASE(phase, conn)

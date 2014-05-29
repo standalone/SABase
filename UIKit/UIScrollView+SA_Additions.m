@@ -21,7 +21,7 @@
 //- (void) setupForKeyboardEditing {
 //	IF_SIM(
 //		   if ([self associatedValueForKey: kScrollViewIsSetupForKeyboardTracking]) {
-//				LOG(@"Re-setting up keyboard editing for %@", self);
+//				SA_BASE_LOG(@"Re-setting up keyboard editing for %@", self);
 //				return;
 //		   }
 //		   [self associateValue: (id) kCFBooleanTrue forKey: kScrollViewIsSetupForKeyboardTracking];

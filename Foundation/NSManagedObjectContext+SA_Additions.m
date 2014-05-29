@@ -61,7 +61,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 		if (coordinator.persistentStores.count == 0) {
 			NSString						*message = [NSString stringWithFormat: @"The database format has changed. The existing database (%@) has been removed.", [path lastPathComponent]];
 			
-			LOG(@"%@", message);
+			SA_BASE_LOG(@"%@", message);
 			[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kNotification_PersistentStoreResetDueToSchemaChange object: nil];
 			
 			#if TARGET_OS_IPHONE
@@ -71,9 +71,9 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 			[coordinator addPersistentStoreWithType: NSSQLiteStoreType configuration: nil URL: [NSURL fileURLWithPath: path] options: options error: &error];
 		}
 		
-		if (error) LOG(@"Error while adding persistant store: %@ (%@)", error, error.userInfo);
+		if (error) SA_BASE_LOG(@"Error while adding persistant store: %@ (%@)", error, error.userInfo);
 	} else if (error) 
-		LOG(@"Error while creating persistant store: %@", [error localizedDescription]);
+		SA_BASE_LOG(@"Error while creating persistant store: %@", [error localizedDescription]);
 	
 	NSManagedObjectContext			*objectContext = nil;
 	#if TARGET_OS_IPHONE
@@ -114,7 +114,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	if (managedID == nil) return nil;
 	id								object = [self existingObjectWithID: managedID error: &error];
 	
-	if (error) LOG(@"Error while fetching object with ID %@: %@, (%@)", string, [error localizedDescription], [error userInfo]);
+	if (error) SA_BASE_LOG(@"Error while fetching object with ID %@: %@, (%@)", string, [error localizedDescription], [error userInfo]);
 	return object;
 }
 
@@ -304,13 +304,13 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 					for (NSManagedObject *object in [info objectForKey: @"NSDetailedErrors"]) {
 						NSLog(@"Conflicted object: %@", object);
 					}
-					LOG(@"All Objects: %@", [info objectForKey: @"NSDetailedErrors"]);
+					SA_BASE_LOG(@"All Objects: %@", [info objectForKey: @"NSDetailedErrors"]);
 				}
 			}
 			failCount++;
 			
 			if (failCount >= maxFailsBeforeReset) {
-				LOG(@"******************************* Too many fails, rolling database back to last safe version *******************************");
+				SA_BASE_LOG(@"******************************* Too many fails, rolling database back to last safe version *******************************");
 				#if DEBUG && TARGET_OS_IPHONE
 					[SA_AlertView showAlertWithTitle: @"There was a problem saving the database. Recent changes will be discarded." message: [error fullDescription] tag: self.hash];
 				#endif
@@ -398,7 +398,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 			 @try {
 				 objects = [self executeFetchRequest: allObjects error: &error];
 			} @catch (NSException *e) {
-				LOG(@"Exception: %@", e);
+				SA_BASE_LOG(@"Exception: %@", e);
 				break;
 			}
 			if (objects.count == 0) break;
@@ -411,7 +411,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 				[self reset];
 			}
 			deleteCount += [objects count];
-			LOG(@"%d %@ objects deleted", deleteCount, entityName);
+			SA_BASE_LOG(@"%d %@ objects deleted", deleteCount, entityName);
 		}
 		
 		if (fetchLimit == 0) [self save];

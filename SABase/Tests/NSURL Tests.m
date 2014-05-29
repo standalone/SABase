@@ -20,7 +20,7 @@
     STAssertTrue([url.absoluteString isEqualToString: checkString], @"-URLWithFormat failed (%@ != %@)", url.absoluteString, checkString);
 	
 	NSDictionary			*params = [url keyValuedParameters];
-	LOG(@"URL Test Params: %@", params);
+	SA_BASE_LOG(@"URL Test Params: %@", params);
 	
 	STAssertTrue([[params objectForKey: @"name"] isEqualToString: @"bill"], @"-keyValuedParameters failed");
 	STAssertTrue([[params objectForKey: @"color"] isEqualToString: @"blue"], @"-keyValuedParameters failed");

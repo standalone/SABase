@@ -145,11 +145,11 @@ static void NSFileManagerKQueueCallback(CFFileDescriptorRef kqRef, CFOptionFlags
 	if (existingVersion	>= currentFileVersion) return YES;			//all set, ignore it
 	
 	if ([self fileExistsAtPath: dstPath]) {
-		if (![self removeItemAtPath: dstPath error: &error]) LOG(@"Error while deleting %@: %@", [dstPath lastPathComponent], error);
+		if (![self removeItemAtPath: dstPath error: &error]) SA_BASE_LOG(@"Error while deleting %@: %@", [dstPath lastPathComponent], error);
 	}
 	
 	if (![self copyItemAtPath: srcPath toPath: dstPath error: &error]) {
-		LOG(@"Error while deleting %@: %@", [srcPath lastPathComponent], error);
+		SA_BASE_LOG(@"Error while deleting %@: %@", [srcPath lastPathComponent], error);
 		if (outError) *outError = error;
 		return NO;
 	}
@@ -175,7 +175,7 @@ static void NSFileManagerKQueueCallback(CFFileDescriptorRef kqRef, CFOptionFlags
 	path = (dirs.count) ? [[dirs objectAtIndex: 0] stringByAppendingPathComponent: name] : [$S(@"~/Library/Application Support/%@", name) stringByExpandingTildeInPath];
 	
 	[self createDirectoryAtPath: path withIntermediateDirectories: YES attributes: nil error: &error];
-	if (error) LOG(@"Error while creating %@: %@", path, error);
+	if (error) SA_BASE_LOG(@"Error while creating %@: %@", path, error);
 	return path;
 }
 - (NSString *) applicationSupportFolder { return [self systemFolderPath: NSApplicationSupportDirectory]; }

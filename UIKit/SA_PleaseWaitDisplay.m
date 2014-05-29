@@ -420,7 +420,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 	
 //	_view.center = CGPointMake(_view.bounds.size.width / 2, _view.bounds.size.height / 2);
 	_view.center = _view.superview.contentCenter;
-	//LOG(@"Tranform: %@ (theirs: %@)", NSStringFromCGAffineTransform(newTransform), NSStringFromCGAffineTransform(v.transform));
+	//SA_BASE_LOG(@"Tranform: %@ (theirs: %@)", NSStringFromCGAffineTransform(newTransform), NSStringFromCGAffineTransform(v.transform));
 	if (RUNNING_ON_IPAD) _view.backgroundColor = [UIColor colorWithWhite: 0.2 alpha: 0.2];
 	_view.transform = newTransform;
 }

@@ -52,7 +52,7 @@
 	NSError					*error = nil;
 	
 	if (![[NSFileManager defaultManager] removeItemAtPath: path error: &error]) {
-		LOG(@"An error occurred while deleting the temp file (%@): %@", path, error);
+		SA_BASE_LOG(@"An error occurred while deleting the temp file (%@): %@", path, error);
 	}
 	return result;
 }

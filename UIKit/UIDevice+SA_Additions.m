@@ -91,7 +91,7 @@
     host_page_size(host_port, &pagesize);        
 	
 	
-    if (host_statistics(host_port, HOST_VM_INFO, (host_info_t)&vm_stat, &host_size) != KERN_SUCCESS) LOG(@"Failed to fetch vm statistics");
+    if (host_statistics(host_port, HOST_VM_INFO, (host_info_t)&vm_stat, &host_size) != KERN_SUCCESS) SA_BASE_LOG(@"Failed to fetch vm statistics");
 	
     /* Stats in bytes */ 
     //natural_t					mem_used = (vm_stat.active_count + vm_stat.inactive_count + vm_stat.wire_count) * pagesize;
@@ -129,7 +129,7 @@
 		}
 	}
 	
-	//LOG(@"Orientation: %@, Transform: %@", NSStringFromInterfaceOrientation(orientation), NSStringFromCGAffineTransform(activeTransform));
+	//SA_BASE_LOG(@"Orientation: %@, Transform: %@", NSStringFromInterfaceOrientation(orientation), NSStringFromCGAffineTransform(activeTransform));
 	
 	if (CGAffineTransformEqualToTransform(activeTransform, kTransform_Portrait)) return UIInterfaceOrientationPortrait;
 	if (CGAffineTransformEqualToTransform(activeTransform, kTransform_PortraitUpsideDown)) return UIInterfaceOrientationPortraitUpsideDown;

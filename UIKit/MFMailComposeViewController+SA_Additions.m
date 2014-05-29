@@ -24,7 +24,7 @@
 }
 
 - (void) mailComposeController: (MFMailComposeViewController *) controller didFinishWithResult: (MFMailComposeResult) result error: (NSError *) error {
-	if (error) LOG(@"Error while composing message: %@", error);
+	if (error) SA_BASE_LOG(@"Error while composing message: %@", error);
 	
 	if (self.completionBlock) self.completionBlock(result);
 	[controller dismissViewControllerAnimated: YES completion: nil];

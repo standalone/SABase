@@ -90,7 +90,7 @@
 	NSError		*error = nil;
 	BOOL		result = [[NSFileManager defaultManager] createDirectoryAtPath: self withIntermediateDirectories: YES attributes: nil error: &error];
 	
-	if (error) LOG(@"Error while trying to create directory at \"%@\": %@", self, error);
+	if (error) SA_BASE_LOG(@"Error while trying to create directory at \"%@\": %@", self, error);
 	return result;
 #else
 	NSArray				*pathComponents;

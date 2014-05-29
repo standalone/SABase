@@ -15,7 +15,7 @@
 	#import "SA_AlertView.h"
 #endif
 
-static BOOL s_DEBUG_mode = NO;
+BOOL s_DEBUG_mode = NO;
 
 BOOL		SA_Base_DebugMode(void) { return s_DEBUG_mode; }
 void		set_SA_Base_DebugMode(BOOL debug) { s_DEBUG_mode = debug; }
@@ -32,14 +32,14 @@ natural_t			freeMemory(BOOL logIt) {
 //    host_page_size(host_port, &pagesize);        
 //	
 //	
-//    if (host_statistics(host_port, HOST_VM_INFO, (host_info_t)&vm_stat, &host_size) != KERN_SUCCESS) LOG(@"Failed to fetch vm statistics");
+//    if (host_statistics(host_port, HOST_VM_INFO, (host_info_t)&vm_stat, &host_size) != KERN_SUCCESS) SA_BASE_LOG(@"Failed to fetch vm statistics");
 //	
 //    /* Stats in bytes */ 
 //    natural_t					mem_used = (vm_stat.active_count + vm_stat.inactive_count + vm_stat.wire_count) * pagesize;
 //    natural_t					mem_free = vm_stat.free_count * pagesize;
 //    natural_t					mem_total = mem_used + mem_free;
-//    if (logIt) LOG(@"used: %uk free: %uk total: %uk", mem_used / 1024, mem_free / 1024, mem_total / 1024);
-	if (logIt) LOG(@"Logging memory no longer supported");
+//    if (logIt) SA_BASE_LOG(@"used: %uk free: %uk total: %uk", mem_used / 1024, mem_free / 1024, mem_total / 1024);
+	if (logIt) SA_BASE_LOG(@"Logging memory no longer supported");
 	#if TARGET_OS_IPHONE
 		return [[UIDevice currentDevice] availableMemory];
 	#endif

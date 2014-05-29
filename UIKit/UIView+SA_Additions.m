@@ -36,7 +36,7 @@
 	else {
 		if (SA_Base_DebugMode()) {
 			if (self.length > 0 && ![self isEqual: @"-"] && ![self isEqual: @"--"])
-				LOG(@"Missing translation for %@", self);
+				SA_BASE_LOG(@"Missing translation for %@", self);
 		}
 	}
 	return self;
@@ -138,7 +138,7 @@
 }
 
 - (void) logHierarchy {
-		LOG(@"%@", [self hierarchyToStringWithLevel: 0]);
+		SA_BASE_LOG(@"%@", [self hierarchyToStringWithLevel: 0]);
 }
 
 - (NSString *) hierarchyToStringWithLevel: (int) level {
@@ -160,7 +160,7 @@
 }
 
 - (void) logFrame {
-	LOG(@"%@: %@", self, NSStringFromCGRect(self.frame));
+	SA_BASE_LOG(@"%@: %@", self, NSStringFromCGRect(self.frame));
 }
 
 
@@ -618,7 +618,7 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 	UIImage					*image = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 	
-	LOG(@"Took %.5f to generate image", [NSDate timeIntervalSinceReferenceDate] - start);
+	SA_BASE_LOG(@"Took %.5f to generate image", [NSDate timeIntervalSinceReferenceDate] - start);
 	start = [NSDate timeIntervalSinceReferenceDate];
 	CIImage				*ciImage = [CIImage imageWithCGImage: image.CGImage];
 	CIContext			*context = [CIContext contextWithOptions: nil];
@@ -626,7 +626,7 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 	
 	UIImageView				*view = [self preBlur];
 
-	LOG(@"Took %.5f to build view", [NSDate timeIntervalSinceReferenceDate] - start);
+	SA_BASE_LOG(@"Took %.5f to build view", [NSDate timeIntervalSinceReferenceDate] - start);
 	start = [NSDate timeIntervalSinceReferenceDate];
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 		CIImage				*outputImage = [filter outputImage];
@@ -635,7 +635,7 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 		dispatch_async(dispatch_get_main_queue(), ^{
 			view.image = result;
 			[UIView animateWithDuration: duration animations: ^{ view.alpha = 1.0; }];
-			LOG(@"Took %.5f to display the blur", [NSDate timeIntervalSinceReferenceDate] - start);
+			SA_BASE_LOG(@"Took %.5f to display the blur", [NSDate timeIntervalSinceReferenceDate] - start);
 		});
 	});
 	

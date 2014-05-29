@@ -20,3 +20,8 @@
 	#import "NSUserDefaults+SA_Additions.h"
 	#import "UIGestureRecognizer+SA_Additions.h"
 #endif
+
+extern BOOL s_DEBUG_mode;
+
+
+#define		SA_BASE_LOG(...)	{if (s_DEBUG_mode) NSLog(__VA_ARGS__);}	

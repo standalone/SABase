@@ -177,7 +177,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 			self.pending = [self.pending arrayByAddingObject: connection];
 			connection.order = self.pending.count;
 			if (connection.persists && [self respondsToSelector: @selector(persistConnection:)]) {
-				if (connection.completeInBackground) {LOG(@"Trying to persist a background connection. This is not allowed. (%@)", connection);}
+				if (connection.completeInBackground) {SA_BASE_LOG(@"Trying to persist a background connection. This is not allowed. (%@)", connection);}
 			}
 
 			[self reorderPendingConnectionsByPriority];
@@ -283,7 +283,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 					if (_backgroundTaskID != kUIBackgroundTaskInvalid) {
 						dispatch_async_main_queue(^{
 							if (_backgroundTaskID != kUIBackgroundTaskInvalid) {
-								LOG(@"Expiring background task (forced)");
+								SA_BASE_LOG(@"Expiring background task (forced)");
 								[[UIApplication sharedApplication] endBackgroundTask: _backgroundTaskID];
 								_backgroundTaskID = kUIBackgroundTaskInvalid;
 							}
@@ -303,7 +303,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 				self.activityIndicatorCount++;
 				self.active = [self.active setByAddingObject: connection];
 			} else {
-				LOG(@"Connection failed to start: %@", connection);
+				SA_BASE_LOG(@"Connection failed to start: %@", connection);
 				[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_ConnectionFailedToStart object: connection];
 			}
 			self.pending = [self.pending SA_arrayByRemovingObject: connection];
@@ -509,7 +509,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 		if (!_offline) {
 			_offline = YES;
 	
-			LOG(@"Tried to push connection: %@, but not connected to the internet", connection);
+			SA_BASE_LOG(@"Tried to push connection: %@, but not connected to the internet", connection);
 			if (!connection.suppressConnectionAlerts) [self queueConnection: nil andPromptIfOffline: YES];
 			
 			[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_NotConnectedToInternet object: self];
@@ -608,7 +608,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	if (SCNetworkReachabilityGetFlags(_reachabilityRef, &flags)) {
 		ReachabilityChanged(_reachabilityRef, flags, NULL);
 	} else {
-		LOG(@"SCNetworkReachabilityGetFlags failed");
+		SA_BASE_LOG(@"SCNetworkReachabilityGetFlags failed");
 		#if TARGET_OS_IPHONE
 			if (SA_Base_DebugMode()) [SA_AlertView showAlertWithTitle: @"SCNetworkReachabilityGetFlags failed" message: @"Failed to update connection status"];
 		#endif
@@ -641,7 +641,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 			SCNetworkReachabilityScheduleWithRunLoop(_reachabilityRef, CFRunLoopGetMain(), kCFRunLoopDefaultMode);
 			[self fireReachabilityStatus];
 		} else if (_reachabilityRef == nil) {
-			LOG(@"Failed to create a ReachabilityRef");
+			SA_BASE_LOG(@"Failed to create a ReachabilityRef");
 			#if TARGET_OS_IPHONE
 				if (SA_Base_DebugMode()) [SA_AlertView showAlertWithTitle: @"Failed to create a ReachabilityRef" message: @"Unable to track connection status"];
 			#endif
@@ -844,7 +844,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	SA_Assert(self.url != nil, @"Cannot start an SA_Connection with a nil URL");
 	SA_Assert(!self.alreadyStarted, @"Can't restart an already used connection.");
 	
-	if ([self.method isEqual: @"GET"] && self.payload.length) LOG(@"Attaching a Payload to a GET request will probably fail \n\n %@", self);
+	if ([self.method isEqual: @"GET"] && self.payload.length) SA_BASE_LOG(@"Attaching a Payload to a GET request will probably fail \n\n %@", self);
 	
 	if (self.request == nil) self.request = [self generatedRequest];
 	
@@ -896,7 +896,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	self.requestStartedAt = [NSDate date];
 	
 	LOG_CONNECTION_START(self);
-	if (_connection == nil) LOG(@"Error while starting connection: %@", self);
+	if (_connection == nil) SA_BASE_LOG(@"Error while starting connection: %@", self);
 			
 	if (_connection) { 
 		[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_ConnectionStarted object: self];
@@ -966,7 +966,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 - (void) connection: (NSURLConnection *) connection didFailWithError: (NSError *) error {
 	_inProgress = NO;
 	LOG_CONNECTION_PHASE(@"Failed", self);
-	if (SA_Base_DebugMode()) self.finishedLoadingAt = [NSDate date];LOG(@"Connection %@ failed: %@", self, error.internetConnectionFailed ? @"NO CONNECTION" : (id) error);
+	if (SA_Base_DebugMode()) self.finishedLoadingAt = [NSDate date];SA_BASE_LOG(@"Connection %@ failed: %@", self, error.internetConnectionFailed ? @"NO CONNECTION" : (id) error);
 	
 	if (_canceled) return;
 
@@ -1071,7 +1071,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 #pragma mark Other callbacks
 - (void) connection: (NSURLConnection *) connection didReceiveResponse: (NSURLResponse *) response {
 
-	//LOG(@"Request Response Time: %@, Start Time: %@", [NSDate date], [NSDate dateWithTimeIntervalSinceReferenceDate: _requestStart]);
+	//SA_BASE_LOG(@"Request Response Time: %@, Start Time: %@", [NSDate date], [NSDate dateWithTimeIntervalSinceReferenceDate: _requestStart]);
 	self.responseReceivedAt = [NSDate date];
 	
 	LOG_CONNECTION_PHASE(@"Received Response", self);
@@ -1172,10 +1172,10 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 //	}
 	fclose(f);
 
-	//LOG(@"Created file: %@, (%@)", _filename, [[NSFileManager defaultManager] fileExistsAtPath: _filename] ? @"exists" : @"doesn't exist");
+	//SA_BASE_LOG(@"Created file: %@, (%@)", _filename, [[NSFileManager defaultManager] fileExistsAtPath: _filename] ? @"exists" : @"doesn't exist");
 	_file = [NSFileHandle fileHandleForUpdatingAtPath: _filename];
 	if (_file == nil) {
-		LOG(@"Failed to create switched-over file at %@", _filename);
+		SA_BASE_LOG(@"Failed to create switched-over file at %@", _filename);
 		return;
 	}
 	
@@ -1234,7 +1234,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 		char				*timeChars = (char *) [timeString UTF8String];
 		[raw appendBytes: timeChars length: strlen(timeChars)];
 		
-		//LOG(@"============================================================%@", timeString);
+		//SA_BASE_LOG(@"============================================================%@", timeString);
 	}
 	
 	[raw appendBytes: resultString length: strlen(resultString)];
