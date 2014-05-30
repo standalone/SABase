@@ -168,7 +168,7 @@
 - (NSUInteger) SA_md5Hash {
 	NSUInteger			value = 0, index = 1059;
 	
-	for (id object in self) {
+	for (id object in self.copy) {
 		index *= 2;
 		NSUInteger				valueHash = [object respondsToSelector: @selector(SA_md5Hash)] ? [object SA_md5Hash] : [object hash];
 		
@@ -180,7 +180,7 @@
 - (NSString *) SA_checksumString {
 	NSMutableString				*string = [NSMutableString string];
 	
-	for (id value in self) {
+	for (id value in self.copy) {
 		if ([value isKindOfClass: [NSDictionary class]] || [value isKindOfClass: [NSArray class]]) {
 			[string appendFormat: @"%@-", [value SA_checksumString]];
 		} else if ([value isKindOfClass: [NSString class]] || [value isKindOfClass: [NSNumber class]]) {

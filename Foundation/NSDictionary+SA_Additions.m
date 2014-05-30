@@ -62,7 +62,7 @@
 - (NSUInteger) SA_md5Hash {
 	NSUInteger			value = 0;
 	
-	for (id key in self) {
+	for (id key in self.allKeys.copy) {
 		id						val = [self valueForKey: key];
 		NSUInteger				valueHash = [val respondsToSelector: @selector(SA_md5Hash)] ? [val SA_md5Hash] : [val hash];
 		
