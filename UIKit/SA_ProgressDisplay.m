@@ -12,7 +12,6 @@
 #import "CGContextRef_additions.h"
 #import "SA_ProgressView.h"
 
-#define ACTIVITY_COMPONENT_SIZE					38
 #define LINEAR_PROGRESS_COMPONENT_SIZE			20
 #define ROUND_PROGRESS_COMPONENT_SIZE			60
 
@@ -38,7 +37,7 @@ static SA_ProgressDisplay *s_progressDisplay;
 
 static UIFont *s_titleFont, *s_detailFont, *s_buttonFont, *s_defaultButtonFont;
 static UIColor *s_backgroundColor, *s_buttonBackgroundColor, *s_buttonTitleColor, *s_defaultButtonTitleColor, *s_titleColor, *s_detailColor;
-static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_buttonSpacing, s_buttonHeight, s_componentSpacing;
+static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_titleDetailSpacing, s_buttonSpacing, s_buttonHeight, s_componentSpacing;
 
 @interface SA_ProgressDisplay ()
 @property (nonatomic, strong) UIView *progressBaseView;
@@ -59,6 +58,7 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_buttonSpacing
 		self.viewWidth = RUNNING_ON_IPAD ? 300 : 250.0;
 		self.viewMargin = 10.0;
 		self.buttonSpacing = 10;
+		self.titleDetailSpacing = 10;
 		self.detailButtonSpacing = 10;
 		self.buttonHeight = 44;
 		self.componentSpacing = 5;
@@ -173,28 +173,80 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_buttonSpacing
 	CGFloat					baseHeight = 150;
 	
 	if (self.buttonTitle) baseHeight += SA_ProgressDisplay.buttonHeight + SA_ProgressDisplay.detailButtonSpacing;
-	if (self.style == SA_ProgressDisplay_style_activityIndicator || self.style == SA_ProgressDisplay_style_linearProgressAndActivityIndicator) baseHeight += ACTIVITY_COMPONENT_SIZE + SA_ProgressDisplay.componentSpacing;
+	if (self.style == SA_ProgressDisplay_style_activityIndicator || self.style == SA_ProgressDisplay_style_linearProgressAndActivityIndicator) baseHeight += s_progressDisplay.roundProgressDiameter + SA_ProgressDisplay.componentSpacing;
 	if (self.style == SA_ProgressDisplay_style_roundProgress) baseHeight += self.roundProgressDiameter + SA_ProgressDisplay.componentSpacing;
 	if (self.style == SA_ProgressDisplay_style_linearProgressAndActivityIndicator || self.style == SA_ProgressDisplay_style_linearProgress) baseHeight += self.linearProgressHeight + SA_ProgressDisplay.componentSpacing;
 	
 	return baseHeight;
 }
 
-- (CGRect) titleFrame { return CGRectMake(SA_ProgressDisplay.viewMargin, SA_ProgressDisplay.viewMargin, SA_ProgressDisplay.viewWidth - SA_ProgressDisplay.viewMargin * 2, SA_ProgressDisplay.titleFont.lineHeight); }
+- (CGRect) titleFrame {
+	CGFloat				margin = SA_ProgressDisplay.viewMargin;
+	CGFloat				top = margin;
+	
+	if (self.labelPlacement == SA_ProgressDisplay_labelPlacement_bottom) {
+		top = self.viewHeight - self.bottomContentHeight;
+	}
+	return CGRectMake(margin, top, SA_ProgressDisplay.viewWidth - margin * 2, ceilf(SA_ProgressDisplay.titleFont.lineHeight * 1.1));
+}
+
+- (CGFloat) bottomContentHeight {
+	CGFloat				height = SA_ProgressDisplay.viewMargin;
+	
+	if (_buttonTitle.length) height += (SA_ProgressDisplay.buttonHeight + SA_ProgressDisplay.detailButtonSpacing);
+	
+	switch (self.labelPlacement) {
+		case SA_ProgressDisplay_labelPlacement_topAndBottom:
+			height += SA_ProgressDisplay.detailFont.lineHeight;
+			break;
+			
+		case SA_ProgressDisplay_labelPlacement_top:
+			break;
+			
+		case SA_ProgressDisplay_labelPlacement_bottom:
+			height += (SA_ProgressDisplay.detailFont.lineHeight + SA_ProgressDisplay.titleFont.lineHeight + SA_ProgressDisplay.titleDetailSpacing);
+			break;
+	}
+	
+	return height;
+}
+
+- (CGFloat) topContentHeight {
+	CGFloat				height = SA_ProgressDisplay.viewMargin;
+		
+	switch (self.labelPlacement) {
+		case SA_ProgressDisplay_labelPlacement_topAndBottom:
+			height += SA_ProgressDisplay.detailFont.lineHeight;
+			break;
+			
+		case SA_ProgressDisplay_labelPlacement_top:
+			height += SA_ProgressDisplay.detailFont.lineHeight + SA_ProgressDisplay.titleFont.lineHeight + SA_ProgressDisplay.titleDetailSpacing;
+			break;
+			
+		case SA_ProgressDisplay_labelPlacement_bottom:
+			break;
+	}
+	
+	return height;
+}
+
 - (CGRect) detailFrame {
 	CGFloat						lineHeight = SA_ProgressDisplay.detailFont.lineHeight;
+	CGFloat						top = self.viewHeight - (lineHeight + SA_ProgressDisplay.viewMargin);
 
-	if (self.buttonTitle)
-		return CGRectMake(SA_ProgressDisplay.viewMargin, [self viewHeight] - (SA_ProgressDisplay.viewMargin + lineHeight + SA_ProgressDisplay.detailButtonSpacing + SA_ProgressDisplay.buttonHeight), SA_ProgressDisplay.viewWidth - SA_ProgressDisplay.viewMargin * 2, lineHeight);
-
+	if (self.labelPlacement == SA_ProgressDisplay_labelPlacement_top) {
+		top = SA_ProgressDisplay.viewMargin + SA_ProgressDisplay.titleFont.lineHeight + SA_ProgressDisplay.titleDetailSpacing;
+	} else if (self.buttonTitle)
+		top -= (SA_ProgressDisplay.detailButtonSpacing + SA_ProgressDisplay.buttonHeight);
 				
-	return CGRectMake(SA_ProgressDisplay.viewMargin, [self viewHeight] - (SA_ProgressDisplay.viewMargin + lineHeight), SA_ProgressDisplay.viewWidth - SA_ProgressDisplay.viewMargin * 2, lineHeight);
+	return CGRectMake(SA_ProgressDisplay.viewMargin, top, SA_ProgressDisplay.viewWidth - SA_ProgressDisplay.viewMargin * 2, lineHeight);
 }
 
 - (CGRect) buttonFrame {
-	CGFloat					buttonWidth = [self.buttonTitle sizeWithAttributes: @{ NSFontAttributeName: SA_ProgressDisplay.buttonFont }].width * 1.2;
+	CGFloat					buttonWidth = ceilf([self.buttonTitle sizeWithAttributes: @{ NSFontAttributeName: SA_ProgressDisplay.buttonFont }].width * 1.4);
+	CGFloat					top = ceilf([self viewHeight] - (SA_ProgressDisplay.viewMargin + SA_ProgressDisplay.buttonHeight));
 	
-	return CGRectMake((SA_ProgressDisplay.viewWidth - buttonWidth) / 2, [self viewHeight] - (SA_ProgressDisplay.viewMargin + SA_ProgressDisplay.buttonHeight), buttonWidth, SA_ProgressDisplay.buttonHeight);
+	return CGRectMake((SA_ProgressDisplay.viewWidth - buttonWidth) / 2, top, buttonWidth, SA_ProgressDisplay.buttonHeight);
 }
 
 - (UILabel *) titleLabel {
@@ -202,8 +254,9 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_buttonSpacing
 		_titleLabel = [[UILabel alloc] initWithFrame: self.titleFrame];
 		_titleLabel.font = SA_ProgressDisplay.titleFont;
 		_titleLabel.textColor = SA_ProgressDisplay.titleColor;
+		_titleLabel.backgroundColor = [UIColor clearColor];
 		_titleLabel.text = self.title;
-		_titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
+		_titleLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
 		_titleLabel.textAlignment = NSTextAlignmentCenter;
 	}
 	return _titleLabel;
@@ -281,21 +334,24 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_buttonSpacing
 		[UIView animateWithDuration: duration animations: ^{
 			self.progressBaseView.bounds = CGRectMake(0, 0, SA_ProgressDisplay.viewWidth, self.viewHeight);
 			
-			if (self.style == SA_ProgressDisplay_style_linearProgress || self.style == SA_ProgressDisplay_style_linearProgressAndActivityIndicator || self.style == SA_ProgressDisplay_style_roundProgress) self.progressView.frame = self.progressFrame;
-			
-		} completion:^(BOOL finished) {
+			self.titleLabel.frame = self.titleFrame;
 			self.button.frame = self.buttonFrame;
 			self.detailLabel.frame = self.detailFrame;
+			
+			_activityIndicatorView.center = self.activityIndicatorCenter;
+			
+			if (self.style == SA_ProgressDisplay_style_linearProgress || self.style == SA_ProgressDisplay_style_linearProgressAndActivityIndicator || self.style == SA_ProgressDisplay_style_roundProgress) self.progressView.frame = self.progressFrame;
+		} completion:^(BOOL finished) {
 		}];
 	});
 }
 
-- (void) setRoundProgressDiameter:(CGFloat)roundProgressDiameter { _roundProgressDiameter = roundProgressDiameter; [self updateFrame: YES]; }
-- (void) setLinearProgressHeight:(CGFloat)linearProgressHeight { _linearProgressHeight = linearProgressHeight; [self updateFrame: YES]; }
+- (void) setRoundProgressDiameter:(CGFloat)roundProgressDiameter { _roundProgressDiameter = roundProgressDiameter; [self updateFrame: self.isVisible]; }
+- (void) setLinearProgressHeight:(CGFloat)linearProgressHeight { _linearProgressHeight = linearProgressHeight; [self updateFrame: self.isVisible]; }
 
 - (void) setTitle: (NSString *) title {
 	_title = title;
-	if (self.isVisible) dispatch_async_main_queue(^{ self.titleLabel.text = title; });
+	if (_titleLabel) dispatch_async_main_queue(^{ self.titleLabel.text = title; });
 }
 
 - (void) setDetail: (NSString *) detail {
@@ -303,10 +359,29 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_buttonSpacing
 	if (self.isVisible) dispatch_async_main_queue(^{ self.detailLabel.text = detail; });
 }
 
+- (CGPoint) activityIndicatorCenter {
+	CGFloat					contentHeight = self.bottomContentHeight + self.topContentHeight;
+	CGFloat					y = (self.viewHeight - contentHeight) / 2;
+	
+	switch (self.labelPlacement) {
+		case SA_ProgressDisplay_labelPlacement_topAndBottom: y += self.topContentHeight; break;
+			
+		case SA_ProgressDisplay_labelPlacement_top:
+			y += contentHeight;
+			if (_buttonTitle.length) y -= (SA_ProgressDisplay.buttonHeight + SA_ProgressDisplay.detailButtonSpacing);
+			break;
+			
+		case SA_ProgressDisplay_labelPlacement_bottom:
+			break;
+	}
+	
+	return CGPointMake(SA_ProgressDisplay.viewWidth / 2, y);
+}
+
 - (UIActivityIndicatorView *) activityIndicatorView {
 	if (_activityIndicatorView == nil) {
 		_activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle: UIActivityIndicatorViewStyleWhiteLarge];
-		_activityIndicatorView.center = CGPointMake(SA_ProgressDisplay.viewWidth / 2, self.viewHeight * 0.4);
+		_activityIndicatorView.center = self.activityIndicatorCenter;
 		_activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
 		[_activityIndicatorView startAnimating];
 	}
@@ -318,18 +393,19 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_buttonSpacing
 }
 
 - (CGRect) progressFrame {
-	CGFloat						y = [self viewHeight] * 0.4;
 	CGFloat						parentWidth = SA_ProgressDisplay.viewWidth;
 	CGFloat						width = parentWidth * 0.6, height = self.linearProgressHeight;
 	
 	if (self.style == SA_ProgressDisplay_style_roundProgress) {
 		width = self.roundProgressDiameter;
 		height = self.roundProgressDiameter;
-	}
+	} else
+		height = self.linearProgressHeight;
+	 
 	
-	if (self.style == SA_ProgressDisplay_style_linearProgressAndActivityIndicator) y += self.roundProgressDiameter * 0.55;
+	CGPoint						center = self.activityIndicatorCenter;
 	
-	return CGRectMake((parentWidth - width) / 2, y - height / 2, width, height);
+	return CGRectMake(center.x - width / 2, center.y - height / 2, width, height);
 }
 
 - (SA_ProgressView *) progressView {
@@ -350,6 +426,10 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_buttonSpacing
 		_button.backgroundColor = SA_ProgressDisplay.buttonBackgroundColor;
 		[_button setTitleColor: SA_ProgressDisplay.buttonTitleColor forState: UIControlStateNormal];
 		_button.showsTouchWhenHighlighted = YES;
+		_button.layer.borderColor = [SA_ProgressDisplay.buttonTitleColor colorWithAlphaComponent: 0.5].CGColor;
+		_button.layer.borderWidth = 1.0;
+		_button.layer.cornerRadius = 6;
+		_button.layer.masksToBounds = YES;
 		[_button addTarget: self action: @selector(buttonPressed:) forControlEvents: UIControlEventTouchUpInside];
 	}
 	return _button;
@@ -385,6 +465,9 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_buttonSpacing
 
 + (void) setViewMargin: (CGFloat) margin { s_viewMargin = margin; }
 + (CGFloat) viewMargin { return s_viewMargin; }
+
++ (void) setTitleDetailSpacing: (CGFloat) spacing { s_titleDetailSpacing = spacing; }
++ (CGFloat) titleDetailSpacing { return s_titleDetailSpacing; }
 
 + (void) setDetailButtonSpacing: (CGFloat) spacing { s_detailButtonSpacing = spacing; }
 + (CGFloat) detailButtonSpacing { return s_detailButtonSpacing; }

@@ -20,6 +20,12 @@ typedef NS_ENUM(NSUInteger, SA_ProgressDisplay_style) {
 	SA_ProgressDisplay_style_roundProgress,
 };
 
+typedef NS_ENUM(NSUInteger, SA_ProgressDisplay_labelPlacement) {
+	SA_ProgressDisplay_labelPlacement_topAndBottom,
+	SA_ProgressDisplay_labelPlacement_top,
+	SA_ProgressDisplay_labelPlacement_bottom,
+};
+
 @interface SA_ProgressDisplay : NSObject
 
 CLASS_PROPERTY(UIFont *, titleFont, TitleFont);
@@ -32,6 +38,7 @@ CLASS_PROPERTY(UIColor *, buttonBackgroundColor, ButtonBackgroundColor);
 CLASS_PROPERTY(UIColor *, buttonTitleColor, ButtonTitleColor);
 CLASS_PROPERTY(CGFloat, viewWidth, ViewWidth);
 CLASS_PROPERTY(CGFloat, viewMargin, ViewMargin);
+CLASS_PROPERTY(CGFloat, titleDetailSpacing, TitleDetailSpacing);
 CLASS_PROPERTY(CGFloat, detailButtonSpacing, DetailButtonSpacing);
 CLASS_PROPERTY(CGFloat, componentSpacing, ComponentSpacing);
 CLASS_PROPERTY(CGFloat, buttonHeight, ButtonHeight);
@@ -43,6 +50,7 @@ CLASS_PROPERTY(CGFloat, buttonHeight, ButtonHeight);
 @property (nonatomic) CGFloat								percentageComplete;
 @property (nonatomic, copy) simpleBlock						buttonBlock;
 @property (nonatomic) SA_ProgressDisplay_style				style;
+@property (nonatomic) SA_ProgressDisplay_labelPlacement		labelPlacement;
 @property (nonatomic) CGFloat								roundProgressDiameter, linearProgressHeight;
 
 @property (nonatomic, readonly) UILabel						*titleLabel, *detailLabel;

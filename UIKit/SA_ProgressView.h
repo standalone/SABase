@@ -16,5 +16,5 @@ typedef NS_ENUM(NSUInteger, SA_ProgressView_type) {
 @interface SA_ProgressView : UIView
 @property (nonatomic) CGFloat progress;
 @property (nonatomic) SA_ProgressView_type type;
-@property (nonatomic, strong) UIColor *foregroundColor;
+@property (nonatomic, strong) UIColor *fillColor, *borderColor;
 @end

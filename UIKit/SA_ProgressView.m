@@ -13,7 +13,8 @@
 DEFAULT_VIEW_INIT_METHODS;
 
 - (id) postInitSetup {
-	self.foregroundColor = [UIColor whiteColor];
+	self.fillColor = [UIColor whiteColor];
+	self.borderColor = [UIColor colorWithWhite: 1.0 alpha: 0.75];
 	self.backgroundColor = [UIColor clearColor];
 	
 	self.type = SA_ProgressView_linear;
@@ -48,7 +49,7 @@ DEFAULT_VIEW_INIT_METHODS;
 		UIBezierPath				*path = [UIBezierPath bezierPathWithRoundedRect: frame byRoundingCorners: UIRectCornerAllCorners cornerRadii: CGSizeMake(frame.size.height / 2, frame.size.height / 2)];
 		
 		path.lineWidth = lineWidth;
-		[self.foregroundColor setStroke];
+		[self.borderColor setStroke];
 		[path stroke];
 		
 		frame = CGRectInset(frame, lineWidth * 1.75, lineWidth * 1.75);
@@ -56,7 +57,7 @@ DEFAULT_VIEW_INIT_METHODS;
 				
 		frame.size.width *= self.progress;
 		UIRectClip(frame);
-		[self.foregroundColor setFill];
+		[self.fillColor setFill];
 		[path fill];
 	} else {
 		CGFloat					minSide = MIN(frame.size.width, frame.size.height);
@@ -75,7 +76,7 @@ DEFAULT_VIEW_INIT_METHODS;
 		UIBezierPath			*border = [UIBezierPath bezierPathWithOvalInRect: frame];
 		
 		border.lineWidth = lineWidth;
-		[self.foregroundColor setStroke];
+		[self.borderColor setStroke];
 		[border stroke];
 
 		frame = CGRectInset(frame, lineWidth, lineWidth);
@@ -85,7 +86,7 @@ DEFAULT_VIEW_INIT_METHODS;
 		
 		[path moveToPoint: CGRectCenter(frame)];
 		[path addArcWithCenter: CGRectCenter(frame) radius: frame.size.width / 2 startAngle: -M_PI / 2 endAngle: (2 * M_PI * percentage) - (M_PI / 2) clockwise: YES];
-		[self.foregroundColor setFill];
+		[self.fillColor setFill];
 		[path fill];
 	}
 }
