@@ -18,6 +18,7 @@
 #import "CAAnimation+SA_Blocks.h"
 #import "SA_ProgressDisplay.h"
 #import "SA_ProgressView.h"
+#import "SA_AlertView.h"
 
 #import "NSURL+SA_Additions.h"
 #import "UIBarButtonItem+SA_Additions.h"

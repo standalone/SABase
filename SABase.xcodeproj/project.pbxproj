@@ -334,6 +334,10 @@
 		B55E09A515166D3C0097CC69 /* SA_BackgroundThread.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E09A115166D3C0097CC69 /* SA_BackgroundThread.m */; };
 		B55E09A615166D3C0097CC69 /* SA_BackgroundThread.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E09A115166D3C0097CC69 /* SA_BackgroundThread.m */; };
 		B55E09A715166D3C0097CC69 /* SA_BackgroundThread.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E09A115166D3C0097CC69 /* SA_BackgroundThread.m */; };
+		B5645161193A7736008E0B0A /* SA_CustomAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = B564515F193A7736008E0B0A /* SA_CustomAlert.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B5645162193A7736008E0B0A /* SA_CustomAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = B564515F193A7736008E0B0A /* SA_CustomAlert.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B5645163193A7736008E0B0A /* SA_CustomAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = B5645160193A7736008E0B0A /* SA_CustomAlert.m */; };
+		B5645164193A7736008E0B0A /* SA_CustomAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = B5645160193A7736008E0B0A /* SA_CustomAlert.m */; };
 		B58307151516548600CC57DE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B58306FB1516548600CC57DE /* main.m */; };
 		B58307161516548600CC57DE /* Run-TimePrefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = B58306FC1516548600CC57DE /* Run-TimePrefix.pch */; };
 		B58307171516548600CC57DE /* Run-TimePrefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = B58306FC1516548600CC57DE /* Run-TimePrefix.pch */; };
@@ -513,6 +517,8 @@
 		B55E0997151661C10097CC69 /* NSArray+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+SA_Additions.m"; sourceTree = "<group>"; };
 		B55E09A015166D3C0097CC69 /* SA_BackgroundThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SA_BackgroundThread.h; path = Foundation/SA_BackgroundThread.h; sourceTree = SOURCE_ROOT; };
 		B55E09A115166D3C0097CC69 /* SA_BackgroundThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SA_BackgroundThread.m; path = Foundation/SA_BackgroundThread.m; sourceTree = SOURCE_ROOT; };
+		B564515F193A7736008E0B0A /* SA_CustomAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SA_CustomAlert.h; sourceTree = "<group>"; };
+		B5645160193A7736008E0B0A /* SA_CustomAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SA_CustomAlert.m; sourceTree = "<group>"; };
 		B58306F61516548600CC57DE /* Unit Tests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Unit Tests-Info.plist"; sourceTree = "<group>"; };
 		B58306F81516548600CC57DE /* BuildDistributables.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = BuildDistributables.sh; sourceTree = "<group>"; };
 		B58306FB1516548600CC57DE /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -725,6 +731,8 @@
 				B555CDA1193941300077396A /* SA_ProgressView.m */,
 				B555CDA2193941300077396A /* SA_ProgressDisplay.h */,
 				B555CDA3193941300077396A /* SA_ProgressDisplay.m */,
+				B564515F193A7736008E0B0A /* SA_CustomAlert.h */,
+				B5645160193A7736008E0B0A /* SA_CustomAlert.m */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -924,6 +932,7 @@
 				B55E0967151660DD0097CC69 /* UITableViewCell+SA_Additions.h in Headers */,
 				B55E096D151660DD0097CC69 /* UIToolbar+SA_Additions.h in Headers */,
 				B55E0973151660DD0097CC69 /* UIView+SA_Additions.h in Headers */,
+				B5645162193A7736008E0B0A /* SA_CustomAlert.h in Headers */,
 				B55E0979151660DD0097CC69 /* UIViewController+SA_Additions.h in Headers */,
 				B59F32CB181DCB1F0096DF9A /* UILocalNotification+SA_Additions.h in Headers */,
 				B55E0981151661110097CC69 /* SA_BlockButton.h in Headers */,
@@ -960,6 +969,7 @@
 				B55E08B2151660DD0097CC69 /* NSManagedObjectContext+SA_Additions.h in Headers */,
 				B55E08B8151660DD0097CC69 /* NSNotificationCenter+SA_Additions.h in Headers */,
 				B55A94CF15F62442000F8992 /* UIButton+SA_Additions.h in Headers */,
+				B5645161193A7736008E0B0A /* SA_CustomAlert.h in Headers */,
 				B55E08BE151660DD0097CC69 /* NSObject+SA_Additions.h in Headers */,
 				B55E08C4151660DD0097CC69 /* NSSortDescriptor+SA_Additions.h in Headers */,
 				B55E08CA151660DD0097CC69 /* NSString+SA_Additions.h in Headers */,
@@ -1255,6 +1265,7 @@
 				B5E703F917A5DB2000435611 /* SA_Switch.m in Sources */,
 				B55E0939151660DD0097CC69 /* UIDevice+SA_Additions.m in Sources */,
 				B55E093F151660DD0097CC69 /* UIImage+SA_Additions.m in Sources */,
+				B5645164193A7736008E0B0A /* SA_CustomAlert.m in Sources */,
 				B55E0945151660DD0097CC69 /* UIImageView+SA_Additions.m in Sources */,
 				B55E094B151660DD0097CC69 /* UILabel+SA_Additions.m in Sources */,
 				B55E0957151660DD0097CC69 /* UIPopoverController+SA_Additions.m in Sources */,
@@ -1435,6 +1446,7 @@
 				B55AA63B181C515C00C5B0EE /* UIFont+SA_Additions.m in Sources */,
 				B5E703F817A5DB2000435611 /* SA_Switch.m in Sources */,
 				B55E0938151660DD0097CC69 /* UIDevice+SA_Additions.m in Sources */,
+				B5645163193A7736008E0B0A /* SA_CustomAlert.m in Sources */,
 				B55E093E151660DD0097CC69 /* UIImage+SA_Additions.m in Sources */,
 				B55E0944151660DD0097CC69 /* UIImageView+SA_Additions.m in Sources */,
 				B55E094A151660DD0097CC69 /* UILabel+SA_Additions.m in Sources */,

@@ -521,7 +521,7 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_titleDetailSp
 		
 		s_progressWindow = [[UIWindow alloc] initWithFrame: frame];
 		s_progressWindow.backgroundColor = [UIColor clearColor];
-		s_progressWindow.windowLevel = UIWindowLevelAlert;
+		s_progressWindow.windowLevel = UIWindowLevelAlert - 1.0;
 		s_progressWindow.userInteractionEnabled = YES;
 		s_progressWindow.opaque = NO;
 		
