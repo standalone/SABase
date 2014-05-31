@@ -16,6 +16,8 @@
 #import "SA_BlockButton.h"
 #import "SA_Switch.h"
 #import "CAAnimation+SA_Blocks.h"
+#import "SA_ProgressDisplay.h"
+#import "SA_ProgressView.h"
 
 #import "NSURL+SA_Additions.h"
 #import "UIBarButtonItem+SA_Additions.h"
@@ -65,4 +67,3 @@
 #import "SA_Sentinel.h"
 #import "SA_ThreadsafeMutableCollections.h"
 #import "SA_ScreenshotFeedback.h"
-

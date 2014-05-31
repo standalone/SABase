@@ -62,6 +62,14 @@
 		B542239115B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B542238E15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m */; };
 		B542239215B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B542238E15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m */; };
 		B54A7E7C1916E0F6002B06B0 /* SA_ThreadsafeMutableCollections.h in Headers */ = {isa = PBXBuildFile; fileRef = B52550AC1915DF5300411D4B /* SA_ThreadsafeMutableCollections.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B555CDA4193941300077396A /* SA_ProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = B555CDA0193941300077396A /* SA_ProgressView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B555CDA5193941300077396A /* SA_ProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = B555CDA0193941300077396A /* SA_ProgressView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B555CDA6193941300077396A /* SA_ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B555CDA1193941300077396A /* SA_ProgressView.m */; };
+		B555CDA7193941300077396A /* SA_ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B555CDA1193941300077396A /* SA_ProgressView.m */; };
+		B555CDA8193941300077396A /* SA_ProgressDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = B555CDA2193941300077396A /* SA_ProgressDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B555CDA9193941300077396A /* SA_ProgressDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = B555CDA2193941300077396A /* SA_ProgressDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B555CDAA193941300077396A /* SA_ProgressDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = B555CDA3193941300077396A /* SA_ProgressDisplay.m */; };
+		B555CDAB193941300077396A /* SA_ProgressDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = B555CDA3193941300077396A /* SA_ProgressDisplay.m */; };
 		B55A94CF15F62442000F8992 /* UIButton+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E086C151660DD0097CC69 /* UIButton+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B55AA639181C515C00C5B0EE /* UIFont+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55AA637181C515C00C5B0EE /* UIFont+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B55AA63A181C515C00C5B0EE /* UIFont+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55AA637181C515C00C5B0EE /* UIFont+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -413,6 +421,10 @@
 		B52BF7E61871CD2C009F4A4C /* NSError+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+SA_Additions.m"; sourceTree = "<group>"; };
 		B542238D15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+SA_Additions.h"; sourceTree = "<group>"; };
 		B542238E15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+SA_Additions.m"; sourceTree = "<group>"; };
+		B555CDA0193941300077396A /* SA_ProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SA_ProgressView.h; sourceTree = "<group>"; };
+		B555CDA1193941300077396A /* SA_ProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SA_ProgressView.m; sourceTree = "<group>"; };
+		B555CDA2193941300077396A /* SA_ProgressDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SA_ProgressDisplay.h; sourceTree = "<group>"; };
+		B555CDA3193941300077396A /* SA_ProgressDisplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SA_ProgressDisplay.m; sourceTree = "<group>"; };
 		B55AA637181C515C00C5B0EE /* UIFont+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+SA_Additions.h"; sourceTree = "<group>"; };
 		B55AA638181C515C00C5B0EE /* UIFont+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+SA_Additions.m"; sourceTree = "<group>"; };
 		B55E0835151660DD0097CC69 /* dispatch_additions_SA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dispatch_additions_SA.h; path = ../Foundation/dispatch_additions_SA.h; sourceTree = "<group>"; };
@@ -709,6 +721,10 @@
 				B59F32C9181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m */,
 				B523D5B41933EA7F00FC2C4E /* UIWindow+SA_Additions.h */,
 				B523D5B51933EA7F00FC2C4E /* UIWindow+SA_Additions.m */,
+				B555CDA0193941300077396A /* SA_ProgressView.h */,
+				B555CDA1193941300077396A /* SA_ProgressView.m */,
+				B555CDA2193941300077396A /* SA_ProgressDisplay.h */,
+				B555CDA3193941300077396A /* SA_ProgressDisplay.m */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -854,6 +870,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B555CDA9193941300077396A /* SA_ProgressDisplay.h in Headers */,
 				B58307171516548600CC57DE /* Run-TimePrefix.pch in Headers */,
 				B58307191516548600CC57DE /* SA_Base.h in Headers */,
 				B583071B1516548600CC57DE /* SABase_Prefix.pch in Headers */,
@@ -874,6 +891,7 @@
 				B55E08B3151660DD0097CC69 /* NSManagedObjectContext+SA_Additions.h in Headers */,
 				B55E08B9151660DD0097CC69 /* NSNotificationCenter+SA_Additions.h in Headers */,
 				B55E08BF151660DD0097CC69 /* NSObject+SA_Additions.h in Headers */,
+				B555CDA5193941300077396A /* SA_ProgressView.h in Headers */,
 				B55E08C5151660DD0097CC69 /* NSSortDescriptor+SA_Additions.h in Headers */,
 				B55E08CB151660DD0097CC69 /* NSString+SA_Additions.h in Headers */,
 				B55E08D1151660DD0097CC69 /* NSString+SA_MD5.h in Headers */,
@@ -964,6 +982,7 @@
 				B55E0936151660DD0097CC69 /* UIDevice+SA_Additions.h in Headers */,
 				B55E093C151660DD0097CC69 /* UIImage+SA_Additions.h in Headers */,
 				B55E0942151660DD0097CC69 /* UIImageView+SA_Additions.h in Headers */,
+				B555CDA8193941300077396A /* SA_ProgressDisplay.h in Headers */,
 				B55E0948151660DD0097CC69 /* UILabel+SA_Additions.h in Headers */,
 				B55E0954151660DD0097CC69 /* UIPopoverController+SA_Additions.h in Headers */,
 				B55E095A151660DD0097CC69 /* UIScrollView+SA_Additions.h in Headers */,
@@ -985,6 +1004,7 @@
 				B5ED0B9416431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.h in Headers */,
 				B55E0998151661C10097CC69 /* NSArray+SA_Additions.h in Headers */,
 				B542238F15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.h in Headers */,
+				B555CDA4193941300077396A /* SA_ProgressView.h in Headers */,
 				B5D3ABAB15FD3E070052F459 /* CAAnimation+SA_Blocks.h in Headers */,
 				B583071C1516548600CC57DE /* NSData Tests.h in Headers */,
 				B592127018D374BD00FBC16D /* NSAttributedString+SA_Additions.h in Headers */,
@@ -1243,6 +1263,7 @@
 				B55E0963151660DD0097CC69 /* UISegmentedControl+SA_Additions.m in Sources */,
 				B55E0969151660DD0097CC69 /* UITableViewCell+SA_Additions.m in Sources */,
 				B55E096F151660DD0097CC69 /* UIToolbar+SA_Additions.m in Sources */,
+				B555CDA7193941300077396A /* SA_ProgressView.m in Sources */,
 				B55E0975151660DD0097CC69 /* UIView+SA_Additions.m in Sources */,
 				B55E097B151660DD0097CC69 /* UIViewController+SA_Additions.m in Sources */,
 				B59F32CD181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m in Sources */,
@@ -1260,6 +1281,7 @@
 				B51F6FE51615CAB90015A037 /* NSSet+SA_Additions.m in Sources */,
 				B5ED0B9716431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.m in Sources */,
 				B523D5BB1933EBBB00FC2C4E /* CGContextRef_additions.m in Sources */,
+				B555CDAB193941300077396A /* SA_ProgressDisplay.m in Sources */,
 				B522F1D419378335006A934F /* NSParagraphStyle+SA_Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1421,6 +1443,7 @@
 				B58CA479183AD4DA0038753A /* SA_ScreenshotFeedback.m in Sources */,
 				B55E0962151660DD0097CC69 /* UISegmentedControl+SA_Additions.m in Sources */,
 				B55E0968151660DD0097CC69 /* UITableViewCell+SA_Additions.m in Sources */,
+				B555CDA6193941300077396A /* SA_ProgressView.m in Sources */,
 				B55E096E151660DD0097CC69 /* UIToolbar+SA_Additions.m in Sources */,
 				B55E0974151660DD0097CC69 /* UIView+SA_Additions.m in Sources */,
 				B55E097A151660DD0097CC69 /* UIViewController+SA_Additions.m in Sources */,
@@ -1438,6 +1461,7 @@
 				B523D5BA1933EBBB00FC2C4E /* CGContextRef_additions.m in Sources */,
 				B51F6FE41615CAB90015A037 /* NSSet+SA_Additions.m in Sources */,
 				B5ED0B9616431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.m in Sources */,
+				B555CDAA193941300077396A /* SA_ProgressDisplay.m in Sources */,
 				B522F1D319378333006A934F /* NSParagraphStyle+SA_Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
