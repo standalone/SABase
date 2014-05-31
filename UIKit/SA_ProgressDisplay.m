@@ -12,9 +12,9 @@
 #import "CGContextRef_additions.h"
 #import "SA_ProgressView.h"
 
-#define ROUND_PROGRESS_COMPONENT_SIZE			50
 #define ACTIVITY_COMPONENT_SIZE					38
 #define LINEAR_PROGRESS_COMPONENT_SIZE			20
+#define ROUND_PROGRESS_COMPONENT_SIZE			60
 
 @interface SA_ProgressDisplayBackgroundView : UIView
 @end
@@ -79,6 +79,8 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_buttonSpacing
 	if (s_progressDisplay == nil) {
 		s_progressDisplay = [self new];
 		s_progressDisplay.style = SA_ProgressDisplay_style_activityIndicator;
+		s_progressDisplay.roundProgressDiameter = ROUND_PROGRESS_COMPONENT_SIZE;
+		s_progressDisplay.linearProgressHeight = LINEAR_PROGRESS_COMPONENT_SIZE;
 	}
 	
 	dispatch_async_main_queue(^{
@@ -172,8 +174,8 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_buttonSpacing
 	
 	if (self.buttonTitle) baseHeight += SA_ProgressDisplay.buttonHeight + SA_ProgressDisplay.detailButtonSpacing;
 	if (self.style == SA_ProgressDisplay_style_activityIndicator || self.style == SA_ProgressDisplay_style_linearProgressAndActivityIndicator) baseHeight += ACTIVITY_COMPONENT_SIZE + SA_ProgressDisplay.componentSpacing;
-	if (self.style == SA_ProgressDisplay_style_roundProgress) baseHeight += ROUND_PROGRESS_COMPONENT_SIZE + SA_ProgressDisplay.componentSpacing;
-	if (self.style == SA_ProgressDisplay_style_linearProgressAndActivityIndicator || self.style == SA_ProgressDisplay_style_linearProgress) baseHeight += LINEAR_PROGRESS_COMPONENT_SIZE + SA_ProgressDisplay.componentSpacing;
+	if (self.style == SA_ProgressDisplay_style_roundProgress) baseHeight += self.roundProgressDiameter + SA_ProgressDisplay.componentSpacing;
+	if (self.style == SA_ProgressDisplay_style_linearProgressAndActivityIndicator || self.style == SA_ProgressDisplay_style_linearProgress) baseHeight += self.linearProgressHeight + SA_ProgressDisplay.componentSpacing;
 	
 	return baseHeight;
 }
@@ -243,6 +245,7 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_buttonSpacing
 				_activityIndicatorView.hidden = YES;
 				self.progressView.hidden = NO;
 				self.progressView.type = SA_ProgressView_linear;
+				self.progressView.frame = self.progressFrame;
 				[self.progressBaseView addSubview: self.progressView];
 				break;
 				
@@ -251,13 +254,15 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_buttonSpacing
 				[self.progressBaseView addSubview: self.activityIndicatorView];
 				self.progressView.hidden = NO;
 				self.progressView.type = SA_ProgressView_linear;
+				self.progressView.frame = self.progressFrame;
 				[self.progressBaseView addSubview: self.progressView];
 				break;
 				
 			case SA_ProgressDisplay_style_roundProgress:
 				_activityIndicatorView.hidden = YES;
 				self.progressView.hidden = NO;
-				self.progressView.type = SA_ProgressView_radial;
+				self.progressView.frame = self.progressFrame;
+				self.progressView.type = SA_ProgressView_round;
 				[self.progressBaseView addSubview: self.progressView];
 				break;
 				
@@ -275,12 +280,18 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_buttonSpacing
 		
 		[UIView animateWithDuration: duration animations: ^{
 			self.progressBaseView.bounds = CGRectMake(0, 0, SA_ProgressDisplay.viewWidth, self.viewHeight);
+			
+			if (self.style == SA_ProgressDisplay_style_linearProgress || self.style == SA_ProgressDisplay_style_linearProgressAndActivityIndicator || self.style == SA_ProgressDisplay_style_roundProgress) self.progressView.frame = self.progressFrame;
+			
 		} completion:^(BOOL finished) {
 			self.button.frame = self.buttonFrame;
 			self.detailLabel.frame = self.detailFrame;
 		}];
 	});
 }
+
+- (void) setRoundProgressDiameter:(CGFloat)roundProgressDiameter { _roundProgressDiameter = roundProgressDiameter; [self updateFrame: YES]; }
+- (void) setLinearProgressHeight:(CGFloat)linearProgressHeight { _linearProgressHeight = linearProgressHeight; [self updateFrame: YES]; }
 
 - (void) setTitle: (NSString *) title {
 	_title = title;
@@ -309,14 +320,14 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_buttonSpacing
 - (CGRect) progressFrame {
 	CGFloat						y = [self viewHeight] * 0.4;
 	CGFloat						parentWidth = SA_ProgressDisplay.viewWidth;
-	CGFloat						width = parentWidth * 0.6, height = LINEAR_PROGRESS_COMPONENT_SIZE;
+	CGFloat						width = parentWidth * 0.6, height = self.linearProgressHeight;
 	
 	if (self.style == SA_ProgressDisplay_style_roundProgress) {
-		width = ROUND_PROGRESS_COMPONENT_SIZE;
-		height = ROUND_PROGRESS_COMPONENT_SIZE;
+		width = self.roundProgressDiameter;
+		height = self.roundProgressDiameter;
 	}
 	
-	if (self.style == SA_ProgressDisplay_style_linearProgressAndActivityIndicator) y += ROUND_PROGRESS_COMPONENT_SIZE * 0.55;
+	if (self.style == SA_ProgressDisplay_style_linearProgressAndActivityIndicator) y += self.roundProgressDiameter * 0.55;
 	
 	return CGRectMake((parentWidth - width) / 2, y - height / 2, width, height);
 }

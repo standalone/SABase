@@ -16,7 +16,7 @@ DEFAULT_VIEW_INIT_METHODS;
 	self.foregroundColor = [UIColor whiteColor];
 	self.backgroundColor = [UIColor clearColor];
 	
-	self.type = SA_ProgressView_radial;
+	self.type = SA_ProgressView_linear;
 	return self;
 }
 
@@ -69,7 +69,7 @@ DEFAULT_VIEW_INIT_METHODS;
 		frame.size.width = minSide;
 		frame.size.height = minSide;
 		
-		CGFloat					lineWidth = floorf(frame.size.height / 10);
+		CGFloat					lineWidth = floorf(frame.size.height / 12);
 		frame = CGRectInset(frame, lineWidth / 2, lineWidth / 2);
 
 		UIBezierPath			*border = [UIBezierPath bezierPathWithOvalInRect: frame];

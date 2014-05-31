@@ -10,7 +10,7 @@
 
 typedef NS_ENUM(NSUInteger, SA_ProgressView_type) {
 	SA_ProgressView_linear,
-	SA_ProgressView_radial
+	SA_ProgressView_round
 };
 
 @interface SA_ProgressView : UIView

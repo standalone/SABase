@@ -43,6 +43,7 @@ CLASS_PROPERTY(CGFloat, buttonHeight, ButtonHeight);
 @property (nonatomic) CGFloat								percentageComplete;
 @property (nonatomic, copy) simpleBlock						buttonBlock;
 @property (nonatomic) SA_ProgressDisplay_style				style;
+@property (nonatomic) CGFloat								roundProgressDiameter, linearProgressHeight;
 
 @property (nonatomic, readonly) UILabel						*titleLabel, *detailLabel;
 @property (nonatomic, readonly) UIActivityIndicatorView		*activityIndicatorView;
