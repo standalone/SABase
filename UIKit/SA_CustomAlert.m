@@ -11,13 +11,14 @@
 #import "dispatch_additions_SA.h"
 #import "CGContextRef_additions.h"
 #import "SA_ProgressView.h"
+#import "SA_AlertView.h"
 
 static NSMutableArray *s_alerts;
 static UIFont *s_titleFont, *s_messageFont, *s_buttonFont, *s_defaultButtonFont;
 static UIColor *s_backgroundColor, *s_buttonBackgroundColor, *s_buttonTitleColor, *s_defaultButtonTitleColor, *s_titleColor, *s_messageColor, *s_buttonSeparatorColor;
 static CGFloat s_viewWidth, s_viewMargin, s_titleMessageSpacing, s_messageButtonSpacing, s_buttonSpacing, s_buttonHeight;
 static NSTimeInterval s_showAlertDuration, s_hideAlertDuration;
-
+static BOOL s_useStandardAlerts = NO;
 
 @interface SA_CustomAlertBackgroundView : UIView
 @property (nonatomic, strong) NSMutableArray *separatorLines;
@@ -78,6 +79,11 @@ static SA_CustomAlert *s_currentAlert;
 
 //================================================================================================================
 + (instancetype) showAlertWithTitle: (NSString *) title message: (NSString *) message buttons: (NSArray *) buttons buttonBlock: (alertButtonHitBlock) buttonHitBlock {
+	if (s_useStandardAlerts) {
+		[SA_CustomAlert showAlertWithTitle: title message: message buttons: buttons buttonBlock: buttonHitBlock];
+		return nil;
+	}
+	
 	SA_CustomAlert			*alert = [self new];
 	
 	alert.title = title;
@@ -424,6 +430,9 @@ static SA_CustomAlert *s_currentAlert;
 
 + (void) setButtonSeparatorColor: (UIColor *) color { s_buttonSeparatorColor = color; }
 + (UIColor *) buttonSeparatorColor { return s_buttonSeparatorColor; }
+
++ (void) setUseStandardAlerts: (BOOL) useStandard { s_useStandardAlerts = useStandard; }
++ (BOOL) useStandardAlerts { return s_useStandardAlerts; }
 
 @end
 

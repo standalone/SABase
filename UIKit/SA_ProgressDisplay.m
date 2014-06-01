@@ -116,7 +116,7 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_titleDetailSp
 
 		[[UIWindow progressDisplayWindow] addSubview: self.progressBaseView];
 		if (animated) {
-			CGFloat						duration = 0.1;
+			CGFloat						duration = 0.2;
 			
 			self.progressBaseView.alpha = 0.0;
 			self.progressBaseView.transform = CGAffineTransformScale(UIWindow.sa_transformForCurrentUserInterfaceOrientation, 0.001, 0.001);
@@ -135,9 +135,9 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_titleDetailSp
 - (void) hide: (BOOL) animated {
 	dispatch_async_main_queue(^{
 		if (animated) {
-			CGFloat						duration = 0.1;
+			CGFloat						duration = 0.2;
 
-			[UIView animateWithDuration: duration delay: 0.0 usingSpringWithDamping: 0.8 initialSpringVelocity: 0.0 options: UIViewAnimationOptionCurveEaseIn animations:^{
+			[UIView animateWithDuration: duration delay: 0.0 usingSpringWithDamping: 1.0 initialSpringVelocity: 0.0 options: UIViewAnimationOptionCurveEaseIn animations:^{
 				self.progressBaseView.transform = CGAffineTransformScale(UIWindow.sa_transformForCurrentUserInterfaceOrientation, 0.001, 0.001);;
 				self.progressBaseView.alpha = 0.0;
 				s_blockingView.alpha = 0.0;
@@ -146,6 +146,7 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_titleDetailSp
 			}];
 		} else {
 			[UIWindow closeProgressDisplayWindow];
+			s_progressDisplay = nil;
 		}
 	});
 }

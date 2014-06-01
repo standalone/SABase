@@ -13,6 +13,8 @@ typedef void (^alertButtonHitBlock)(NSInteger buttonIndex);
 
 @interface SA_CustomAlert : NSObject
 
+CLASS_PROPERTY(BOOL, useStandardAlerts, UseStandardAlerts);
+
 CLASS_PROPERTY(UIFont *, titleFont, TitleFont);
 CLASS_PROPERTY(UIFont *, messageFont, MessageFont);
 CLASS_PROPERTY(UIFont *, buttonFont, ButtonFont);
