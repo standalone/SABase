@@ -30,8 +30,10 @@
 	
 	if (divider) [divider removeFromSuperview];
 	
+	UIEdgeInsets			insets = UIEdgeInsetsMake(0, 0, 0, 0);
+	if ([self respondsToSelector: @selector(separatorInset)]) insets = self.separatorInset;
 	
-	divider = [[UIImageView alloc] initWithFrame: CGRectMake(0, self.bounds.size.height - image.size.height, self.bounds.size.width, image.size.height)];
+	divider = [[UIImageView alloc] initWithFrame: CGRectMake(insets.left, self.bounds.size.height - image.size.height, self.bounds.size.width - (insets.left + insets.right), image.size.height)];
 	divider.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
 	divider.tag = kDividerViewTag;
 	divider.image = image;
@@ -46,10 +48,12 @@
 
 - (UIView *) dividerView {
 	UIView					*divider = [self viewWithTag: kDividerViewTag];
+	UIEdgeInsets			insets = UIEdgeInsetsMake(0, 0, 0, 0);
+	if ([self respondsToSelector: @selector(separatorInset)]) insets = self.separatorInset;
 	
 	if (divider) return divider;
 	
-	divider = [[UIView alloc] initWithFrame: CGRectMake(0, self.bounds.size.height - 1, self.bounds.size.width, 1)];
+	divider = [[UIView alloc] initWithFrame: CGRectMake(insets.left, self.bounds.size.height - 0.5, self.bounds.size.width - (insets.left + insets.right), 0.5)];
 	divider.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
 	divider.tag = kDividerViewTag;
 	[self addSubview: divider];
