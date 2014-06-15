@@ -153,6 +153,13 @@
 	return [UIColor blackColor];
 }
 
+- (CGFloat) alpha {
+	CGFloat					a;
+	
+	if ([self getHue: NULL saturation: NULL brightness: NULL alpha: &a]) return a;
+	if ([self getWhite: NULL alpha: &a]) return a;
+	return 1.0;
+}
 
 @end
 

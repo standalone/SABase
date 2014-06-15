@@ -17,6 +17,7 @@ NSString *				NSStringFromCGColor(CGColorRef color);
 
 @property(readonly) const CGFloat * SA_RGBAComponents;
 @property(readonly) const CGFloat * SA_HSBAComponents;
+@property (nonatomic, readonly) CGFloat alpha;
 
 
 + (UIColor *)  colorWithSA_HexString: (NSString *) string;
