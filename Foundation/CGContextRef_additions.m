@@ -7,18 +7,19 @@
 //
 
 #import "CGContextRef_additions.h"
+#import "UIColor+SA_Additions.h"
 
 void	CGContextDrawRadialGradientInRect(CGContextRef ctx, CGRect rect, UIColor *innerColor, UIColor *outerColor) {
-	CGFloat				locations[2] = {0.0f, 1.0f};
+	CGFloat				locations[] = {0.0, 0.75, 1.0};
 	size_t				locationsCount = DIM(locations);
-	CGFloat				colors[8] = {0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.25f};
+	CGFloat				colors[8] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, outerColor.alpha};
 	
 	CGColorSpaceRef		colorSpace = CGColorSpaceCreateDeviceRGB();
 	CGGradientRef		gradient = CGGradientCreateWithColorComponents(colorSpace, colors, locations, locationsCount);
 	
 	CGColorSpaceRelease(colorSpace);
 
-	CGPoint				center = CGPointMake(rect.size.width/2, rect.size.height/2);
+	CGPoint				center = CGPointMake(rect.size.width / 2, rect.size.height / 2);
 	float				radius = MIN(rect.size.width , rect.size.height) ;
 
 	CGContextDrawRadialGradient (ctx, gradient, center, 0, center, radius, kCGGradientDrawsAfterEndLocation);
