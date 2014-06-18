@@ -995,7 +995,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	if (self.prefersFileStorage) 
 		[self switchToFileStorage];
 	else if (_data == nil && _file) 
-		_data = [NSData dataWithContentsOfFile: _filename];
+		_data = [NSMutableData dataWithContentsOfFile: _filename];
 	
 
 	if (self.connectionFinishedBlock) dontProcessFailedStatusCodes = NO;

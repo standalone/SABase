@@ -129,11 +129,11 @@
 		#define				RUNNING_ON_60					([[UIDevice currentDevice].systemVersion intValue] >= 6)
 	#endif
 
-	#if NSFoundationVersionNumber_iOS_7_0
+//	#if NSFoundationVersionNumber_iOS_7_0
 		#define				RUNNING_ON_70					(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_7_0)
-	#else
-		#define				RUNNING_ON_70					([[UIDevice currentDevice].systemVersion intValue] >= 7)
-	#endif
+//	#else
+//		#define				RUNNING_ON_70					([[UIDevice currentDevice].systemVersion intValue] >= 7)
+//	#endif
 
 	#define				IS_RETINA_DEVICE				([UIScreen mainScreen].scale > 1.0)
 	#define				IS_4INCH_SCREEN					(RUNNING_ON_IPHONE && [UIScreen mainScreen].bounds.size.height == 568)

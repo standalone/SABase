@@ -11,8 +11,8 @@
 
 void	CGContextDrawRadialGradientInRect(CGContextRef ctx, CGRect rect, UIColor *innerColor, UIColor *outerColor) {
 	CGFloat				locations[] = {0.0, 1.0};
-	size_t				locationsCount = DIM(locations);
-	CGFloat				colors[8] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, outerColor.alpha * 0.5, outerColor.alpha};
+//	size_t				locationsCount = DIM(locations);
+//	CGFloat				colors[8] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, outerColor.alpha * 0.5, outerColor.alpha};
 	
 	CGColorSpaceRef		colorSpace = CGColorSpaceCreateDeviceRGB();
 	CGGradientRef		gradient = CGGradientCreateWithColors(colorSpace, (CFArrayRef) @[ (id) innerColor.CGColor, (id) outerColor.CGColor ], locations);
