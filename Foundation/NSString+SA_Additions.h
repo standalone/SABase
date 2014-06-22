@@ -71,6 +71,7 @@
 - (NSString *) rot13;
 - (NSString *) stringByStrippingTags;
 - (NSString *) stringByStrippingHTMLTags;
+- (id)objectAtIndexedSubscript:(NSUInteger)idx;
 
 @end
 

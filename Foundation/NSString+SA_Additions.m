@@ -572,7 +572,12 @@
 
 	return [matches valueForKey: @"URL"];
 }
-@end
+
+- (id) objectAtIndexedSubscript: (NSUInteger) idx {
+	if (idx >= self.length) return @"";
+	return [self substringWithRange: NSMakeRange(idx, 1)];
+}
+", @"@end
 
 //=============================================================================================================================
 #pragma mark
@@ -590,5 +595,6 @@
 - (NSString*)getCharsFound {
     return [self.strings componentsJoinedByString:@""];
 }
+
 @end
 
