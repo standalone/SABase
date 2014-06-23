@@ -301,9 +301,11 @@ typedef void (^idArgumentBlock)(id arg);
 typedef void (^stringArgumentBlock)(NSString *arg);
 typedef void (^errorArgumentBlock)(NSError *error);
 typedef void (^idErrorArgumentBlock)(id arg, NSError *error);
+typedef id (^idReturnBlock)(void);
 typedef id (^idArgumentBlockReturningID)(id arg);
 typedef void (^simpleArrayBlock)(NSArray *array);
 typedef void (^simpleDictionaryBlock)(NSDictionary *dictionary);
+typedef void (^simpleSetBlock)(NSSet *set);
 typedef void (^simpleStringBlock)(NSString *string);
 
 #if TARGET_OS_IPHONE

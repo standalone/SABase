@@ -13,14 +13,21 @@
 
 @implementation SA_ThreadsafeMutableArray
 
-- (instancetype) init {
+- (id) init {
 	if (self = [super init]) {
 		self.backingArray = [NSMutableArray new];
 	}
 	return self;
 }
 
-+ (SA_ThreadsafeMutableArray *) array { return [self new]; }
++ (instancetype) arrayWithObject: (id) object {
+	SA_ThreadsafeMutableArray			*array = [self array];
+	
+	[array.backingArray addObject: object];
+	return array;
+}
+
++ (instancetype) array { return [self new]; }
 
 - (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState *) state objects: (id __unsafe_unretained []) buffer count: (NSUInteger) len {
 	@synchronized (self) { return [self.backingArray countByEnumeratingWithState: state objects: buffer count: len]; }
@@ -46,7 +53,9 @@
 	@synchronized (self) { [self.backingArray removeAllObjects]; }
 }
 
-
+- (void) safelyAccessInBlock: (simpleMutableArrayBlock) block {
+	@synchronized (self) { block(self.backingArray); }
+}
 @end
 
 
@@ -56,14 +65,14 @@
 
 @implementation SA_ThreadsafeMutableSet
 
-- (instancetype) init {
+- (id) init {
 	if (self = [super init]) {
 		self.backingSet = [NSMutableSet new];
 	}
 	return self;
 }
 
-+ (SA_ThreadsafeMutableSet *) set { return [self new]; }
++ (instancetype) set { return [self new]; }
 
 - (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState *) state objects: (id __unsafe_unretained []) buffer count: (NSUInteger) len {
 	@synchronized (self) { return [self.backingSet countByEnumeratingWithState: state objects: buffer count: len]; }
@@ -86,6 +95,9 @@
 	@synchronized (self) { [self.backingSet removeAllObjects]; }
 }
 
+- (void) safelyAccessInBlock: (simpleMutableSetBlock) block {
+	@synchronized (self) { block(self.backingSet); }
+}
 @end
 
 
@@ -95,14 +107,14 @@
 
 @implementation SA_ThreadsafeMutableDictionary
 
-- (instancetype) init {
+- (id) init {
 	if (self = [super init]) {
 		self.backingDictionary = [NSMutableDictionary new];
 	}
 	return self;
 }
 
-+ (SA_ThreadsafeMutableDictionary *) dictionary { return [self new]; }
++ (instancetype) dictionary { return [self new]; }
 
 - (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState *) state objects: (id __unsafe_unretained []) buffer count: (NSUInteger) len {
 	@synchronized (self) { return [self.backingDictionary countByEnumeratingWithState: state objects: buffer count: len]; }
@@ -125,14 +137,11 @@
 }
 
 - (void) removeObjectForKey: (id) key {
-	[self removeObjectForKey: key withCompletion: nil];
+	@synchronized (self) { [self.backingDictionary removeObjectForKey: key]; }
 }
 
-- (void) removeObjectForKey: (id) key withCompletion: (simpleBlock) completion {
-	@synchronized (self) {
-		[self.backingDictionary removeObjectForKey: key];
-		if (completion) completion();
-	}
+- (void) safelyAccessInBlock: (simpleMutableDictionaryBlock) block {
+	@synchronized (self) { block(self.backingDictionary); }
 }
 
 @end

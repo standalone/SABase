@@ -7,8 +7,14 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void (^simpleMutableArrayBlock)(NSMutableArray *array);
+typedef void (^simpleMutableDictionaryBlock)(NSMutableDictionary *dictionary);
+typedef void (^simpleMutableSetBlock)(NSMutableSet *set);
+
+
 @interface SA_ThreadsafeMutableArray : NSObject <NSFastEnumeration>
-+ (SA_ThreadsafeMutableArray *) array;
++ (instancetype) array;
++ (instancetype) arrayWithObject: (id) object;
 
 - (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState *) state objects: (id __unsafe_unretained []) buffer count: (NSUInteger) len;
 - (id) objectAtIndexedSubscript: (NSUInteger) idx;
@@ -16,23 +22,25 @@
 - (void) addObject: (id) object;
 - (void) removeObject: (id) object;
 - (void) removeAllObjects;
+- (void) safelyAccessInBlock: (simpleMutableArrayBlock) block;
 @end
 
 
 
 @interface SA_ThreadsafeMutableSet : NSObject <NSFastEnumeration>
-+ (SA_ThreadsafeMutableSet *) set;
++ (instancetype) set;
 
 - (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState *) state objects: (id __unsafe_unretained []) buffer count: (NSUInteger) len;
 - (void) addObject: (id) object;
 - (void) removeObject: (id) object;
 - (void) removeAllObjects;
+- (void) safelyAccessInBlock: (simpleMutableSetBlock) block;
 @end
 
 
 
 @interface SA_ThreadsafeMutableDictionary : NSObject <NSFastEnumeration>
-+ (SA_ThreadsafeMutableDictionary *) dictionary;
++ (instancetype) dictionary;
 
 - (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState *) state objects: (id __unsafe_unretained []) buffer count: (NSUInteger) len;
 - (id) objectForKeyedSubscript: (id) key;
@@ -40,6 +48,6 @@
 - (void) setObject: (id) obj forKeyedSubscript: (id <NSCopying>) key;
 - (void) setObject: (id) object forKey: (id <NSCopying>) key;
 - (void) removeObjectForKey: (id) key;
-- (void) removeObjectForKey: (id) key withCompletion: (simpleBlock) completion;
+- (void) safelyAccessInBlock: (simpleMutableDictionaryBlock) block;
 @end
 
