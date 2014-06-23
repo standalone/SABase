@@ -10,7 +10,7 @@
 
 @implementation UIImageView (UIImageView_SA_SA_Additions)
 
-- (CGRect) imageContentFrame {
+- (CGRect) SA_imageContentFrame {
 	CGSize							size = self.image.size;
 //	CGSize							mySize = self.bounds.size;
 //	float							aspect, myAspect, newWidth, newHeight;

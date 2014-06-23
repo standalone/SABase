@@ -710,7 +710,7 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 	CGRect				flipFrame = originalFrame;
 	
 	if ([initialView isKindOfClass: [UIImageView class]]) {
-		flipFrame = [(id) initialView imageContentFrame];
+		flipFrame = [(id) initialView SA_imageContentFrame];
 		
 		flipFrame.origin.x = originalFrame.origin.x + flipFrame.origin.x;
 		flipFrame.origin.y = originalFrame.origin.y + flipFrame.origin.y;

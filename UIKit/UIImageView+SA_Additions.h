@@ -9,5 +9,5 @@
 
 @interface UIImageView (UIImageView_SA_SA_Additions)
 
-- (CGRect) imageContentFrame;
+- (CGRect) SA_imageContentFrame;
 @end
