@@ -577,8 +577,7 @@
 	if (idx >= self.length) return @"";
 	return [self substringWithRange: NSMakeRange(idx, 1)];
 }
-", @"@end
-
+@end
 //=============================================================================================================================
 #pragma mark
 @implementation NSString_HTMLStringDelegate
