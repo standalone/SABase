@@ -124,6 +124,16 @@
 	@synchronized (self) { [self.backingDictionary setObject: object forKey: key]; }
 }
 
+- (void) removeObjectForKey: (id) key {
+	[self removeObjectForKey: key withCompletion: nil];
+}
+
+- (void) removeObjectForKey: (id) key withCompletion: (simpleBlock) completion {
+	@synchronized (self) {
+		[self.backingDictionary removeObjectForKey: key];
+		if (completion) completion();
+	}
+}
 
 @end
 

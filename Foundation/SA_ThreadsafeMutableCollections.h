@@ -39,5 +39,7 @@
 - (id) objectForKey: (id) key;
 - (void) setObject: (id) obj forKeyedSubscript: (id <NSCopying>) key;
 - (void) setObject: (id) object forKey: (id <NSCopying>) key;
+- (void) removeObjectForKey: (id) key;
+- (void) removeObjectForKey: (id) key withCompletion: (simpleBlock) completion;
 @end
 
