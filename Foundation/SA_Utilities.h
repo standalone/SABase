@@ -82,7 +82,7 @@
 		#define         objc_retainedObject(p)      ((id) (p))
 		#define			objc_unretainedObject(o)			((id) o) 
 	#endif
-	#define			STATIC_CONSTANT(type, name, value)		static type *name = nil; if (name == nil) name = [value retain];
+	#define			STATIC_CONSTANT(type, name, value)		static type *name = nil; if (name == nil) name = value;
 	#define			IF_NOTARC(...)				{__VA_ARGS__;}
 	#define			_retain						retain		
 	#define			unsafe						assign
@@ -336,7 +336,7 @@ void		set_SA_Base_DebugMode(BOOL debug);
 		return s_##methodName; \
 	}
 
-#define	STATIC_OBJECT_PROPERTY(name, value)	- (id) name {static id name = nil; if (name == nil) {static dispatch_once_t  once; dispatch_once(&once, ^ { name = [value retain]; });}
+#define	STATIC_OBJECT_PROPERTY(name, value)	- (id) name {static id name = nil; if (name == nil) {static dispatch_once_t  once; dispatch_once(&once, ^ { name = value; });}
 #define	PROPERTY_PASS_THROUGH(lower, upper, type, dest)  - (void) set##upper: (type) v { [dest set##upper: v]; }  - (type) lower { return [dest lower]; }
 
 #define SINGLETON_IMPLEMENTATION_FOR_CLASS_METHOD_AND_INITIALIZER(classname, methodName, initializer) \

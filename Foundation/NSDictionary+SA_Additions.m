@@ -33,12 +33,12 @@
 //		if ([obj respondsToSelector: @selector(copy)] && ![obj isMemberOfClass: [NSString class]])
 //			obj = [obj copy];
 //		else
-//			obj = [obj retain];
+//			obj = [obj;
 //			
 //		key = [key copy];
 //		[result setObject: obj forKey: key];
-//		[key release];
-//		[obj release];
+//		[key ;
+//		[obj ;
 //	}
 //	
 //	return result;

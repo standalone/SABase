@@ -88,11 +88,11 @@
 //			if ([obj isKindOfClass: [NSNumber class]] || ![obj respondsToSelector: @selector(retain)]) {
 //				copy = obj;
 //			} else if ([obj respondsToSelector: @selector(deepMutableCopy)])
-//				copy = [[obj deepMutableCopy] autorelease];
+//				copy = [[obj deepMutableCopy] ;
 //			else if ([obj respondsToSelector: @selector(mutableCopy)])
-//				copy = [[obj mutableCopy] autorelease];
+//				copy = [[obj mutableCopy] ;
 //			else if ([obj respondsToSelector: @selector(copy)] && ![obj isMemberOfClass: [NSString class]])
-//				copy = [[obj copy] autorelease];
+//				copy = [[obj copy] ;
 //			else
 //				copy = obj;
 //				

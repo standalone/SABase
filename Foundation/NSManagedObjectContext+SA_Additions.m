@@ -534,8 +534,8 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 //- (void) clearFetchedResultsController: (NSFetchedResultsController *) controller {
 //	UITableView					*table = [self associatedValueForKey: TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY];
 //
-//	[table release];
-//	[controller release];
+//	[table ;
+//	[controller ;
 //	[self associateValue: nil forKey: TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY];
 //}
 
