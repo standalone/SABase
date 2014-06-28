@@ -10,6 +10,6 @@
 
 @interface UILocalNotification (SA_Additions)
 
-+ (void) presentNotificationText: (NSString *) text withAction: (NSString *) action sound: (NSString *) soundName atDate: (NSDate *) date;
++ (void) presentNotificationText: (NSString *) text withAction: (NSString *) action sound: (NSString *) soundName atDate: (NSDate *) date andUserInfo: (NSDictionary *) userInfo;
 
 @end
