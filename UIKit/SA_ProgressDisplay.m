@@ -142,10 +142,18 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_titleDetailSp
 				self.progressBaseView.alpha = 0.0;
 				s_blockingView.alpha = 0.0;
 			} completion: ^(BOOL finished) {
+				self.title = nil;
+				self.buttonTitle = nil;
+				self.detail = nil;
+				
 				[UIWindow closeProgressDisplayWindow];
+				s_progressDisplay = nil;
 			}];
 		} else {
 			[UIWindow closeProgressDisplayWindow];
+			self.title = nil;
+			self.buttonTitle = nil;
+			self.detail = nil;
 			s_progressDisplay = nil;
 		}
 	});
