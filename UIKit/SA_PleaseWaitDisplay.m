@@ -416,6 +416,7 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 			_view.bounds = CGRectMake(0, 0, minDim, maxDim);
 			newTransform = kTransform_PortraitUpsideDown;//CGAffineTransformMake(-1, 0, 0, -1, 0, 0);
 			break;
+		default: break;
 	}
 	
 //	_view.center = CGPointMake(_view.bounds.size.width / 2, _view.bounds.size.height / 2);
