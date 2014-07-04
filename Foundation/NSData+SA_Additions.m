@@ -226,7 +226,9 @@ void * ImprovedBase64Decode(const char *inputBuffer, size_t length, size_t *outp
 	
 	
 	memmove(&raw[self.length], &zero, 1);
-	NSString			*str = [NSString stringWithCString: raw encoding: NSASCIIStringEncoding];
+	NSString			*str = [NSString stringWithCString: raw encoding: NSUTF8StringEncoding];
+	
+	if (str == nil) str = [NSString stringWithCString: raw encoding: NSASCIIStringEncoding];
 	free(raw);
 	return str;
 }
