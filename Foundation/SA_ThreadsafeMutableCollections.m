@@ -56,6 +56,10 @@
 - (void) safelyAccessInBlock: (simpleMutableArrayBlock) block {
 	@synchronized (self) { block(self.backingArray); }
 }
+
+- (NSArray *) allObjects {
+	@synchronized (self) { return [self.backingArray copy]; }
+}
 @end
 
 
@@ -97,6 +101,10 @@
 
 - (void) safelyAccessInBlock: (simpleMutableSetBlock) block {
 	@synchronized (self) { block(self.backingSet); }
+}
+
+- (NSArray *) allObjects {
+	@synchronized (self) { return [self.backingSet allObjects]; }
 }
 @end
 
@@ -142,6 +150,10 @@
 
 - (void) safelyAccessInBlock: (simpleMutableDictionaryBlock) block {
 	@synchronized (self) { block(self.backingDictionary); }
+}
+
+- (NSArray *) allObjects {
+	@synchronized (self) { return [self.backingDictionary allValues]; }
 }
 
 @end

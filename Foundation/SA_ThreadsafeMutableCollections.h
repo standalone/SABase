@@ -23,6 +23,9 @@ typedef void (^simpleMutableSetBlock)(NSMutableSet *set);
 - (void) removeObject: (id) object;
 - (void) removeAllObjects;
 - (void) safelyAccessInBlock: (simpleMutableArrayBlock) block;
+
+@property (nonatomic, readonly) NSArray *allObjects;
+
 @end
 
 
@@ -35,6 +38,9 @@ typedef void (^simpleMutableSetBlock)(NSMutableSet *set);
 - (void) removeObject: (id) object;
 - (void) removeAllObjects;
 - (void) safelyAccessInBlock: (simpleMutableSetBlock) block;
+
+@property (nonatomic, readonly) NSArray *allObjects;
+
 @end
 
 
@@ -49,5 +55,8 @@ typedef void (^simpleMutableSetBlock)(NSMutableSet *set);
 - (void) setObject: (id) object forKey: (id <NSCopying>) key;
 - (void) removeObjectForKey: (id) key;
 - (void) safelyAccessInBlock: (simpleMutableDictionaryBlock) block;
+
+@property (nonatomic, readonly) NSArray *allObjects;
+
 @end
 
