@@ -60,6 +60,14 @@
 - (NSArray *) allObjects {
 	@synchronized (self) { return [self.backingArray copy]; }
 }
+
+- (NSUInteger) count {
+	@synchronized (self) { return self.backingArray.count; }
+}
+
+- (NSString *) description {
+	@synchronized (self) { return self.backingArray.description; }
+}
 @end
 
 
@@ -105,6 +113,14 @@
 
 - (NSArray *) allObjects {
 	@synchronized (self) { return [self.backingSet allObjects]; }
+}
+
+- (NSUInteger) count {
+	@synchronized (self) { return self.backingSet.count; }
+}
+
+- (NSString *) description {
+	@synchronized (self) { return self.backingSet.description; }
 }
 @end
 
@@ -156,6 +172,13 @@
 	@synchronized (self) { return [self.backingDictionary allValues]; }
 }
 
+- (NSUInteger) count {
+	@synchronized (self) { return self.backingDictionary.count; }
+}
+
+- (NSString *) description {
+	@synchronized (self) { return self.backingDictionary.description; }
+}
 @end
 
 

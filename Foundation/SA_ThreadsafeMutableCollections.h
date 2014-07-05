@@ -25,6 +25,7 @@ typedef void (^simpleMutableSetBlock)(NSMutableSet *set);
 - (void) safelyAccessInBlock: (simpleMutableArrayBlock) block;
 
 @property (nonatomic, readonly) NSArray *allObjects;
+@property (nonatomic, readonly) NSUInteger count;
 
 @end
 
@@ -40,6 +41,7 @@ typedef void (^simpleMutableSetBlock)(NSMutableSet *set);
 - (void) safelyAccessInBlock: (simpleMutableSetBlock) block;
 
 @property (nonatomic, readonly) NSArray *allObjects;
+@property (nonatomic, readonly) NSUInteger count;
 
 @end
 
@@ -57,6 +59,7 @@ typedef void (^simpleMutableSetBlock)(NSMutableSet *set);
 - (void) safelyAccessInBlock: (simpleMutableDictionaryBlock) block;
 
 @property (nonatomic, readonly) NSArray *allObjects;
+@property (nonatomic, readonly) NSUInteger count;
 
 @end
 
