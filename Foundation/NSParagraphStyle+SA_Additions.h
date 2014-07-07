@@ -12,6 +12,7 @@
 
 + (NSMutableParagraphStyle *) rightAlignedStyle;
 + (NSMutableParagraphStyle *) centeredStyle;
++ (NSMutableParagraphStyle *) styleWithLineHeightMultiplier: (CGFloat) multiple;
 
 
 @end

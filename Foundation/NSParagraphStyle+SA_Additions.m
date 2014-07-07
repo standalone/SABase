@@ -28,5 +28,13 @@
 	return style;
 }
 
++ (NSMutableParagraphStyle *) styleWithLineHeightMultiplier: (CGFloat) multiple {
+	NSMutableParagraphStyle			*style = [NSMutableParagraphStyle new];
+	
+	[style setLineHeightMultiple: multiple];
+	
+	return style;
+}
+
 
 @end
