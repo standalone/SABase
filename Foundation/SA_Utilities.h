@@ -185,8 +185,14 @@ void		ClearConsoleLog(void);
 
 #if DEBUG || ADHOC
 	#define			LOG							NSLog
+	#if TARGET_IPHONE_SIMULATOR
+		#define			SIMLOG						NSLog
+	#else
+		#define			SIMLOG						{}
+	#endif
 #else
 	#define			LOG(...)					{}
+	#define			SIMLOG						{}
 #endif
 
 

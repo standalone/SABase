@@ -45,6 +45,10 @@
 
 - (UIColor *)  initWithSA_HexString: (NSString *) string {
 #define							CharToInteger(c)				(((c >= 'a' && c <= 'f') ? (10 + c - 'a') : ((c >= '0' && c <= '9') ? (c - '0') : 0)))
+	NSArray							*chunks = [string componentsSeparatedByCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	
+	if (chunks.count > 0) string = chunks[0];
+	
 	float							values[3] = {0.0, 0.0, 0.0};
 	CGFloat							alpha = 1.0;
 	char							*raw = (char *) [[string lowercaseString] UTF8String];
