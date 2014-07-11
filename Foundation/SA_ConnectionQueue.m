@@ -57,6 +57,7 @@ NSString *kConnectionNotification_Dequeued = @"SA_Connection: dequeued";
 NSString *kConnectionNotification_ConnectionCancelled = @"SA_Connection: cancelled";
 NSString *kConnectionNotification_ConnectionFailed = @"SA_Connection: failed";
 NSString *kConnectionNotification_ConnectionStateChanged = @"SA_Connection: state changed";
+NSString *kConnectionNotification_ConnectionReachabilityChanged = @"SA_Connection: reachability changed";
 
 @interface SA_ConnectionQueue () 
 - (void) fireReachabilityStatus;
@@ -611,6 +612,8 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	#endif
 	
 	[SA_ConnectionQueue sharedQueue].offline = (![SA_ConnectionQueue sharedQueue]->_wlanAvailable && ![SA_ConnectionQueue sharedQueue]->_wifiAvailable);
+    
+    [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_ConnectionReachabilityChanged object:[SA_ConnectionQueue sharedQueue]];
 }
 
 - (void) determineConnectionLevelAvailable {

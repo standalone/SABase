@@ -263,6 +263,7 @@ extern NSString *kConnectionNotification_ConnectionStarted;
 extern NSString *kConnectionNotification_Dequeued;
 extern NSString *kConnectionNotification_ConnectionFinished, *kConnectionNotification_ConnectionCancelled, *kConnectionNotification_ConnectionFailed;
 extern NSString *kConnectionNotification_ConnectionStateChanged;
+extern NSString *kConnectionNotification_ConnectionReachabilityChanged;
 
 
 
