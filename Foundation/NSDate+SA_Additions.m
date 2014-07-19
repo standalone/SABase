@@ -450,99 +450,103 @@
 }
 
 - (NSDate *) midnight {
-	time_t				mySeconds = [self timeIntervalSince1970];
-	struct tm			myInfo = *localtime(&mySeconds);
-	NSDate				*newDate = [NSDate dateWithTimeIntervalSinceReferenceDate: floor([self timeIntervalSinceReferenceDate]) -1 * (myInfo.tm_hour * 3600 + myInfo.tm_min * 60 + myInfo.tm_sec)];
-	NSTimeZone			*localZone = [NSTimeZone localTimeZone];
-	NSInteger			myOffset = [localZone secondsFromGMTForDate: self], newOffset = [localZone secondsFromGMTForDate: newDate];
+	NSCalendar				*cal = [NSCalendar currentCalendar];
+	NSDateComponents		*components = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
 	
-	
-	if (myOffset == newOffset) return newDate;
-	
-	newDate = [newDate dateByAddingTimeIntervalAmount: (myOffset - newOffset)];
-	return newDate;
-	
+	components.hour = 0;
+	components.minute = 0;
+	components.second = 0;
+	return [cal dateFromComponents: components];
 }
 
 - (NSDate *) noon {
-	time_t				mySeconds = [self timeIntervalSince1970];
-	struct tm			myInfo = *localtime(&mySeconds);
-	NSDate				*newDate = [self dateByAddingTimeIntervalAmount: -1 * (myInfo.tm_hour * 3600 + myInfo.tm_min * 60 + myInfo.tm_sec) + 12 * 3600];
-	NSTimeZone			*localZone = [NSTimeZone localTimeZone];
-	NSInteger			myOffset = [localZone secondsFromGMTForDate: self], newOffset = [localZone secondsFromGMTForDate: newDate];
+	NSCalendar				*cal = [NSCalendar currentCalendar];
+	NSDateComponents		*components = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
 	
-	
-	if (myOffset == newOffset) return newDate;
-	
-	newDate = [newDate dateByAddingTimeIntervalAmount: (myOffset - newOffset)];
-	return newDate;
+	components.hour = 12;
+	components.minute = 0;
+	components.second = 0;
+	return [cal dateFromComponents: components];
 }
 
 - (NSDate *) lastSecond {
-	time_t				mySeconds = [self timeIntervalSince1970];
-	struct tm			myInfo = *localtime(&mySeconds);
-	NSDate				*newDate = [NSDate dateWithTimeIntervalSinceReferenceDate: ceil([self timeIntervalSinceReferenceDate]) + ((23 - myInfo.tm_hour) * 3600 + (59 - myInfo.tm_min) * 60 + (58 - myInfo.tm_sec))];
-	NSTimeZone			*localZone = [NSTimeZone localTimeZone];
-	NSInteger			myOffset = [localZone secondsFromGMTForDate: self], newOffset = [localZone secondsFromGMTForDate: newDate];
+	NSCalendar				*cal = [NSCalendar currentCalendar];
+	NSDateComponents		*components = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
 	
-	
-	if (myOffset == newOffset) return newDate;
-	
-	newDate = [newDate dateByAddingTimeIntervalAmount: (myOffset - newOffset)];
-	return newDate;
-	
-//	return [NSDate dateWithTimeIntervalSinceReferenceDate: ceil([self timeIntervalSinceReferenceDate]) + ((23 - myInfo.tm_hour) * 3600 + (59 - myInfo.tm_min) * 60 + (58 - myInfo.tm_sec))];
-//	return [self dateByAddingTimeIntervalAmount: -1 * (myInfo.tm_hour * 3600 + myInfo.tm_min * 60 + myInfo.tm_sec) + 24 * 3600 - 1];
+	components.hour = 23;
+	components.minute = 59;
+	components.second = 59;
+	return [cal dateFromComponents: components];
 }
 
 - (NSDate *) firstDayOfMonth {
-	time_t				mySeconds = [self timeIntervalSince1970];
-	struct tm			myInfo = *localtime(&mySeconds);
+	NSCalendar				*cal = [NSCalendar currentCalendar];
+	NSDateComponents		*components = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
 	
-	myInfo.tm_mday = 1;
-	mySeconds = mktime(&myInfo);
-	
-	return [NSDate dateWithTimeIntervalSince1970: mySeconds];
+	components.day = 1;
+	return [cal dateFromComponents: components];
 }
 
 - (NSDate *) lastDayOfMonth {
-	time_t				mySeconds = [self timeIntervalSince1970];
-	struct tm			myInfo = *localtime(&mySeconds);
+	NSCalendar				*cal = [NSCalendar currentCalendar];
+	NSDateComponents		*components = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
 	
-	if (myInfo.tm_mon == 1) {			//special case feb
-		myInfo.tm_mday = (myInfo.tm_year % 4 == 0 && (myInfo.tm_year % 100 || myInfo.tm_year % 400 == 0)) ? 29 : 28;
-	} else {
-		NSInteger		days[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-		
-		myInfo.tm_mday = (int) days[myInfo.tm_mon];
-	}
-	mySeconds = mktime(&myInfo);
-	return [NSDate dateWithTimeIntervalSince1970: mySeconds];
+	components.day = self.numberOfDaysInMonth;
+	return [cal dateFromComponents: components];
 }
 
 - (NSUInteger) numberOfDaysInMonth {
-	time_t				mySeconds = [self timeIntervalSince1970];
-	struct tm			myInfo = *localtime(&mySeconds);
+	NSCalendar				*cal = [NSCalendar currentCalendar];
+	NSDateComponents		*components = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit fromDate: self];
 	
-	if (myInfo.tm_mon == 1) {			//special case feb
-		return (myInfo.tm_year % 4 == 0 && (myInfo.tm_year % 100 || myInfo.tm_year % 400 == 0)) ? 29 : 28;
+	if (components.month == 1) {			//special case feb
+		return (components.year % 4 == 0 && (components.year % 100 || components.year % 400 == 0)) ? 29 : 28;
 	}
 	NSInteger		days[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 	
-	return days[myInfo.tm_mon];
+	return days[components.month];
 }
 
 - (NSDate *) previousDay {
-	NSDate		*date = [self dateByAddingTimeIntervalAmount: -1 * 60 * 60 * 24];
+	NSCalendar				*cal = [NSCalendar currentCalendar];
+	NSDateComponents		*components = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
+	NSDateComponents		*myComponents = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
 	
-	if (date.day == self.day) return [date dateByAddingTimeIntervalAmount: -1 * 60 * 60];
-	return date;
+	components.minute = 0;
+	components.second = 0;
+	components.day = 0;
+	components.month = 0;
+	components.year = 0;
+	components.hour = -24;
+	NSDate					*previousDay = [cal dateByAddingComponents: components toDate: self options: 0];
+	NSDateComponents		*prevComponents = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: previousDay];
+	
+	if (myComponents.month == prevComponents.month && myComponents.day > (prevComponents.day + 1)) {	//double check DST shift
+		components.hour = -23;
+		previousDay = [cal dateByAddingComponents: components toDate: self options: 0];
+	}
+	return previousDay;
 }
 
 - (NSDate *) nextDay {
-	NSDate				*date = [self dateByAddingTimeIntervalAmount: 60 * 60 * 24];
-	if (date.day == self.day) return [date dateByAddingTimeInterval: 60.0 * 60.0];
-	return date;
+	NSCalendar				*cal = [NSCalendar currentCalendar];
+	NSDateComponents		*components = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
+	NSDateComponents		*myComponents = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
+	
+	components.minute = 0;
+	components.second = 0;
+	components.day = 0;
+	components.month = 0;
+	components.year = 0;
+	components.hour = 24;
+	NSDate					*nextDay = [cal dateByAddingComponents: components toDate: self options: 0];
+	NSDateComponents		*nextComponents = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: nextDay];
+	
+	if (myComponents.month == nextComponents.month && myComponents.day > (nextComponents.day - 1)) {	//double check DST shift
+		components.hour = 23;
+		nextDay = [cal dateByAddingComponents: components toDate: self options: 0];
+	}
+	return nextDay;
 }
 
 

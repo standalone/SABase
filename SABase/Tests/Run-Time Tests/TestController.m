@@ -59,7 +59,12 @@
 		SA_BASE_LOG(@"Date2: %@", date2);
 
 	});
-																			 
+	
+	NSDate					*today = [NSDate date];
+	NSDate					*yesterday = [today previousDay];
+	
+	LOG(@"Today: %@ / %@", today, yesterday);
+
 	[super viewDidAppear: animated];
 	[SA_PleaseWaitDisplay showPleaseWaitDisplayWithMajorText: @"Please" 
 												   minorText: @"Minor Text Label" cancelLabel: @"Cancel Button" showProgressBar: NO delegate: nil];

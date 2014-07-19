@@ -389,6 +389,7 @@
 		B5A12A23152FEF4A0081FAAD /* SA_Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */; };
 		B5A12A24152FEF4A0081FAAD /* SA_Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */; };
 		B5A1764F157D7AD200BA3FEC /* SA_Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */; };
+		B5B910D71979F60E007A74DD /* NSError+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B52BF7E61871CD2C009F4A4C /* NSError+SA_Additions.m */; };
 		B5D3ABAB15FD3E070052F459 /* CAAnimation+SA_Blocks.h in Headers */ = {isa = PBXBuildFile; fileRef = B5D3ABA915FD3E070052F459 /* CAAnimation+SA_Blocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B5D3ABAC15FD3E070052F459 /* CAAnimation+SA_Blocks.h in Headers */ = {isa = PBXBuildFile; fileRef = B5D3ABA915FD3E070052F459 /* CAAnimation+SA_Blocks.h */; };
 		B5D3ABAD15FD3E070052F459 /* CAAnimation+SA_Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = B5D3ABAA15FD3E070052F459 /* CAAnimation+SA_Blocks.m */; };
@@ -1388,6 +1389,7 @@
 				B55E0929151660DD0097CC69 /* UIBarButtonItem+SA_Additions.m in Sources */,
 				B55E092F151660DD0097CC69 /* UIButton+SA_Additions.m in Sources */,
 				B55E0935151660DD0097CC69 /* UIColor+SA_Additions.m in Sources */,
+				B5B910D71979F60E007A74DD /* NSError+SA_Additions.m in Sources */,
 				B55E093B151660DD0097CC69 /* UIDevice+SA_Additions.m in Sources */,
 				B55E0941151660DD0097CC69 /* UIImage+SA_Additions.m in Sources */,
 				B55E0947151660DD0097CC69 /* UIImageView+SA_Additions.m in Sources */,

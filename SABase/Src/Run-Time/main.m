@@ -38,5 +38,5 @@ void		RunTestsWithClassNamed(NSString *className) {
 		[object performSelector: method];
 	}
 	
-	SA_BASE_SA_BASE_LOG(@"%@ passed %d tests", className, numMethods);
+	LOG(@"%@ passed %d tests", className, numMethods);
 }

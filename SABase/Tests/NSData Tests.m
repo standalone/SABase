@@ -19,6 +19,11 @@
 	
 	STAssertTrue([encoded isEqualToString: encodedString], @"Base64 Encoding failed");
     
+	NSDate					*today = [NSDate date];
+	NSDate					*yesterday = [today previousDate];
+	
+	LOG(@"Today: %@ / %@", today, yesterday);
+	
 }
 
 

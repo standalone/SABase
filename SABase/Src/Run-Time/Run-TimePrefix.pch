@@ -7,12 +7,27 @@
     #import <UIKit/UIKit.h>
 	
 	#import "SA_Utilities.h"
+	#import "NSString+SA_Additions.h"
+	#import "NSData+SA_Additions.h"
+	#import "NSObject+SA_Additions.h"
+	#import "NSNotificationCenter+SA_Additions.h"
+	#import "NSManagedObjectContext+SA_Additions.h"
+	#import "NSManagedObject+SA_Additions.h"
+	#import "UIActionSheet+SA_Additions.h"
+	#import "NSBundle+SA_Additions.h"
+	#import "UIBarButtonItem+SA_Additions.h"
+	#import "UIDevice+SA_Additions.h"
+	#import "UIView+SA_Additions.h"
+	#import "NSUserDefaults+SA_Additions.h"
+	#import "UIGestureRecognizer+SA_Additions.h"
 #endif
 
 
 #define RUN_TIME_TESTS
+extern BOOL s_DEBUG_mode;
 
 
 #define	SenTestCase				NSObject
 #define	STAssertTrue			SA_Assert
 
+#define		SA_BASE_LOG(...)	{NSLog(__VA_ARGS__);}	
