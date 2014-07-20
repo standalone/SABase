@@ -226,3 +226,24 @@
 }
 
 @end
+
+
+@implementation UIScreen (SA_Additions)
+- (CGRect) currentFrameConsideringInterfaceOrientation {
+	CGRect				screenBounds = self.bounds;
+	CGFloat				maxSize = MAX(screenBounds.size.width, screenBounds.size.height);
+	CGFloat				minSize = MIN(screenBounds.size.width, screenBounds.size.height);
+//	NSLog(@"Orientation: %d, maxSize: %.0f, minSize: %.0f", [UIDevice currentDevice].userInterfaceOrientation, maxSize, minSize);
+	
+	switch ([UIDevice currentDevice].userInterfaceOrientation) {
+		case UIInterfaceOrientationPortrait:
+		case UIInterfaceOrientationPortraitUpsideDown:
+			return CGRectMake(0, 0, minSize, maxSize);
+			
+		case UIInterfaceOrientationLandscapeLeft:
+		case UIInterfaceOrientationLandscapeRight:
+			return CGRectMake(0, 0, maxSize, minSize);
+	}
+	return screenBounds;
+}
+@end

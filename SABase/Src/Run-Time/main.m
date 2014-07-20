@@ -16,6 +16,8 @@ int main(int argc, char *argv[]) {
 		RunTestsWithClassNamed(@"NSDate_Tests");
 		RunTestsWithClassNamed(@"NSURL_Tests");
 		
+		[[UIScreen mainScreen] currentFrameConsideringInterfaceOrientation];
+		
 		UIApplicationMain(argc, argv, nil, nil);
 	}
     return 0;

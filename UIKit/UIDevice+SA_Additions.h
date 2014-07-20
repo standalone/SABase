@@ -30,3 +30,8 @@ typedef enum {
 @property (nonatomic, readonly) NSString *legacyUniqueIdentifier;
 
 @end
+
+
+@interface UIScreen (SA_Additions)
+//- (CGRect) currentFrameConsideringInterfaceOrientation;		//not working properly yet
+@end
