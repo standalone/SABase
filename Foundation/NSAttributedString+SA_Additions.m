@@ -13,10 +13,12 @@
 
 + (id) stringWithString: (NSString *) string { return [self stringWithString: string attributes: @{  }]; }
 + (id) stringWithString: (NSString *) string attributes: (NSDictionary *) attr {
-	return [[self alloc] initWithString: string attributes: attr];
+	return [[self alloc] initWithString: string ?: @"" attributes: attr ?: @{}];
 }
 
 - (id) stringByAppendingAttributedString: (NSAttributedString *) string {
+	if (string.length == 0) return self;
+	
 	NSMutableAttributedString				*base = [[NSMutableAttributedString alloc] init];
 	
 	[base appendAttributedString: self];
@@ -31,11 +33,11 @@
 @implementation NSMutableAttributedString (SA_Additions)
 
 - (void) appendString: (NSString *) string {
-	[self appendAttributedString: [NSAttributedString stringWithString: string]];
+	[self appendAttributedString: [NSAttributedString stringWithString: string ?: @""]];
 }
 
 - (void) appendString: (NSString *) string attributes: (NSDictionary *) attr {
-	[self appendAttributedString: [NSAttributedString stringWithString: string attributes: attr]];
+	[self appendAttributedString: [NSAttributedString stringWithString: string ?: @"" attributes: attr ?: @{}]];
 }
 
 - (void) setFont: (UIFont *) font {
