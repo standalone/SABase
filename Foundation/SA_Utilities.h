@@ -66,6 +66,7 @@
 #define				OS_50_BUILD					(__IPHONE_OS_VERSION_MAX_ALLOWED >= 50000)
 #define				OS_60_BUILD					(__IPHONE_OS_VERSION_MAX_ALLOWED >= 60000)
 #define				OS_70_BUILD					(__IPHONE_OS_VERSION_MAX_ALLOWED >= 70000)
+#define				OS_80_BUILD					(__IPHONE_OS_VERSION_MAX_ALLOWED >= 80000)
 #define				RUNNING_UNDER_ARC			((__has_feature(objc_arc)))
 #define				NOT_RUNNING_UNDER_ARC		(!(RUNNING_UNDER_ARC))
 
@@ -133,6 +134,12 @@
 		#define				RUNNING_ON_70					(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_7_0)
 	#else
 		#define				RUNNING_ON_70					([[UIDevice currentDevice].systemVersion intValue] >= 7)
+	#endif
+
+	#ifdef NSFoundationVersionNumber_iOS_8_0
+		#define				RUNNING_ON_80					(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_8_0)
+	#else
+		#define				RUNNING_ON_80					([[UIDevice currentDevice].systemVersion intValue] >= 8)
 	#endif
 
 	#define				IS_RETINA_DEVICE				([UIScreen mainScreen].scale > 1.0)
