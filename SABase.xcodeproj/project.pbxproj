@@ -53,6 +53,7 @@
 		B52550AE1915DF5400411D4B /* SA_ThreadsafeMutableCollections.h in Headers */ = {isa = PBXBuildFile; fileRef = B52550AC1915DF5300411D4B /* SA_ThreadsafeMutableCollections.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B52550AF1915DF5400411D4B /* SA_ThreadsafeMutableCollections.m in Sources */ = {isa = PBXBuildFile; fileRef = B52550AD1915DF5400411D4B /* SA_ThreadsafeMutableCollections.m */; };
 		B52550B01915DF5F00411D4B /* SA_ThreadsafeMutableCollections.m in Sources */ = {isa = PBXBuildFile; fileRef = B52550AD1915DF5400411D4B /* SA_ThreadsafeMutableCollections.m */; };
+		B5288DCD198199160076DB31 /* TestAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B5288DCA198198A90076DB31 /* TestAppDelegate.m */; };
 		B52BF7E71871CD2C009F4A4C /* NSError+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B52BF7E51871CD2C009F4A4C /* NSError+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B52BF7E81871CD2C009F4A4C /* NSError+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B52BF7E51871CD2C009F4A4C /* NSError+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B52BF7E91871CD2C009F4A4C /* NSError+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B52BF7E61871CD2C009F4A4C /* NSError+SA_Additions.m */; };
@@ -422,6 +423,8 @@
 		B523D5BC1933EBC900FC2C4E /* CGContextRef_additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CGContextRef_additions.h; sourceTree = "<group>"; };
 		B52550AC1915DF5300411D4B /* SA_ThreadsafeMutableCollections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SA_ThreadsafeMutableCollections.h; path = Foundation/SA_ThreadsafeMutableCollections.h; sourceTree = SOURCE_ROOT; };
 		B52550AD1915DF5400411D4B /* SA_ThreadsafeMutableCollections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SA_ThreadsafeMutableCollections.m; path = Foundation/SA_ThreadsafeMutableCollections.m; sourceTree = SOURCE_ROOT; };
+		B5288DC9198198A90076DB31 /* TestAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestAppDelegate.h; sourceTree = "<group>"; };
+		B5288DCA198198A90076DB31 /* TestAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestAppDelegate.m; sourceTree = "<group>"; };
 		B52BF7E51871CD2C009F4A4C /* NSError+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+SA_Additions.h"; sourceTree = "<group>"; };
 		B52BF7E61871CD2C009F4A4C /* NSError+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+SA_Additions.m"; sourceTree = "<group>"; };
 		B542238D15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+SA_Additions.h"; sourceTree = "<group>"; };
@@ -840,6 +843,8 @@
 			children = (
 				B58306FB1516548600CC57DE /* main.m */,
 				B58306FC1516548600CC57DE /* Run-TimePrefix.pch */,
+				B5288DC9198198A90076DB31 /* TestAppDelegate.h */,
+				B5288DCA198198A90076DB31 /* TestAppDelegate.m */,
 			);
 			path = "Run-Time";
 			sourceTree = "<group>";
@@ -1066,7 +1071,7 @@
 			name = "Unit Tests";
 			productName = "Unit Tests";
 			productReference = B50261D711CD233E00417EA6 /* Unit Tests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 		B5E39B71123BA9EE00FC1FE7 /* Run-Time Tests */ = {
 			isa = PBXNativeTarget;
@@ -1386,6 +1391,7 @@
 				B55E0911151660DD0097CC69 /* SA_SplashScreenImageView.m in Sources */,
 				B55E0917151660DD0097CC69 /* SA_StackedScrollView.m in Sources */,
 				B55E0923151660DD0097CC69 /* UIActionSheet+SA_Additions.m in Sources */,
+				B5288DCD198199160076DB31 /* TestAppDelegate.m in Sources */,
 				B55E0929151660DD0097CC69 /* UIBarButtonItem+SA_Additions.m in Sources */,
 				B55E092F151660DD0097CC69 /* UIButton+SA_Additions.m in Sources */,
 				B55E0935151660DD0097CC69 /* UIColor+SA_Additions.m in Sources */,
@@ -1702,8 +1708,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Ben Gottlieb (JW8DK48L4U)";
 				COPY_PHASE_STRIP = NO;
+				DEFINES_MODULE = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1729,9 +1737,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SABase/Src/Run-Time/Run-TimePrefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
