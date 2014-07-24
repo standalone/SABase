@@ -298,15 +298,17 @@ static SA_CustomAlert *s_currentAlert;
 			[self addButtonAtIndex: i];
 		}
 
-		UIInterpolatingMotionEffect		*xAxisEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath: @"center.x" type: UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
+		Class							interpolator = NSClassFromString(@"UIInterpolatingMotionEffect");
+		UIInterpolatingMotionEffect		*xAxisEffect = [[interpolator alloc] initWithKeyPath: @"center.x" type: UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
 		xAxisEffect.minimumRelativeValue = @-10;
 		xAxisEffect.maximumRelativeValue = @10;
 		
-		UIInterpolatingMotionEffect		*yAxisEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath: @"center.y" type: UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
+		UIInterpolatingMotionEffect		*yAxisEffect = [[interpolator alloc] initWithKeyPath: @"center.y" type: UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
 		yAxisEffect.minimumRelativeValue = @-10;
 		yAxisEffect.maximumRelativeValue = @10;
 		
-		UIMotionEffectGroup				*group = [[UIMotionEffectGroup alloc] init];
+		Class							groupClass = NSClassFromString(@"UIMotionEffectGroup");
+		UIMotionEffectGroup				*group = [[groupClass alloc] init];
 		group.motionEffects = @[ xAxisEffect, yAxisEffect ];
 		[self.alertBaseView addMotionEffect: group];
 	}
