@@ -50,6 +50,7 @@ typedef enum {
 - (NSString *) dayMonthDateString;
 - (NSString *) UTCString;
 - (NSString *) veryShortDateString;
+- (NSString *) prettyShortTimeString;
 - (NSString *) logString;
 
 - (NSString *) shortRelativeString;
