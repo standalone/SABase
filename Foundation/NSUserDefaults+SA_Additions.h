@@ -7,8 +7,10 @@
 
 #import <Foundation/Foundation.h>
 
-
 @interface NSUserDefaults (SA_Additions)
+
++ (void) setCurrentDefaultsGroup: (NSString *) group;
++ (NSUserDefaults *) standardGroupDefaults;
 
 - (BOOL) isSetting: (NSString *) settingKey upToVersion: (int) properVersion updatingIfNeeded: (BOOL) update;
 
