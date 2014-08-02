@@ -11,6 +11,7 @@
 
 + (void) setCurrentDefaultsGroup: (NSString *) group;
 + (NSUserDefaults *) standardGroupDefaults;
++ (NSString *) currentDefaultsGroup;
 
 - (BOOL) isSetting: (NSString *) settingKey upToVersion: (int) properVersion updatingIfNeeded: (BOOL) update;
 

@@ -7,13 +7,22 @@
 
 
 static NSUserDefaults *s_groupedUserDefaults = nil;
+static NSString *s_currentDefaultsGroup = nil;
 
 
 
 @implementation NSUserDefaults (SA_Additions)
 
-+ (void) setCurrentDefaultsGroup: (NSString *) group { s_groupedUserDefaults = [[NSUserDefaults alloc] initWithSuiteName: group]; }
++ (void) setCurrentDefaultsGroup: (NSString *) group {
+	if (group != nil && [s_currentDefaultsGroup isEqual: group]) return;
+	if (group == nil && s_currentDefaultsGroup == nil) return;
+	
+	s_currentDefaultsGroup = group;
+	s_groupedUserDefaults = [[NSUserDefaults alloc] initWithSuiteName: group];
+}
+
 + (NSUserDefaults *) standardGroupDefaults { return s_groupedUserDefaults; }
++ (NSString *) currentDefaultsGroup { return s_currentDefaultsGroup; }
 
 - (BOOL) isSetting: (NSString *) settingKey upToVersion: (int) properVersion updatingIfNeeded: (BOOL) update {
 	NSUInteger				currentVersion = [self integerForKey: settingKey];
