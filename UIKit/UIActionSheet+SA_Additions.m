@@ -7,12 +7,14 @@
 
 
 #import "NSObject+SA_Additions.h"
+#import "dispatch_additions_SA.h"
 
-#define					kButtonTagsKey			@"buttonTags:SAI"
-#define					kButtonBlockKey			@"ClickedButtonAtIndex:SAI"
+#define					kButtonTagsKey				@"buttonTags:SAI"
+#define					kButtonBlockKey				@"ClickedButtonAtIndex:SAI"
+#define					kRunBlockAfterDismissKey	@"RunBlockAfterDismissAtIndex:SAI"
 
 @implementation UIActionSheet (SA_AdditionsForButtons)
-@dynamic SA_buttonSelectBlock;
+
 - (void) addButtonWithTitle: (NSString *) title andSA_Tag: (int) tag {
 	NSMutableDictionary				*dictionary = [self associatedValueForKey: kButtonTagsKey];
 	
@@ -24,6 +26,16 @@
 	[dictionary setObject: @(tag) forKey: title];
 	[self addButtonWithTitle: title];
 }
+
+- (void) setShouldRunBlockAfterDismissal: (BOOL) runAfter {
+	if (runAfter) {
+		[self associateValue: @true forKey: kRunBlockAfterDismissKey];
+	} else {
+		[self removeAssociateValueForKey: kRunBlockAfterDismissKey];
+	}
+}
+
+- (BOOL) shouldRunBlockAfterDismissal { return [[self associatedValueForKey: kRunBlockAfterDismissKey] boolValue]; }
 
 - (int) SA_TagForButtonAtIndex: (NSUInteger) index {
 	if (index >= self.numberOfButtons) return 0;
@@ -37,9 +49,21 @@
 }
 
 - (void) actionSheet: (UIActionSheet *) actionSheet clickedButtonAtIndex: (NSInteger) buttonIndex {
-	actionSheetButtonSelectedBlock			block = [self associatedValueForKey: kButtonBlockKey];
-	block(buttonIndex);
-	[self associateValue: nil forKey: kButtonBlockKey];
+	if (!self.shouldRunBlockAfterDismissal) {
+		actionSheetButtonSelectedBlock			block = [self associatedValueForKey: kButtonBlockKey];
+		if (block) block(buttonIndex);
+		[self associateValue: nil forKey: kButtonBlockKey];
+	}
+}
+
+- (void)actionSheet: (UIActionSheet *) actionSheet didDismissWithButtonIndex: (NSInteger) buttonIndex {
+	if (self.shouldRunBlockAfterDismissal) {
+		actionSheetButtonSelectedBlock			block = [self associatedValueForKey: kButtonBlockKey];
+		if (block) dispatch_async_main_queue(^{
+			block(buttonIndex);
+			[self associateValue: nil forKey: kButtonBlockKey];
+		});
+	}
 }
 
 - (void) showFromView: (UIView *) view withSA_ButtonSelectedBlock: (actionSheetButtonSelectedBlock) block {
@@ -79,6 +103,7 @@
 		[self performSelectorOnMainThread: @selector(showFromView:) withObject: view waitUntilDone: NO];
 		return;
 	}
+	
 	if ([view isKindOfClass: [UIControl class]] && RUNNING_ON_IPAD) {
 		[self showFromRect: [view bounds] inView: view animated: YES];
 	} else if ([view isKindOfClass: [UITabBar class]]) {

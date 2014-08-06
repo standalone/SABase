@@ -13,6 +13,7 @@ typedef void (^actionSheetButtonSelectedBlock)(NSInteger buttonIndex);
 @interface UIActionSheet (SA_AdditionsForButtons)
 
 @property (nonatomic, copy) actionSheetButtonSelectedBlock SA_buttonSelectBlock;
+@property (nonatomic) BOOL shouldRunBlockAfterDismissal;
 
 - (void) addButtonWithTitle: (NSString *) title andSA_Tag: (int) tag;
 - (int) SA_TagForButtonAtIndex: (NSUInteger) index;
