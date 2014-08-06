@@ -8,6 +8,39 @@
 #import "UIViewController+SA_Additions.h"
 
 
+__weak UIViewController *s_frontmostFocusedViewController = nil;
+
+
+//================================================================================================================
+#pragma mark SA_ViewController
+@implementation SA_ViewController : UIViewController
++ (UIViewController *) frontmostFocusedViewController {
+	return [(id) s_frontmostFocusedViewController focusedViewControllerAncestor];
+}
+
+- (BOOL) canBeFrontmostFocusedViewController {
+	return self.splitViewController == nil && self.tabBarController == nil;
+}
+
+- (void) viewWillAppear: (BOOL) animated {
+	s_frontmostFocusedViewController = self;
+	[super viewWillAppear: animated];
+}
+
+@end
+
+//================================================================================================================
+#pragma mark SA_TableViewController
+@implementation SA_TableViewController : UITableViewController
+- (void) viewWillAppear: (BOOL) animated {
+	s_frontmostFocusedViewController = self;
+	[super viewWillAppear: animated];
+}
+
+- (BOOL) canBeFrontmostFocusedViewController { return YES; }
+@end
+
+
 @implementation UINavigationController (UINavigationController__SA_Additions)
 @dynamic rootViewController;
 - (UIViewController *) rootViewController { return self.viewControllers.count ? self.viewControllers[0] : nil; }
@@ -15,10 +48,16 @@
 
 
 @implementation UIViewController (UIViewController_SA_Additions)
-@dynamic farthestAncestorController;
 
 + (id) simpleController {
 	return [[self alloc] init];
+}
+
+- (UIViewController *) focusedViewControllerAncestor {
+	if (self.parentViewController && [self.parentViewController respondsToSelector: @selector(focusedViewControllerAncestor)]) return [(id) self.parentViewController focusedViewControllerAncestor];
+	if (self.tabBarController) return self.tabBarController;
+	if (self.navigationController) return self.navigationController;
+	return self;
 }
 
 - (void) addFullSizeChildViewController: (UIViewController *) controller {
@@ -139,16 +178,4 @@
 		}
 	}
 }
-
-- (UIViewController *) farthestAncestorController {
-	UIViewController			*parent = self.parentViewController;
-	
-	while (parent.parentViewController) {
-		parent = parent.parentViewController;
-	}
-	
-	return parent;
-}
-
-
 @end
