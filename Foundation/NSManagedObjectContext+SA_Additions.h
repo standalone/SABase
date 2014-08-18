@@ -28,26 +28,26 @@ extern NSString *kNotification_PersistentStoreResetDueToSchemaChange;
 - (NSArray *) objectsWithIDs: (NSArray *) objectIDs;
 
 + (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator;
-+ (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator concurrencyType: (int) type;
-+ (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator model: (NSManagedObjectModel *) model concurrencyType: (int) type;
-+ (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator modelPath: (NSString *) modelPath concurrencyType: (int) type;
++ (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator concurrencyType: (NSInteger) type;
++ (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator model: (NSManagedObjectModel *) model concurrencyType: (NSInteger) type;
++ (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator modelPath: (NSString *) modelPath concurrencyType: (NSInteger) type;
 
 - (id) copy;
 - (id) insertNewEntityWithName: (NSString *) name;
 - (id) objectWithIDString: (NSString *) string;
 
-- (NSFetchRequest *) fetchRequestWithEntityName: (NSString *) entityName predicate: (NSPredicate *) predicate sortBy: (NSArray *) sortBy fetchLimit: (int) fetchLimit;
+- (NSFetchRequest *) fetchRequestWithEntityName: (NSString *) entityName predicate: (NSPredicate *) predicate sortBy: (NSArray *) sortBy fetchLimit: (NSInteger) fetchLimit;
 - (id) anyObjectOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate;
 - (id) firstObjectOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate sortedBy: (NSArray *) sortDescriptors;
 - (id) nth: (NSUInteger) n objectOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate sortedBy: (NSArray *) sort;
-- (NSArray *) allObjectsOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate sortedBy: (NSArray *) sortDescriptors fetchLimit: (int) fetchLimit;
+- (NSArray *) allObjectsOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate sortedBy: (NSArray *) sortDescriptors fetchLimit: (NSInteger) fetchLimit;
 - (NSArray *) allObjectsOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate;
 - (NSArray *) allObjectsOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate sortedBy: (NSArray *) sortDescriptors;
-- (NSArray *) nObjects: (int) n ofType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate sortedBy: (NSArray *) sortDescriptors;
+- (NSArray *) nObjects: (NSInteger) n ofType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate sortedBy: (NSArray *) sortDescriptors;
 - (NSUInteger) numberOfObjectsOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate;
 
 - (void) deleteObjectsOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate;
-- (void) deleteObjectsOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate withFetchLimit: (int) fetchLimit;
+- (void) deleteObjectsOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate withFetchLimit: (NSInteger) fetchLimit;
 - (void) save;
 - (BOOL) isSaveNecessary;
 - (void) saveIfNecessary;

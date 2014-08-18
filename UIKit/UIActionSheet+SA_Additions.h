@@ -14,8 +14,8 @@ typedef void (^actionSheetButtonSelectedBlock)(NSInteger buttonIndex);
 
 @property (nonatomic, copy) actionSheetButtonSelectedBlock SA_buttonSelectBlock;
 
-- (void) addButtonWithTitle: (NSString *) title andSA_Tag: (int) tag;
-- (int) SA_TagForButtonAtIndex: (NSUInteger) index;
+- (void) addButtonWithTitle: (NSString *) title andSA_Tag: (NSInteger) tag;
+- (NSInteger) SA_TagForButtonAtIndex: (NSUInteger) index;
 - (void) clearSA_Tags;
 - (void) showFromView: (UIView *) view withSA_ButtonSelectedBlock: (intArgumentBlock) block;
 - (void) showFromBarButtonItem: (UIBarButtonItem *) item withSA_ButtonSelectedBlock: (intArgumentBlock) block;

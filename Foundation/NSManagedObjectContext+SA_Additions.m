@@ -14,12 +14,6 @@
 	#import "SA_AlertView.h"
 #endif
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 50000
-@interface NSObject (DummyCategory)
-- (id) initWithConcurrencyType: (int) type;
-@end
-#endif
-
 NSString *kNotification_PersistentStoreResetDueToSchemaChange = @"kNotification_PersistentStoreResetDueToSchemaChange";
 NSString *UPDATE_BLOCKS_KEY = @"SA_UpdateBlocksArray";
 NSString *TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY = @"SA_TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY";
@@ -32,18 +26,18 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	return [self contextAtPath: path inPersistentStoreCoordinator: coordinator model: nil concurrencyType: 0 /*NSConfinementConcurrencyType */];
 }
 
-+ (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator concurrencyType: (int) type {
++ (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator concurrencyType: (NSInteger) type {
 	return [self contextAtPath: path inPersistentStoreCoordinator: coordinator model: nil concurrencyType: type];
 }
 
-+ (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator modelPath: (NSString *) modelPath concurrencyType: (int) type {
++ (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator modelPath: (NSString *) modelPath concurrencyType: (NSInteger) type {
 	NSManagedObjectModel					*model = [[NSManagedObjectModel alloc] initWithContentsOfURL: [NSURL fileURLWithPath: modelPath]];
 	
 	SA_Assert(modelPath.length == 0 || model != nil, @"Trying to instantiate an invalid model. Check the path and current version.");
 	return [self contextAtPath: path inPersistentStoreCoordinator: coordinator model: model concurrencyType: type];
 }
 
-+ (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator model: (NSManagedObjectModel *) model concurrencyType: (int) type {
++ (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator model: (NSManagedObjectModel *) model concurrencyType: (NSInteger) type {
 	NSDictionary						*options = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool: YES], NSMigratePersistentStoresAutomaticallyOption, [NSNumber numberWithBool: YES], NSInferMappingModelAutomaticallyOption, nil];
 	NSError								*error = nil;
 	
@@ -161,7 +155,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	return [self recordFromFetchRequest: request];
 }
 
-- (NSArray *) allObjectsOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate sortedBy: (NSArray *) sortDescriptors fetchLimit: (int) fetchLimit {
+- (NSArray *) allObjectsOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate sortedBy: (NSArray *) sortDescriptors fetchLimit: (NSInteger) fetchLimit {
 	NSFetchRequest					*request = [self fetchRequestWithEntityName: entityName predicate: predicate sortBy: sortDescriptors fetchLimit: fetchLimit];
 	if (request == nil) {
 		NSLog(@"Bad entity for allObjectsOfType:matchingPredicate:sortedBy:fetchLimit:");
@@ -171,7 +165,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	return [self recordFromFetchRequest: request];
 }
 
-- (NSFetchRequest *) fetchRequestWithEntityName: (NSString *) entityName predicate: (NSPredicate *) predicate sortBy: (NSArray *) sortBy fetchLimit: (int) fetchLimit {
+- (NSFetchRequest *) fetchRequestWithEntityName: (NSString *) entityName predicate: (NSPredicate *) predicate sortBy: (NSArray *) sortBy fetchLimit: (NSInteger) fetchLimit {
 	NSEntityDescription				*entityDescription = [NSEntityDescription entityForName: entityName inManagedObjectContext: self];
 	
 	if (entityDescription == nil) {
@@ -202,7 +196,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	return [self allObjectsOfType: entityName matchingPredicate: predicate sortedBy: sortDescriptors fetchLimit: 0];
 }
 
-- (NSArray *) nObjects: (int) n ofType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate sortedBy: (NSArray *) sortDescriptors {
+- (NSArray *) nObjects: (NSInteger) n ofType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate sortedBy: (NSArray *) sortDescriptors {
 	return [self allObjectsOfType: entityName matchingPredicate: predicate sortedBy: sortDescriptors fetchLimit: n];
 }
 
@@ -380,7 +374,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	return objects;
 }
 
-- (void) deleteObjectsOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate withFetchLimit: (int) fetchLimit {
+- (void) deleteObjectsOfType: (NSString *) entityName matchingPredicate: (NSPredicate *) predicate withFetchLimit: (NSInteger) fetchLimit {
 	NSFetchRequest						*allObjects = [[NSFetchRequest alloc] init];
 	NSEntityDescription					*entity = [NSEntityDescription entityForName: entityName inManagedObjectContext: self];
 	int									deleteCount = 0;

@@ -175,7 +175,7 @@ void * ImprovedBase64Decode(const char *inputBuffer, size_t length, size_t *outp
 }
 
 
-- (NSString *) descriptionWithLineWidth: (int) lineWidth includingHex: (BOOL) includingHex includingASCII: (BOOL) includingASCII {
+- (NSString *) descriptionWithLineWidth: (NSInteger) lineWidth includingHex: (BOOL) includingHex includingASCII: (BOOL) includingASCII {
 	#define MAXDATABYTES 1024
 
     unsigned char					*bytes = (unsigned char *)[self bytes];

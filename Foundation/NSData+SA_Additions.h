@@ -12,7 +12,7 @@
 + (NSData *) dataWithString: (NSString *) string;
 + (NSData *) dataWithBase64EncodedString: (NSString *) aString;
 
-- (NSString *) descriptionWithLineWidth: (int) lineWidth includingHex: (BOOL) includingHex includingASCII: (BOOL) includingASCII;
+- (NSString *) descriptionWithLineWidth: (NSInteger) lineWidth includingHex: (BOOL) includingHex includingASCII: (BOOL) includingASCII;
 
 
 - (NSString *) SA_base64Encoded;

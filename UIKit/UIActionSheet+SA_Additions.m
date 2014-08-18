@@ -13,7 +13,7 @@
 
 @implementation UIActionSheet (SA_AdditionsForButtons)
 @dynamic SA_buttonSelectBlock;
-- (void) addButtonWithTitle: (NSString *) title andSA_Tag: (int) tag {
+- (void) addButtonWithTitle: (NSString *) title andSA_Tag: (NSInteger) tag {
 	NSMutableDictionary				*dictionary = [self associatedValueForKey: kButtonTagsKey];
 	
 	if (dictionary == nil) {
@@ -25,7 +25,7 @@
 	[self addButtonWithTitle: title];
 }
 
-- (int) SA_TagForButtonAtIndex: (NSUInteger) index {
+- (NSInteger) SA_TagForButtonAtIndex: (NSUInteger) index {
 	if (index >= self.numberOfButtons) return 0;
 	NSMutableDictionary				*dictionary = [self associatedValueForKey: kButtonTagsKey];
 	
