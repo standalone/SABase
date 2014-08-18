@@ -280,13 +280,20 @@
 	NSInteger				hour = self.hour;
 	NSDateFormatter			*formatter = [NSDate dateFormatterInCurrentThread];
 	NSString				*pmSymbol = [formatter PMSymbol];
-
+	
 	if (pmSymbol.length) {
 		hour %= 12;
 		if (hour == 0) hour = 12;
 	}
 	
 	return [NSString stringWithFormat: @"%ld%02lu", (long)hour, (unsigned long)self.minute];
+}
+
+- (NSString *) prettyShortTimeString {
+	NSDateFormatter			*formatter = [NSDate dateFormatterInCurrentThread];
+	
+	[formatter setDateFormat: @"h:mm"];
+	return [formatter stringFromDate: self];
 }
 
 

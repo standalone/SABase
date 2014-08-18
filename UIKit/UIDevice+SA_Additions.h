@@ -33,5 +33,5 @@ typedef enum {
 
 
 @interface UIScreen (SA_Additions)
-//- (CGRect) currentFrameConsideringInterfaceOrientation;		//not working properly yet
+- (CGRect) currentFrameConsideringInterfaceOrientation;		//not working properly yet
 @end

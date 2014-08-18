@@ -18,7 +18,8 @@ typedef enum {
 } UIViewControllerAnimationDirection;
 
 @interface UIViewController (UIViewController_SA_Additions)
-@property (nonatomic, readonly) UIViewController *farthestAncestorController;
+@property (nonatomic, readonly) UIViewController *focusedViewControllerAncestor;
+
 + (id) simpleController;
 
 - (NSSet *) childControllers;
@@ -26,7 +27,6 @@ typedef enum {
 - (void) slideViewController: (UIViewController *) controller inToView: (UIView *) view fromDirection: (UIViewControllerAnimationDirection) direction withBounce: (BOOL) bounce;
 - (void) slideViewController: (UIViewController *) controller outTowardsDirection: (UIViewControllerAnimationDirection) direction;
 - (void) removeAllChildViewControllers;
-- (UIViewController *) farthestAncestorController;
 - (void) addFullSizeChildViewController: (UIViewController *) controller;
 - (void) addChildViewController: (UIViewController *) controller withViewInFrame: (CGRect) frame;
 - (void) removeFromParentViewControllerAndView;
@@ -35,4 +35,13 @@ typedef enum {
 
 @interface UINavigationController (UINavigationController__SA_Additions)
 @property (nonatomic, readonly) UIViewController *rootViewController;
+@end
+
+@interface SA_ViewController : UIViewController
++ (UIViewController *) frontmostFocusedViewController;
+
+- (BOOL) canBeFrontmostFocusedViewController;
+@end
+
+@interface SA_TableViewController : UITableViewController
 @end

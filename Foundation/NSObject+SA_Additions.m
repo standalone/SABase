@@ -34,6 +34,10 @@
 	objc_setAssociatedObject(self, (__bridge const void *)(key), value, OBJC_ASSOCIATION_RETAIN);
 }
 
+- (void) removeAssociateValueForKey: (id) key {
+	objc_setAssociatedObject(self, (__bridge const void *)(key), nil, OBJC_ASSOCIATION_RETAIN);
+}
+
 - (void) associateValueCopy: (id) value forKey: (id) key {
 	objc_setAssociatedObject(self, (__bridge const void *)(key), value, OBJC_ASSOCIATION_COPY);
 }

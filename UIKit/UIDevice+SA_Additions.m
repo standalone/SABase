@@ -243,6 +243,8 @@
 		case UIInterfaceOrientationLandscapeLeft:
 		case UIInterfaceOrientationLandscapeRight:
 			return CGRectMake(0, 0, maxSize, minSize);
+			
+		default: break;
 	}
 	return screenBounds;
 }
