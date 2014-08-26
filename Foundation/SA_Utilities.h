@@ -175,6 +175,7 @@ void		ClearConsoleLog(void);
 	#define			SA_Assert(condition, desc, ...)					IF_SIM(NSAssert(condition, desc, ##  __VA_ARGS__))
 	#define			SA_AssertAndReturn(condition, desc, ...)		IF_SIM(NSAssert(condition, desc, ##  __VA_ARGS__)); if (!(condition)) return;
 	#define			SA_AssertAndReturnNil(condition, desc, ...)		IF_SIM(NSAssert(condition, desc, ##  __VA_ARGS__)); if (!(condition)) return nil;
+	#define			SA_AssertAndReturnNO(condition, desc, ...)		IF_SIM(NSAssert(condition, desc, ##  __VA_ARGS__)); if (!(condition)) return NO;
 
 	#if TARGET_OS_IPHONE
 		#define			SA_TRY(a)										@try {a;} @catch (id e) {[SA_AlertView showAlertWithException: e];}
@@ -186,6 +187,7 @@ void		ClearConsoleLog(void);
 	#define			SA_Assert(condition, desc, ...)					if (!(condition)) LOG(desc)
 	#define			SA_AssertAndReturn(condition, desc, ...)		if (!(condition)) {LOG(desc); return;}
 	#define			SA_AssertAndReturnNil(condition, desc, ...)		if (!(condition)) {LOG(desc); return nil;}
+	#define			SA_AssertAndReturnNO(condition, desc, ...)		if (!(condition)) {LOG(desc); return NO;}
 
 	#define			SA_TRY(a)										@try {a;} @catch (id e) {}
 #endif
