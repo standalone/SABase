@@ -19,7 +19,14 @@
 }
 
 + (NSString *) version {
-	return [self infoDictionaryObjectForKey: @"CFBundleVersion"];
+	NSString			*version = [self infoDictionaryObjectForKey: @"CFBundleShortVersionString"];
+	NSString			*build = [self infoDictionaryObjectForKey: @"CFBundleVersion"];
+	
+	if ([version isEqual: build]) return version;
+	if (version.length == 0) return build;
+	if (build.length == 0) return version;
+	
+	return [NSString stringWithFormat: @"%@ (%@)", version, build];
 }
 
 + (NSString *) identifier {
