@@ -49,7 +49,7 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_titleDetailSp
 
 @implementation SA_ProgressDisplay
 
-+ (void) load {
++ (void) initialize {
 	@autoreleasepool {
 		[[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(willChangeStatusBarOrientation:) name: UIApplicationWillChangeStatusBarOrientationNotification object: nil];
 		

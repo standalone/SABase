@@ -49,7 +49,7 @@ static SA_CustomAlert *s_currentAlert;
 
 @implementation SA_CustomAlert
 
-+ (void) load {
++ (void) initialize {
 	@autoreleasepool {
 		s_alerts = [NSMutableArray array];
 		[[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(willChangeStatusBarOrientation:) name: UIApplicationWillChangeStatusBarOrientationNotification object: nil];
