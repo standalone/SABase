@@ -276,6 +276,9 @@ CGRect ConvertFrameFromLandscapeToPortrait(CGRect frame);
 CGRect CGRectPlacedInRectWithContentMode(CGRect child, CGRect parent, UIViewContentMode mode);
 #endif
 
+
+BOOL		IsDebuggerConnected(void);
+
 #define AssertCast(CLS_, OBJ_) ({ NSAssert2([(OBJ_) isKindOfClass:[CLS_ class]], @"Object %@ not of class %@", OBJ_, NSStringFromClass([CLS_ class])); (CLS_ *)(OBJ_); })
 
 //==========================================================================================

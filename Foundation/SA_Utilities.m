@@ -22,6 +22,13 @@ void		set_SA_Base_DebugMode(BOOL debug) { s_DEBUG_mode = debug; }
 
 const CGPoint		CGPointNone = {-10001.10001, -10001.10001};			
 
+BOOL		IsDebuggerConnected(void) {
+	if (!s_DEBUG_mode) return NO;
+	
+	NSNumber			*unbuffered = [NSProcessInfo processInfo].environment[@"NSUnbufferedIO"];
+	
+	return unbuffered != nil;
+}
 
 natural_t			freeMemory(BOOL logIt) {
 //    mach_port_t					host_port = mach_host_self();

@@ -320,8 +320,8 @@
 	NSDateFormatter			*formatter = [NSDateFormatter new];
 	NSLocale				*locale = [NSLocale currentLocale];
 	
-	if (formatter.timeStyle != timeFormat) [formatter setTimeStyle: timeFormat];
-	if (formatter.dateStyle != dateFormat) [formatter setDateStyle: dateFormat];
+	[formatter setTimeStyle: timeFormat];
+	[formatter setDateStyle: dateFormat];
 	
 	if (formatter.locale != locale) [formatter setLocale: locale];
 	
