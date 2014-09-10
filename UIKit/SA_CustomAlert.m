@@ -277,6 +277,7 @@ static SA_CustomAlert *s_currentAlert;
 		_alertBaseView.backgroundColor = [UIColor clearColor];
 		self.backgroundView.userInteractionEnabled = YES;
 		self.backgroundView.center = [UIWindow alertWindow].contentCenter;
+		self.backgroundView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
 		
 		self.titleLabel.center = CGPointMake(SA_CustomAlert.viewWidth / 2, SA_CustomAlert.viewMargin + self.titleLabel.bounds.size.height / 2);
 		[self.backgroundView addSubview: self.titleLabel];
@@ -292,7 +293,7 @@ static SA_CustomAlert *s_currentAlert;
 			[self.alertBaseView addSubview: view];
 		}
 		
-		self.backgroundView.transform = [UIWindow sa_transformForCurrentUserInterfaceOrientation];
+		self.backgroundView.transform = [SA_CustomAlert transformForOrientation: UIInterfaceOrientationUnknown];
 		
 		for (int i = 0; i < self.buttonTitles.count; i++) {
 			[self addButtonAtIndex: i];
