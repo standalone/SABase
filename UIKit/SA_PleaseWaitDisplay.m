@@ -419,6 +419,8 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight.png";
 		default: break;
 	}
 	
+	if (RUNNING_ON_80) newTransform = CGAffineTransformIdentity;
+	
 //	_view.center = CGPointMake(_view.bounds.size.width / 2, _view.bounds.size.height / 2);
 	_view.center = _view.superview.contentCenter;
 	//SA_BASE_LOG(@"Tranform: %@ (theirs: %@)", NSStringFromCGAffineTransform(newTransform), NSStringFromCGAffineTransform(v.transform));
