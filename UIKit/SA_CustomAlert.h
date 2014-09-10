@@ -60,3 +60,5 @@ CLASS_PROPERTY(UIColor *, buttonTitleColor, ButtonTitleColor);
 
 @end
 
+@interface SA_GradientBlockerView : UIView
+@end

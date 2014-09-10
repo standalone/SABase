@@ -26,8 +26,6 @@ static BOOL s_useStandardAlerts = NO;
 - (void) addSeparatorLineFrom: (CGPoint) start to: (CGPoint) end;
 @end
 
-@interface SA_CustomAlertBlockerView : UIView
-@end
 @interface SA_CustomAlertBlockerLayer : CALayer
 @end
 
@@ -44,7 +42,7 @@ static BOOL s_useStandardAlerts = NO;
 @end
 
 static UIWindow *s_alertWindow;
-static SA_CustomAlertBlockerView *s_blockingView;
+static SA_GradientBlockerView *s_blockingView;
 static SA_CustomAlert *s_currentAlert;
 
 @implementation SA_CustomAlert
@@ -125,10 +123,10 @@ static SA_CustomAlert *s_currentAlert;
 
 - (void) animateAlertIn {
 	self.alertBaseView.alpha = 0.0;
-	self.alertBaseView.transform = CGAffineTransformScale([SA_CustomAlert transformForOrientation: UIInterfaceOrientationUnknown], 0.001, 0.001);
+	self.alertBaseView.transform = CGAffineTransformScale([UIWindow sa_baseTransformForOrientation: UIInterfaceOrientationUnknown], 0.001, 0.001);
 	
 	[UIView animateWithDuration: SA_CustomAlert.showAlertDuration	delay: 0.0 usingSpringWithDamping: 0.8 initialSpringVelocity: 0.0 options: UIViewAnimationOptionCurveEaseOut animations:^{
-		self.alertBaseView.transform = [SA_CustomAlert transformForOrientation: UIInterfaceOrientationUnknown];
+		self.alertBaseView.transform = [UIWindow sa_baseTransformForOrientation: UIInterfaceOrientationUnknown];
 		s_blockingView.alpha = 1.0;
 		self.alertBaseView.alpha = 1.0;
 	} completion:^(BOOL finished) {
@@ -138,7 +136,7 @@ static SA_CustomAlert *s_currentAlert;
 
 - (void) animateOutWithCompletion: (simpleBlock) completion {
 	[UIView animateWithDuration: SA_CustomAlert.hideAlertDuration delay: 0.0 usingSpringWithDamping: 0.8 initialSpringVelocity: 0.0 options: UIViewAnimationOptionCurveEaseIn animations:^{
-		self.alertBaseView.transform = CGAffineTransformScale([SA_CustomAlert transformForOrientation: UIInterfaceOrientationUnknown], 0.001, 0.001);;
+		self.alertBaseView.transform = CGAffineTransformScale([UIWindow sa_baseTransformForOrientation: UIInterfaceOrientationUnknown], 0.001, 0.001);;
 		self.alertBaseView.alpha = 0.0;
 		if (s_alerts.count == 1) s_blockingView.alpha = 0.0;
 	} completion: ^(BOOL finished) {
@@ -163,7 +161,7 @@ static SA_CustomAlert *s_currentAlert;
 #pragma mark Notifications
 + (void) willChangeStatusBarOrientation: (NSNotification *) note {
 	UIInterfaceOrientation		newOrientation = [note.userInfo[UIApplicationStatusBarOrientationUserInfoKey] integerValue];
-	CGAffineTransform			newTransform = [SA_CustomAlert transformForOrientation: newOrientation];
+	CGAffineTransform			newTransform = [UIWindow sa_baseTransformForOrientation: newOrientation];
 	
 	[UIView animateWithDuration: 0.2 animations:^{
 		for (SA_CustomAlert *alert in s_alerts) {
@@ -293,7 +291,7 @@ static SA_CustomAlert *s_currentAlert;
 			[self.alertBaseView addSubview: view];
 		}
 		
-		self.backgroundView.transform = [SA_CustomAlert transformForOrientation: UIInterfaceOrientationUnknown];
+		self.backgroundView.transform = [UIWindow sa_baseTransformForOrientation: UIInterfaceOrientationUnknown];
 		
 		for (int i = 0; i < self.buttonTitles.count; i++) {
 			[self addButtonAtIndex: i];
@@ -375,13 +373,6 @@ static SA_CustomAlert *s_currentAlert;
 		[self.backgroundView addSeparatorLineFrom: CGPointMake(0, buttonFrame.origin.y - 2) to: CGPointMake(bounds.size.width, buttonFrame.origin.y - 2)];
 }
 
-+ (CGAffineTransform) transformForOrientation: (UIInterfaceOrientation) orientation {
-	if (RUNNING_ON_80) return CGAffineTransformIdentity;
-
-	if (orientation == UIInterfaceOrientationUnknown) return UIWindow.sa_transformForCurrentUserInterfaceOrientation;
-	return [UIWindow sa_transformForUserInterfaceOrientation: orientation];
-}
-
 //================================================================================================================
 #pragma mark Class properties
 + (void) setTitleFont: (UIFont *) font { s_titleFont = font; }
@@ -455,7 +446,7 @@ static SA_CustomAlert *s_currentAlert;
 @implementation UIWindow (SA_CustomAlert)
 + (UIWindow *) alertWindow {
 	if (s_alertWindow == nil) {
-		s_blockingView = [[SA_CustomAlertBlockerView alloc] initWithFrame: CGRectFromSize([UIScreen mainScreen].bounds.size)];
+		s_blockingView = [[SA_GradientBlockerView alloc] initWithFrame: CGRectFromSize([UIScreen mainScreen].bounds.size)];
 
 		s_alertWindow = [UIWindow sa_fullScreenWindowWithBaseView: s_blockingView];
 		s_alertWindow.backgroundColor = [UIColor clearColor];
@@ -521,7 +512,7 @@ static SA_CustomAlert *s_currentAlert;
 
 //=============================================================================================================================
 #pragma mark Blocker view
-@implementation SA_CustomAlertBlockerView
+@implementation SA_GradientBlockerView
 + (Class) layerClass { return [SA_CustomAlertBlockerLayer class]; }
 @end
 

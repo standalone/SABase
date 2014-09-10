@@ -11,14 +11,12 @@
 #import "dispatch_additions_SA.h"
 #import "CGContextRef_additions.h"
 #import "SA_ProgressView.h"
+#import "SA_CustomAlert.h"
 
 #define LINEAR_PROGRESS_COMPONENT_SIZE			20
 #define ROUND_PROGRESS_COMPONENT_SIZE			60
 
 @interface SA_ProgressDisplayBackgroundView : UIView
-@end
-
-@interface SA_ProgressDisplayBlockerView : UIView
 @end
 
 @interface SA_ProgressDisplayBlockerLayer : CALayer
@@ -32,7 +30,7 @@
 @end
 
 static UIWindow *s_progressWindow;
-static SA_ProgressDisplayBlockerView *s_blockingView;
+static SA_GradientBlockerView *s_blockingView;
 static SA_ProgressDisplay *s_progressDisplay;
 
 static UIFont *s_titleFont, *s_detailFont, *s_buttonFont, *s_defaultButtonFont;
@@ -119,10 +117,10 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_titleDetailSp
 			CGFloat						duration = 0.2;
 			
 			self.progressBaseView.alpha = 0.0;
-			self.progressBaseView.transform = CGAffineTransformScale(UIWindow.sa_transformForCurrentUserInterfaceOrientation, 0.001, 0.001);
+			self.progressBaseView.transform = CGAffineTransformScale([UIWindow sa_baseTransformForOrientation: UIInterfaceOrientationUnknown], 0.001, 0.001);
 			
 			[UIView animateWithDuration: duration delay: 0.0 usingSpringWithDamping: 0.8 initialSpringVelocity: 0.0 options: UIViewAnimationOptionCurveEaseOut animations:^{
-				self.progressBaseView.transform = UIWindow.sa_transformForCurrentUserInterfaceOrientation;
+				self.progressBaseView.transform = [UIWindow sa_baseTransformForOrientation: UIInterfaceOrientationUnknown];
 				s_blockingView.alpha = 1.0;
 				self.progressBaseView.alpha = 1.0;
 			} completion:^(BOOL finished) {
@@ -138,7 +136,7 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_titleDetailSp
 			CGFloat						duration = 0.2;
 
 			[UIView animateWithDuration: duration delay: 0.0 usingSpringWithDamping: 1.0 initialSpringVelocity: 0.0 options: UIViewAnimationOptionCurveEaseIn animations:^{
-				self.progressBaseView.transform = CGAffineTransformScale(UIWindow.sa_transformForCurrentUserInterfaceOrientation, 0.001, 0.001);;
+				self.progressBaseView.transform = CGAffineTransformScale([UIWindow sa_baseTransformForOrientation: UIInterfaceOrientationUnknown], 0.001, 0.001);;
 				self.progressBaseView.alpha = 0.0;
 				s_blockingView.alpha = 0.0;
 			} completion: ^(BOOL finished) {
@@ -166,7 +164,7 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_titleDetailSp
 	if (_progressBaseView == nil) {
 		_progressBaseView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, SA_ProgressDisplay.viewWidth, [self viewHeight])];
 		_progressBaseView.backgroundColor = SA_ProgressDisplay.backgroundColor;
-		_progressBaseView.transform = [UIWindow sa_transformForCurrentUserInterfaceOrientation];
+		_progressBaseView.transform = [UIWindow sa_baseTransformForOrientation: UIInterfaceOrientationUnknown];
 		_progressBaseView.layer.cornerRadius = 15;
 		_progressBaseView.layer.masksToBounds = YES;
 		_progressBaseView.center = [UIWindow progressDisplayWindow].contentCenter;
@@ -452,7 +450,7 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_titleDetailSp
 #pragma mark Notifications
 + (void) willChangeStatusBarOrientation: (NSNotification *) note {
 	UIInterfaceOrientation		newOrientation = [note.userInfo[UIApplicationStatusBarOrientationUserInfoKey] integerValue];
-	CGAffineTransform			newTransform = [UIWindow sa_transformForUserInterfaceOrientation: newOrientation];
+	CGAffineTransform			newTransform = [UIWindow sa_baseTransformForOrientation: newOrientation];
 	
 	[UIView animateWithDuration: 0.2 animations:^{
 		s_progressDisplay.progressBaseView.transform = newTransform;
@@ -526,21 +524,17 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_titleDetailSp
 @implementation UIWindow (SA_ProgressDisplay)
 + (UIWindow *) progressDisplayWindow {
 	if (s_progressWindow == nil) {
-		CGRect					frame = [UIScreen mainScreen].bounds;
+		s_blockingView = [[SA_GradientBlockerView alloc] initWithFrame: CGRectFromSize([UIScreen mainScreen].bounds.size)];
 		
-		s_progressWindow = [[UIWindow alloc] initWithFrame: frame];
+		s_progressWindow = [UIWindow sa_fullScreenWindowWithBaseView: s_blockingView];
 		s_progressWindow.backgroundColor = [UIColor clearColor];
-		s_progressWindow.windowLevel = UIWindowLevelAlert - 1.0;
+		s_progressWindow.windowLevel = UIWindowLevelAlert;
 		s_progressWindow.userInteractionEnabled = YES;
 		s_progressWindow.opaque = NO;
 		
-		s_blockingView = [[SA_ProgressDisplayBlockerView alloc] initWithFrame: CGRectFromSize(frame.size)];
-		s_blockingView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		s_blockingView.alpha = 0.0;
 		s_blockingView.backgroundColor = [UIColor colorWithWhite: 0.0 alpha: 0.25];
 		[s_blockingView.layer setNeedsDisplay];
-		[s_progressWindow addSubview: s_blockingView];
-		
 		[s_progressWindow makeKeyAndVisible];
 	}
 	return s_progressWindow;
@@ -566,16 +560,4 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_titleDetailSp
 	[[UIBezierPath bezierPathWithRoundedRect: self.bounds cornerRadius: 12] fill];
 }
 
-@end
-
-//=============================================================================================================================
-#pragma mark Blocker view
-@implementation SA_ProgressDisplayBlockerView
-+ (Class) layerClass { return [SA_ProgressDisplayBlockerLayer class]; }
-@end
-
-@implementation SA_ProgressDisplayBlockerLayer
-- (void) drawInContext: (CGContextRef) ctx {
-	CGContextDrawRadialGradientInRect(ctx, self.bounds, [UIColor clearColor], [UIColor blackColor]);
-}
 @end
