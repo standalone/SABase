@@ -125,10 +125,10 @@ static SA_CustomAlert *s_currentAlert;
 
 - (void) animateAlertIn {
 	self.alertBaseView.alpha = 0.0;
-	self.alertBaseView.transform = CGAffineTransformScale(UIWindow.sa_transformForCurrentUserInterfaceOrientation, 0.001, 0.001);
+	self.alertBaseView.transform = CGAffineTransformScale([SA_CustomAlert transformForOrientation: UIInterfaceOrientationUnknown], 0.001, 0.001);
 	
 	[UIView animateWithDuration: SA_CustomAlert.showAlertDuration	delay: 0.0 usingSpringWithDamping: 0.8 initialSpringVelocity: 0.0 options: UIViewAnimationOptionCurveEaseOut animations:^{
-		self.alertBaseView.transform = UIWindow.sa_transformForCurrentUserInterfaceOrientation;
+		self.alertBaseView.transform = [SA_CustomAlert transformForOrientation: UIInterfaceOrientationUnknown];
 		s_blockingView.alpha = 1.0;
 		self.alertBaseView.alpha = 1.0;
 	} completion:^(BOOL finished) {
@@ -138,7 +138,7 @@ static SA_CustomAlert *s_currentAlert;
 
 - (void) animateOutWithCompletion: (simpleBlock) completion {
 	[UIView animateWithDuration: SA_CustomAlert.hideAlertDuration delay: 0.0 usingSpringWithDamping: 0.8 initialSpringVelocity: 0.0 options: UIViewAnimationOptionCurveEaseIn animations:^{
-		self.alertBaseView.transform = CGAffineTransformScale(UIWindow.sa_transformForCurrentUserInterfaceOrientation, 0.001, 0.001);;
+		self.alertBaseView.transform = CGAffineTransformScale([SA_CustomAlert transformForOrientation: UIInterfaceOrientationUnknown], 0.001, 0.001);;
 		self.alertBaseView.alpha = 0.0;
 		if (s_alerts.count == 1) s_blockingView.alpha = 0.0;
 	} completion: ^(BOOL finished) {
@@ -163,7 +163,7 @@ static SA_CustomAlert *s_currentAlert;
 #pragma mark Notifications
 + (void) willChangeStatusBarOrientation: (NSNotification *) note {
 	UIInterfaceOrientation		newOrientation = [note.userInfo[UIApplicationStatusBarOrientationUserInfoKey] integerValue];
-	CGAffineTransform			newTransform = [UIWindow sa_transformForUserInterfaceOrientation: newOrientation];
+	CGAffineTransform			newTransform = [SA_CustomAlert transformForOrientation: newOrientation];
 	
 	[UIView animateWithDuration: 0.2 animations:^{
 		for (SA_CustomAlert *alert in s_alerts) {
@@ -374,6 +374,13 @@ static SA_CustomAlert *s_currentAlert;
 		[self.backgroundView addSeparatorLineFrom: CGPointMake(0, buttonFrame.origin.y - 2) to: CGPointMake(bounds.size.width, buttonFrame.origin.y - 2)];
 }
 
++ (CGAffineTransform) transformForOrientation: (UIInterfaceOrientation) orientation {
+	if (RUNNING_ON_80) return CGAffineTransformIdentity;
+
+	if (orientation == UIInterfaceOrientationUnknown) return UIWindow.sa_transformForCurrentUserInterfaceOrientation;
+	return [UIWindow sa_transformForUserInterfaceOrientation: orientation];
+}
+
 //================================================================================================================
 #pragma mark Class properties
 + (void) setTitleFont: (UIFont *) font { s_titleFont = font; }
@@ -455,6 +462,8 @@ static SA_CustomAlert *s_currentAlert;
 		s_alertWindow.userInteractionEnabled = YES;
 		s_alertWindow.opaque = NO;
 		
+		UIViewController			*windowController = [UIViewController new];
+		
 		s_blockingView = [[SA_CustomAlertBlockerView alloc] initWithFrame: CGRectFromSize(frame.size)];
 		s_blockingView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		s_blockingView.alpha = 0.0;
@@ -462,6 +471,8 @@ static SA_CustomAlert *s_currentAlert;
 		[s_blockingView.layer setNeedsDisplay];
 		[s_alertWindow addSubview: s_blockingView];
 		
+		windowController.view = s_blockingView;
+		s_alertWindow.rootViewController = windowController;
 		[s_alertWindow makeKeyAndVisible];
 	}
 	return s_alertWindow;
@@ -483,7 +494,10 @@ static SA_CustomAlert *s_currentAlert;
 - (void) drawRect: (CGRect) rect {
 	[SA_CustomAlert.backgroundColor setFill];
 	[SA_CustomAlert.backgroundColor setStroke];
-	[[UIBezierPath bezierPathWithRoundedRect: self.bounds cornerRadius: 12] fill];
+	
+	CGRect			frame = self.bounds;
+	
+	[[UIBezierPath bezierPathWithRoundedRect: frame cornerRadius: 12] fill];
 	
 	UIColor				*separatorColor = SA_CustomAlert.buttonSeparatorColor;
 	[separatorColor setStroke];

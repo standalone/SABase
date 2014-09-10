@@ -59,3 +59,4 @@ CLASS_PROPERTY(UIColor *, buttonTitleColor, ButtonTitleColor);
 - (void) addCustomView: (UIView *) view;
 
 @end
+
