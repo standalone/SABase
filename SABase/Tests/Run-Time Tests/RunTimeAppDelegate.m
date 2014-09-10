@@ -15,12 +15,13 @@
 @synthesize window, navigationController;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
-//	self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-//	self.window.rootViewController = [TestController new];
-//	
-//	[self.window makeKeyAndVisible];
+	self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+	self.window.rootViewController = [TestController new];
+
+	[self.window makeKeyAndVisible];
 	
-	[SA_CustomAlert showAlertWithTitle: @"Test Alert" message: @"Alert Message"];
+//	[UIWindow alertWindow];
+//	[SA_CustomAlert showAlertWithTitle: @"Test Alert" message: @"Alert Message"];
 	
 }
 @end

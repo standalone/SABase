@@ -66,8 +66,10 @@
 	LOG(@"Today: %@ / %@", today, yesterday);
 
 	[super viewDidAppear: animated];
-	[SA_PleaseWaitDisplay showPleaseWaitDisplayWithMajorText: @"Please" 
-												   minorText: @"Minor Text Label" cancelLabel: @"Cancel Button" showProgressBar: NO delegate: nil];
+	
+	[SA_ProgressDisplay showProgressStyle: SA_ProgressDisplay_style_activityIndicator withTitle: @"Test Display" detail: @"Some more detail"];
+//	[SA_PleaseWaitDisplay showPleaseWaitDisplayWithMajorText: @"Please" 
+//												   minorText: @"Minor Text Label" cancelLabel: @"Cancel Button" showProgressBar: NO delegate: nil];
 
 	[self performSelector: @selector(showPleaseWait1) withObject: nil afterDelay: 2.5];
 //	[self performSelector: @selector(showPleaseWait2) withObject: nil afterDelay: 5];
@@ -77,12 +79,12 @@
 }
 
 - (void) showPleaseWait1 {
-	[SA_PleaseWaitDisplay pleaseWaitDisplay].majorText = @"Please a little";
+//	[SA_PleaseWaitDisplay pleaseWaitDisplay].majorText = @"Please a little";
 }
 
 - (void) showPleaseWait2 {
-	[SA_PleaseWaitDisplay pleaseWaitDisplay].progressValue = 0.5;
-	[[SA_PleaseWaitDisplay pleaseWaitDisplay] performSelector: @selector(setProgressValueAsNumber:) withObject: [NSNumber numberWithFloat: 0.9] afterDelay: 0.5];
+//	[SA_PleaseWaitDisplay pleaseWaitDisplay].progressValue = 0.5;
+//	[[SA_PleaseWaitDisplay pleaseWaitDisplay] performSelector: @selector(setProgressValueAsNumber:) withObject: [NSNumber numberWithFloat: 0.9] afterDelay: 0.5];
 	//	[
 }
 

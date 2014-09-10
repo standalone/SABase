@@ -41,6 +41,8 @@
 		B520E7F119C0564D00848525 /* SA_CustomAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = B5645160193A7736008E0B0A /* SA_CustomAlert.m */; };
 		B520E7F219C0565B00848525 /* CGContextRef_additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B523D5B91933EBBB00FC2C4E /* CGContextRef_additions.m */; };
 		B520E7F319C0567300848525 /* UIWindow+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B523D5B51933EA7F00FC2C4E /* UIWindow+SA_Additions.m */; };
+		B520E7F419C0BB9300848525 /* SA_ProgressDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = B555CDA3193941300077396A /* SA_ProgressDisplay.m */; };
+		B520E7F519C0BB9900848525 /* SA_ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B555CDA1193941300077396A /* SA_ProgressView.m */; };
 		B522F1D219378333006A934F /* NSParagraphStyle+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B522F1D019378333006A934F /* NSParagraphStyle+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B522F1D319378333006A934F /* NSParagraphStyle+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B522F1D119378333006A934F /* NSParagraphStyle+SA_Additions.m */; };
 		B522F1D419378335006A934F /* NSParagraphStyle+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B522F1D119378333006A934F /* NSParagraphStyle+SA_Additions.m */; };
@@ -1374,6 +1376,7 @@
 				B55E08BD151660DD0097CC69 /* NSNotificationCenter+SA_Additions.m in Sources */,
 				B55E08C3151660DD0097CC69 /* NSObject+SA_Additions.m in Sources */,
 				B55E08C9151660DD0097CC69 /* NSSortDescriptor+SA_Additions.m in Sources */,
+				B520E7F419C0BB9300848525 /* SA_ProgressDisplay.m in Sources */,
 				B55E08CF151660DD0097CC69 /* NSString+SA_Additions.m in Sources */,
 				B55E08D5151660DD0097CC69 /* NSString+SA_MD5.m in Sources */,
 				B55E08DB151660DD0097CC69 /* NSString+UniqueStrings.m in Sources */,
@@ -1398,6 +1401,7 @@
 				B55E093B151660DD0097CC69 /* UIDevice+SA_Additions.m in Sources */,
 				B55E0941151660DD0097CC69 /* UIImage+SA_Additions.m in Sources */,
 				B55E0947151660DD0097CC69 /* UIImageView+SA_Additions.m in Sources */,
+				B520E7F519C0BB9900848525 /* SA_ProgressView.m in Sources */,
 				B55E094D151660DD0097CC69 /* UILabel+SA_Additions.m in Sources */,
 				B55E0959151660DD0097CC69 /* UIPopoverController+SA_Additions.m in Sources */,
 				B55E095F151660DD0097CC69 /* UIScrollView+SA_Additions.m in Sources */,
