@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface RunTimeAppDelegate : NSObject {
+@interface TestingAppDelegate : NSObject {
 	
 }
 

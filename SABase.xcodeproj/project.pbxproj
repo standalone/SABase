@@ -38,6 +38,9 @@
 		B51F6FE31615CAB90015A037 /* NSSet+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B51F6FE01615CAB90015A037 /* NSSet+SA_Additions.h */; };
 		B51F6FE41615CAB90015A037 /* NSSet+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B51F6FE11615CAB90015A037 /* NSSet+SA_Additions.m */; };
 		B51F6FE51615CAB90015A037 /* NSSet+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B51F6FE11615CAB90015A037 /* NSSet+SA_Additions.m */; };
+		B520E7F119C0564D00848525 /* SA_CustomAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = B5645160193A7736008E0B0A /* SA_CustomAlert.m */; };
+		B520E7F219C0565B00848525 /* CGContextRef_additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B523D5B91933EBBB00FC2C4E /* CGContextRef_additions.m */; };
+		B520E7F319C0567300848525 /* UIWindow+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B523D5B51933EA7F00FC2C4E /* UIWindow+SA_Additions.m */; };
 		B522F1D219378333006A934F /* NSParagraphStyle+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B522F1D019378333006A934F /* NSParagraphStyle+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B522F1D319378333006A934F /* NSParagraphStyle+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B522F1D119378333006A934F /* NSParagraphStyle+SA_Additions.m */; };
 		B522F1D419378335006A934F /* NSParagraphStyle+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B522F1D119378333006A934F /* NSParagraphStyle+SA_Additions.m */; };
@@ -625,7 +628,6 @@
 				B55E0834151660DD0097CC69 /* Foundation */,
 				B55E0855151660DD0097CC69 /* UIKit */,
 				B58306F41516548600CC57DE /* SABase */,
-				32C88DFF0371C24200C91783 /* Other Sources */,
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
 			);
@@ -644,13 +646,6 @@
 				AACBBE490F95108600F1A2B1 /* Foundation.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		32C88DFF0371C24200C91783 /* Other Sources */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Other Sources";
 			sourceTree = "<group>";
 		};
 		B55E0834151660DD0097CC69 /* Foundation */ = {
@@ -807,6 +802,7 @@
 				B58306F51516548600CC57DE /* Rsc */,
 				B58306F71516548600CC57DE /* Scripts */,
 				B58306F91516548600CC57DE /* Src */,
+				B58307061516548600CC57DE /* Run-Time Tests */,
 				B58306FF1516548600CC57DE /* Tests */,
 			);
 			path = SABase;
@@ -858,7 +854,6 @@
 				B58307031516548600CC57DE /* NSDate Tests.m */,
 				B58307041516548600CC57DE /* NSURL Tests.h */,
 				B58307051516548600CC57DE /* NSURL Tests.m */,
-				B58307061516548600CC57DE /* Run-Time Tests */,
 				B583070D1516548600CC57DE /* Run-Time Tests-Info.plist */,
 			);
 			path = Tests;
@@ -874,7 +869,8 @@
 				B583070B1516548600CC57DE /* TestController.m */,
 				B583070C1516548600CC57DE /* TestController.xib */,
 			);
-			path = "Run-Time Tests";
+			name = "Run-Time Tests";
+			path = "Tests/Run-Time Tests";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1370,6 +1366,7 @@
 				B55E0893151660DD0097CC69 /* NSBundle+SA_Additions.m in Sources */,
 				B55E0899151660DD0097CC69 /* NSData+SA_Additions.m in Sources */,
 				B55E089F151660DD0097CC69 /* NSData+SA_MD5.m in Sources */,
+				B520E7F119C0564D00848525 /* SA_CustomAlert.m in Sources */,
 				B55E08A5151660DD0097CC69 /* NSDate+SA_Additions.m in Sources */,
 				B55E08AB151660DD0097CC69 /* NSFileManager+SA_Additions.m in Sources */,
 				B55E08B1151660DD0097CC69 /* NSManagedObject+SA_Additions.m in Sources */,
@@ -1383,6 +1380,7 @@
 				B55E08E1151660DD0097CC69 /* NSURL+SA_Additions.m in Sources */,
 				B55AA63E181C515C00C5B0EE /* UIFont+SA_Additions.m in Sources */,
 				B55E08E7151660DD0097CC69 /* SA_ConnectionQueue.m in Sources */,
+				B520E7F319C0567300848525 /* UIWindow+SA_Additions.m in Sources */,
 				B55E08F3151660DD0097CC69 /* SA_AlertView.m in Sources */,
 				B55E08F9151660DD0097CC69 /* SA_LazyLoadingScrollView.m in Sources */,
 				B55E08FF151660DD0097CC69 /* SA_NavigationController.m in Sources */,
@@ -1391,6 +1389,7 @@
 				B55E0911151660DD0097CC69 /* SA_SplashScreenImageView.m in Sources */,
 				B55E0917151660DD0097CC69 /* SA_StackedScrollView.m in Sources */,
 				B55E0923151660DD0097CC69 /* UIActionSheet+SA_Additions.m in Sources */,
+				B520E7F219C0565B00848525 /* CGContextRef_additions.m in Sources */,
 				B5288DCD198199160076DB31 /* TestAppDelegate.m in Sources */,
 				B55E0929151660DD0097CC69 /* UIBarButtonItem+SA_Additions.m in Sources */,
 				B55E092F151660DD0097CC69 /* UIButton+SA_Additions.m in Sources */,

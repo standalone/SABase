@@ -12,7 +12,7 @@ void		RunTestsWithClassNamed(NSString *className);
 
 int main(int argc, char *argv[]) {
 	@autoreleasepool {
-		return UIApplicationMain(argc, argv, nil, @"TestAppDelegate");
+		return UIApplicationMain(argc, argv, nil, @"TestingAppDelegate");
 	}
 
     return 0;

@@ -8,11 +8,19 @@
 
 #import "RunTimeAppDelegate.h"
 #import "TestController.h"
+#import "SA_CustomAlert.h"
 
 
-@implementation RunTimeAppDelegate
+@implementation TestingAppDelegate
 @synthesize window, navigationController;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
+//	self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+//	self.window.rootViewController = [TestController new];
+//	
+//	[self.window makeKeyAndVisible];
+	
+	[SA_CustomAlert showAlertWithTitle: @"Test Alert" message: @"Alert Message"];
+	
 }
 @end
