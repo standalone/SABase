@@ -8,6 +8,15 @@
 
 #import "UIWindow+SA_Additions.h"
 #import "SA_Utilities.h"
+#import "UIView+SA_Additions.h"
+
+@interface SA_FullScreenBlockingWindow : UIWindow
+
+@end
+
+@interface SA_FullScreenBlockingViewController : UIViewController
+
+@end
 
 @implementation UIWindow (SA_Additions)
 
@@ -27,23 +36,37 @@
 
 + (UIWindow *) sa_fullScreenWindowWithBaseView: (UIView *) baseView {
 	CGRect					frame = [UIScreen mainScreen].bounds;
-	UIWindow				*window = [[UIWindow alloc] initWithFrame: frame];
-	UIViewController		*windowController = [UIViewController new];
+	//CGFloat					maxDim = MAX(frame.size.width, frame.size.height), minDim = MIN(frame.size.width, frame.size.height);
+	UIWindow				*window = [[SA_FullScreenBlockingWindow alloc] initWithFrame: frame];
+	UIViewController		*windowController = [SA_FullScreenBlockingViewController new];
 	
 	baseView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	
-	windowController.view = baseView;
+	[windowController.view addSubview: baseView];
+	baseView.frame = window.bounds;
+	baseView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	baseView.center = windowController.view.contentCenter;
+	
 	window.rootViewController = windowController;
 	return window;
 }
 
 + (CGAffineTransform) sa_baseTransformForOrientation: (UIInterfaceOrientation) orientation {
-	if (RUNNING_ON_80) return CGAffineTransformIdentity;
+	//if (RUNNING_ON_80)
+		return CGAffineTransformIdentity;
 	
 	if (orientation == UIInterfaceOrientationUnknown) return UIWindow.sa_transformForCurrentUserInterfaceOrientation;
 	return [UIWindow sa_transformForUserInterfaceOrientation: orientation];
 }
 
 
+
+@end
+
+@implementation SA_FullScreenBlockingViewController
+
+@end
+
+@implementation SA_FullScreenBlockingWindow
 
 @end

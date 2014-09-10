@@ -30,7 +30,7 @@
 @end
 
 static UIWindow *s_progressWindow;
-static SA_GradientBlockerView *s_blockingView;
+static SA_GradientBlockerView *s_progressBlockingView;
 static SA_ProgressDisplay *s_progressDisplay;
 
 static UIFont *s_titleFont, *s_detailFont, *s_buttonFont, *s_defaultButtonFont;
@@ -112,7 +112,7 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_titleDetailSp
 	dispatch_async_main_queue(^{
 		if (self.isVisible) return;
 
-		[[UIWindow progressDisplayWindow] addSubview: self.progressBaseView];
+		[s_progressBlockingView addSubview: self.progressBaseView];
 		if (animated) {
 			CGFloat						duration = 0.2;
 			
@@ -121,7 +121,7 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_titleDetailSp
 			
 			[UIView animateWithDuration: duration delay: 0.0 usingSpringWithDamping: 0.8 initialSpringVelocity: 0.0 options: UIViewAnimationOptionCurveEaseOut animations:^{
 				self.progressBaseView.transform = [UIWindow sa_baseTransformForOrientation: UIInterfaceOrientationUnknown];
-				s_blockingView.alpha = 1.0;
+				s_progressBlockingView.alpha = 1.0;
 				self.progressBaseView.alpha = 1.0;
 			} completion:^(BOOL finished) {
 				
@@ -138,7 +138,7 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_titleDetailSp
 			[UIView animateWithDuration: duration delay: 0.0 usingSpringWithDamping: 1.0 initialSpringVelocity: 0.0 options: UIViewAnimationOptionCurveEaseIn animations:^{
 				self.progressBaseView.transform = CGAffineTransformScale([UIWindow sa_baseTransformForOrientation: UIInterfaceOrientationUnknown], 0.001, 0.001);;
 				self.progressBaseView.alpha = 0.0;
-				s_blockingView.alpha = 0.0;
+				s_progressBlockingView.alpha = 0.0;
 			} completion: ^(BOOL finished) {
 				self.title = nil;
 				self.buttonTitle = nil;
@@ -162,12 +162,14 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_titleDetailSp
 #pragma mark Properties
 - (UIView *) progressBaseView {
 	if (_progressBaseView == nil) {
+		[UIWindow progressDisplayWindow];
 		_progressBaseView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, SA_ProgressDisplay.viewWidth, [self viewHeight])];
 		_progressBaseView.backgroundColor = SA_ProgressDisplay.backgroundColor;
 		_progressBaseView.transform = [UIWindow sa_baseTransformForOrientation: UIInterfaceOrientationUnknown];
 		_progressBaseView.layer.cornerRadius = 15;
 		_progressBaseView.layer.masksToBounds = YES;
-		_progressBaseView.center = [UIWindow progressDisplayWindow].contentCenter;
+		_progressBaseView.center = s_progressBlockingView.contentCenter;
+		_progressBaseView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
 		
 		[_progressBaseView addSubview: self.titleLabel];
 		[_progressBaseView addSubview: self.detailLabel];
@@ -524,17 +526,18 @@ static CGFloat s_viewWidth, s_viewMargin, s_detailButtonSpacing, s_titleDetailSp
 @implementation UIWindow (SA_ProgressDisplay)
 + (UIWindow *) progressDisplayWindow {
 	if (s_progressWindow == nil) {
-		s_blockingView = [[SA_GradientBlockerView alloc] initWithFrame: CGRectFromSize([UIScreen mainScreen].bounds.size)];
+		s_progressBlockingView = [[SA_GradientBlockerView alloc] initWithFrame: CGRectFromSize([UIScreen mainScreen].bounds.size)];
 		
-		s_progressWindow = [UIWindow sa_fullScreenWindowWithBaseView: s_blockingView];
+		s_progressWindow = [UIWindow sa_fullScreenWindowWithBaseView: s_progressBlockingView];
 		s_progressWindow.backgroundColor = [UIColor clearColor];
 		s_progressWindow.windowLevel = UIWindowLevelAlert;
 		s_progressWindow.userInteractionEnabled = YES;
 		s_progressWindow.opaque = NO;
+		s_progressBlockingView.backgroundColor = [UIColor redColor];
 		
-		s_blockingView.alpha = 0.0;
-		s_blockingView.backgroundColor = [UIColor colorWithWhite: 0.0 alpha: 0.25];
-		[s_blockingView.layer setNeedsDisplay];
+		s_progressBlockingView.alpha = 0.0;
+		s_progressBlockingView.backgroundColor = [UIColor colorWithWhite: 0.0 alpha: 0.25];
+		[s_progressBlockingView.layer setNeedsDisplay];
 		[s_progressWindow makeKeyAndVisible];
 	}
 	return s_progressWindow;
