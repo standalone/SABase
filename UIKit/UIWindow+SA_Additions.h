@@ -13,4 +13,6 @@
 + (CGAffineTransform) sa_transformForUserInterfaceOrientation: (UIInterfaceOrientation) orientation;
 + (CGAffineTransform) sa_transformForCurrentUserInterfaceOrientation;
 
++ (UIWindow *) sa_fullScreenWindowWithBaseView: (UIView *) baseView;
+
 @end

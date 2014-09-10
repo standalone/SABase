@@ -7,11 +7,11 @@
 //
 
 #import "UIWindow+SA_Additions.h"
+#import "SA_Utilities.h"
 
 @implementation UIWindow (SA_Additions)
 
 + (CGAffineTransform) sa_transformForUserInterfaceOrientation: (UIInterfaceOrientation) orientation {
-    
     switch (orientation) {
         case UIInterfaceOrientationLandscapeLeft: return CGAffineTransformMakeRotation(-(90 * M_PI / 180));
         case UIInterfaceOrientationLandscapeRight: return CGAffineTransformMakeRotation((90 * M_PI / 180));
@@ -23,6 +23,18 @@
 
 + (CGAffineTransform) sa_transformForCurrentUserInterfaceOrientation {
 	return [self sa_transformForUserInterfaceOrientation: [UIApplication sharedApplication].statusBarOrientation];
+}
+
++ (UIWindow *) sa_fullScreenWindowWithBaseView: (UIView *) baseView {
+	CGRect					frame = [UIScreen mainScreen].bounds;
+	UIWindow				*window = [[UIWindow alloc] initWithFrame: frame];
+	UIViewController		*windowController = [UIViewController new];
+	
+	baseView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	
+	windowController.view = baseView;
+	window.rootViewController = windowController;
+	return window;
 }
 
 

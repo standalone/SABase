@@ -455,25 +455,17 @@ static SA_CustomAlert *s_currentAlert;
 @implementation UIWindow (SA_CustomAlert)
 + (UIWindow *) alertWindow {
 	if (s_alertWindow == nil) {
-		CGRect					frame = [UIScreen mainScreen].bounds;
-		
-		s_alertWindow = [[UIWindow alloc] initWithFrame: frame];
+		s_blockingView = [[SA_CustomAlertBlockerView alloc] initWithFrame: CGRectFromSize([UIScreen mainScreen].bounds.size)];
+
+		s_alertWindow = [UIWindow sa_fullScreenWindowWithBaseView: s_blockingView];
 		s_alertWindow.backgroundColor = [UIColor clearColor];
 		s_alertWindow.windowLevel = UIWindowLevelAlert;
 		s_alertWindow.userInteractionEnabled = YES;
 		s_alertWindow.opaque = NO;
-		
-		UIViewController			*windowController = [UIViewController new];
-		
-		s_blockingView = [[SA_CustomAlertBlockerView alloc] initWithFrame: CGRectFromSize(frame.size)];
-		s_blockingView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+
 		s_blockingView.alpha = 0.0;
 		s_blockingView.backgroundColor = [UIColor colorWithWhite: 0.0 alpha: 0.25];
 		[s_blockingView.layer setNeedsDisplay];
-		[s_alertWindow addSubview: s_blockingView];
-		
-		windowController.view = s_blockingView;
-		s_alertWindow.rootViewController = windowController;
 		[s_alertWindow makeKeyAndVisible];
 	}
 	return s_alertWindow;
