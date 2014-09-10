@@ -15,6 +15,9 @@
 	#import "SA_AlertView.h"
 #endif
 
+const NSUInteger				g_sa_base_version = 800;
+const NSString					*g_sa_base_build_date_description = @"" __DATE__ ", " __TIME__;
+
 BOOL s_DEBUG_mode = NO;
 
 BOOL		SA_Base_DebugMode(void) { return s_DEBUG_mode; }

@@ -14,6 +14,8 @@
 #import <UIKit/UIKit.h>
 #endif
 
+extern const NSUInteger				g_sa_base_version;
+
 #define		DIM(a)				(sizeof(a) / sizeof(((a)[0])))
 #define		FREE(p)				{if (p) { free(p); (p) = nil; }}
 #define		SYNTHESIZE(_X_)		@synthesize _X_ = _##_X_;
