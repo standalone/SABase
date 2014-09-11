@@ -1101,6 +1101,10 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 
 
 - (NSString *) description {
+	return $S(@"[%@]", self.url);
+}
+
+- (NSString *) debugDescription {
 	NSMutableString				*desc = [NSMutableString stringWithFormat: @"<0x%x>%@", (int) self, NSStringFromClass([self class])];
 	if (self.tag) [desc appendFormat: @", tag: %@", self.tag];
 	[desc appendFormat: @", Pri: %ld", (long)_priority];

@@ -214,7 +214,7 @@ void * ImprovedBase64Decode(const char *inputBuffer, size_t length, size_t *outp
     return buf;
 } 
 
-- (NSString *) description {
+- (NSString *) debugDescription {
 	return [NSMutableString stringWithFormat: @"NSData %d bytes:\n%@", (UInt16) self.length, [self descriptionWithLineWidth: 32 includingHex: YES includingASCII: YES]];
 }
 
