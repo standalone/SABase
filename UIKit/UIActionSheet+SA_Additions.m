@@ -51,17 +51,17 @@
 - (void) actionSheet: (UIActionSheet *) actionSheet clickedButtonAtIndex: (NSInteger) buttonIndex {
 	if (!self.shouldRunBlockAfterDismissal) {
 		actionSheetButtonSelectedBlock			block = [self associatedValueForKey: kButtonBlockKey];
-		if (block) block(buttonIndex);
 		[self associateValue: nil forKey: kButtonBlockKey];
+		if (block) block(buttonIndex);
 	}
 }
 
 - (void)actionSheet: (UIActionSheet *) actionSheet didDismissWithButtonIndex: (NSInteger) buttonIndex {
 	if (self.shouldRunBlockAfterDismissal) {
 		actionSheetButtonSelectedBlock			block = [self associatedValueForKey: kButtonBlockKey];
+		[self associateValue: nil forKey: kButtonBlockKey];
 		if (block) dispatch_async_main_queue(^{
 			block(buttonIndex);
-			[self associateValue: nil forKey: kButtonBlockKey];
 		});
 	}
 }
