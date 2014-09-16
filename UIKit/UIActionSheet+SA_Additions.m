@@ -67,6 +67,7 @@
 }
 
 - (void) showFromView: (UIView *) view withSA_ButtonSelectedBlock: (actionSheetButtonSelectedBlock) block {
+	if (view.window == nil) return;		//no window
 	if (![NSThread isMainThread]) {
 		dispatch_async(dispatch_get_main_queue(), ^{ [self showFromView: view withSA_ButtonSelectedBlock: block]; });
 		return;
