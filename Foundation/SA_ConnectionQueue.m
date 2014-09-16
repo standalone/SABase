@@ -383,7 +383,9 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 
 - (SA_Connection *) existingConnectionsTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate {
 	@try {
-		NSSet				*checkSet = [self.active setByAddingObjectsFromArray: self.pending];
+		NSMutableSet		*checkSet = self.active.mutableCopy ?: [NSMutableSet new];
+		
+		[checkSet addObjectsFromArray: self.pending];
 
 		for (SA_Connection *connection in checkSet) {
 			if ((tag == nil && connection.tag != nil) || (tag != nil && connection.tag == nil)) continue;
