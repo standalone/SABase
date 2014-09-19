@@ -8,12 +8,17 @@
 
 #import "NSObject+SA_Additions.h"
 #import "dispatch_additions_SA.h"
+#import "UIViewController+SA_Additions.h"
+
+static UIColor			*s_actionSheetTintColor = nil;
 
 #define					kButtonTagsKey				@"buttonTags:SAI"
 #define					kButtonBlockKey				@"ClickedButtonAtIndex:SAI"
 #define					kRunBlockAfterDismissKey	@"RunBlockAfterDismissAtIndex:SAI"
 
 @implementation UIActionSheet (SA_AdditionsForButtons)
+
++ (void) setActionSheetTintColor: (UIColor *) color { s_actionSheetTintColor = color; }
 
 - (void) addButtonWithTitle: (NSString *) title andSA_Tag: (NSInteger) tag {
 	NSMutableDictionary				*dictionary = [self associatedValueForKey: kButtonTagsKey];
@@ -48,6 +53,56 @@
 	[self associateValue: nil forKey: kButtonTagsKey];
 }
 
+- (UIAlertController *) composedAlertController {
+	UIAlertController			*composed = [UIAlertController alertControllerWithTitle: self.title message: nil preferredStyle: UIAlertControllerStyleActionSheet];
+	
+	for (NSInteger index = 0; index < self.numberOfButtons; index++) {
+		if (index != self.cancelButtonIndex && index != self.destructiveButtonIndex)
+			[composed addAction: [UIAlertAction actionWithTitle: [self buttonTitleAtIndex: index] style: UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+				[self actionSheet: self clickedButtonAtIndex: index];
+				[self actionSheet: self didDismissWithButtonIndex: index];
+			}]];
+	}
+	
+	if (self.cancelButtonIndex != -1) {
+		[composed addAction: [UIAlertAction actionWithTitle: [self buttonTitleAtIndex: self.cancelButtonIndex] style: UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+			[self actionSheet: self clickedButtonAtIndex: self.cancelButtonIndex];
+			[self actionSheet: self didDismissWithButtonIndex: self.cancelButtonIndex];
+		}]];
+	}
+	
+	if (self.destructiveButtonIndex != -1) {
+		[composed addAction: [UIAlertAction actionWithTitle: [self buttonTitleAtIndex: self.destructiveButtonIndex] style: UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+			[self actionSheet: self clickedButtonAtIndex: self.destructiveButtonIndex];
+			[self actionSheet: self didDismissWithButtonIndex: self.destructiveButtonIndex];
+		}]];
+	}
+	
+	if (s_actionSheetTintColor) composed.view.tintColor = s_actionSheetTintColor;
+	return composed;
+}
+
+- (void) presentComposedControllerFromView: (UIView *) view {
+	UIAlertController			*controller = self.composedAlertController;
+	
+	controller.popoverPresentationController.sourceView = view;
+	controller.popoverPresentationController.sourceRect = [view bounds];
+	
+	[view.viewController presentViewController: controller animated: YES completion: nil];
+}
+
+- (void) presentComposedControllerFromBarButtonItem: (UIBarButtonItem *) item {
+	UIAlertController			*controller = self.composedAlertController;
+	
+	controller.popoverPresentationController.barButtonItem = item;
+	
+	UIViewController			*presenter = [UIApplication sharedApplication].keyWindow.rootViewController;
+	
+	while (presenter.presentedViewController) { presenter = presenter.presentedViewController; }
+	
+	[presenter presentViewController: controller animated: YES completion: nil];
+}
+
 - (void) actionSheet: (UIActionSheet *) actionSheet clickedButtonAtIndex: (NSInteger) buttonIndex {
 	if (!self.shouldRunBlockAfterDismissal) {
 		actionSheetButtonSelectedBlock			block = [self associatedValueForKey: kButtonBlockKey];
@@ -66,6 +121,9 @@
 	}
 }
 
+//================================================================================================================
+#pragma mark Presentation methods
+
 - (void) showFromView: (UIView *) view withSA_ButtonSelectedBlock: (actionSheetButtonSelectedBlock) block {
 	if (view.window == nil) return;		//no window
 	if (![NSThread isMainThread]) {
@@ -76,7 +134,11 @@
 	if (view.window == nil) view = [[UIApplication sharedApplication] keyWindow];
 	
 	self.SA_buttonSelectBlock = block;
-	[self SA_showFromView: view];
+	
+	if (RUNNING_ON_80)
+		[self presentComposedControllerFromView: view];
+	else
+		[self SA_showFromView: view];
 }
 
 - (void) showFromBarButtonItem: (UIBarButtonItem *) item withSA_ButtonSelectedBlock: (actionSheetButtonSelectedBlock) block {
@@ -86,7 +148,10 @@
 	}
 	
 	self.SA_buttonSelectBlock = block;
-	[self showFromBarButtonItem: item animated: YES];
+	if (RUNNING_ON_80)
+		[self presentComposedControllerFromBarButtonItem: item];
+	else
+		[self showFromBarButtonItem: item animated: YES];
 }
 
 - (void) setSA_buttonSelectBlock: (actionSheetButtonSelectedBlock) block {
@@ -104,7 +169,11 @@
 		[self performSelectorOnMainThread: @selector(showFromView:) withObject: view waitUntilDone: NO];
 		return;
 	}
-	
+
+	if (RUNNING_ON_80) {
+		[self presentComposedControllerFromView: view];
+	}
+
 	if ([view isKindOfClass: [UIControl class]] && RUNNING_ON_IPAD) {
 		[self showFromRect: [view bounds] inView: view animated: YES];
 	} else if ([view isKindOfClass: [UITabBar class]]) {

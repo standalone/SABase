@@ -24,7 +24,8 @@
 	
 	if ([version isEqual: build]) return version;
 	if (version.length == 0) return build;
-	if (build.length == 0) return version;
+	if (build.length == 0 || [build hasPrefix: version]) return version;
+	
 	
 	return [NSString stringWithFormat: @"%@ (%@)", version, build];
 }
