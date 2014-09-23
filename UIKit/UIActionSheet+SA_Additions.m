@@ -54,25 +54,25 @@ static UIColor			*s_actionSheetTintColor = nil;
 }
 
 - (UIAlertController *) composedAlertController {
-	UIAlertController			*composed = [UIAlertController alertControllerWithTitle: self.title message: nil preferredStyle: UIAlertControllerStyleActionSheet];
+	UIAlertController			*composed = [NSClassFromString(@"UIAlertController") alertControllerWithTitle: self.title message: nil preferredStyle: UIAlertControllerStyleActionSheet];
 	
 	for (NSInteger index = 0; index < self.numberOfButtons; index++) {
 		if (index != self.cancelButtonIndex && index != self.destructiveButtonIndex)
-			[composed addAction: [UIAlertAction actionWithTitle: [self buttonTitleAtIndex: index] style: UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+			[composed addAction: [NSClassFromString(@"UIAlertAction") actionWithTitle: [self buttonTitleAtIndex: index] style: UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
 				[self actionSheet: self clickedButtonAtIndex: index];
 				[self actionSheet: self didDismissWithButtonIndex: index];
 			}]];
 	}
 	
 	if (self.cancelButtonIndex != -1) {
-		[composed addAction: [UIAlertAction actionWithTitle: [self buttonTitleAtIndex: self.cancelButtonIndex] style: UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+		[composed addAction: [NSClassFromString(@"UIAlertAction") actionWithTitle: [self buttonTitleAtIndex: self.cancelButtonIndex] style: UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
 			[self actionSheet: self clickedButtonAtIndex: self.cancelButtonIndex];
 			[self actionSheet: self didDismissWithButtonIndex: self.cancelButtonIndex];
 		}]];
 	}
 	
 	if (self.destructiveButtonIndex != -1) {
-		[composed addAction: [UIAlertAction actionWithTitle: [self buttonTitleAtIndex: self.destructiveButtonIndex] style: UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+		[composed addAction: [NSClassFromString(@"UIAlertAction") actionWithTitle: [self buttonTitleAtIndex: self.destructiveButtonIndex] style: UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
 			[self actionSheet: self clickedButtonAtIndex: self.destructiveButtonIndex];
 			[self actionSheet: self didDismissWithButtonIndex: self.destructiveButtonIndex];
 		}]];
