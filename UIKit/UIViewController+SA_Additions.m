@@ -88,7 +88,7 @@ __weak UIViewController *s_frontmostFocusedViewController = nil;
 	
 	#pragma clang diagnostic push
 	#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-		if (self.modalViewController) [kids addObject: self.modalViewController];
+		if (self.presentedViewController) [kids addObject: self.presentedViewController];
 	#pragma clang diagnostic pop
 	
 	for (UIViewController *controller in kids.copy) {
