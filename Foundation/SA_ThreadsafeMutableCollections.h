@@ -21,6 +21,8 @@ typedef void (^simpleMutableSetBlock)(NSMutableSet *set);
 - (void) setObject: (id) object atIndexedSubscript: (NSUInteger) idx;
 - (void) addObject: (id) object;
 - (void) removeObject: (id) object;
+- (id) firstObject;
+- (id) lastObject;
 - (void) removeAllObjects;
 - (void) safelyAccessInBlock: (simpleMutableArrayBlock) block;
 

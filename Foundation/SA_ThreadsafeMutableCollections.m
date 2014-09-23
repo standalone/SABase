@@ -37,6 +37,16 @@
 	@synchronized (self) { return self.backingArray[idx]; }
 }
 
+- (id) firstObject {
+	@synchronized (self) { return self.backingArray.count ? self.backingArray[0] : nil; }
+}
+
+- (id) lastObject {
+	@synchronized (self) { return self.backingArray.count ? self.backingArray[self.backingArray.count - 1] : nil; }
+}
+
+
+
 - (void) setObject: (id) object atIndexedSubscript: (NSUInteger) idx {
 	@synchronized (self) { self.backingArray[idx] = object; }
 }
