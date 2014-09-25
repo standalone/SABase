@@ -60,6 +60,8 @@
 
 	});
 	
+	[[UIDevice currentDevice] deviceMachineName];
+	
 	NSDate					*today = [NSDate date];
 	NSDate					*yesterday = [today previousDay];
 	

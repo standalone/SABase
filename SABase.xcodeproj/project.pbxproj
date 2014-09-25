@@ -1727,7 +1727,7 @@
 					UIKit,
 				);
 				PRODUCT_NAME = "Run-Time Tests";
-				PROVISIONING_PROFILE = "2CA8DBF5-1D85-4728-A668-1E213254C5AA";
+				PROVISIONING_PROFILE = "7922cc8a-c09a-41ca-ac84-9cbf3a580edf";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
