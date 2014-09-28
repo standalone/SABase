@@ -12,7 +12,7 @@ const NSString			*SA_BaseErrorDomain = @"SA_BaseErrorDomain";
 
 @implementation NSError (SA_Additions)
 - (BOOL) isNoInternetConnectionError {
-	return [self.domain isEqual: NSURLErrorDomain] && self.code == NSURLErrorNotConnectedToInternet;
+	return [self.domain isEqual: NSURLErrorDomain] && (self.code == NSURLErrorNotConnectedToInternet || self.code == NSURLErrorCannotConnectToHost || self.code == NSURLErrorNetworkConnectionLost);
 }
 
 - (BOOL) shouldProbablyBeSupressedForMostUsers {

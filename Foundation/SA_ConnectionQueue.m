@@ -947,7 +947,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 - (void) connection: (NSURLConnection *) connection didFailWithError: (NSError *) error {
 	_inProgress = NO;
 	if (self.logPhases) SA_BASE_LOG(@"Failed (%@): <%@>", error, self.url)
-	if (SA_Base_DebugMode()) self.finishedLoadingAt = [NSDate date];SA_BASE_LOG(@"Connection %@ failed: %@", self, error.internetConnectionFailed ? @"NO CONNECTION" : (id) error);
+	if (SA_Base_DebugMode()) self.finishedLoadingAt = [NSDate date];SA_BASE_LOG(@"Connection %@ failed: %@", self, error.isNoInternetConnectionError ? @"NO CONNECTION" : (id) error);
 	
 	if (_canceled) return;
 
@@ -1295,10 +1295,4 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 
 @end
 
-
-@implementation NSError (SA_ConnectionQueue)
-- (BOOL) internetConnectionFailed {
-	return (self.code == NSURLErrorCannotConnectToHost || self.code == NSURLErrorNetworkConnectionLost || self.code == NSURLErrorNotConnectedToInternet);
-}
-@end
 

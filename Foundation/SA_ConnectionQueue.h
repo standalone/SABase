@@ -163,10 +163,6 @@ SINGLETON_INTERFACE_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 + (NSString *) logDirectoryPath;
 @end
 
-@interface NSError (SA_ConnectionQueue)
-- (BOOL) internetConnectionFailed;
-@end
-
 extern NSString *kConnectionNotification_Queued;
 extern NSString *kConnectionNotification_ConnectionStarted;
 
