@@ -20,10 +20,15 @@
 #import "NSSet+SA_Additions.h"
 #import "SA_ThreadsafeMutableCollections.h"
 
-#if TARGET_OS_IPHONE
-	
-#endif
 
+#define			LOG_CONNECTION(connection)				if (SA_Base_DebugMode()) {LOG_DATA(connection.uploadedDataStream, connection.tag);}
+#define			LOG_UPLOAD(connection, name)			if (SA_Base_DebugMode()) [connection.uploadedDataStream writeToFile: [[NSString stringWithFormat: @"~/Library/Downloads/%@ up.txt", name] stringByExpandingTildeInPath] options: 0 error: nil]
+#define			LOG_DOWNLOAD(connection, name)			if (SA_Base_DebugMode()) [connection.downloadedDataStream writeToFile: [[NSString stringWithFormat: @"~/Library/Downloads/%@ down.txt", name] stringByExpandingTildeInPath] options: 0 error: nil]
+
+#if !TARGET_OS_IPHONE
+	typedef NSUInteger 		UIBackgroundTaskIdentifier;
+	#define					UIBackgroundTaskInvalid				0
+#endif
 
 
 #if VALIDATE_XML_UPLOADS
@@ -95,6 +100,8 @@ NSString *kConnectionNotification_ConnectionReachabilityChanged = @"SA_Connectio
 @property (nonatomic, readwrite) NSString *filename;
 @property (nonatomic, readwrite, strong) NSString *method;
 @property (nonatomic, readwrite, strong) id <SA_ConnectionDelegate> delegate;
+@property (nonatomic, strong) NSArray *receivedCookies;
+@property (nonatomic, readwrite, strong) NSDate *requestStartedAt, *responseReceivedAt, *finishedLoadingAt;
 
 - (void) connection: (NSURLConnection *) connection didFailWithError: (NSError *) error;
 @end
@@ -169,7 +176,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 		[self performSelector: @selector(determineConnectionLevelAvailable) withObject: nil afterDelay: 0.0];			//defer this call so as not to slow down the startup procedure
 		
 		#if TARGET_OS_IPHONE
-			self.backgroundTaskID = kUIBackgroundTaskInvalid;
+			self.backgroundTaskID = UIBackgroundTaskInvalid;
 			[self addAsObserverForName: UIApplicationWillEnterForegroundNotification selector: @selector(applicationWillEnterForeground:)];
 		#endif
 		
@@ -240,14 +247,14 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 	#if TARGET_OS_IPHONE
 		NSString		*title = NSLocalizedString(@"Connection Error", @"Connection Error");
 		NSString		*body = NSLocalizedString(@"Unable to connect. Please try again later.", @"Unable to connect. Please try again later.");
-		
-		SA_AlertView	*alert = [[SA_AlertView alloc] initWithTitle: title
-															  message: body
-															 delegate: self
-													cancelButtonTitle: NSLocalizedString(@"Cancel", nil)
-												 otherButtonTitles: allowingRetry ? NSLocalizedString(@"Retry", nil) : nil, nil];
-		
-		[alert show];
+	
+		[SA_AlertView showAlertWithTitle: title message: body buttons: @[ NSLocalizedString(@"Cancel", @"Cancel back online"), NSLocalizedString(@"Retry", @"Retry online") ] buttonBlock: ^(NSInteger buttonIndex) {
+
+			if (buttonIndex != 0) {
+				self.offline = NO;
+				[self resetOfflineAlerts];
+			}
+		}];
 	#endif
 	
 	self.offlineAlertShown = YES;
@@ -268,27 +275,6 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 	if (self.pending.count > 1) self.pending = [self.pending sortedArrayUsingDescriptors: _connectionSortDescriptors];
 }
 
-- (BOOL) performInvocationIfOffline: (NSInvocation *) invocation {
-	self.backOnlineInvocation = invocation;
-	[self showOfflineAlertAllowingRetry: YES];
-	
-	return NO;
-}
-
-#if TARGET_OS_IPHONE
-	- (void) alertView: (UIAlertView *) alertView clickedButtonAtIndex: (NSInteger) buttonIndex {
-		if (buttonIndex != alertView.cancelButtonIndex) {
-			self.offline = NO;
-			[self resetOfflineAlerts];
-			
-			if (self.backOnlineInvocation) {
-				[self.backOnlineInvocation invoke];
-			}
-		}
-		self.backOnlineInvocation = nil;
-	}
-#endif
-
 - (void) setPaused: (BOOL) paused {
 	if (paused == _paused) return;
 	
@@ -303,24 +289,22 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 - (void) processQueue {
 	[self.privateQueue addOperationWithBlock:^{
 		[self.queueProcessingTimer invalidate];
-		#ifdef kUIBackgroundTaskInvalid
         #if !TARGET_OS_MAC
-			if (self.active.count == 0 && self.pending.count == 0 && self.backgroundTaskID == kUIBackgroundTaskInvalid) return;
-			if (self.active.count == 0 && self.backgroundTaskID == kUIBackgroundTaskInvalid) {
+			if (self.active.count == 0 && self.pending.count == 0 && self.backgroundTaskID == UIBackgroundTaskInvalid) return;
+			if (self.active.count == 0 && self.backgroundTaskID == UIBackgroundTaskInvalid) {
 				self.backgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler: ^{
-					if (self.backgroundTaskID != kUIBackgroundTaskInvalid) {
+					if (self.backgroundTaskID != UIBackgroundTaskInvalid) {
 						dispatch_async_main_queue(^{
-							if (self.backgroundTaskID != kUIBackgroundTaskInvalid) {
+							if (self.backgroundTaskID != UIBackgroundTaskInvalid) {
 								SA_BASE_LOG(@"Expiring background task (forced)");
 								[[UIApplication sharedApplication] endBackgroundTask: self.backgroundTaskID];
-								self.backgroundTaskID = kUIBackgroundTaskInvalid;
+								self.backgroundTaskID = UIBackgroundTaskInvalid;
 							}
 						});
 					}
 				}];
 			}
 		#endif
-        #endif
 		
 		while (!self.offline && !self.paused && self.active.count < self.maxSimultaneousConnections && self.pending.count) {
 			SA_Connection				*connection = self.pending[0];
@@ -342,18 +326,16 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 				self.highwaterMark = 0;
 				[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_AllConnectionsCompleted object: self];
 			}
-			#ifdef kUIBackgroundTaskInvalid
             #if !TARGET_OS_MAC
-				if (self.backgroundTaskID != kUIBackgroundTaskInvalid) {
+				if (self.backgroundTaskID != UIBackgroundTaskInvalid) {
 					dispatch_async_main_queue(^{
-						if (self.backgroundTaskID != kUIBackgroundTaskInvalid && self.active.count == 0) {
+						if (self.backgroundTaskID != UIBackgroundTaskInvalid && self.active.count == 0) {
 							[[UIApplication sharedApplication] endBackgroundTask: self.backgroundTaskID];
-							self.backgroundTaskID = kUIBackgroundTaskInvalid;
+							self.backgroundTaskID = UIBackgroundTaskInvalid;
 						}
 					});
 				}
 			#endif
-            #endif
 		}
 		
 		if (self.managePleaseWaitDisplay) [self updatePleaseWaitDisplay];
@@ -707,7 +689,6 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 @synthesize suppressConnectionAlerts = _suppressConnectionAlerts, canceled = _canceled, inProgress = _inProgress, request = _request;
 @synthesize allowRepeatedKeys = _allowRepeatedKeys, discardIfOffline = _discardIfOffline, connectionFinishedBlock = _connectionFinishedBlock, timeoutInterval = _timeoutInterval;
 
-@synthesize requestLogFileName = _requestLogFileName;
 @synthesize requestStartedAt = _requestStartedAt, responseReceivedAt = _responseReceivedAt, finishedLoadingAt = _finishedLoadingAt;
 
 + (id) connectionWithURL: (NSURL *) url completionBlock: (connectionFinished) completionBlock {
@@ -805,14 +786,6 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 }
 
 - (void) setPayload: (NSData *) payload {
-	#if VALIDATE_XML_UPLOADS
-	if (SA_Base_DebugMode()) {
-		if (payload.length && strstr((char *) [payload bytes], "<?xml version=\"1.0\"") != NULL) {
-			SA_Assert([SA_XMLGenerator validateXML: payload], @"SA_Connection: XML Validation failed");
-		}
-	}
-	#endif
-	
 	if (_payload != payload) {
 		_payload = payload;
 	}
@@ -891,7 +864,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	
 	self.requestStartedAt = [NSDate date];
 	
-	LOG_CONNECTION_START(self);
+	if (self.logPhases) SA_BASE_LOG(@"%@: <%@>", @"Started", self);
 
 	if (self.connection)
 		[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_ConnectionStarted object: self];
@@ -905,7 +878,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 #pragma mark Ending connections
 - (void) cancel: (BOOL) clearDelegate {
 	__strong SA_Connection		*strongSelf = self;
-	LOG_CONNECTION_PHASE(@"Cancelled", strongSelf);
+	if (self.logPhases) SA_BASE_LOG(@"%@: <%@>", @"Cancelled", self.url)
 	
 	if ([_delegate respondsToSelector: @selector(connectionCancelled:)]) [_delegate connectionCancelled: strongSelf];
 	if (clearDelegate) strongSelf.delegate = nil;
@@ -962,7 +935,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 
 - (void) connection: (NSURLConnection *) connection didFailWithError: (NSError *) error {
 	_inProgress = NO;
-	LOG_CONNECTION_PHASE(@"Failed", self);
+	if (self.logPhases) SA_BASE_LOG(@"Failed (%@): <%@>", error, self.url)
 	if (SA_Base_DebugMode()) self.finishedLoadingAt = [NSDate date];SA_BASE_LOG(@"Connection %@ failed: %@", self, error.internetConnectionFailed ? @"NO CONNECTION" : (id) error);
 	
 	if (_canceled) return;
@@ -985,11 +958,9 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	self.finishedLoadingAt = [NSDate date];
 	if (_canceled) return;
 
-	LOG_CONNECTION_PHASE(@"Finished", self);
+	if (self.logPhases) SA_BASE_LOG(@"Completed: <%@>", self.url)
 	
 	if ([SA_ConnectionQueue sharedQueue].logAllConnections) {
-		NSError								*error = nil;
-		if (self.requestLogFileName) [[NSFileManager defaultManager] removeItemAtPath: self.requestLogFileName error: &error];
 		[[self downloadedDataStream] writeToFile: [SA_ConnectionQueue nextPrefixed: @"download" pathForTag: self.tag] atomically: YES];
 	}
 	
@@ -1071,7 +1042,8 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	//SA_BASE_LOG(@"Request Response Time: %@, Start Time: %@", [NSDate date], [NSDate dateWithTimeIntervalSinceReferenceDate: _requestStart]);
 	self.responseReceivedAt = [NSDate date];
 	
-	LOG_CONNECTION_PHASE(@"Received Response", self);
+	if (self.logPhases) SA_BASE_LOG(@"Received Response (%@): <%@>", response, self.url)
+
 	if (_file == nil && [SA_ConnectionQueue sharedQueue].fileSwitchOverLimit && [response expectedContentLength] > [SA_ConnectionQueue sharedQueue].fileSwitchOverLimit) {
 		[self switchToFileStorage]; 
 	}
@@ -1095,7 +1067,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 }
 
 - (void) connection: (NSURLConnection *) connection didReceiveData: (NSData *) data {
-	LOG_CONNECTION_PHASE([NSString stringWithFormat: @"Received Data"], self);
+	if (self.logPhases) SA_BASE_LOG(@"Received Data (%d): <%@>", (uint32_t) data.length, self.url)
 	if (_canceled) return;
 	if (_file)
 		[_file writeData: data];

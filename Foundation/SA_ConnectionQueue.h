@@ -5,30 +5,14 @@
 //  Copyright 2009 Stand Alone, Inc.. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <SystemConfiguration/SCNetworkReachability.h>
+@import Foundation;
+@import SystemConfiguration;
 
 @class SA_ThreadsafeMutableDictionary, SA_ThreadsafeMutableArray;
 
-#ifdef LOG_CONNECTION_PROGRESS
-	#define					LOG_CONNECTION_START(c)				SA_BASE_LOG(@"Starting: <0x%X> %@ (%@)", c, [[[c url] absoluteString] truncateToLength: 40], c.delegate)
-	#define					LOG_CONNECTION_PHASE(phase, conn)	SA_BASE_LOG(@"%@: <0x%X>", phase, [conn url])
-#else
-	#define					LOG_CONNECTION_START(c)	
-	#define					LOG_CONNECTION_PHASE(phase, conn)
-#endif
-
-#define			LOG_CONNECTION(connection)				if (SA_Base_DebugMode()) {LOG_DATA(connection.uploadedDataStream, connection.tag);}
-#define			LOG_UPLOAD(connection, name)			if (SA_Base_DebugMode()) [connection.uploadedDataStream writeToFile: [[NSString stringWithFormat: @"~/Library/Downloads/%@ up.txt", name] stringByExpandingTildeInPath] options: 0 error: nil]
-#define			LOG_DOWNLOAD(connection, name)			if (SA_Base_DebugMode()) [connection.downloadedDataStream writeToFile: [[NSString stringWithFormat: @"~/Library/Downloads/%@ down.txt", name] stringByExpandingTildeInPath] options: 0 error: nil]
-
-#if !TARGET_OS_IPHONE
-	typedef NSUInteger 		UIBackgroundTaskIdentifier;
-#endif
 
 #define			HTTP_STATUS_CODE_IS_ERROR(c)				(c >= 400)
 
-#define			kUIBackgroundTaskInvalid				0
 
 @class SA_Connection;
 
@@ -47,19 +31,6 @@ typedef enum {
 - (BOOL) shouldProcessFailedConnection: (SA_Connection *) connection;
 @end
 
-//use VALIDATE_XML_UPLOADS to turn on XML validation
-
-/***********************************************************************************************************************
-
- Requires:		SystemConfiguration.framework, libsqlite3 (for Persistance)
-
-
-
-
-***********************************************************************************************************************/
-
-@class SA_Connection;
-
 @protocol SA_ConnectionDelegate <NSObject>
 @optional
 - (void) connectionWillBegin: (SA_Connection *) connection;
@@ -77,6 +48,19 @@ typedef enum {
 
 
 @interface SA_Connection : NSObject <NSCopying>
+
+@property (nonatomic, copy) NSString *tag;							//a tag, broken down into different.segment.types, for filtering and identification
+@property (nonatomic, readwrite) NSInteger priority;									//where in the pending queue should this transaction fall?
+@property (nonatomic, readwrite) NSInteger order;
+@property (nonatomic, readwrite) BOOL replaceOlder, ignoreLater;					//should older connections be deleted if they match the tag, or should this be tossed?
+@property (nonatomic, readwrite) BOOL showsPleaseWait, resumable, completeInBackground, prefersFileStorage, suppressConnectionAlerts;
+@property (nonatomic, readwrite, copy) NSDictionary *submissionParameters;
+@property (nonatomic, readwrite) NSTimeInterval timeoutInterval;
+@property (nonatomic, readwrite) BOOL disableNativeCookieHandling;
+@property (nonatomic, copy) NSArray *sentCookies;
+@property (nonatomic, copy) connectionFinished connectionFinishedBlock;
+@property (nonatomic) BOOL logPhases;
+
 @property (nonatomic, readonly) NSURL *url;								//the URL to be hit
 @property (nonatomic, readonly) NSData *payload;						//data to be pushed up, usually with a PUT or POST call
 @property (nonatomic, readonly) NSURLRequest *request;					//for pre-configured requests
@@ -93,23 +77,10 @@ typedef enum {
 @property (nonatomic, readonly) BOOL inProgress;
 @property (nonatomic, readwrite) BOOL allowRepeatedKeys, discardIfOffline;
 @property (nonatomic, readonly) NSString *dataString, *payloadString;
+@property (nonatomic, readonly) NSArray *receivedCookies;
+@property (nonatomic, readonly) NSData *uploadedDataStream, *downloadedDataStream;
+@property (nonatomic, readonly) NSDate *requestStartedAt, *responseReceivedAt, *finishedLoadingAt;
 
-@property (nonatomic, readwrite) NSString *tag;							//a tag, broken down into different.segment.types, for filtering and identification
-@property (nonatomic, readwrite) NSInteger priority;									//where in the pending queue should this transaction fall?
-@property (nonatomic, readwrite) NSInteger order;
-@property (nonatomic, readwrite) BOOL replaceOlder, ignoreLater;					//should older connections be deleted if they match the tag, or should this be tossed?
-@property (nonatomic, readwrite) BOOL showsPleaseWait, resumable, completeInBackground, prefersFileStorage, suppressConnectionAlerts;
-@property (nonatomic, readwrite, copy) NSDictionary *submissionParameters;
-@property (nonatomic) NSTimeInterval timeoutInterval;
-@property (nonatomic) BOOL disableNativeCookieHandling;
-@property (nonatomic, strong) NSArray *sentCookies, *receivedCookies;
-
-@property (nonatomic, readwrite, copy) connectionFinished connectionFinishedBlock;
-
-@property (nonatomic, readwrite, strong) NSDate *requestStartedAt, *responseReceivedAt, *finishedLoadingAt;
-@property (nonatomic, readwrite, strong) NSString *requestLogFileName;
-
-@property(nonatomic, readonly) NSData *uploadedDataStream, *downloadedDataStream;
 
 + (id) connectionWithURL: (NSURL *) url completionBlock: (connectionFinished) completionBlock;
 + (id) connectionWithURL: (NSURL *) url payload: (NSData *) payload method: (NSString *) method priority: (NSInteger) priority completionBlock: (connectionFinished) completionBlock;
@@ -133,8 +104,6 @@ typedef enum {
 - (void) setUsername: (NSString *) username password: (NSString *) password;
 
 - (NSString *) responseHeader: (NSString *) key;
-- (void) connectionDidFinishLoading: (NSURLConnection *) connection;
-- (void) connection: (NSURLConnection *) connection didReceiveResponse: (NSURLResponse *) response;
 - (void) enqueue;
 @end
 
@@ -145,14 +114,12 @@ typedef enum {
 @property (readwrite) BOOL offline, showProgressInPleaseWaitDisplay, logAllConnections;
 @property (readonly) BOOL wifiAvailable, wlanAvailable;
 @property (readwrite) NSUInteger maxSimultaneousConnections;
-@property (nonatomic, readwrite, strong) NSString *dbPath;				//used for persistance
 @property (nonatomic, readwrite) NSInteger defaultPriorityLevel, minimumIndicatedPriorityLevel, fileSwitchOverLimit;
 @property (nonatomic, readonly) NSUInteger connectionCount;
 @property (nonatomic, readwrite) BOOL dontProcessFailedStatusCodes;
 @property (nonatomic, readwrite) BOOL suppressPleaseWaitDisplay;
 @property (nonatomic, readonly) BOOL shouldPleaseWaitBeVisible;					//used to check if a pleaseWait SHOLD be shown, regardless of whether _suppressPleaseWaitDisplay is set 
 @property (nonatomic, readonly) BOOL connectionsArePending;
-@property (nonatomic, readwrite, strong) NSInvocation *backOnlineInvocation;
 @property (nonatomic, readwrite, strong) NSThread *backgroundThread;
 @property (nonatomic, readwrite) BOOL managePleaseWaitDisplay, suppressOfflineAlerts;
 @property (nonatomic, weak) id <SA_ConnectionRouter> router;
