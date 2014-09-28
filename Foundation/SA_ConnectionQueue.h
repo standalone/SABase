@@ -111,6 +111,8 @@ typedef enum {
 
 @interface SA_ConnectionQueue : NSObject <SA_ConnectionRouter>
 
+SINGLETON_INTERFACE_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
+
 @property (atomic, readwrite) NSInteger activityIndicatorCount;
 
 @property (readwrite) BOOL offline, showProgressInPleaseWaitDisplay, logAllConnections;
@@ -128,11 +130,9 @@ typedef enum {
 @property (nonatomic) BOOL paused;
 @property (nonatomic, readonly) long long bytesDownloaded;
 
-SINGLETON_INTERFACE_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 
 - (BOOL) queueConnection: (SA_Connection *) connection;
 - (BOOL) queueConnection: (SA_Connection *) connection andPromptIfOffline: (BOOL) prompt;
-- (BOOL) performInvocationIfOffline: (NSInvocation *) invocation;
 - (void) processQueue;
 - (void) resetOfflineAlerts;
 - (void) attempToGoOnline;
@@ -143,16 +143,16 @@ SINGLETON_INTERFACE_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 - (void) addHeader: (NSString *) header label: (NSString *) label;
 - (void) removeHeader: (NSString *) label;
 - (void) removeAllHeaders;
+
 - (BOOL) isExistingConnectionsTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate;
 - (BOOL) isExistingConnectionSimilar: (SA_Connection *) targetConnection;
 - (void) removeConnectionsTaggedWith: (NSString *) tag;
 - (void) removeConnectionsWithDelegate: (id) delegate;
 - (void) removeConnectionsTaggedWith: (NSString *) tag delegate: (id) delegate;
 - (void) cancelAllConnections;
-- (SA_Connection *) existingConnectionsTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate;
+- (SA_Connection *) findExistingConnectionsTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate;
 
-- (void) connectionFailed: (SA_Connection *) connection withError: (NSError *) error;
-- (float) remainingConnectionsAboveMinimum;
+- (NSInteger) remainingConnectionsAboveMinimum;
 - (void) dequeueConnection: (SA_Connection *) connection;
 - (void) updatePleaseWaitDisplay;
 - (void) hideActivityIndicator;

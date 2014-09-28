@@ -383,10 +383,10 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 }
 
 - (BOOL) isExistingConnectionsTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate {
-	return [self existingConnectionsTaggedWith: tag delegate: delegate] != nil;
+	return [self findExistingConnectionsTaggedWith: tag delegate: delegate] != nil;
 }
 
-- (SA_Connection *) existingConnectionsTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate {
+- (SA_Connection *) findExistingConnectionsTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate {
 	@try {
 		NSMutableSet		*checkSet = self.active.mutableCopy ?: [NSMutableSet new];
 		
@@ -507,7 +507,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 #if TARGET_OS_IPHONE
 	- (void) hidePleaseWaitDisplay {
 		if (!self.managePleaseWaitDisplay) return;
-		int					remaining = [self remainingConnectionsAboveMinimum];
+		NSInteger					remaining = [self remainingConnectionsAboveMinimum];
 		
 		if (remaining == 0) {
 			[SA_PleaseWaitDisplay hidePleaseWaitDisplay];
@@ -635,14 +635,14 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 			#endif
 		}
 	} else {
-		
+		[self fireReachabilityStatus];
 	}
 }
 
 //=============================================================================================================================
 #pragma mark Misc
-- (float) remainingConnectionsAboveMinimum {
-	float				count = 0;
+- (NSInteger) remainingConnectionsAboveMinimum {
+	NSInteger				count = 0;
 	
 	for (SA_Connection *connection in self.active) { if (connection.priority >= _minimumIndicatedPriorityLevel) count++; }
 	for (SA_Connection *connection in self.pending) { if (connection.priority >= _minimumIndicatedPriorityLevel) count++; }
@@ -1060,7 +1060,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 }
 
 - (NSString *) debugDescription {
-	NSMutableString				*desc = [NSMutableString stringWithFormat: @"<0x%x>%@", (int) self, NSStringFromClass([self class])];
+	NSMutableString				*desc = [NSMutableString stringWithFormat: @"<0x%x>%@", (UInt16) self, NSStringFromClass([self class])];
 	if (self.tag) [desc appendFormat: @", tag: %@", self.tag];
 	[desc appendFormat: @", Pri: %ld", (long)_priority];
 	if (self.delegate) [desc appendFormat: @", delegate: <0x%@> %@", self.delegate, NSStringFromClass([self.delegate class])];
