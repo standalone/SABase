@@ -79,6 +79,7 @@ NSString *kConnectionNotification_ConnectionReachabilityChanged = @"SA_Connectio
 @property (nonatomic, strong) NSOperationQueue *privateQueue;
 @property (nonatomic, weak) NSTimer *queueProcessingTimer;
 @property (nonatomic) long long bytesDownloaded;
+@property (nonatomic) BOOL asyncConnectionHandling;
 
 @property (nonatomic, strong) NSArray *pending;
 @property (nonatomic, strong) NSSet *active;
@@ -998,10 +999,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 				
 				[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_ConnectionFinished object: self];
 			});
-		} else  if ([SA_ConnectionQueue sharedQueue].backgroundThread)
-			[self performSelector: @selector(backgroundConnectionDidFinish) onThread: [SA_ConnectionQueue sharedQueue].backgroundThread withObject: nil waitUntilDone: NO];
-		else
-			[NSThread detachNewThreadSelector: @selector(backgroundConnectionDidFinish) toTarget: self withObject: nil];
+		}
 	} else {
 		if ([_delegate respondsToSelector: @selector(connectionDidFinish:)]) [_delegate connectionDidFinish: self];
 	} 

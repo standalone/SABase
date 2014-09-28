@@ -111,6 +111,8 @@ typedef enum {
 
 @interface SA_ConnectionQueue : NSObject <SA_ConnectionRouter>
 
+@property (atomic, readwrite) NSInteger activityIndicatorCount;
+
 @property (readwrite) BOOL offline, showProgressInPleaseWaitDisplay, logAllConnections;
 @property (readonly) BOOL wifiAvailable, wlanAvailable;
 @property (readwrite) NSUInteger maxSimultaneousConnections;
@@ -120,10 +122,8 @@ typedef enum {
 @property (nonatomic, readwrite) BOOL suppressPleaseWaitDisplay;
 @property (nonatomic, readonly) BOOL shouldPleaseWaitBeVisible;					//used to check if a pleaseWait SHOLD be shown, regardless of whether _suppressPleaseWaitDisplay is set 
 @property (nonatomic, readonly) BOOL connectionsArePending;
-@property (nonatomic, readwrite, strong) NSThread *backgroundThread;
 @property (nonatomic, readwrite) BOOL managePleaseWaitDisplay, suppressOfflineAlerts;
 @property (nonatomic, weak) id <SA_ConnectionRouter> router;
-@property (atomic, readwrite) NSInteger activityIndicatorCount;
 @property (nonatomic, assign) dispatch_queue_t backgroundQueue;
 @property (nonatomic) BOOL paused;
 @property (nonatomic, readonly) long long bytesDownloaded;
