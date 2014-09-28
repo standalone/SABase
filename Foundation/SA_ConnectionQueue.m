@@ -47,11 +47,6 @@
 	#import "SA_AlertView.h"
 #endif
 
-#if ENABLE_RECORDING
-	#import "SA_ConnectionQueue+Recording.h"
-#endif
-
-
 NSString *kConnectionNotification_NotConnectedToInternet = @"SA_Connection: Not connected to the internet";
 NSString *kConnectionNotification_ConnectionFailedToStart = @"SA_Connection: could not start connection";
 NSString *kConnectionNotification_AllConnectionsCompleted = @"SA_Connection: all connections completed";
@@ -843,21 +838,6 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	
 	if ([_delegate respondsToSelector: @selector(connectionWillBegin:)]) [_delegate connectionWillBegin: self];
 	
-	#if ENABLE_RECORDING	
-		if ([SA_ConnectionQueue sharedQueue].recordSetting == connection_playback || [SA_ConnectionQueue sharedQueue].recordSetting == connection_playbackAndFetch) {
-			if ([self playback]) {
-				[self performSelector: @selector(connectionDidFinishLoading:) withObject: nil afterDelay: 1.0];
-				return YES;
-			}
-			if ([SA_ConnectionQueue sharedQueue].recordSetting == connection_playback) {
-				[NSObject performBlock: ^{
-					NSError				*error = nil;//[NSError errorWithDomain: @"Connection Failed" code: NSURLErrorNotConnectedToInternet userInfo: nil];
-					[self connection: nil didFailWithError: error];
-				} afterDelay: 1.0];
-				return NO;
-			}
-		}
-	#endif
 	self.connection = [[NSURLConnection alloc] initWithRequest: self.request delegate: self startImmediately: NO];
 	
 	[self.connection setDelegateQueue: [SA_ConnectionQueue sharedQueue].privateQueue];
@@ -953,9 +933,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 
 - (void) connectionDidFinishLoading: (NSURLConnection *) connection {
 	_inProgress = NO;
-	#if ENABLE_RECORDING
-		if ([SA_ConnectionQueue sharedQueue].recordSetting == connection_record) [self record]; 
-	#endif
+
 	self.finishedLoadingAt = [NSDate date];
 	if (_canceled) return;
 

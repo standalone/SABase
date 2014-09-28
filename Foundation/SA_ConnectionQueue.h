@@ -128,8 +128,6 @@ typedef enum {
 @property (nonatomic) BOOL paused;
 @property (nonatomic, readonly) long long bytesDownloaded;
 
-@property (nonatomic, readwrite) connection_record_setting recordSetting;
-
 SINGLETON_INTERFACE_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 
 - (BOOL) queueConnection: (SA_Connection *) connection;
