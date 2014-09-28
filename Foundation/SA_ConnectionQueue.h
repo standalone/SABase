@@ -60,15 +60,15 @@ typedef enum {
 @property (nonatomic, copy) NSArray *sentCookies;
 @property (nonatomic, copy) connectionFinished connectionFinishedBlock;
 @property (nonatomic) BOOL logPhases;
+@property (nonatomic, copy) NSString *method;						//what HTTP method should be used? Defaults to GET
+@property (nonatomic, copy) NSData *payload;						//data to be pushed up, usually with a PUT or POST call
 
 @property (nonatomic, readonly) NSURL *url;								//the URL to be hit
-@property (nonatomic, readonly) NSData *payload;						//data to be pushed up, usually with a PUT or POST call
 @property (nonatomic, readonly) NSURLRequest *request;					//for pre-configured requests
 @property (nonatomic, readonly) NSURLRequest *generatedRequest;					//takes the configured values and returns an NSURLRequest
 @property (nonatomic, readonly) NSData *data;									//the data returned by the server
 @property (nonatomic, readonly) NSFileHandle *file;								//if storing in a file, the file
 @property (nonatomic, readonly) NSString *filename;						//if storing in a file, the filenamel this can be set if a known filename is desired
-@property (nonatomic, readonly) NSString *method;						//what HTTP method should be used? Defaults to GET
 @property (nonatomic, readonly) id <SA_ConnectionDelegate> delegate;	//where completed/failed messages are sent
 @property (nonatomic, readonly) NSDictionary *allResponseHeaders;
 @property (nonatomic, readonly) NSInteger statusCode;
@@ -105,6 +105,9 @@ typedef enum {
 
 - (NSString *) responseHeader: (NSString *) key;
 - (void) enqueue;
+
+- (void) connectionDidFinishLoading: (NSURLConnection *) connection;		//so that subclasses can call super
+
 @end
 
 
@@ -144,7 +147,7 @@ SINGLETON_INTERFACE_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 - (void) removeHeader: (NSString *) label;
 - (void) removeAllHeaders;
 
-- (BOOL) isExistingConnectionsTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate;
+- (BOOL) isExistingConnectionTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate;
 - (BOOL) isExistingConnectionSimilar: (SA_Connection *) targetConnection;
 - (void) removeConnectionsTaggedWith: (NSString *) tag;
 - (void) removeConnectionsWithDelegate: (id) delegate;

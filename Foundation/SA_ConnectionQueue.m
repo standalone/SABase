@@ -91,10 +91,8 @@ NSString *kConnectionNotification_ConnectionReachabilityChanged = @"SA_Connectio
 @property (nonatomic, strong) NSMutableData *mutableData;
 @property (nonatomic, strong) NSMutableDictionary *connectionHeaders, *extraKeyValues;
 @property (nonatomic, readwrite, strong) NSURL *url;
-@property (nonatomic, readwrite, strong) NSData *payload;
 @property (nonatomic, readwrite, strong) NSURLRequest *request;
 @property (nonatomic, readwrite) NSString *filename;
-@property (nonatomic, readwrite, strong) NSString *method;
 @property (nonatomic, readwrite, strong) id <SA_ConnectionDelegate> delegate;
 @property (nonatomic, strong) NSArray *receivedCookies;
 @property (nonatomic, readwrite, strong) NSDate *requestStartedAt, *responseReceivedAt, *finishedLoadingAt;
@@ -372,7 +370,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 - (BOOL) isExistingConnectionSimilar: (SA_Connection *) targetConnection {
 	__block BOOL			isSimilar = NO;
 
-	if (targetConnection.tag || targetConnection.delegate) return [self isExistingConnectionsTaggedWith: targetConnection.tag delegate: targetConnection.delegate];
+	if (targetConnection.tag || targetConnection.delegate) return [self isExistingConnectionTaggedWith: targetConnection.tag delegate: targetConnection.delegate];
 
 	[self.privateQueue addOperations: @[ [NSBlockOperation blockOperationWithBlock: ^{
 		NSSet				*checkSet = [self.active setByAddingObjectsFromArray: self.pending];
@@ -389,7 +387,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 	
 }
 
-- (BOOL) isExistingConnectionsTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate {
+- (BOOL) isExistingConnectionTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate {
 	return [self findExistingConnectionsTaggedWith: tag delegate: delegate] != nil;
 }
 
