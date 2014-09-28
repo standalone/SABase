@@ -268,7 +268,9 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 }
 
 - (void) reorderPendingConnectionsByPriority {
-	if (self.pending.count > 1) self.pending = [self.pending sortedArrayUsingDescriptors: _connectionSortDescriptors];
+	[self.privateQueue addOperationWithBlock:^{
+		if (self.pending.count > 1) self.pending = [self.pending sortedArrayUsingDescriptors: _connectionSortDescriptors];
+	}];
 }
 
 - (void) setPaused: (BOOL) paused {
@@ -368,17 +370,22 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 - (void) cancelAllConnections { [self removeConnectionsTaggedWith: nil delegate: nil]; }
 
 - (BOOL) isExistingConnectionSimilar: (SA_Connection *) targetConnection {
-	@try {
-		if (targetConnection.tag || targetConnection.delegate) return [self isExistingConnectionsTaggedWith: targetConnection.tag delegate: targetConnection.delegate];
-		
+	__block BOOL			isSimilar = NO;
+
+	if (targetConnection.tag || targetConnection.delegate) return [self isExistingConnectionsTaggedWith: targetConnection.tag delegate: targetConnection.delegate];
+
+	[self.privateQueue addOperations: @[ [NSBlockOperation blockOperationWithBlock: ^{
 		NSSet				*checkSet = [self.active setByAddingObjectsFromArray: self.pending];
 		
 		for (SA_Connection *connection in checkSet) {
-			if (!connection.canceled && [targetConnection.url isEqual: connection.url]) return YES;
+			if (!connection.canceled && [targetConnection.url isEqual: connection.url]) {
+				isSimilar = YES;
+				break;
+			}
 		}
-	} @catch (NSException *e) {}
+	}] ] waitUntilFinished: YES];
 	
-	return NO;
+	return isSimilar;
 	
 }
 
@@ -387,7 +394,9 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 }
 
 - (SA_Connection *) findExistingConnectionsTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate {
-	@try {
+	__block SA_Connection		*found = nil;
+	
+	[self.privateQueue addOperations: @[ [NSBlockOperation blockOperationWithBlock: ^{
 		NSMutableSet		*checkSet = self.active.mutableCopy ?: [NSMutableSet new];
 		
 		if (self.pending.count) [checkSet addObjectsFromArray: self.pending];
@@ -396,11 +405,14 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 			if ((tag == nil && connection.tag != nil) || (tag != nil && connection.tag == nil)) continue;
 			if (tag && [connection.tag rangeOfString: tag].location == NSNotFound) continue;
 			
-			if ((delegate == nil && connection.delegate == nil) || delegate == connection.delegate) return connection;
+			if ((delegate == nil && connection.delegate == nil) || delegate == connection.delegate) {
+				found = connection;
+				break;
+			}
 		}
-	} @catch (NSException *e) {};
+	}] ] waitUntilFinished: YES];
 	
-	return nil;
+	return found;
 }
 
 - (void) resetHighwaterMark { self.highwaterMark = 0; }
@@ -414,7 +426,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 	_offline = offline;
 
 	if (_offline) {				//need too cancel all active connections
-		[self.privateQueue addOperationWithBlock:^{
+		[self.privateQueue addOperationWithBlock: ^{
 			for (SA_Connection *connection in self.active) {
 				SA_Assert(!connection.alreadyStarted, @"There was an unstarted connection in the active list: %@", connection);
 				[connection reset];
@@ -446,8 +458,22 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 }
 
 - (void) setMaxSimultaneousConnections: (NSUInteger) max { _maxSimultaneousConnections = max; }
-- (BOOL) connectionsArePending { return (self.pending.count > 0 || self.active.count > 0); }
-- (NSUInteger) connectionCount { return self.active.count + self.pending.count; }
+- (BOOL) connectionsArePending {
+	__block BOOL			pending = NO;
+	[self.privateQueue addOperations: @[ [NSBlockOperation blockOperationWithBlock: ^{
+		pending = (self.pending.count > 0 || self.active.count > 0);
+	}] ] waitUntilFinished: YES];
+	return pending;
+}
+
+- (NSUInteger) connectionCount {
+	__block NSUInteger			count = 0;
+	
+	[self.privateQueue addOperations: @[ [NSBlockOperation blockOperationWithBlock: ^{
+		count = self.active.count + self.pending.count;
+	}] ] waitUntilFinished: YES];
+	return count;
+}
 
 //=============================================================================================================================
 #pragma mark Activity Indicator
@@ -642,27 +668,31 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 //=============================================================================================================================
 #pragma mark Misc
 - (NSInteger) remainingConnectionsAboveMinimum {
-	NSInteger				count = 0;
+	__block NSInteger				count = 0;
 	
-	for (SA_Connection *connection in self.active) { if (connection.priority >= _minimumIndicatedPriorityLevel) count++; }
-	for (SA_Connection *connection in self.pending) { if (connection.priority >= _minimumIndicatedPriorityLevel) count++; }
+	[self.privateQueue addOperations: @[ [NSBlockOperation blockOperationWithBlock:^{
+		for (SA_Connection *connection in self.active) { if (connection.priority >= _minimumIndicatedPriorityLevel) count++; }
+		for (SA_Connection *connection in self.pending) { if (connection.priority >= _minimumIndicatedPriorityLevel) count++; }
+	}] ] waitUntilFinished: YES];
 	
 	return count;
 }
 
 - (NSString *) description {
-	NSMutableString				*results = [NSMutableString string];
+	__block NSMutableString				*results = [NSMutableString string];
 	
-	[results appendFormat: @"\nActive (%ld):\n", (long) self.active.count];
-	for (SA_Connection *connection in self.active) {
-		[results appendFormat: @"\t\t%@\n", connection];
-	}
-	
-	if (self.active.count && self.pending.count) [results appendString: @"\n"];
-	[results appendFormat: @"Pending (%ld):\n", (long) self.pending.count];
-	for (SA_Connection *connection in self.pending) {
-		[results appendFormat: @"\t\t%@\n", connection];
-	}
+	[self.privateQueue addOperations: @[ [NSBlockOperation blockOperationWithBlock: ^{
+		[results appendFormat: @"\nActive (%ld):\n", (long) self.active.count];
+		for (SA_Connection *connection in self.active) {
+			[results appendFormat: @"\t\t%@\n", connection];
+		}
+		
+		if (self.active.count && self.pending.count) [results appendString: @"\n"];
+		[results appendFormat: @"Pending (%ld):\n", (long) self.pending.count];
+		for (SA_Connection *connection in self.pending) {
+			[results appendFormat: @"\t\t%@\n", connection];
+		}
+	}] ] waitUntilFinished: YES];
 	
 	return results;
 }
