@@ -8,6 +8,8 @@
 #import <Foundation/Foundation.h>
 #import <SystemConfiguration/SCNetworkReachability.h>
 
+@class SA_ThreadsafeMutableDictionary, SA_ThreadsafeMutableArray;
+
 #ifdef LOG_CONNECTION_PROGRESS
 	#define					LOG_CONNECTION_START(c)				SA_BASE_LOG(@"Starting: <0x%X> %@ (%@)", c, [[[c url] absoluteString] truncateToLength: 40], c.delegate)
 	#define					LOG_CONNECTION_PHASE(phase, conn)	SA_BASE_LOG(@"%@: <0x%X>", phase, [conn url])
@@ -161,41 +163,12 @@ typedef enum {
 - (NSString *) responseHeader: (NSString *) key;
 - (void) connectionDidFinishLoading: (NSURLConnection *) connection;
 - (void) connection: (NSURLConnection *) connection didReceiveResponse: (NSURLResponse *) response;
-- (void) queue;
+- (void) enqueue;
 @end
 
 
 
-@interface SA_ConnectionQueue : NSObject <SA_ConnectionRouter> {
-	NSMutableArray					*_pleaseWaitConnections;
-	NSMutableDictionary				*_headers;
-	
-	BOOL							_offline, _showProgressInPleaseWaitDisplay;
-	NSUInteger 						_maxSimultaneousConnections;
-	NSArray							*_connectionSortDescriptors;
-	NSInteger 						_defaultPriorityLevel, _minimumIndicatedPriorityLevel;
-	float							_highwaterMark;
-	
-	void							*_db;
-	NSString						*_dbPath;
-	
-@protected
-	BOOL							_wifiAvailable, _wlanAvailable, _managePleaseWaitDisplay;
-	NSInteger 								_fileSwitchOverLimit;
-	
-	BOOL							_dontProcessFailedStatusCodes;
-
-	SA_Connection					*_currentTopPleaseWaitConnection;				//not strong, simply the address of the connection that currently has the please wait 'focus'
-	BOOL							_suppressPleaseWaitDisplay;						//if the app wants to show it's own 'please wait', set this to true
-	BOOL							_offlineAlertShown, _suppressOfflineAlerts;
-	NSInvocation					*_backOnlineInvocation;
-	NSInteger						_activityIndicatorCount;
-	
-	UIBackgroundTaskIdentifier		_backgroundTaskID;
-	NSThread						*_backgroundThread;
-	SCNetworkReachabilityRef		_reachabilityRef;
-	connection_record_setting		_recordSetting;
-}
+@interface SA_ConnectionQueue : NSObject <SA_ConnectionRouter>
 
 @property (readwrite) BOOL offline, showProgressInPleaseWaitDisplay, logAllConnections;
 @property (readonly) BOOL wifiAvailable, wlanAvailable;
