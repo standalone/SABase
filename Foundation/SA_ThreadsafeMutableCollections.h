@@ -59,6 +59,7 @@ typedef void (^simpleMutableSetBlock)(NSMutableSet *set);
 - (void) setObject: (id) object forKey: (id <NSCopying>) key;
 - (void) removeObjectForKey: (id) key;
 - (void) safelyAccessInBlock: (simpleMutableDictionaryBlock) block;
+- (void) removeAllObjects;
 
 @property (nonatomic, readonly) NSArray *allObjects;
 @property (nonatomic, readonly) NSUInteger count;

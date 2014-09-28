@@ -174,6 +174,10 @@
 	@synchronized (self) { [self.backingDictionary removeObjectForKey: key]; }
 }
 
+- (void) removeAllObjects {
+	@synchronized (self) { [self.backingDictionary removeAllObjects]; }
+}
+
 - (void) safelyAccessInBlock: (simpleMutableDictionaryBlock) block {
 	@synchronized (self) { block(self.backingDictionary); }
 }
