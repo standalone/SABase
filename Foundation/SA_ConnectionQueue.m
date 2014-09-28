@@ -313,7 +313,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 			SA_Connection				*connection = self.pending[0];
 			
 			SA_Assert(!connection.alreadyStarted, @"Somehow a previously started connection is in the pending list: %@", connection);
-			for (NSString *key in _headers) {[connection addHeader: _headers[key] label: key];}
+			for (NSString *key in self.headers) {[connection addHeader: self.headers[key] label: key];}
 			if ([connection start]) {
 				self.activityIndicatorCount++;
 				self.active = [self.active setByAddingObject: connection];
@@ -347,8 +347,8 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 	}];
 }
 
-- (void) addHeader: (NSString *) header label: (NSString *) label { _headers[label] = header; }
-- (void) removeHeader: (NSString *) label { [_headers removeObjectForKey: label]; }
+- (void) addHeader: (NSString *) header label: (NSString *) label { self.headers[label] = header; }
+- (void) removeHeader: (NSString *) label { [self.headers removeObjectForKey: label]; }
 - (void) removeAllHeaders { [self.headers removeAllObjects]; }
 
 
@@ -694,11 +694,14 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 #pragma mark SA_Connection
 
 @interface SA_Connection()
+@property(nonatomic, strong) NSURLConnection *connection;
+@property (nonatomic, strong) NSMutableData *mutableData;
+@property (nonatomic, strong) NSMutableDictionary *connectionHeaders, *extraKeyValues;
 - (void) connection: (NSURLConnection *) connection didFailWithError: (NSError *) error;
 @end
 
 @implementation SA_Connection
-@synthesize url = _url, data = _data, payload = _payload, method = _method, delegate = _delegate, tag = _tag, priority = _priority, persists = _persists;
+@synthesize tag = _tag, priority = _priority, persists = _persists;
 @synthesize persistantID = _persistantID, order = _order, file = _file, filename = _filename, allResponseHeaders = _responseHeaders, statusCode = _statusCode;
 @synthesize replaceOlder = _replaceOlder, ignoreLater = _ignoreLater, showsPleaseWait = _showsPleaseWait, resumable = _resumable, completeInBackground = _completeInBackground, prefersFileStorage = _prefersFileStorage;
 @synthesize suppressConnectionAlerts = _suppressConnectionAlerts, canceled = _canceled, inProgress = _inProgress, request = _request;
@@ -771,10 +774,6 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	return _statusCode != 0;
 }
 
-- (NSData *) data {
-	return _data;
-}
-
 - (id) copyWithZone: (NSZone *) ignored {
 	SA_Connection					*connection = [[[self class] alloc] init];
 	
@@ -786,25 +785,25 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	connection.persists = self.persists;
 	connection.method = self.method;
 	connection.sentCookies = self.sentCookies.copy;
-	connection->_headers = [_headers mutableCopy];
+	connection.connectionHeaders = [self.connectionHeaders mutableCopy];
 	
 	return connection;
 }
 
 - (void) removeHeader: (NSString *) label {
-	[_headers removeObjectForKey: label];
+	[self.connectionHeaders removeObjectForKey: label];
 }
 
 - (void) addHeader: (NSString *) header label: (NSString *) label {
-	if (_headers == nil) _headers = [[NSMutableDictionary alloc] init];
+	if (self.connectionHeaders == nil) self.connectionHeaders = [[NSMutableDictionary alloc] init];
 	
-	if ([_headers objectForKey: label]) {
-		NSArray				*components = [[_headers objectForKey: label] componentsSeparatedByString: @";"];
+	if (self.connectionHeaders[label]) {
+		NSArray				*components = [self.connectionHeaders[label] componentsSeparatedByString: @";"];
 		
 		if ([components containsObject: header]) return;
-		header = [NSString stringWithFormat: @"%@;%@", header, [_headers objectForKey: label]];
+		header = [NSString stringWithFormat: @"%@;%@", header, self.connectionHeaders[label]];
 	} 
-	[_headers setObject: header forKey: label];
+	self.connectionHeaders[label] = header;
 }
 
 - (void) setPayload: (NSData *) payload {
@@ -862,12 +861,12 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 			NSUInteger						offset = [_file seekToEndOfFile];
 			
 			if (offset) {
-				if (_headers == nil) _headers = [[NSMutableDictionary alloc] init];
-				[_headers setObject: [NSString stringWithFormat: @" bytes=%lu-", (unsigned long)offset] forKey: @"Range"];
+				if (self.connectionHeaders == nil) self.connectionHeaders = [[NSMutableDictionary alloc] init];
+				[self.connectionHeaders setObject: [NSString stringWithFormat: @" bytes=%lu-", (unsigned long)offset] forKey: @"Range"];
 			}
 		}
 	} else
-		_data = [[NSMutableData alloc] init];
+		self.mutableData = [[NSMutableData alloc] init];
 	
 	
 	if ([_delegate respondsToSelector: @selector(connectionWillBegin:)]) [_delegate connectionWillBegin: self];
@@ -887,24 +886,21 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 			}
 		}
 	#endif
-	_connection = [[NSURLConnection alloc] initWithRequest: self.request delegate: self startImmediately: NO];
+	self.connection = [[NSURLConnection alloc] initWithRequest: self.request delegate: self startImmediately: NO];
 	
-	if (RUNNING_ON_60) {
-		[_connection setDelegateQueue: [SA_ConnectionQueue sharedQueue].privateQueue];
-		[_connection start];
-	} else {
-		[_connection performSelectorOnMainThread: @selector(start) withObject: nil waitUntilDone: NO];
-	}
+	[self.connection setDelegateQueue: [SA_ConnectionQueue sharedQueue].privateQueue];
+	[self.connection start];
 	
 	self.requestStartedAt = [NSDate date];
 	
 	LOG_CONNECTION_START(self);
-	if (_connection == nil) SA_BASE_LOG(@"Error while starting connection: %@", self);
-			
-	if (_connection) { 
+
+	if (self.connection)
 		[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_ConnectionStarted object: self];
-	}
-	return (_connection != nil);
+	else
+		SA_BASE_LOG(@"Error while starting connection: %@", self);
+	
+	return (self.connection != nil);
 }
 
 //=============================================================================================================================
@@ -919,7 +915,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 
 	[[SA_ConnectionQueue sharedQueue] dequeueConnection: strongSelf];
 
-	[_connection cancel];
+	[self.connection cancel];
 	_canceled = YES;
 	[strongSelf reset];
 	[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_ConnectionCancelled object: strongSelf];
@@ -932,13 +928,13 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 }
 
 - (BOOL) alreadyStarted {
-	return _data != nil || _connection != nil;
+	return self.mutableData != nil || self.connection != nil;
 }
 - (void) reset {
 	_statusCode = 0;
-	_data = nil;
-	[_connection cancel];
-	_connection = nil;
+	self.mutableData = nil;
+	[self.connection cancel];
+	self.connection = nil;
 	_file = nil;
 	_filename = nil;
 }
@@ -958,9 +954,9 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 }
 
 - (NSDictionary *) generatedHeaders {
-	if (self.sentCookies.count == 0) return _headers;
+	if (self.sentCookies.count == 0) return self.connectionHeaders;
 	
-	NSMutableDictionary				*headers = _headers.mutableCopy;
+	NSMutableDictionary				*headers = self.connectionHeaders.mutableCopy;
 	
 	headers[@"Cookie"] = [self.sentCookies componentsJoinedByString: @","];
 	return headers;
@@ -980,7 +976,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	
 	[[SA_ConnectionQueue sharedQueue] connectionFailed: self withError: error];
 	[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_ConnectionFailed object: self];
-	_connection = nil;
+	self.connection = nil;
 }
 
 - (void) connectionDidFinishLoading: (NSURLConnection *) connection {
@@ -1002,7 +998,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	if (_file) [_file closeFile];
 	
 	[[SA_ConnectionQueue sharedQueue] dequeueConnection: self];			//dequeue the connection, and start the queue working on the next one, then we handle this one's data
-	_connection = nil;
+	self.connection = nil;
 	
 	if (![[SA_ConnectionQueue sharedQueue].router shouldProcessSuccessfulConnection: self]) return;
 	
@@ -1010,8 +1006,8 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 
 	if (self.prefersFileStorage) 
 		[self switchToFileStorage];
-	else if (_data == nil && _file) 
-		_data = [NSMutableData dataWithContentsOfFile: _filename];
+	else if (self.mutableData == nil && _file)
+		self.mutableData = [NSMutableData dataWithContentsOfFile: _filename];
 	
 
 	if (self.connectionFinishedBlock) dontProcessFailedStatusCodes = NO;
@@ -1106,7 +1102,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	if (_file)
 		[_file writeData: data];
 	else
-		[_data appendData: data];
+		[self.mutableData appendData: data];
 	
 	[[SA_ConnectionQueue sharedQueue] incrementBytesDownloaded: data.length];
 }
@@ -1124,7 +1120,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	if (self.delegate) [desc appendFormat: @", delegate: <0x%@> %@", self.delegate, NSStringFromClass([self.delegate class])];
 	
 	[desc appendFormat: @"\nHeaders:\n"];
-	NSMutableDictionary			*headers = [NSMutableDictionary dictionaryWithDictionary: _headers ?: @{}];
+	NSMutableDictionary			*headers = [NSMutableDictionary dictionaryWithDictionary: self.connectionHeaders ?: @{}];
 	for (NSString *header in self.request.allHTTPHeaderFields) { headers[header] = self.request.allHTTPHeaderFields[header]; }
 	
 	for (NSString *field in headers) {
@@ -1133,7 +1129,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	[desc appendFormat: @"URL:\t\t\t%@\nMethod:\t\t\t%@\n", self.url, self.method];
 	if (self.payload.length) [desc appendFormat: @"Payload:\n%@\n", self.payloadString];
 
-	if (self.data.length) [desc appendFormat: @"\nResult (%ld): \n", (long)self.statusCode];
+	if (self.mutableData.length) [desc appendFormat: @"\nResult (%ld): \n", (long)self.statusCode];
 	
 	[desc appendFormat: @"\nResponse Headers:\n"];
 	for (NSString *field in _responseHeaders) {
@@ -1170,13 +1166,6 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	
 	FILE						*f = fopen([_filename fileSystemRepresentation], self.resumable ? "a+" : "w+");
 	
-	
-//	long						filesize = 0;
-//	
-//	if (self.resumable) {
-//		fseek(f, SEEK_END, 0);
-//		filesize = ftell(f);
-//	}
 	fclose(f);
 
 	//SA_BASE_LOG(@"Created file: %@, (%@)", _filename, [[NSFileManager defaultManager] fileExistsAtPath: _filename] ? @"exists" : @"doesn't exist");
@@ -1186,8 +1175,8 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 		return;
 	}
 	
-	if (_data.length) [_file writeData: _data];
-	_data = nil;
+	if (self.mutableData.length) [_file writeData: self.mutableData];
+	self.mutableData = nil;
 }
 
 - (void) setUsername:(NSString *)username password:(NSString *) password {
@@ -1212,9 +1201,9 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	[data appendBytes: method length: strlen(method)];
 	[data appendBytes: "\n" length: 1];
 	
-	for (NSString *key in _headers) {
+	for (NSString *key in self.connectionHeaders) {
 		char					*label = (char *) [key UTF8String];
-		char					*value = (char *) [[_headers valueForKey: key] UTF8String];
+		char					*value = (char *) [self.connectionHeaders[key] UTF8String];
 		
 		[data appendBytes: label length: strlen(label)];
 		[data appendBytes: ": " length: 2];
@@ -1251,10 +1240,12 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 }
 
 - (NSData *) downloadedData {
-	if (_data) return _data;
+	if (self.mutableData) return self.mutableData;
 	if (_filename) return [NSData dataWithContentsOfFile: _filename];
 	return nil;
 }
+
+- (NSData *) data { return self.mutableData; }
 
 - (NSDictionary *) submissionParameters {
 	return [NSDictionary dictionaryWithPostData: _payload];
@@ -1264,19 +1255,19 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	_payload = [parameters encodedPostData];
 }
 
-- (NSString *) dataString { return [NSString stringWithData: self.data]; }
+- (NSString *) dataString { return [NSString stringWithData: self.mutableData]; }
 - (NSString *) payloadString { return [NSString stringWithData: self.payload]; }
 
 //=============================================================================================================================
 #pragma mark KVC
 - (void) setValue: (id) value forUndefinedKey: (NSString *) key {
-	if (_extraKeyValues == nil) _extraKeyValues = [[NSMutableDictionary alloc] init];
+	if (self.extraKeyValues == nil) self.extraKeyValues = [NSMutableDictionary new];
 	
-	[_extraKeyValues setObject: value forKey: key];
+	[self.extraKeyValues setObject: value forKey: key];
 }
 
 - (id) valueForUndefinedKey: (NSString *) key {
-	return [_extraKeyValues objectForKey: key];
+	return self.extraKeyValues[key];
 }
 
 @end

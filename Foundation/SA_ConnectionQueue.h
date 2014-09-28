@@ -77,38 +77,12 @@ typedef enum {
 @end
 
 
-@interface SA_Connection : NSObject <NSCopying> {
-	NSURL						*_url;
-	NSData						*_payload;
-	NSString					*_method;
-	NSMutableData				*_data;
-	NSString					*_filename;
-	NSFileHandle				*_file;
-	NSString					*_tag;
-	id <SA_ConnectionDelegate>	_delegate;
-	NSInteger 					_priority, _order;
-	__strong NSURLConnection	*_connection;
-	BOOL						_persists, _canceled, _replaceOlder, _ignoreLater;
-	NSMutableDictionary			*_headers;
-	NSInteger 					_persistantID;
-	NSDictionary				*_responseHeaders;
-	NSInteger 					_statusCode;
-	BOOL						_showsPleaseWait, _resumable, _completeInBackground, _prefersFileStorage, _suppressConnectionAlerts, _inProgress, _discardIfOffline;
-	NSMutableDictionary			*_extraKeyValues;
-	BOOL						_allowRepeatedKeys;
-	NSURLRequest				*_request;
-	
-	NSDate					*_requestStartedAt, *_responseReceivedAt, *_finishedLoadingAt;
-	NSString				*_requestLogFileName;
-
-	connectionFinished		_connectionFinishedBlock;
-}
-
+@interface SA_Connection : NSObject <NSCopying>
 @property (nonatomic, readwrite, strong) NSURL *url;								//the URL to be hit
 @property (nonatomic, readwrite, strong) NSData *payload;						//data to be pushed up, usually with a PUT or POST call
 @property (nonatomic, readwrite, strong) NSURLRequest *request;					//for pre-configured requests
 @property (nonatomic, readonly) NSURLRequest *generatedRequest;					//takes the configured values and returns an NSURLRequest
-@property (nonatomic, readwrite, strong) NSData *data;							//the data returned by the server
+@property (nonatomic, readonly) NSData *data;									//the data returned by the server
 @property (nonatomic, readonly) NSFileHandle *file;								//if storing in a file, the file
 @property (nonatomic, readwrite, strong) NSString *filename;						//if storing in a file, the filenamel this can be set if a known filename is desired
 @property (nonatomic, readwrite, strong) NSString *method;						//what HTTP method should be used? Defaults to GET
