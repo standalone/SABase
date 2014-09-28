@@ -67,7 +67,6 @@ typedef enum {
 - (void) connectionFailed: (SA_Connection *) connection withError: (NSError *) error;
 - (BOOL) connectionFailed: (SA_Connection *) connection withStatusCode: (NSInteger) statusCode;			//return YES to continue the connection anyway
 - (void) connectionCancelled: (SA_Connection *) connection;
-- (NSString *) persistantIdentifier;					//used when persisting
 
 //please wait support
 - (NSString *) pleaseWaitMajorStringForConnection: (SA_Connection *) connection;
@@ -78,30 +77,29 @@ typedef enum {
 
 
 @interface SA_Connection : NSObject <NSCopying>
-@property (nonatomic, readwrite, strong) NSURL *url;								//the URL to be hit
-@property (nonatomic, readwrite, strong) NSData *payload;						//data to be pushed up, usually with a PUT or POST call
-@property (nonatomic, readwrite, strong) NSURLRequest *request;					//for pre-configured requests
+@property (nonatomic, readonly) NSURL *url;								//the URL to be hit
+@property (nonatomic, readonly) NSData *payload;						//data to be pushed up, usually with a PUT or POST call
+@property (nonatomic, readonly) NSURLRequest *request;					//for pre-configured requests
 @property (nonatomic, readonly) NSURLRequest *generatedRequest;					//takes the configured values and returns an NSURLRequest
 @property (nonatomic, readonly) NSData *data;									//the data returned by the server
 @property (nonatomic, readonly) NSFileHandle *file;								//if storing in a file, the file
-@property (nonatomic, readwrite, strong) NSString *filename;						//if storing in a file, the filenamel this can be set if a known filename is desired
-@property (nonatomic, readwrite, strong) NSString *method;						//what HTTP method should be used? Defaults to GET
-@property (nonatomic, readwrite, strong) id <SA_ConnectionDelegate> delegate;	//where completed/failed messages are sent
-@property (nonatomic, readwrite, strong) NSString *tag;							//a tag, broken down into different.segment.types, for filtering and identification
-@property (nonatomic, readwrite) NSInteger priority;									//where in the pending queue should this transaction fall?
-@property (nonatomic, readwrite) BOOL persists;									//should this transaction be freeze-dried for later retrieval and restart?  Defaults to YES
-@property (readwrite) NSInteger persistantID;
-@property (nonatomic, readwrite) NSInteger order;
+@property (nonatomic, readonly) NSString *filename;						//if storing in a file, the filenamel this can be set if a known filename is desired
+@property (nonatomic, readonly) NSString *method;						//what HTTP method should be used? Defaults to GET
+@property (nonatomic, readonly) id <SA_ConnectionDelegate> delegate;	//where completed/failed messages are sent
 @property (nonatomic, readonly) NSDictionary *allResponseHeaders;
 @property (nonatomic, readonly) NSInteger statusCode;
-@property (nonatomic, readwrite) BOOL replaceOlder, ignoreLater;					//should older connections be deleted if they match the tag, or should this be tossed?
-@property (nonatomic, readwrite) BOOL showsPleaseWait, resumable, completeInBackground, prefersFileStorage, suppressConnectionAlerts;
 @property (nonatomic, readonly) NSData *downloadedData;
 @property (nonatomic, readonly) BOOL completed, alreadyStarted, canceled;
-@property (nonatomic, readwrite, copy) NSDictionary *submissionParameters;
 @property (nonatomic, readonly) BOOL inProgress;
 @property (nonatomic, readwrite) BOOL allowRepeatedKeys, discardIfOffline;
 @property (nonatomic, readonly) NSString *dataString, *payloadString;
+
+@property (nonatomic, readwrite) NSString *tag;							//a tag, broken down into different.segment.types, for filtering and identification
+@property (nonatomic, readwrite) NSInteger priority;									//where in the pending queue should this transaction fall?
+@property (nonatomic, readwrite) NSInteger order;
+@property (nonatomic, readwrite) BOOL replaceOlder, ignoreLater;					//should older connections be deleted if they match the tag, or should this be tossed?
+@property (nonatomic, readwrite) BOOL showsPleaseWait, resumable, completeInBackground, prefersFileStorage, suppressConnectionAlerts;
+@property (nonatomic, readwrite, copy) NSDictionary *submissionParameters;
 @property (nonatomic) NSTimeInterval timeoutInterval;
 @property (nonatomic) BOOL disableNativeCookieHandling;
 @property (nonatomic, strong) NSArray *sentCookies, *receivedCookies;

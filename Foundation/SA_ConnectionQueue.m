@@ -85,6 +85,22 @@ NSString *kConnectionNotification_ConnectionReachabilityChanged = @"SA_Connectio
 
 @end
 
+@interface SA_Connection()
+@property(nonatomic, strong) NSURLConnection *connection;
+@property (nonatomic, strong) NSMutableData *mutableData;
+@property (nonatomic, strong) NSMutableDictionary *connectionHeaders, *extraKeyValues;
+@property (nonatomic, readwrite, strong) NSURL *url;
+@property (nonatomic, readwrite, strong) NSData *payload;
+@property (nonatomic, readwrite, strong) NSURLRequest *request;
+@property (nonatomic, readwrite) NSString *filename;
+@property (nonatomic, readwrite, strong) NSString *method;
+@property (nonatomic, readwrite, strong) id <SA_ConnectionDelegate> delegate;
+
+- (void) connection: (NSURLConnection *) connection didFailWithError: (NSError *) error;
+@end
+
+
+
 //=============================================================================================================================
 //=============================================================================================================================
 #pragma mark SA_ConnectionQueue
@@ -191,9 +207,6 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 
 			self.pending = [self.pending arrayByAddingObject: connection];
 			connection.order = self.pending.count;
-			if (connection.persists && [self respondsToSelector: @selector(persistConnection:)]) {
-				if (connection.completeInBackground) {SA_BASE_LOG(@"Trying to persist a background connection. This is not allowed. (%@)", connection);}
-			}
 
 			[self reorderPendingConnectionsByPriority];
 			if (self.managePleaseWaitDisplay && connection.showsPleaseWait) {
@@ -500,13 +513,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 - (void) connectionFailed: (SA_Connection *) connection withError: (NSError *) error {
 	if (error.isNoInternetConnectionError) {					//if we're not connected, then we'll stop all future connections, and save this one
 		[connection reset];
-		[self.privateQueue addOperationWithBlock:^{
-			if (![self.pending containsObject: connection] && connection.persists) {
-				SA_Assert(!connection.alreadyStarted, @"Can't queue an already started connection");
-				self.pending = [self.pending arrayByAddingObject: connection];
-			}
-		}];
-		
+
 		if (!self.offline) {
 			self.offline = YES;
 	
@@ -693,16 +700,9 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 //=============================================================================================================================
 #pragma mark SA_Connection
 
-@interface SA_Connection()
-@property(nonatomic, strong) NSURLConnection *connection;
-@property (nonatomic, strong) NSMutableData *mutableData;
-@property (nonatomic, strong) NSMutableDictionary *connectionHeaders, *extraKeyValues;
-- (void) connection: (NSURLConnection *) connection didFailWithError: (NSError *) error;
-@end
-
 @implementation SA_Connection
-@synthesize tag = _tag, priority = _priority, persists = _persists;
-@synthesize persistantID = _persistantID, order = _order, file = _file, filename = _filename, allResponseHeaders = _responseHeaders, statusCode = _statusCode;
+@synthesize tag = _tag, priority = _priority;
+@synthesize order = _order, file = _file, filename = _filename, allResponseHeaders = _responseHeaders, statusCode = _statusCode;
 @synthesize replaceOlder = _replaceOlder, ignoreLater = _ignoreLater, showsPleaseWait = _showsPleaseWait, resumable = _resumable, completeInBackground = _completeInBackground, prefersFileStorage = _prefersFileStorage;
 @synthesize suppressConnectionAlerts = _suppressConnectionAlerts, canceled = _canceled, inProgress = _inProgress, request = _request;
 @synthesize allowRepeatedKeys = _allowRepeatedKeys, discardIfOffline = _discardIfOffline, connectionFinishedBlock = _connectionFinishedBlock, timeoutInterval = _timeoutInterval;
@@ -765,7 +765,6 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 		self.url = url;
 		self.tag = tag;
 		self.delegate = delegate;
-		self.persists = YES;
 	}
 	return self;
 }
@@ -782,7 +781,6 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	connection.priority = self.priority;
 	connection.tag = self.tag;
 	connection.delegate = self.delegate;
-	connection.persists = self.persists;
 	connection.method = self.method;
 	connection.sentCookies = self.sentCookies.copy;
 	connection.connectionHeaders = [self.connectionHeaders mutableCopy];
