@@ -26,4 +26,9 @@
 #if TARGET_OS_IPHONE
 + (void) setFileAtURLNotBackedUp: (NSURL *) url;
 #endif
+
+
+- (BOOL) removeDatabaseAtURL: (NSURL *) url error: (NSError **) error;
+- (BOOL) moveDatabaseAtURL: (NSURL *) src toURL: (NSURL *) dest error: (NSError **) error;
+
 @end

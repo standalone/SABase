@@ -32,6 +32,38 @@ static NSMutableArray				*s_watchedDirectoryInfoDictionaries = nil, *s_currentIn
 	return [fileAttrs objectForKey: NSFileModificationDate];	
 }
 
+- (BOOL) moveDatabaseAtURL: (NSURL *) src toURL: (NSURL *) dest error: (NSError **) error {
+	NSString			*basePath = src.path;
+	NSArray				*parentDirectoryContents = [self contentsOfDirectoryAtURL: src.URLByDeletingLastPathComponent includingPropertiesForKeys: nil options:NSDirectoryEnumerationSkipsSubdirectoryDescendants | NSDirectoryEnumerationSkipsHiddenFiles error: error];
+	
+	if (parentDirectoryContents == nil) return NO;
+	
+	NSURL				*destParent = dest.URLByDeletingLastPathComponent;
+	NSString			*baseFileName = dest.lastPathComponent.stringByDeletingPathExtension;
+	
+	for (NSURL *siblingURL in parentDirectoryContents) {
+		if ([siblingURL.path hasPrefix: basePath]) {
+			NSURL				*newURL = [[destParent URLByAppendingPathComponent: baseFileName] URLByAppendingPathExtension: siblingURL.pathExtension];
+			if (![self moveItemAtURL: siblingURL toURL: newURL error: error]) return NO;
+		}
+	}
+	return YES;
+}
+
+- (BOOL) removeDatabaseAtURL: (NSURL *) url error: (NSError **) error {
+	NSString			*basePath = url.path;
+	NSArray				*parentDirectoryContents = [self contentsOfDirectoryAtURL: url.URLByDeletingLastPathComponent includingPropertiesForKeys: nil options:NSDirectoryEnumerationSkipsSubdirectoryDescendants | NSDirectoryEnumerationSkipsHiddenFiles error: error];
+	
+	if (parentDirectoryContents == nil) return NO;
+	
+	for (NSURL *siblingURL in parentDirectoryContents) {
+		if ([siblingURL.path hasPrefix: basePath]) {
+			if (![self removeItemAtURL: siblingURL error: error]) return NO;
+		}
+	}
+	return YES;
+}
+
 //=============================================================================================================================
 #pragma mark File changes
 //- (void) kqueueFired {
