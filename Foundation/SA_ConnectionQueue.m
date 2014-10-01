@@ -430,7 +430,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 	if (_offline) {				//need too cancel all active connections
 		[self.privateQueue addOperationWithBlock: ^{
 			for (SA_Connection *connection in self.active) {
-				SA_Assert(!connection.alreadyStarted, @"There was an unstarted connection in the active list: %@", connection);
+				//SA_Assert(!connection.alreadyStarted, @"There was an unstarted connection in the active list: %@", connection);
 				[connection reset];
 				self.activityIndicatorCount--;
 				if (![self.pending containsObject: connection]) self.pending = [self.pending arrayByAddingObject: connection];
@@ -883,7 +883,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 		[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_ConnectionStarted object: self];
 	else
 		SA_BASE_LOG(@"Error while starting connection: %@", self);
-	
+	 
 	return (self.connection != nil);
 }
 
