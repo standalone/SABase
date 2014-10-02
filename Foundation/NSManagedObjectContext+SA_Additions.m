@@ -317,7 +317,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
  
 - (void) save {
 	if (RUNNING_ON_50 && self.concurrencyType == NSPrivateQueueConcurrencyType) {
-		[self performBlock: ^{ [self performSave]; }];
+		[self performBlockAndWait: ^{ [self performSave]; }];
 	} else {
 		[self performSave];
 	}
