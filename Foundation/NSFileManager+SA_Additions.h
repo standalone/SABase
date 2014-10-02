@@ -30,5 +30,6 @@
 
 - (BOOL) removeDatabaseAtURL: (NSURL *) url error: (NSError **) error;
 - (BOOL) moveDatabaseAtURL: (NSURL *) src toURL: (NSURL *) dest error: (NSError **) error;
+- (BOOL) copyDatabaseAtURL: (NSURL *) src toURL: (NSURL *) dest error: (NSError **) error;
 
 @end
