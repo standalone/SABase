@@ -26,8 +26,12 @@
 }
 
 - (UIImage *) scaledImageOfSize: (CGSize) newSize withBorderOfWidth: (CGFloat) borderWidth andColor: (UIColor *) borderColor {
-	UIGraphicsBeginImageContext(newSize);
+	UIGraphicsBeginImageContextWithOptions(newSize, NO, self.scale);
 	CGContextRef					context = UIGraphicsGetCurrentContext();
+	if (context == nil) {
+		SA_BASE_LOG(@"Got a nil context for -scaledImageOfSize: (size: %@, image: %@", NSStringFromCGSize(newSize), self);
+		return self;
+	}
 	CGRect							rect = CGRectMake(0, 0, newSize.width, newSize.height);
 	
 	CGContextConcatCTM(context, CGAffineTransformMakeScale(1.0, -1.0));
