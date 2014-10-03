@@ -32,52 +32,68 @@ static NSMutableArray				*s_watchedDirectoryInfoDictionaries = nil, *s_currentIn
 	return [fileAttrs objectForKey: NSFileModificationDate];	
 }
 
-- (BOOL) moveDatabaseAtURL: (NSURL *) src toURL: (NSURL *) dest error: (NSError **) error {
-	NSString			*basePath = src.path;
-	NSArray				*parentDirectoryContents = [self contentsOfDirectoryAtURL: src.URLByDeletingLastPathComponent includingPropertiesForKeys: nil options:NSDirectoryEnumerationSkipsSubdirectoryDescendants | NSDirectoryEnumerationSkipsHiddenFiles error: error];
+- (NSArray *) databaseRelatedURLsFromURL: (NSURL *) url {
+	NSArray		*suffixes = @[ @".tmp-shm", @".tmp-wal", @"-shm", @"-wal", ];
+	NSError		*error;
+	NSArray		*parentDirectoryContents = [self contentsOfDirectoryAtURL: url.URLByDeletingLastPathComponent includingPropertiesForKeys: nil options:NSDirectoryEnumerationSkipsSubdirectoryDescendants | NSDirectoryEnumerationSkipsHiddenFiles error: &error];
 	
-	if (parentDirectoryContents == nil) return NO;
+	if (parentDirectoryContents == nil) return @[];
 	
-	NSURL				*destParent = dest.URLByDeletingLastPathComponent;
-	NSString			*baseFileName = dest.lastPathComponent.stringByDeletingPathExtension;
+	NSMutableArray		*related = @[ url ].mutableCopy;
 	
 	for (NSURL *siblingURL in parentDirectoryContents) {
-		if ([siblingURL.path hasPrefix: basePath]) {
-			NSURL				*newURL = [[destParent URLByAppendingPathComponent: baseFileName] URLByAppendingPathExtension: siblingURL.pathExtension];
-			if (![self moveItemAtURL: siblingURL toURL: newURL error: error]) return NO;
+		NSString				*filename = siblingURL.path.lastPathComponent;
+		for (NSString *suffix in suffixes) {
+			if ([filename hasSuffix: suffix]) {
+				[related addObject: siblingURL];
+				break;
+			}
+		}
+	}
+	
+	return related;
+}
+
+- (BOOL) moveDatabaseAtURL: (NSURL *) src toURL: (NSURL *) dest error: (NSError **) error {
+	return [self move: YES databaseAtURL: src toURL: dest error: error];
+}
+
+- (BOOL) move: (BOOL) move databaseAtURL: (NSURL *) src toURL: (NSURL *) dest error: (NSError **) error {
+	NSURL				*destParent = dest.URLByDeletingLastPathComponent;
+	NSString			*baseFileName = dest.lastPathComponent.stringByDeletingPathExtension;
+	NSArray				*urlsToMove = [self databaseRelatedURLsFromURL: src];
+	NSMutableArray		*newURLs = [NSMutableArray array];
+	
+	for (NSURL *siblingURL in urlsToMove) {
+		NSString			*newFilename = [baseFileName stringByAppendingPathExtension: siblingURL.pathExtension];
+		NSURL				*newURL = [destParent URLByAppendingPathComponent: newFilename];
+		
+		[self removeItemAtURL: newURL error: error];
+		[newURLs addObject: newURL];
+	}
+	
+	for (NSUInteger i = 0; i < newURLs.count; i++) {
+		NSURL				*srcURL = urlsToMove[i];
+		NSURL				*newURL = newURLs[i];
+		
+		if (move) {
+			if (![self moveItemAtURL: srcURL toURL: newURL error: error]) return NO;
+		} else {
+			if (![self copyItemAtURL: srcURL toURL: newURL error: error]) return NO;
 		}
 	}
 	return YES;
 }
 
 - (BOOL) copyDatabaseAtURL: (NSURL *) src toURL: (NSURL *) dest error: (NSError **) error {
-	NSString			*basePath = src.path;
-	NSArray				*parentDirectoryContents = [self contentsOfDirectoryAtURL: src.URLByDeletingLastPathComponent includingPropertiesForKeys: nil options:NSDirectoryEnumerationSkipsSubdirectoryDescendants | NSDirectoryEnumerationSkipsHiddenFiles error: error];
-	
-	if (parentDirectoryContents == nil) return NO;
-	
-	NSURL				*destParent = dest.URLByDeletingLastPathComponent;
-	NSString			*baseFileName = dest.lastPathComponent.stringByDeletingPathExtension;
-	
-	for (NSURL *siblingURL in parentDirectoryContents) {
-		if ([siblingURL.path hasPrefix: basePath]) {
-			NSURL				*newURL = [[destParent URLByAppendingPathComponent: baseFileName] URLByAppendingPathExtension: siblingURL.pathExtension];
-			if (![self copyItemAtURL: siblingURL toURL: newURL error: error]) return NO;
-		}
-	}
-	return YES;
+	return [self move: NO databaseAtURL: src toURL: dest error: error];
 }
 
 - (BOOL) removeDatabaseAtURL: (NSURL *) url error: (NSError **) error {
-	NSString			*basePath = url.path;
-	NSArray				*parentDirectoryContents = [self contentsOfDirectoryAtURL: url.URLByDeletingLastPathComponent includingPropertiesForKeys: nil options:NSDirectoryEnumerationSkipsSubdirectoryDescendants | NSDirectoryEnumerationSkipsHiddenFiles error: error];
-	
-	if (parentDirectoryContents == nil) return NO;
-	
-	for (NSURL *siblingURL in parentDirectoryContents) {
-		if ([siblingURL.path hasPrefix: basePath]) {
-			if (![self removeItemAtURL: siblingURL error: error]) return NO;
-		}
+	NSArray				*urlsToDelete = [self databaseRelatedURLsFromURL: url];
+
+	for (NSURL *url in urlsToDelete) {
+		[self removeItemAtURL: url error: error];
 	}
 	return YES;
 }
