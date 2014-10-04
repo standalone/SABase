@@ -195,12 +195,18 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 	
 	[self.privateQueue addOperationWithBlock: ^{
 		if (connection.ignoreLater) {
-			if ([self isExistingConnectionSimilar: connection]) {		//already queued, ignore it
-				[self reorderPendingConnectionsByPriority];
-				return;
-			}
+			[self isExistingConnectionSimilar: connection completion: ^(BOOL similar) {
+				if (!similar) {
+					connection.ignoreLater = YES;
+					[self queueConnection: connection];
+				}
+			}];
+			return;
 		} else if (connection.replaceOlder) {
 			[self removeConnectionsTaggedWith: connection.tag delegate: connection.delegate];
+			connection.replaceOlder = NO;
+			[self queueConnection: connection];
+			return;
 		}
 		
 		[self.privateQueue addOperationWithBlock: ^{
@@ -367,34 +373,33 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 
 - (void) cancelAllConnections { [self removeConnectionsTaggedWith: nil delegate: nil]; }
 
-- (BOOL) isExistingConnectionSimilar: (SA_Connection *) targetConnection {
-	__block BOOL			isSimilar = NO;
+- (void) isExistingConnectionSimilar: (SA_Connection *) targetConnection completion: (booleanArgumentBlock) completion {
+	if (targetConnection.tag || targetConnection.delegate) {
+		[self isExistingConnectionTaggedWith: targetConnection.tag delegate: targetConnection.delegate completion: completion];
+		return;
+	}
 
-	if (targetConnection.tag || targetConnection.delegate) return [self isExistingConnectionTaggedWith: targetConnection.tag delegate: targetConnection.delegate];
-
-	[self.privateQueue addOperations: @[ [NSBlockOperation blockOperationWithBlock: ^{
+	[self.privateQueue addOperationWithBlock: ^{
 		NSSet				*checkSet = [self.active setByAddingObjectsFromArray: self.pending];
 		
 		for (SA_Connection *connection in checkSet) {
 			if (!connection.canceled && [targetConnection.url isEqual: connection.url]) {
-				isSimilar = YES;
-				break;
+				completion(YES);
+				return;
 			}
 		}
-	}] ] waitUntilFinished: YES];
-	
-	return isSimilar;
-	
+		completion(NO);
+	}];
 }
 
-- (BOOL) isExistingConnectionTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate {
-	return [self findExistingConnectionsTaggedWith: tag delegate: delegate] != nil;
+- (void) isExistingConnectionTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate completion: (booleanArgumentBlock) completion {
+	[self findExistingConnectionsTaggedWith: tag delegate: delegate completion:^(SA_Connection *found) {
+		completion(found != nil);
+	}];
 }
 
-- (SA_Connection *) findExistingConnectionsTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate {
-	__block SA_Connection		*found = nil;
-	
-	[self.privateQueue addOperations: @[ [NSBlockOperation blockOperationWithBlock: ^{
+- (void) findExistingConnectionsTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate completion: (SA_ConnectionBlock) completion {
+	[self.privateQueue addOperationWithBlock: ^{
 		NSMutableSet		*checkSet = self.active.mutableCopy ?: [NSMutableSet new];
 		
 		if (self.pending.count) [checkSet addObjectsFromArray: self.pending];
@@ -404,13 +409,12 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 			if (tag && [connection.tag rangeOfString: tag].location == NSNotFound) continue;
 			
 			if ((delegate == nil && connection.delegate == nil) || delegate == connection.delegate) {
-				found = connection;
-				break;
+				completion(connection);
+				return;
 			}
 		}
-	}] ] waitUntilFinished: YES];
-	
-	return found;
+		completion(nil);
+	}];
 }
 
 - (void) resetHighwaterMark { self.highwaterMark = 0; }

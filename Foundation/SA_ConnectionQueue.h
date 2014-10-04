@@ -17,6 +17,7 @@
 @class SA_Connection;
 
 typedef void (^connectionFinished)(SA_Connection *incoming, NSInteger resultCode, id error);
+typedef void (^SA_ConnectionBlock)(SA_Connection *found);
 
 typedef enum {
 	connection_dontRecord,				//default behavior
@@ -147,13 +148,13 @@ SINGLETON_INTERFACE_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 - (void) removeHeader: (NSString *) label;
 - (void) removeAllHeaders;
 
-- (BOOL) isExistingConnectionTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate;
-- (BOOL) isExistingConnectionSimilar: (SA_Connection *) targetConnection;
+- (void) isExistingConnectionTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate completion: (booleanArgumentBlock) completion;
+- (void) isExistingConnectionSimilar: (SA_Connection *) targetConnection completion: (booleanArgumentBlock) completion;
 - (void) removeConnectionsTaggedWith: (NSString *) tag;
 - (void) removeConnectionsWithDelegate: (id) delegate;
 - (void) removeConnectionsTaggedWith: (NSString *) tag delegate: (id) delegate;
 - (void) cancelAllConnections;
-- (SA_Connection *) findExistingConnectionsTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate;
+- (void) findExistingConnectionsTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate completion: (SA_ConnectionBlock) completion;
 
 - (NSInteger) remainingConnectionsAboveMinimum;
 - (void) dequeueConnection: (SA_Connection *) connection;
