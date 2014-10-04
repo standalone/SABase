@@ -59,6 +59,11 @@
 	@synchronized (self) { [self.backingArray removeObject: object]; }
 }
 
+- (BOOL) containsObject: (id) object {
+	if (object == nil) return NO;
+	@synchronized (self) { return [self.backingArray containsObject: object]; }
+}
+
 - (void) removeAllObjects {
 	@synchronized (self) { [self.backingArray removeAllObjects]; }
 }
@@ -111,6 +116,11 @@
 
 - (void) removeObject: (id) object {
 	@synchronized (self) { [self.backingSet removeObject: object]; }
+}
+
+- (BOOL) containsObject: (id) object {
+	if (object == nil) return NO;
+	@synchronized (self) { return [self.backingSet containsObject: object]; }
 }
 
 - (void) removeAllObjects {

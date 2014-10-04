@@ -21,6 +21,7 @@ typedef void (^simpleMutableSetBlock)(NSMutableSet *set);
 - (void) setObject: (id) object atIndexedSubscript: (NSUInteger) idx;
 - (void) addObject: (id) object;
 - (void) removeObject: (id) object;
+- (BOOL) containsObject: (id) object;
 - (id) firstObject;
 - (id) lastObject;
 - (void) removeAllObjects;
@@ -38,6 +39,7 @@ typedef void (^simpleMutableSetBlock)(NSMutableSet *set);
 
 - (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState *) state objects: (id __unsafe_unretained []) buffer count: (NSUInteger) len;
 - (void) addObject: (id) object;
+- (BOOL) containsObject: (id) object;
 - (void) removeObject: (id) object;
 - (void) removeAllObjects;
 - (void) safelyAccessInBlock: (simpleMutableSetBlock) block;
