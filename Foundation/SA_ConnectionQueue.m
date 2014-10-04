@@ -197,7 +197,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 		if (connection.ignoreLater) {
 			[self isExistingConnectionSimilar: connection completion: ^(BOOL similar) {
 				if (!similar) {
-					connection.ignoreLater = YES;
+					connection.ignoreLater = NO;
 					[self queueConnection: connection];
 				}
 			}];
