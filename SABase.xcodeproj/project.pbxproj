@@ -66,6 +66,8 @@
 		B542239115B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B542238E15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m */; };
 		B542239215B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B542238E15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m */; };
 		B54A7E7C1916E0F6002B06B0 /* SA_ThreadsafeMutableCollections.h in Headers */ = {isa = PBXBuildFile; fileRef = B52550AC1915DF5300411D4B /* SA_ThreadsafeMutableCollections.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B54EE31119E0073100887A94 /* SA_ThreadsafeMutableCollections.m in Sources */ = {isa = PBXBuildFile; fileRef = B52550AD1915DF5400411D4B /* SA_ThreadsafeMutableCollections.m */; };
+		B54EE31219E0086000887A94 /* NSSet+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B51F6FE11615CAB90015A037 /* NSSet+SA_Additions.m */; };
 		B555CDA4193941300077396A /* SA_ProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = B555CDA0193941300077396A /* SA_ProgressView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B555CDA5193941300077396A /* SA_ProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = B555CDA0193941300077396A /* SA_ProgressView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B555CDA6193941300077396A /* SA_ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B555CDA1193941300077396A /* SA_ProgressView.m */; };
@@ -1370,6 +1372,7 @@
 				B55E08B1151660DD0097CC69 /* NSManagedObject+SA_Additions.m in Sources */,
 				B55E08B7151660DD0097CC69 /* NSManagedObjectContext+SA_Additions.m in Sources */,
 				B55E08BD151660DD0097CC69 /* NSNotificationCenter+SA_Additions.m in Sources */,
+				B54EE31219E0086000887A94 /* NSSet+SA_Additions.m in Sources */,
 				B55E08C3151660DD0097CC69 /* NSObject+SA_Additions.m in Sources */,
 				B55E08C9151660DD0097CC69 /* NSSortDescriptor+SA_Additions.m in Sources */,
 				B520E7F419C0BB9300848525 /* SA_ProgressDisplay.m in Sources */,
@@ -1378,6 +1381,7 @@
 				B55E08DB151660DD0097CC69 /* NSString+UniqueStrings.m in Sources */,
 				B55E08E1151660DD0097CC69 /* NSURL+SA_Additions.m in Sources */,
 				B55AA63E181C515C00C5B0EE /* UIFont+SA_Additions.m in Sources */,
+				B54EE31119E0073100887A94 /* SA_ThreadsafeMutableCollections.m in Sources */,
 				B55E08E7151660DD0097CC69 /* SA_ConnectionQueue.m in Sources */,
 				B520E7F319C0567300848525 /* UIWindow+SA_Additions.m in Sources */,
 				B55E08F3151660DD0097CC69 /* SA_AlertView.m in Sources */,
