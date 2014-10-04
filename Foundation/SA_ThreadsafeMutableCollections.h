@@ -35,6 +35,7 @@ typedef void (^simpleMutableSetBlock)(NSMutableSet *set);
 + (instancetype) set;
 
 - (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState *) state objects: (id __unsafe_unretained []) buffer count: (NSUInteger) len;
+- (BOOL) containsObject: (id) object;
 - (void) addObject: (id) object;
 - (void) removeObject: (id) object;
 - (void) removeAllObjects;

@@ -122,6 +122,11 @@
 - (NSString *) description {
 	@synchronized (self) { return self.backingSet.description; }
 }
+
+- (BOOL) containsObject: (id) object {
+	if (object == nil) return NO;
+	@synchronized (self) { return [self.backingSet containsObject: object]; }
+}
 @end
 
 

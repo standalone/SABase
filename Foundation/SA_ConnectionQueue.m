@@ -238,7 +238,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 }
 
 - (void) reorderPendingConnectionsByPriority {
-	if (self.pending.count > 1) self.pending = [self.pending sortedArrayUsingDescriptors: _connectionSortDescriptors];
+//	if (self.pending.count > 1) self.pending = [self.pending sortedArrayUsingDescriptors: _connectionSortDescriptors];
 }
 
 - (BOOL) performInvocationIfOffline: (NSInvocation *) invocation {
@@ -383,13 +383,19 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 
 - (SA_Connection *) existingConnectionsTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate {
 	@try {
-		NSMutableSet		*checkSet = self.active.mutableCopy ?: [NSMutableSet new];
-		
-		[checkSet addObjectsFromArray: self.pending];
+		NSSet				*active = self.active.copy;
+		NSArray				*pending = self.pending.copy;
 
-		for (SA_Connection *connection in checkSet) {
+		for (SA_Connection *connection in active) {
 			if ((tag == nil && connection.tag != nil) || (tag != nil && connection.tag == nil)) continue;
-			if (tag && [connection.tag rangeOfString: tag].location == NSNotFound) continue;
+			if (tag && connection.tag && [connection.tag rangeOfString: tag].location == NSNotFound) continue;
+			
+			if ((delegate == nil && connection.delegate == nil) || delegate == connection.delegate) return connection;
+		}
+
+		for (SA_Connection *connection in pending) {
+			if ((tag == nil && connection.tag != nil) || (tag != nil && connection.tag == nil)) continue;
+			if (tag && connection.tag && [connection.tag rangeOfString: tag].location == NSNotFound) continue;
 			
 			if ((delegate == nil && connection.delegate == nil) || delegate == connection.delegate) return connection;
 		}
