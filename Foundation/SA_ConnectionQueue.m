@@ -166,7 +166,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 		self.fileSwitchOverLimit = 1024 * 20;			//switch to a file after 20k has been downloaded
 		self.managePleaseWaitDisplay = YES;
 		
-		_connectionSortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey: @"priority" ascending: YES], [NSSortDescriptor sortDescriptorWithKey: @"order" ascending: YES]];
+		self.connectionSortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey: @"priority" ascending: YES], [NSSortDescriptor sortDescriptorWithKey: @"order" ascending: YES]];
 		[self performSelector: @selector(determineConnectionLevelAvailable) withObject: nil afterDelay: 0.0];			//defer this call so as not to slow down the startup procedure
 		
 		#if TARGET_OS_IPHONE
@@ -273,7 +273,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 
 - (void) reorderPendingConnectionsByPriority {
 	[self.privateQueue addOperationWithBlock:^{
-		if (self.pending.count > 1) self.pending = [self.pending sortedArrayUsingDescriptors: _connectionSortDescriptors];
+		if (self.pending.count > 1) self.pending = [self.pending sortedArrayUsingDescriptors: self.connectionSortDescriptors];
 	}];
 }
 
