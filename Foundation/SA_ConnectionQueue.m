@@ -891,7 +891,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 #pragma mark Ending connections
 - (void) cancel: (BOOL) clearDelegate {
 	__strong SA_Connection		*strongSelf = self;
-	if (self.logPhases) SA_BASE_LOG(@"%@: <%@>", @"Cancelled", self.url)
+	if (self.logPhases) SA_BASE_LOG(@"%@: <%@>", @"Cancelled", self.url);
 	
 	if ([_delegate respondsToSelector: @selector(connectionCancelled:)]) [_delegate connectionCancelled: strongSelf];
 	if (clearDelegate) strongSelf.delegate = nil;
@@ -948,7 +948,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 
 - (void) connection: (NSURLConnection *) connection didFailWithError: (NSError *) error {
 	_inProgress = NO;
-	if (self.logPhases) SA_BASE_LOG(@"Failed (%@): <%@>", error, self.url)
+	if (self.logPhases) SA_BASE_LOG(@"Failed (%@): <%@>", error, self.url);
 	if (SA_Base_DebugMode()) self.finishedLoadingAt = [NSDate date];SA_BASE_LOG(@"Connection %@ failed: %@", self, error.isNoInternetConnectionError ? @"NO CONNECTION" : (id) error);
 	
 	if (_canceled) return;
@@ -969,7 +969,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	self.finishedLoadingAt = [NSDate date];
 	if (_canceled) return;
 
-	if (self.logPhases) SA_BASE_LOG(@"Completed: <%@>", self.url)
+	if (self.logPhases) SA_BASE_LOG(@"Completed: <%@>", self.url);
 	
 	if ([SA_ConnectionQueue sharedQueue].logAllConnections) {
 		[[self downloadedDataStream] writeToFile: [SA_ConnectionQueue nextPrefixed: @"download" pathForTag: self.tag] atomically: YES];
@@ -1050,7 +1050,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	//SA_BASE_LOG(@"Request Response Time: %@, Start Time: %@", [NSDate date], [NSDate dateWithTimeIntervalSinceReferenceDate: _requestStart]);
 	self.responseReceivedAt = [NSDate date];
 	
-	if (self.logPhases) SA_BASE_LOG(@"Received Response (%@): <%@>", response, self.url)
+	if (self.logPhases) SA_BASE_LOG(@"Received Response (%@): <%@>", response, self.url);
 
 	if (_file == nil && [SA_ConnectionQueue sharedQueue].fileSwitchOverLimit && [response expectedContentLength] > [SA_ConnectionQueue sharedQueue].fileSwitchOverLimit) {
 		[self switchToFileStorage]; 
@@ -1075,7 +1075,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 }
 
 - (void) connection: (NSURLConnection *) connection didReceiveData: (NSData *) data {
-	if (self.logPhases) SA_BASE_LOG(@"Received Data (%d): <%@>", (uint32_t) data.length, self.url)
+	if (self.logPhases) SA_BASE_LOG(@"Received Data (%d): <%@>", (uint32_t) data.length, self.url);
 	if (_canceled) return;
 	if (_file)
 		[_file writeData: data];
