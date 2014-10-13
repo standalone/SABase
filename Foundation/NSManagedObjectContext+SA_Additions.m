@@ -73,7 +73,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	#if TARGET_OS_IPHONE
 		objectContext = (NSManagedObjectContext *) [(id) [self alloc] initWithConcurrencyType: type];
 	#else
-		objectContext = [[self alloc] init];
+		objectContext = [[self alloc] initWithConcurrencyType: type];
 	#endif
 
 	[objectContext setPersistentStoreCoordinator: coordinator];
