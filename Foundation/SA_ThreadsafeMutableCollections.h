@@ -12,7 +12,7 @@ typedef void (^simpleMutableDictionaryBlock)(NSMutableDictionary *dictionary);
 typedef void (^simpleMutableSetBlock)(NSMutableSet *set);
 
 
-@interface SA_ThreadsafeMutableArray : NSObject <NSFastEnumeration>
+@interface SA_ThreadsafeMutableArray : NSObject <NSFastEnumeration, NSCopying>
 + (instancetype) array;
 + (instancetype) arrayWithObject: (id) object;
 
@@ -34,7 +34,7 @@ typedef void (^simpleMutableSetBlock)(NSMutableSet *set);
 
 
 
-@interface SA_ThreadsafeMutableSet : NSObject <NSFastEnumeration>
+@interface SA_ThreadsafeMutableSet : NSObject <NSFastEnumeration, NSCopying>
 + (instancetype) set;
 
 - (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState *) state objects: (id __unsafe_unretained []) buffer count: (NSUInteger) len;
@@ -51,7 +51,7 @@ typedef void (^simpleMutableSetBlock)(NSMutableSet *set);
 
 
 
-@interface SA_ThreadsafeMutableDictionary : NSObject <NSFastEnumeration>
+@interface SA_ThreadsafeMutableDictionary : NSObject <NSFastEnumeration, NSCopying>
 + (instancetype) dictionary;
 
 - (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState *) state objects: (id __unsafe_unretained []) buffer count: (NSUInteger) len;

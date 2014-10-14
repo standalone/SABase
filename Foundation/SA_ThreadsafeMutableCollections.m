@@ -29,6 +29,14 @@
 
 + (instancetype) array { return [self new]; }
 
+- (id) copyWithZone: (NSZone *) zone {
+	SA_ThreadsafeMutableArray			*dupe = [SA_ThreadsafeMutableArray new];
+	
+	@synchronized (self) { dupe.backingArray = [self.backingArray copyWithZone: zone]; }
+	
+	return dupe;
+}
+
 - (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState *) state objects: (id __unsafe_unretained []) buffer count: (NSUInteger) len {
 	@synchronized (self) { return [self.backingArray countByEnumeratingWithState: state objects: buffer count: len]; }
 }
@@ -142,6 +150,15 @@
 - (NSString *) description {
 	@synchronized (self) { return self.backingSet.description; }
 }
+
+- (id) copyWithZone: (NSZone *) zone {
+	SA_ThreadsafeMutableSet			*dupe = [SA_ThreadsafeMutableSet new];
+	
+	@synchronized (self) { dupe.backingSet = [self.backingSet copyWithZone: zone]; }
+	
+	return dupe;
+}
+
 @end
 
 
@@ -203,6 +220,16 @@
 - (NSString *) description {
 	@synchronized (self) { return self.backingDictionary.description; }
 }
+
+- (id) copyWithZone: (NSZone *) zone {
+	SA_ThreadsafeMutableDictionary			*dupe = [SA_ThreadsafeMutableDictionary new];
+	
+	@synchronized (self) { dupe.backingDictionary = [self.backingDictionary copyWithZone: zone]; }
+	
+	return dupe;
+}
+
+
 @end
 
 
