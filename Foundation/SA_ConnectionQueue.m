@@ -194,13 +194,9 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 	if (self.offline || connection == nil) return NO;
 	
 	[self.privateQueue addOperationWithBlock: ^{
-		if (connection.ignoreLater) {
-			[self isExistingConnectionSimilar: connection completion: ^(BOOL similar) {
-				if (!similar) {
-					connection.ignoreLater = NO;
-					[self queueConnection: connection];
-				}
-			}];
+		if (connection.ignoreLater && [self isExistingConnectionSimilar: connection]) {
+			connection.ignoreLater = NO;
+			[self queueConnection: connection];
 			return;
 		} else if (connection.replaceOlder) {
 			[self removeConnectionsTaggedWith: connection.tag delegate: connection.delegate];
@@ -209,26 +205,22 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 			return;
 		}
 		
-		[self.privateQueue addOperationWithBlock: ^{
-			SA_Assert(!connection.alreadyStarted, @"Can't queue an already started connection");
+		self.pending = [self.pending arrayByAddingObject: connection];
+		connection.order = self.pending.count;
 
-			self.pending = [self.pending arrayByAddingObject: connection];
-			connection.order = self.pending.count;
-
-			[self reorderPendingConnectionsByPriority];
-			if (self.managePleaseWaitDisplay && connection.showsPleaseWait) {
-				[self.pleaseWaitConnections addObject: connection];
-			}
-			
-			#if TARGET_OS_IPHONE
-				if (self.managePleaseWaitDisplay && connection.priority >= _minimumIndicatedPriorityLevel && self.showProgressInPleaseWaitDisplay) self.highwaterMark++;
-			#endif
-			
-			[self deferQueueProcessing];
-			if (self.managePleaseWaitDisplay) [self updatePleaseWaitDisplay];
-			
-			[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_Queued object: connection];
-		}];
+		[self reorderPendingConnectionsByPriority];
+		if (self.managePleaseWaitDisplay && connection.showsPleaseWait) {
+			[self.pleaseWaitConnections addObject: connection];
+		}
+		
+		#if TARGET_OS_IPHONE
+			if (self.managePleaseWaitDisplay && connection.priority >= _minimumIndicatedPriorityLevel && self.showProgressInPleaseWaitDisplay) self.highwaterMark++;
+		#endif
+		
+		[self deferQueueProcessing];
+		if (self.managePleaseWaitDisplay) [self updatePleaseWaitDisplay];
+		
+		[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_Queued object: connection];
 	}];
 	return YES;
 }
@@ -380,16 +372,19 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 	}
 
 	[self.privateQueue addOperationWithBlock: ^{
-		NSSet				*checkSet = [self.active setByAddingObjectsFromArray: self.pending];
-		
-		for (SA_Connection *connection in checkSet) {
-			if (!connection.canceled && [targetConnection.url isEqual: connection.url]) {
-				completion(YES);
-				return;
-			}
-		}
-		completion(NO);
+		completion([self isExistingConnectionSimilar: targetConnection]);
 	}];
+}
+
+- (BOOL) isExistingConnectionSimilar: (SA_Connection *) targetConnection {
+	NSSet				*checkSet = [self.active setByAddingObjectsFromArray: self.pending];
+	
+	for (SA_Connection *connection in checkSet) {
+		if (!connection.canceled && [targetConnection.url isEqual: connection.url]) {
+			return YES;
+		}
+	}
+	return NO;
 }
 
 - (void) isExistingConnectionTaggedWith: (NSString *) tag delegate: (id <SA_ConnectionDelegate>) delegate completion: (booleanArgumentBlock) completion {
