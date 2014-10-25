@@ -9,6 +9,7 @@
 #import "dispatch_additions_SA.h"
 
 void	dispatch_sync_main_queue(dispatch_block_t block) {
+	if (block == nil) return;
 	if ([NSThread isMainThread])
 		block();
 	else
@@ -17,10 +18,13 @@ void	dispatch_sync_main_queue(dispatch_block_t block) {
 }
 
 void	dispatch_async_main_queue(dispatch_block_t block) {
+	if (block == nil) return;
 	dispatch_async(dispatch_get_main_queue(), block);
 }
 
 void	dispatch_on_main_queue(dispatch_block_t block) {
+	if (block == nil) return;
+	
 	if ([NSThread isMainThread])
 		block();
 	else
@@ -28,5 +32,5 @@ void	dispatch_on_main_queue(dispatch_block_t block) {
 }
 
 void	dispatch_after_main_queue(NSTimeInterval delay, dispatch_block_t block) {
-	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)( delay * NSEC_PER_SEC)), dispatch_get_main_queue(), block);
+	if (block) dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)( delay * NSEC_PER_SEC)), dispatch_get_main_queue(), block);
 }
