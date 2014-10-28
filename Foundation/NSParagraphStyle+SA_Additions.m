@@ -15,7 +15,16 @@
 	
 	style.alignment = NSTextAlignmentRight;
 	style.lineBreakMode = NSLineBreakByWordWrapping;
+	
+	return style;
+}
 
++ (NSMutableParagraphStyle *) leftAlignedStyle {
+	NSMutableParagraphStyle			*style = [NSMutableParagraphStyle new];
+	
+	style.alignment = NSTextAlignmentLeft;
+	style.lineBreakMode = NSLineBreakByWordWrapping;
+	
 	return style;
 }
 

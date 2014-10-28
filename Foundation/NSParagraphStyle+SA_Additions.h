@@ -10,6 +10,7 @@
 
 @interface NSParagraphStyle (SA_Additions)
 
++ (NSMutableParagraphStyle *) leftAlignedStyle;
 + (NSMutableParagraphStyle *) rightAlignedStyle;
 + (NSMutableParagraphStyle *) centeredStyle;
 + (NSMutableParagraphStyle *) styleWithLineHeightMultiplier: (CGFloat) multiple;
