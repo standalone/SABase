@@ -12,7 +12,15 @@ const NSString			*SA_BaseErrorDomain = @"SA_BaseErrorDomain";
 
 @implementation NSError (SA_Additions)
 - (BOOL) isNoInternetConnectionError {
-	return [self.domain isEqual: NSURLErrorDomain] && (self.code == NSURLErrorNotConnectedToInternet || self.code == NSURLErrorCannotConnectToHost || self.code == NSURLErrorNetworkConnectionLost);
+	if ([self.domain isEqual: @"CKErrorDomain"] && self.code == 4) return YES;		// CloudKit CKErrorNetworkFailure
+//	if ([self.domain isEqual: @"CKErrorDomain"] && self.code == kCFURLErrorBadServerResponse) return YES;		// CloudKit CKErrorNetworkFailure
+	
+	if ([self.domain isEqual: NSURLErrorDomain] && (self.code == NSURLErrorNotConnectedToInternet || self.code == NSURLErrorCannotConnectToHost || self.code == NSURLErrorNetworkConnectionLost)) return YES;
+	
+	for (NSError *error in self.sa_underlyingErrors) {
+		if (error.isNoInternetConnectionError) return YES;
+	}
+	return NO;
 }
 
 - (BOOL) shouldProbablyBeSupressedForMostUsers {
@@ -20,5 +28,13 @@ const NSString			*SA_BaseErrorDomain = @"SA_BaseErrorDomain";
 		if (self.code == NSURLErrorCancelled || self.code == NSURLErrorUserCancelledAuthentication || self.code == NSURLErrorZeroByteResource || self.code == NSURLErrorServerCertificateHasBadDate || self.code == NSURLErrorServerCertificateUntrusted || self.code == NSURLErrorServerCertificateHasUnknownRoot || self.code == NSURLErrorServerCertificateNotYetValid || self.code == NSURLErrorClientCertificateRejected || self.code == NSURLErrorClientCertificateRequired || self.code == NSURLErrorCannotLoadFromNetwork) return YES;
 	}
 	return NO;
+}
+
+- (NSArray *) sa_underlyingErrors {
+	NSMutableArray			*errors = [NSMutableArray array];
+	
+	if (self.userInfo[NSUnderlyingErrorKey]) [errors addObject: self.userInfo[NSUnderlyingErrorKey]];
+	if (self.userInfo[@"CKPartialErrors"]) [errors addObjectsFromArray: [self.userInfo[@"CKPartialErrors"] allObjects]];
+	return errors;
 }
 @end
