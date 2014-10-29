@@ -73,7 +73,7 @@ extern const NSUInteger				g_sa_base_version;
 #define				NOT_RUNNING_UNDER_ARC		(!(RUNNING_UNDER_ARC))
 
 #define				CONST_DECLARE(k)			extern NSString *k;
-#define				CONST_DEFINE(k)				NSString *k = @"k";
+#define				CONST_DEFINE(k)				NSString *k = @#k;
 
 
 //=============================================================================================================================
