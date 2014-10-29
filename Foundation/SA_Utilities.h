@@ -72,6 +72,9 @@ extern const NSUInteger				g_sa_base_version;
 #define				RUNNING_UNDER_ARC			((__has_feature(objc_arc)))
 #define				NOT_RUNNING_UNDER_ARC		(!(RUNNING_UNDER_ARC))
 
+#define				CONST_DECLARE(k)			extern NSString *k;
+#define				CONST_DEFINE(k)				NSString *k = @"k";
+
 
 //=============================================================================================================================
 #pragma mark ARC conversion
