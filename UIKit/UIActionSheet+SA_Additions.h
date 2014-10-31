@@ -20,8 +20,8 @@ typedef void (^actionSheetButtonSelectedBlock)(NSInteger buttonIndex);
 - (void) addButtonWithTitle: (NSString *) title andSA_Tag: (NSInteger) tag;
 - (NSInteger) SA_TagForButtonAtIndex: (NSUInteger) index;
 - (void) clearSA_Tags;
-- (void) showFromView: (UIView *) view withSA_ButtonSelectedBlock: (intArgumentBlock) block;
-- (void) showFromBarButtonItem: (UIBarButtonItem *) item withSA_ButtonSelectedBlock: (intArgumentBlock) block;
+- (void) showFromView: (UIView *) view withSA_ButtonSelectedBlock: (actionSheetButtonSelectedBlock) block;
+- (void) showFromBarButtonItem: (UIBarButtonItem *) item withSA_ButtonSelectedBlock: (actionSheetButtonSelectedBlock) block;
 
 - (void) SA_showFromView: (UIView *) view;
 @end
