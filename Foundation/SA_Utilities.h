@@ -75,6 +75,12 @@ extern const NSUInteger				g_sa_base_version;
 #define				CONST_DECLARE(k)			extern NSString *k;
 #define				CONST_DEFINE(k)				NSString *k = @#k;
 
+#define				USER_DEFAULT_KEY_DECLARE(k)	extern NSString *kUserDefaults_##k;
+#define				USER_DEFAULT_KEY_DEFINE(k)	NSString *kUserDefaults_##k = @#k;
+
+#define				NOTIFICATION_DECLARE(k)		extern NSString *kNotification_##k;
+#define				NOTIFICATION_DEFINE(k)		NSString *kNotification_##k = @#k;
+
 
 //=============================================================================================================================
 #pragma mark ARC conversion
