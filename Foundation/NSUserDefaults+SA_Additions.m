@@ -36,6 +36,33 @@ static NSString *s_currentDefaultsGroup = nil;
 	return NO;
 }
 
++ (id) objectForKey: (NSString *) key {
+	NSUserDefaults		*def = s_groupedUserDefaults ?: [NSUserDefaults standardUserDefaults];
+	
+	return [def objectForKey: key];
+}
+
++ (BOOL) boolForKey: (NSString *) key {
+	NSUserDefaults		*def = s_groupedUserDefaults ?: [NSUserDefaults standardUserDefaults];
+	
+	return [def boolForKey: key];
+}
+
++ (NSInteger) integerForKey: (NSString *) key {
+	NSUserDefaults		*def = s_groupedUserDefaults ?: [NSUserDefaults standardUserDefaults];
+	
+	return [def integerForKey: key];
+}
+
+
++ (void) syncBool: (BOOL) b forKey: (NSString *) key {
+	[self syncObject: @(b) forKey: key];
+}
+
++ (void) syncInteger: (NSInteger) i forKey: (NSString *) key {
+	[self syncObject: @(i) forKey: key];
+}
+
 + (void) syncObject: (id) object forKey: (NSString *) key {
 	NSUserDefaults		*def = s_groupedUserDefaults ?: [NSUserDefaults standardUserDefaults];
 	
@@ -45,6 +72,12 @@ static NSString *s_currentDefaultsGroup = nil;
 		[def removeObjectForKey: key];
 	[def synchronize];
 	
+}
+
++ (void) removeObjectForKey: (NSString *) key {
+	NSUserDefaults		*def = s_groupedUserDefaults ?: [NSUserDefaults standardUserDefaults];
+	
+	return [def removeObjectForKey: key];
 }
 
 - (id) objectForKeyedSubscript: (id) key {

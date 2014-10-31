@@ -16,7 +16,14 @@
 - (BOOL) isSetting: (NSString *) settingKey upToVersion: (int) properVersion updatingIfNeeded: (BOOL) update;
 
 + (void) syncObject: (id) object forKey: (NSString *) key;
++ (void) syncBool: (BOOL) b forKey: (NSString *) key;
++ (void) syncInteger: (NSInteger) i forKey: (NSString *) key;
++ (void) removeObjectForKey: (NSString *) key;
++ (id) objectForKey: (NSString *) key;
++ (BOOL) boolForKey: (NSString *) key;
++ (NSInteger) integerForKey: (NSString *) key;
 
 - (id) objectForKeyedSubscript: (id) key;
 - (void) setObject: (id) obj forKeyedSubscript: (id) key;
+
 @end
