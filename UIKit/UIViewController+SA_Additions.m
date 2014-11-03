@@ -49,8 +49,8 @@ __weak UIViewController *s_frontmostFocusedViewController = nil;
 
 @implementation UIViewController (UIViewController_SA_Additions)
 
-+ (id) simpleController {
-	return [[self alloc] init];
++ (id) controller {
+	return [self new];
 }
 
 - (UIViewController *) focusedViewControllerAncestor {
@@ -73,6 +73,17 @@ __weak UIViewController *s_frontmostFocusedViewController = nil;
 		
 	[self.view addSubview: controller.view];
 	[self addChildViewController: controller];
+}
+
+- (UIPageViewController *) sa_pageViewController {
+	UIViewController			*controller = self;
+	Class						class = [UIPageViewController class];
+	
+	while (controller && ![controller isKindOfClass: class]) {
+		controller = controller.parentViewController;
+	}
+	
+	return (id) controller;
 }
 
 - (void) removeFromParentViewControllerAndView {

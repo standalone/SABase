@@ -19,8 +19,9 @@ typedef enum {
 
 @interface UIViewController (UIViewController_SA_Additions)
 @property (nonatomic, readonly) UIViewController *focusedViewControllerAncestor;
+@property (nonatomic, readonly) UIPageViewController *sa_pageViewController;
 
-+ (id) simpleController;
++ (id) controller;
 
 - (NSSet *) childControllers;
 
