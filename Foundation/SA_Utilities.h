@@ -14,6 +14,8 @@
 #import <UIKit/UIKit.h>
 #endif
 
+@import CoreData;
+
 extern const NSUInteger				g_sa_base_version;
 
 #define		DIM(a)				(sizeof(a) / sizeof(((a)[0])))
