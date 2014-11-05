@@ -52,7 +52,7 @@
 }
 
 + (CGAffineTransform) sa_baseTransformForOrientation: (UIInterfaceOrientation) orientation {
-	//if (RUNNING_ON_80)
+	if (RUNNING_ON_80)
 		return CGAffineTransformIdentity;
 	
 	if (orientation == UIInterfaceOrientationUnknown) return UIWindow.sa_transformForCurrentUserInterfaceOrientation;
