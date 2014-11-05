@@ -7,12 +7,13 @@
 //
 
 #import "NSTimer+SA_Additions.h"
+#import "dispatch_additions_SA.h"
 
 @implementation NSTimer (SA_SA_Additions)
 
-+ (NSTimer *) scheduledTimerWithTimeInterval: (NSTimeInterval) ti block: (idArgumentBlock) block repeats: (BOOL) repeats {
++ (NSTimer *) scheduledTimerWithTimeInterval: (NSTimeInterval) ti block: (timerArgumentBlock) block repeats: (BOOL) repeats {
 	if (!repeats) {
-		[NSObject performBlock: ^{block(nil); } afterDelay: ti];
+		dispatch_after_main_queue(ti, ^{block(nil); });
 		return nil;
 	}
 	
@@ -24,7 +25,7 @@
 }
 
 + (void) SA_BlockTimerFired: (NSTimer *) timer {
-	idArgumentBlock				block = (idArgumentBlock) timer.userInfo;
+	timerArgumentBlock				block = (timerArgumentBlock) timer.userInfo;
 	
 	if (block) block(timer);
 }

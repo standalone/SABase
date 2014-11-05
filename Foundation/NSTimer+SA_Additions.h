@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SA_Utilities.h"
-#import "NSObject+SA_Additions.h"
+
+typedef void (^timerArgumentBlock)(NSTimer *timer);
+
 
 @interface NSTimer (SA_SA_Additions)
 
-+ (NSTimer *) scheduledTimerWithTimeInterval: (NSTimeInterval) ti block: (idArgumentBlock) block repeats: (BOOL) repeats;
++ (NSTimer *) scheduledTimerWithTimeInterval: (NSTimeInterval) ti block: (timerArgumentBlock) block repeats: (BOOL) repeats;
 @end
