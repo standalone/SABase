@@ -62,6 +62,7 @@ typedef enum {
 @property (nonatomic, readonly) NSString *deviceMachineName, *shortLocalizedModel, *displayName;
 @property (nonatomic, readonly) float OSVersion;
 @property (nonatomic, readonly) UIInterfaceOrientation userInterfaceOrientation;
+@property (nonatomic, readonly) BOOL isInLandscapeOrientation;
 
 @property (nonatomic, readonly) NSString *legacyUniqueIdentifier;
 

@@ -33,6 +33,8 @@
 	return [words objectAtIndex: 0];
 }
 
+- (BOOL) isInLandscapeOrientation { return UIInterfaceOrientationIsLandscape(self.userInterfaceOrientation); }
+
 - (connection_type) connectionType {
 	struct sockaddr_in				zeroAddress;
 	
@@ -225,4 +227,5 @@
 - (CGFloat) sa_minDimension { return MIN(self.bounds.size.width, self.bounds.size.height); }
 
 - (CGFloat) sa_maxDimension { return MAX(self.bounds.size.width, self.bounds.size.height); }
+
 @end
