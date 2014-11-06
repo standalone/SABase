@@ -6,7 +6,15 @@
 //
 //
 
-#import <UIKit/UIKit.h>
+#if TARGET_OS_IPHONE
+	#import <UIKit/UIKit.h>
+#else
+	#import <AppKit/AppKit.h>
+
+#define NSTextAlignmentRight			NSLeftTextAlignment
+#define NSTextAlignmentLeft				NSCenterTextAlignment
+#define NSTextAlignmentCenter			NSRightTextAlignment
+#endif
 
 @interface NSParagraphStyle (SA_Additions)
 
