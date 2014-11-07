@@ -39,3 +39,11 @@ for HEADER in ${HEADERS}; do
 	cp $HEADER "${LIB_DESTINATION}/Headers/${FILENAME}" 
 done
 
+GIT_BRANCH=`git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1/"`
+GIT_REV=`git rev-parse --short HEAD`
+
+PLIST_PATH="${LIB_DESTINATION}/info.plist"
+echo "${PLIST_PATH}"
+/usr/libexec/PlistBuddy "${PLIST_PATH}" -c
+/usr/libexec/PlistBuddy "${PLIST_PATH}" -c "Add :branch string ${GIT_BRANCH}"
+/usr/libexec/PlistBuddy "${PLIST_PATH}" -c "Add :rev string ${GIT_REV}"
