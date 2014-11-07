@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #if TARGET_OS_IPHONE
 	#import <UIKit/UIKit.h>
+#else 
+	#import <AppKit/AppKit.h>
 #endif
 
 #define		CHAR_IS_NUMERIC(c)				(c >= '0' && c <= '9')
