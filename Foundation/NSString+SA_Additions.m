@@ -577,6 +577,35 @@
 	if (idx >= self.length) return @"";
 	return [self substringWithRange: NSMakeRange(idx, 1)];
 }
+
+- (UIFont *) fontToFitInWidth: (CGFloat) width startingWith: (UIFont *) starting {
+	UIFont			*font = starting;
+	CGFloat			maxSize = starting.pointSize;
+	CGFloat			currentSize = maxSize, halfSize = floorf(maxSize * 0.5);
+	
+	while (halfSize > 1) {
+		CGFloat						textWidth = [self sizeWithAttributes: @{ NSFontAttributeName: font }].width;
+		
+		
+		if (textWidth < width) {
+			currentSize += halfSize;
+		} else if (textWidth > width) {
+			currentSize -= halfSize;
+		} else {
+			break;
+		}
+		
+		halfSize = roundf(halfSize / 2);
+		
+		font = [UIFont fontWithName: font.familyName size: currentSize];
+	}
+	
+	if (currentSize > maxSize) return starting;
+	return font;
+}
+
+
+
 @end
 //=============================================================================================================================
 #pragma mark
