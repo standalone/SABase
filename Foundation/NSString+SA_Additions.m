@@ -578,6 +578,7 @@
 	return [self substringWithRange: NSMakeRange(idx, 1)];
 }
 
+#if TARGET_OS_IPHONE
 - (UIFont *) fontToFitInWidth: (CGFloat) width startingWith: (UIFont *) starting {
 	UIFont			*font = starting;
 	CGFloat			maxSize = starting.pointSize;
@@ -603,6 +604,7 @@
 	if (currentSize > maxSize) return starting;
 	return font;
 }
+#endif
 
 
 

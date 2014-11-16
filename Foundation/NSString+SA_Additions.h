@@ -75,8 +75,8 @@
 - (NSString *) stringByStrippingHTMLTags;
 - (id)objectAtIndexedSubscript:(NSUInteger)idx;
 
-
+#if TARGET_OS_IPHONE
 - (UIFont *) fontToFitInWidth: (CGFloat) width startingWith: (UIFont *) starting;
-
+#endif
 @end
 
