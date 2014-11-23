@@ -59,7 +59,16 @@
 	return [UIWindow sa_transformForUserInterfaceOrientation: orientation];
 }
 
-
++ (UIWindow *) sa_rootWindow {
+	UIWindow			*biggest = nil;
+	
+	for (UIWindow *window in [UIApplication sharedApplication].windows) {
+		if (window.rootViewController) return window;
+		
+		if (window.bounds.size.width > biggest.bounds.size.width && window.bounds.size.height > biggest.bounds.size.height) biggest = window;
+	}
+	return biggest;
+}
 
 @end
 
