@@ -79,3 +79,22 @@
 @implementation SA_FullScreenBlockingWindow
 
 @end
+
+
+
+static __weak UIResponder *s_currentFirstResponder = nil;
+
+@implementation UIResponder (SA_Additions)
+
++ (id) sa_currentFirstResponder {
+	s_currentFirstResponder = nil;
+	[[UIApplication sharedApplication] sendAction: @selector(sa_findFirstResponder:) to: nil from: nil forEvent: nil];
+	return s_currentFirstResponder;
+}
+
+
+- (void) sa_findFirstResponder: (id) sender {
+	s_currentFirstResponder = self;
+}
+
+@end

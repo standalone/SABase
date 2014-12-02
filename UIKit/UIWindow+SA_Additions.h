@@ -18,3 +18,7 @@
 
 + (UIWindow *) sa_rootWindow;
 @end
+
+@interface UIResponder (SA_Additions)
++ (id) sa_currentFirstResponder;
+@end
