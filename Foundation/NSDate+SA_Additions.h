@@ -104,4 +104,7 @@ typedef enum {
 - (NSComparisonResult) compareTimes: (NSDate *) date;
 - (NSInteger) monthsSinceDate: (NSDate *) date;
 - (NSInteger) timeZoneOffsetAmount;
+
++ (NSUInteger) firstDayOfTheWeek;
+- (NSUInteger) numberOfWeeksInMonth;
 @end

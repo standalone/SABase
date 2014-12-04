@@ -502,17 +502,38 @@
 	return [cal dateFromComponents: components];
 }
 
-- (NSUInteger) numberOfDaysInMonth {
-	NSCalendar				*cal = [NSCalendar currentCalendar];
-	NSDateComponents		*components = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit fromDate: self];
+- (NSUInteger) numberOfDaysInMonth { return [[NSCalendar currentCalendar] rangeOfUnit: NSCalendarUnitDay inUnit: NSCalendarUnitMonth forDate: self].length; }
+//- (NSUInteger) numberOfDaysInMonth {
+//	NSCalendar				*cal = [NSCalendar currentCalendar];
+//	NSDateComponents		*components = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit fromDate: self];
+//	
+//	if (components.month == 1) {			//special case feb
+//		return (components.year % 4 == 0 && (components.year % 100 || components.year % 400 == 0)) ? 29 : 28;
+//	}
+//	NSInteger		days[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+//	
+//	return days[components.month];
+//}
+
+- (NSUInteger) numberOfWeeksInMonth {
+	NSUInteger				firstDay = [self firstDayOfMonth].weekday;
+	NSUInteger				firstDayOfWeek = [NSDate firstDayOfTheWeek];
+	NSArray					*weekCounts = @[ @[ @4, @5, @5, @5],				//sunday, fdow = sunday
+											 @[ @5, @5, @5, @5],				//monday
+											 @[ @5, @5, @5, @5],				//tuesday
+											 @[ @5, @5, @5, @5],				//wednesday
+											 @[ @5, @5, @5, @5],				//thursday
+											 @[ @5, @5, @5, @6],				//friday
+											 @[ @5, @5, @6, @6]];				//saturday
 	
-	if (components.month == 1) {			//special case feb
-		return (components.year % 4 == 0 && (components.year % 100 || components.year % 400 == 0)) ? 29 : 28;
-	}
-	NSInteger		days[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+	NSUInteger				index = [self numberOfDaysInMonth] - 28;
+	if (index > 3) return 5;		//not good.
 	
-	return days[components.month];
+	NSArray					*daysArray = weekCounts[((firstDay - firstDayOfWeek) + 7) % 7];
+	return [daysArray[index] integerValue];
 }
++ (NSUInteger) firstDayOfTheWeek { return [[NSCalendar currentCalendar] firstWeekday]; }
+
 
 - (NSDate *) previousDay {
 	NSCalendar				*cal = [NSCalendar currentCalendar];
