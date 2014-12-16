@@ -6,6 +6,7 @@
 //
 
 #import "SA_ScreenshotFeedback.h"
+#import "SA_AlertView.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <MessageUI/MessageUI.h>
 
@@ -28,10 +29,6 @@ static SA_ScreenshotFeedback			*s_screenshotFeedback = nil;
 + (SA_ScreenshotFeedback *) defaultManager {
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		if (![MFMailComposeViewController canSendMail]) {
-			NSLog(@"There is no mail account enabled on this device; Screen Shot Feedback disabled");
-			return;
-		}
 		s_screenshotFeedback = [[self alloc] init];
 	});
 	return s_screenshotFeedback;
@@ -71,6 +68,17 @@ static SA_ScreenshotFeedback			*s_screenshotFeedback = nil;
 - (void) screenshotTaken: (NSNotification *) note {
 	if (self.currentAlert) return;
 	
+	if (![MFMailComposeViewController canSendMail]) {
+		static BOOL				notified = false;
+		
+		if (!notified) {
+			NSLog(@"There is no mail account enabled on this device; Screen Shot Feedback disabled");
+			[SA_AlertView showAlertWithTitle: NSLocalizedString(@"Unable to Send Screenshot Feedback", nil) message: NSLocalizedString(@"No mail account has been configured, so we can't send feedback email.", nil)];
+		}
+		notified = true;
+		return;
+	}
+	
 	self.currentAlert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Screenshot Taken", nil)
 												   message: NSLocalizedString(@"Would you like to submit this screenshot as feedback?", nil)
 												  delegate: self
@@ -91,7 +99,7 @@ static SA_ScreenshotFeedback			*s_screenshotFeedback = nil;
 	[library enumerateGroupsWithTypes: ALAssetsGroupSavedPhotos usingBlock: ^(ALAssetsGroup *group, BOOL *stop) {
 		*stop = [self groupContainsScreenshot: group];
 	} failureBlock: ^(NSError *error) {
-		
+		[SA_AlertView showAlertWithTitle: NSLocalizedString(@"Unable to Access Photo Library", nil) error: error];
 	}];
 
 }
