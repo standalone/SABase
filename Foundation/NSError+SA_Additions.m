@@ -7,10 +7,26 @@
 //
 
 #import "NSError+SA_Additions.h"
+#import "SA_ConnectionQueue.h"
 
 const NSString			*SA_BaseErrorDomain = @"SA_BaseErrorDomain";
 
 @implementation NSError (SA_Additions)
+- (BOOL) checkForNoInternetConnectionErrorAndUpdateConnectionQueue: (BOOL) countTimeoutAsNoInternet {
+	BOOL				isNoInternet = self.isNoInternetConnectionError;
+	BOOL				isTimeout = self.isTimeoutError;
+	
+	if (isNoInternet || (countTimeoutAsNoInternet && isTimeout)) {
+		[SA_ConnectionQueue sharedQueue].offline = YES;
+	}
+		
+		return isTimeout || isNoInternet;
+}
+
+- (BOOL) isTimeoutError {
+	return [self.domain isEqual: NSURLErrorDomain] && self.code == NSURLErrorTimedOut;
+}
+
 - (BOOL) isNoInternetConnectionError {
 	if ([self.domain isEqual: @"CKErrorDomain"] && self.code == 4) return YES;		// CloudKit CKErrorNetworkFailure
 //	if ([self.domain isEqual: @"CKErrorDomain"] && self.code == kCFURLErrorBadServerResponse) return YES;		// CloudKit CKErrorNetworkFailure

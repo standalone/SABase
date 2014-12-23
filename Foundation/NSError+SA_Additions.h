@@ -18,5 +18,10 @@ typedef NS_ENUM(NSUInteger, sa_base_error) {
 
 
 @interface NSError (SA_Additions)
-@property (nonatomic, readonly) BOOL isNoInternetConnectionError, shouldProbablyBeSupressedForMostUsers;
+@property (nonatomic, readonly) BOOL isNoInternetConnectionError, shouldProbablyBeSupressedForMostUsers, isTimeoutError;
+
+
+//call this to determine if it's a failed connection, and update the offline flag on SA_ConnectionQueue
+- (BOOL) checkForNoInternetConnectionErrorAndUpdateConnectionQueue: (BOOL) countTimeoutAsNoInternet;
+
 @end
