@@ -400,10 +400,11 @@
 - (BOOL) isSameDayAs: (NSDate *) date {
 	if (date == nil) return NO;
 	
-	time_t				mySeconds = [self timeIntervalSince1970], dateSeconds = [date timeIntervalSince1970];
-	struct tm			myInfo = *localtime(&mySeconds), dateInfo = *localtime(&dateSeconds);
+	NSCalendar			*calendar = [NSCalendar currentCalendar];
+	NSDateComponents	*myComps = [calendar components: NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate: self];
+	NSDateComponents	*theirComps = [calendar components: NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate: date];
 	
-	return (myInfo.tm_mday == dateInfo.tm_mday && myInfo.tm_mon == dateInfo.tm_mon && myInfo.tm_year == dateInfo.tm_year);
+	return (myComps.day == theirComps.day && myComps.month == theirComps.month && myComps.year == theirComps.year);
 }
 
 - (BOOL) isSameMonthAs: (NSDate *) date {
