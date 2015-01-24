@@ -23,6 +23,8 @@ BOOL s_DEBUG_mode = NO;
 BOOL		SA_Base_DebugMode(void) { return s_DEBUG_mode; }
 void		set_SA_Base_DebugMode(BOOL debug) { s_DEBUG_mode = debug; }
 
+BOOL		SA_Base_IsTestFlightBuild(void) { return [[[[NSBundle mainBundle] appStoreReceiptURL] lastPathComponent] isEqualToString: @"sandboxReceipt"]; }
+
 const CGPoint		CGPointNone = {-10001.10001, -10001.10001};			
 
 natural_t			freeMemory(BOOL logIt) {
