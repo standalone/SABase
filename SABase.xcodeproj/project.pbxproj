@@ -372,7 +372,7 @@
 		B583073B1516548600CC57DE /* TestController.m in Sources */ = {isa = PBXBuildFile; fileRef = B583070B1516548600CC57DE /* TestController.m */; };
 		B583073C1516548600CC57DE /* TestController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B583070C1516548600CC57DE /* TestController.xib */; };
 		B583073D1516548600CC57DE /* TestController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B583070C1516548600CC57DE /* TestController.xib */; };
-		B58488C11ABED9790045FEC7 /* SA_FullScreenBlockingView.h in Headers */ = {isa = PBXBuildFile; fileRef = B58488BF1ABED9790045FEC7 /* SA_FullScreenBlockingView.h */; };
+		B58488C11ABED9790045FEC7 /* SA_FullScreenBlockingView.h in Headers */ = {isa = PBXBuildFile; fileRef = B58488BF1ABED9790045FEC7 /* SA_FullScreenBlockingView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B58488C21ABED9790045FEC7 /* SA_FullScreenBlockingView.h in Headers */ = {isa = PBXBuildFile; fileRef = B58488BF1ABED9790045FEC7 /* SA_FullScreenBlockingView.h */; };
 		B58488C31ABED9790045FEC7 /* SA_FullScreenBlockingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B58488C01ABED9790045FEC7 /* SA_FullScreenBlockingView.m */; };
 		B58488C41ABED9790045FEC7 /* SA_FullScreenBlockingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B58488C01ABED9790045FEC7 /* SA_FullScreenBlockingView.m */; };
@@ -1001,7 +1001,6 @@
 				B55E0924151660DD0097CC69 /* UIBarButtonItem+SA_Additions.h in Headers */,
 				B55E0930151660DD0097CC69 /* UIColor+SA_Additions.h in Headers */,
 				B55E0936151660DD0097CC69 /* UIDevice+SA_Additions.h in Headers */,
-				B58488C11ABED9790045FEC7 /* SA_FullScreenBlockingView.h in Headers */,
 				B55E093C151660DD0097CC69 /* UIImage+SA_Additions.h in Headers */,
 				B55E0942151660DD0097CC69 /* UIImageView+SA_Additions.h in Headers */,
 				B555CDA8193941300077396A /* SA_ProgressDisplay.h in Headers */,
@@ -1025,6 +1024,7 @@
 				B59F32CA181DCB1F0096DF9A /* UILocalNotification+SA_Additions.h in Headers */,
 				B5ED0B9416431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.h in Headers */,
 				B55E0998151661C10097CC69 /* NSArray+SA_Additions.h in Headers */,
+				B58488C11ABED9790045FEC7 /* SA_FullScreenBlockingView.h in Headers */,
 				B542238F15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.h in Headers */,
 				B555CDA4193941300077396A /* SA_ProgressView.h in Headers */,
 				B5D3ABAB15FD3E070052F459 /* CAAnimation+SA_Blocks.h in Headers */,
