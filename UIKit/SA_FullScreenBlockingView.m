@@ -8,6 +8,7 @@
 
 #import "SA_FullScreenBlockingView.h"
 #import "SA_Utilities.h"
+#import "NSObject+SA_Additions.h"
 
 @interface SA_FullScreenBlockingView ()
 @property (nonatomic, strong) NSArray *targets;
@@ -16,6 +17,10 @@
 @end
 
 @implementation SA_FullScreenBlockingView
+- (void) dealloc {
+	[self removeAsObserver];
+}
+
 + (instancetype) blockerForViews: (NSArray *) targets {
 	if (targets.count == 0) return nil;
 	
