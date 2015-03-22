@@ -372,6 +372,10 @@
 		B583073B1516548600CC57DE /* TestController.m in Sources */ = {isa = PBXBuildFile; fileRef = B583070B1516548600CC57DE /* TestController.m */; };
 		B583073C1516548600CC57DE /* TestController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B583070C1516548600CC57DE /* TestController.xib */; };
 		B583073D1516548600CC57DE /* TestController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B583070C1516548600CC57DE /* TestController.xib */; };
+		B58488C11ABED9790045FEC7 /* SA_FullScreenBlockingView.h in Headers */ = {isa = PBXBuildFile; fileRef = B58488BF1ABED9790045FEC7 /* SA_FullScreenBlockingView.h */; };
+		B58488C21ABED9790045FEC7 /* SA_FullScreenBlockingView.h in Headers */ = {isa = PBXBuildFile; fileRef = B58488BF1ABED9790045FEC7 /* SA_FullScreenBlockingView.h */; };
+		B58488C31ABED9790045FEC7 /* SA_FullScreenBlockingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B58488C01ABED9790045FEC7 /* SA_FullScreenBlockingView.m */; };
+		B58488C41ABED9790045FEC7 /* SA_FullScreenBlockingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B58488C01ABED9790045FEC7 /* SA_FullScreenBlockingView.m */; };
 		B58CA477183AD4DA0038753A /* SA_ScreenshotFeedback.h in Headers */ = {isa = PBXBuildFile; fileRef = B58CA475183AD4DA0038753A /* SA_ScreenshotFeedback.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B58CA478183AD4DA0038753A /* SA_ScreenshotFeedback.h in Headers */ = {isa = PBXBuildFile; fileRef = B58CA475183AD4DA0038753A /* SA_ScreenshotFeedback.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B58CA479183AD4DA0038753A /* SA_ScreenshotFeedback.m in Sources */ = {isa = PBXBuildFile; fileRef = B58CA476183AD4DA0038753A /* SA_ScreenshotFeedback.m */; };
@@ -547,6 +551,8 @@
 		B583070B1516548600CC57DE /* TestController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestController.m; sourceTree = "<group>"; };
 		B583070C1516548600CC57DE /* TestController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestController.xib; sourceTree = "<group>"; };
 		B583070D1516548600CC57DE /* Run-Time Tests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Run-Time Tests-Info.plist"; sourceTree = "<group>"; };
+		B58488BF1ABED9790045FEC7 /* SA_FullScreenBlockingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SA_FullScreenBlockingView.h; sourceTree = "<group>"; };
+		B58488C01ABED9790045FEC7 /* SA_FullScreenBlockingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SA_FullScreenBlockingView.m; sourceTree = "<group>"; };
 		B58CA475183AD4DA0038753A /* SA_ScreenshotFeedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SA_ScreenshotFeedback.h; sourceTree = "<group>"; };
 		B58CA476183AD4DA0038753A /* SA_ScreenshotFeedback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SA_ScreenshotFeedback.m; sourceTree = "<group>"; };
 		B592126E18D374BD00FBC16D /* NSAttributedString+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+SA_Additions.h"; sourceTree = "<group>"; };
@@ -732,6 +738,8 @@
 				B555CDA3193941300077396A /* SA_ProgressDisplay.m */,
 				B564515F193A7736008E0B0A /* SA_CustomAlert.h */,
 				B5645160193A7736008E0B0A /* SA_CustomAlert.m */,
+				B58488BF1ABED9790045FEC7 /* SA_FullScreenBlockingView.h */,
+				B58488C01ABED9790045FEC7 /* SA_FullScreenBlockingView.m */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -935,6 +943,7 @@
 				B55E096D151660DD0097CC69 /* UIToolbar+SA_Additions.h in Headers */,
 				B55E0973151660DD0097CC69 /* UIView+SA_Additions.h in Headers */,
 				B5645162193A7736008E0B0A /* SA_CustomAlert.h in Headers */,
+				B58488C21ABED9790045FEC7 /* SA_FullScreenBlockingView.h in Headers */,
 				B55E0979151660DD0097CC69 /* UIViewController+SA_Additions.h in Headers */,
 				B59F32CB181DCB1F0096DF9A /* UILocalNotification+SA_Additions.h in Headers */,
 				B55E0981151661110097CC69 /* SA_BlockButton.h in Headers */,
@@ -992,6 +1001,7 @@
 				B55E0924151660DD0097CC69 /* UIBarButtonItem+SA_Additions.h in Headers */,
 				B55E0930151660DD0097CC69 /* UIColor+SA_Additions.h in Headers */,
 				B55E0936151660DD0097CC69 /* UIDevice+SA_Additions.h in Headers */,
+				B58488C11ABED9790045FEC7 /* SA_FullScreenBlockingView.h in Headers */,
 				B55E093C151660DD0097CC69 /* UIImage+SA_Additions.h in Headers */,
 				B55E0942151660DD0097CC69 /* UIImageView+SA_Additions.h in Headers */,
 				B555CDA8193941300077396A /* SA_ProgressDisplay.h in Headers */,
@@ -1265,6 +1275,7 @@
 				B55E0933151660DD0097CC69 /* UIColor+SA_Additions.m in Sources */,
 				B55AA63C181C515C00C5B0EE /* UIFont+SA_Additions.m in Sources */,
 				B5E703F917A5DB2000435611 /* SA_Switch.m in Sources */,
+				B58488C41ABED9790045FEC7 /* SA_FullScreenBlockingView.m in Sources */,
 				B55E0939151660DD0097CC69 /* UIDevice+SA_Additions.m in Sources */,
 				B55E093F151660DD0097CC69 /* UIImage+SA_Additions.m in Sources */,
 				B5645164193A7736008E0B0A /* SA_CustomAlert.m in Sources */,
@@ -1455,6 +1466,7 @@
 				B55E092C151660DD0097CC69 /* UIButton+SA_Additions.m in Sources */,
 				B55E0932151660DD0097CC69 /* UIColor+SA_Additions.m in Sources */,
 				B55AA63B181C515C00C5B0EE /* UIFont+SA_Additions.m in Sources */,
+				B58488C31ABED9790045FEC7 /* SA_FullScreenBlockingView.m in Sources */,
 				B5E703F817A5DB2000435611 /* SA_Switch.m in Sources */,
 				B55E0938151660DD0097CC69 /* UIDevice+SA_Additions.m in Sources */,
 				B5645163193A7736008E0B0A /* SA_CustomAlert.m in Sources */,
