@@ -28,9 +28,9 @@ extern NSString *kNotification_PersistentStoreResetDueToSchemaChange;
 - (NSArray *) objectsWithIDs: (NSArray *) objectIDs;
 
 + (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator;
-+ (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator concurrencyType: (NSInteger) type;
-+ (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator model: (NSManagedObjectModel *) model concurrencyType: (NSInteger) type;
-+ (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator modelPath: (NSString *) modelPath concurrencyType: (NSInteger) type;
++ (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator concurrencyType: (NSInteger) type turningOffTemporaryFiles: (BOOL) turnOff;
++ (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator model: (NSManagedObjectModel *) model concurrencyType: (NSInteger) type turningOffTemporaryFiles: (BOOL) turnOff;
++ (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator modelPath: (NSString *) modelPath concurrencyType: (NSInteger) type turningOffTemporaryFiles: (BOOL) turnOff;
 
 - (id) copy;
 - (id) insertNewEntityWithName: (NSString *) name;

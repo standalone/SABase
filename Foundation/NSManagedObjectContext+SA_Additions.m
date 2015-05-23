@@ -23,23 +23,27 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 @dynamic primaryStoreMetadata, saveThread;
 
 + (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator {
-	return [self contextAtPath: path inPersistentStoreCoordinator: coordinator model: nil concurrencyType: 0 /*NSConfinementConcurrencyType */];
+	return [self contextAtPath: path inPersistentStoreCoordinator: coordinator model: nil concurrencyType: NSConfinementConcurrencyType  turningOffTemporaryFiles: false];
 }
 
-+ (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator concurrencyType: (NSInteger) type {
-	return [self contextAtPath: path inPersistentStoreCoordinator: coordinator model: nil concurrencyType: type];
++ (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator concurrencyType: (NSInteger) type turningOffTemporaryFiles: (BOOL) turnOff {
+	return [self contextAtPath: path inPersistentStoreCoordinator: coordinator model: nil concurrencyType: type turningOffTemporaryFiles: turnOff];
 }
 
-+ (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator modelPath: (NSString *) modelPath concurrencyType: (NSInteger) type {
++ (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator modelPath: (NSString *) modelPath concurrencyType: (NSInteger) type turningOffTemporaryFiles: (BOOL) turnOff {
 	NSManagedObjectModel					*model = [[NSManagedObjectModel alloc] initWithContentsOfURL: [NSURL fileURLWithPath: modelPath]];
 	
 	SA_Assert(modelPath.length == 0 || model != nil, @"Trying to instantiate an invalid model. Check the path and current version.");
-	return [self contextAtPath: path inPersistentStoreCoordinator: coordinator model: model concurrencyType: type];
+	return [self contextAtPath: path inPersistentStoreCoordinator: coordinator model: model concurrencyType: type turningOffTemporaryFiles: turnOff];
 }
 
-+ (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator model: (NSManagedObjectModel *) model concurrencyType: (NSInteger) type {
-	NSDictionary						*options = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool: YES], NSMigratePersistentStoresAutomaticallyOption, [NSNumber numberWithBool: YES], NSInferMappingModelAutomaticallyOption, nil];
++ (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator model: (NSManagedObjectModel *) model concurrencyType: (NSInteger) type turningOffTemporaryFiles: (BOOL) turnOffTemps {
+	NSMutableDictionary					*options = @{ NSMigratePersistentStoresAutomaticallyOption: @true, NSInferMappingModelAutomaticallyOption: @true}.mutableCopy;
 	NSError								*error = nil;
+	
+	
+	if (turnOffTemps) options[NSSQLitePragmasOption] = @{@"journal_mode": @"DELETE" };
+
 	
 	if (![[NSFileManager defaultManager] createDirectoryAtPath: [path stringByDeletingLastPathComponent] withIntermediateDirectories: YES attributes: nil error: &error]) {
 		NSLog(@"Failed to create directory at %@: %@", path, error);
