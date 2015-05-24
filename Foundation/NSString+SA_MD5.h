@@ -13,4 +13,5 @@
 
 - (NSString *) SA_md5HashString;
 - (NSUInteger) SA_md5Hash;
+- (uint64_t) SA_md5Hash64;
 @end
