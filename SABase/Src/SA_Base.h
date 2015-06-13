@@ -69,3 +69,6 @@
 #import "SA_ThreadsafeMutableCollections.h"
 #import "SA_ScreenshotFeedback.h"
 #import "SA_FullScreenBlockingView.h"
+
+#import "SA_ErrorManager.h"
+

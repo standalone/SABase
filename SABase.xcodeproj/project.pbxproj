@@ -400,6 +400,10 @@
 		B5A12A24152FEF4A0081FAAD /* SA_Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */; };
 		B5A1764F157D7AD200BA3FEC /* SA_Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */; };
 		B5B910D71979F60E007A74DD /* NSError+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B52BF7E61871CD2C009F4A4C /* NSError+SA_Additions.m */; };
+		B5C6E35C1B2CD16000BB366A /* SA_ErrorManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C6E35A1B2CD16000BB366A /* SA_ErrorManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B5C6E35D1B2CD16000BB366A /* SA_ErrorManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C6E35A1B2CD16000BB366A /* SA_ErrorManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B5C6E35E1B2CD16000BB366A /* SA_ErrorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B5C6E35B1B2CD16000BB366A /* SA_ErrorManager.m */; };
+		B5C6E35F1B2CD16000BB366A /* SA_ErrorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B5C6E35B1B2CD16000BB366A /* SA_ErrorManager.m */; };
 		B5D3ABAB15FD3E070052F459 /* CAAnimation+SA_Blocks.h in Headers */ = {isa = PBXBuildFile; fileRef = B5D3ABA915FD3E070052F459 /* CAAnimation+SA_Blocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B5D3ABAC15FD3E070052F459 /* CAAnimation+SA_Blocks.h in Headers */ = {isa = PBXBuildFile; fileRef = B5D3ABA915FD3E070052F459 /* CAAnimation+SA_Blocks.h */; };
 		B5D3ABAD15FD3E070052F459 /* CAAnimation+SA_Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = B5D3ABAA15FD3E070052F459 /* CAAnimation+SA_Blocks.m */; };
@@ -567,6 +571,8 @@
 		B59F32C9181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILocalNotification+SA_Additions.m"; sourceTree = "<group>"; };
 		B5A12A1F152FEF4A0081FAAD /* SA_Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SA_Utilities.h; path = ../Foundation/SA_Utilities.h; sourceTree = "<group>"; };
 		B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SA_Utilities.m; sourceTree = "<group>"; };
+		B5C6E35A1B2CD16000BB366A /* SA_ErrorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SA_ErrorManager.h; sourceTree = "<group>"; };
+		B5C6E35B1B2CD16000BB366A /* SA_ErrorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SA_ErrorManager.m; sourceTree = "<group>"; };
 		B5D3ABA915FD3E070052F459 /* CAAnimation+SA_Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CAAnimation+SA_Blocks.h"; path = "Foundation/CAAnimation+SA_Blocks.h"; sourceTree = SOURCE_ROOT; };
 		B5D3ABAA15FD3E070052F459 /* CAAnimation+SA_Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CAAnimation+SA_Blocks.m"; path = "Foundation/CAAnimation+SA_Blocks.m"; sourceTree = SOURCE_ROOT; };
 		B5E39B72123BA9EE00FC1FE7 /* Run-Time Tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Run-Time Tests.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -657,6 +663,8 @@
 		B55E0834151660DD0097CC69 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				B5C6E35A1B2CD16000BB366A /* SA_ErrorManager.h */,
+				B5C6E35B1B2CD16000BB366A /* SA_ErrorManager.m */,
 				B52BF7E51871CD2C009F4A4C /* NSError+SA_Additions.h */,
 				B52BF7E61871CD2C009F4A4C /* NSError+SA_Additions.m */,
 				B510288C19000A6C001B32A9 /* SA_Sentinel.h */,
@@ -951,6 +959,7 @@
 				B55E0991151661920097CC69 /* NSUserDefaults+SA_Additions.h in Headers */,
 				B55E0999151661C10097CC69 /* NSArray+SA_Additions.h in Headers */,
 				B55E09A315166D3C0097CC69 /* SA_BackgroundThread.h in Headers */,
+				B5C6E35D1B2CD16000BB366A /* SA_ErrorManager.h in Headers */,
 				B5A12A22152FEF4A0081FAAD /* SA_Utilities.h in Headers */,
 				B542239015B64FB8001776BA /* UIGestureRecognizer+SA_Additions.h in Headers */,
 				B5095CAF15F4063400EC3C8F /* NSDictionary+SA_Additions.h in Headers */,
@@ -1037,6 +1046,7 @@
 				B523D5BD1933EBCC00FC2C4E /* CGContextRef_additions.h in Headers */,
 				B58307161516548600CC57DE /* Run-TimePrefix.pch in Headers */,
 				B583071A1516548600CC57DE /* SABase_Prefix.pch in Headers */,
+				B5C6E35C1B2CD16000BB366A /* SA_ErrorManager.h in Headers */,
 				B5095CAE15F4063400EC3C8F /* NSDictionary+SA_Additions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1289,6 +1299,7 @@
 				B55E096F151660DD0097CC69 /* UIToolbar+SA_Additions.m in Sources */,
 				B555CDA7193941300077396A /* SA_ProgressView.m in Sources */,
 				B55E0975151660DD0097CC69 /* UIView+SA_Additions.m in Sources */,
+				B5C6E35F1B2CD16000BB366A /* SA_ErrorManager.m in Sources */,
 				B55E097B151660DD0097CC69 /* UIViewController+SA_Additions.m in Sources */,
 				B59F32CD181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m in Sources */,
 				B55E0983151661110097CC69 /* SA_BlockButton.m in Sources */,
@@ -1480,6 +1491,7 @@
 				B55E0968151660DD0097CC69 /* UITableViewCell+SA_Additions.m in Sources */,
 				B555CDA6193941300077396A /* SA_ProgressView.m in Sources */,
 				B55E096E151660DD0097CC69 /* UIToolbar+SA_Additions.m in Sources */,
+				B5C6E35E1B2CD16000BB366A /* SA_ErrorManager.m in Sources */,
 				B55E0974151660DD0097CC69 /* UIView+SA_Additions.m in Sources */,
 				B55E097A151660DD0097CC69 /* UIViewController+SA_Additions.m in Sources */,
 				B59F32CC181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m in Sources */,
