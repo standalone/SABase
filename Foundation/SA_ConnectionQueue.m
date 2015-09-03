@@ -92,7 +92,6 @@ NSString *kConnectionNotification_ConnectionReachabilityChanged = @"SA_Connectio
 @property (nonatomic, strong) NSMutableDictionary *connectionHeaders, *extraKeyValues;
 @property (nonatomic, readwrite, strong) NSURL *url;
 @property (nonatomic, readwrite, strong) NSURLRequest *request;
-@property (nonatomic, readwrite) NSString *filename;
 @property (nonatomic, readwrite, strong) id <SA_ConnectionDelegate> delegate;
 @property (nonatomic, strong) NSArray *receivedCookies;
 @property (nonatomic, readwrite, strong) NSDate *requestStartedAt, *responseReceivedAt, *finishedLoadingAt;

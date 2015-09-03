@@ -69,7 +69,7 @@ typedef enum {
 @property (nonatomic, readonly) NSURLRequest *generatedRequest;					//takes the configured values and returns an NSURLRequest
 @property (nonatomic, readonly) NSData *data;									//the data returned by the server
 @property (nonatomic, readonly) NSFileHandle *file;								//if storing in a file, the file
-@property (nonatomic, readonly) NSString *filename;						//if storing in a file, the filenamel this can be set if a known filename is desired
+@property (nonatomic, strong) NSString *filename;						//if storing in a file, the filenamel this can be set if a known filename is desired
 @property (nonatomic, readonly) id <SA_ConnectionDelegate> delegate;	//where completed/failed messages are sent
 @property (nonatomic, readonly) NSDictionary *allResponseHeaders;
 @property (nonatomic, readonly) NSInteger statusCode;
