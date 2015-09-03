@@ -13,6 +13,8 @@
 - (void) queueReload;
 - (void) setup;
 
+@property (nonatomic, strong) NSMutableDictionary *cachedHeights;
+
 @end
 
 
@@ -30,6 +32,7 @@
 }
 
 - (void) setup {
+	self.cachedHeights = [NSMutableDictionary new];
 	self.componentViews = [NSMutableArray array];
 	self.dataSource = self;
 	self.delegate = self;
@@ -40,6 +43,8 @@
 #pragma mark Inserting and removing
 - (void) insertComponent: (UIView *) component atIndex: (NSUInteger) index animated: (BOOL) animated {
 	index = MIN(index, self.componentViews.count);
+	
+	self.cachedHeights[component.stackedScrollViewHeightKey] = @([component componentHeightInStackedScrollView: self]);
 	
 	if (animated) [self beginUpdates];
 	[self.componentViews insertObject: component atIndex: index];
@@ -110,6 +115,7 @@
 - (void) addComponentViews: (NSArray *) components {
 	for (UIView *component in components) {
 		[self.componentViews addObject: component];
+		self.cachedHeights[component.stackedScrollViewHeightKey] = @([component componentHeightInStackedScrollView: self]);
 	}
 	[self reloadData];
 }
@@ -121,6 +127,7 @@
 	while (component) {
 		SA_AssertAndReturn(![self.componentViews containsObject: component], @"Trying to add a view to a StackedScrollView that's already been added");
 		[self.componentViews addObject: component];
+		self.cachedHeights[component.stackedScrollViewHeightKey] = @([component componentHeightInStackedScrollView: self]);
 		component = va_arg(marker, UIView *);
 	}
 	va_end(marker);
@@ -131,6 +138,7 @@
 - (void) addComponent: (UIView *) component animated: (BOOL) animated {
 	SA_AssertAndReturn(![self.componentViews containsObject: component], @"Trying to add a view to a StackedScrollView that's already been added");
 	if (animated) [self beginUpdates];
+	self.cachedHeights[component.stackedScrollViewHeightKey] = @([component componentHeightInStackedScrollView: self]);
 	[self.componentViews addObject: component];
 	if (animated) {
 		[self insertRowsAtIndexPaths: $A([NSIndexPath indexPathForRow: self.componentViews.count - 1 inSection: 0]) withRowAnimation: UITableViewRowAnimationTop];
@@ -146,6 +154,18 @@
 
 - (void) addSpacer: (CGFloat) spacerHeight {
 	[self.componentViews addObject: @(spacerHeight)];
+}
+
+- (CGFloat) heightForComponent: (UIView *) view {
+	if ([self.stackedScrollViewDelegate respondsToSelector: @selector(heightForComponent:inStackedScrollView:)]) {
+		return [self.stackedScrollViewDelegate heightForComponent: view inStackedScrollView: self];
+	}
+	
+	NSNumber		*value = self.cachedHeights[view.stackedScrollViewHeightKey];
+	
+	if (value != nil) return [value floatValue];
+	
+	return [view componentHeightInStackedScrollView: self];
 }
 
 //=============================================================================================================================
@@ -186,7 +206,8 @@
 	
 	frame.origin.x += self.indentationWidth;
 	frame.size.width -= self.indentationWidth * 2;
-	view.normalizedFrame = frame;
+	frame.size.height = [self heightForComponent: view];
+	view.frame = frame;
 	view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	[cell.contentView addSubview: view];
 	
@@ -201,9 +222,7 @@
 	
 	if ([component isKindOfClass: [NSNumber class]]) return [(id) component floatValue];
 	
-	float						height = component.bounds.size.height;
-	
-	return height;
+	return [self heightForComponent: component];
 }
 
 - (void) tableView: (UITableView *) tableView didSelectRowAtIndexPath: (NSIndexPath *) indexPath {
@@ -236,4 +255,10 @@
 	
 	return (id) superview;
 }
+
+- (CGFloat) componentHeightInStackedScrollView: (SA_StackedScrollView *) view {
+	return self.bounds.size.height;
+}
+
+- (NSString *) stackedScrollViewHeightKey { return [NSString stringWithFormat: @"%x", (unsigned int) self]; }
 @end

@@ -13,6 +13,13 @@
 @optional
 - (void) stackedScrollView: (SA_StackedScrollView *) view didSelectRowAtIndexPath: (NSIndexPath *) path;
 - (void) scrollViewDidScroll: (SA_StackedScrollView *) view;
+- (CGFloat) heightForComponent: (UIView *) component inStackedScrollView: (SA_StackedScrollView *) view;
+@end
+
+@interface UIView (SA_StackedScrollView)
+- (CGFloat) componentHeightInStackedScrollView: (SA_StackedScrollView *) view;
+- (SA_StackedScrollView *) stackedScrollView;
+@property (nonatomic, readonly) NSString *stackedScrollViewHeightKey;
 @end
 
 @interface SA_StackedScrollView : UITableView <UITableViewDataSource, UITableViewDelegate> {
@@ -39,6 +46,3 @@
 
 @end
 
-@interface UIView (SA_StackedScrollView)
-- (SA_StackedScrollView *) stackedScrollView;
-@end
