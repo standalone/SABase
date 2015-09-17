@@ -11,6 +11,8 @@
 #import "UIViewController+SA_Additions.h"
 
 static UIColor			*s_actionSheetTintColor = nil;
+static UIColor			*s_actionSheetBackgroundColor = nil;
+
 
 #define					kButtonTagsKey				@"buttonTags:SAI"
 #define					kButtonBlockKey				@"ClickedButtonAtIndex:SAI"
@@ -19,6 +21,7 @@ static UIColor			*s_actionSheetTintColor = nil;
 @implementation UIActionSheet (SA_AdditionsForButtons)
 
 + (void) setActionSheetTintColor: (UIColor *) color { s_actionSheetTintColor = color; }
++ (void) setActionSheetBackgroundColor: (UIColor *) color { s_actionSheetBackgroundColor = color; }
 
 - (void) addButtonWithTitle: (NSString *) title andSA_Tag: (NSInteger) tag {
 	NSMutableDictionary				*dictionary = [self associatedValueForKey: kButtonTagsKey];
@@ -79,6 +82,7 @@ static UIColor			*s_actionSheetTintColor = nil;
 	}
 	
 	if (s_actionSheetTintColor) composed.view.tintColor = s_actionSheetTintColor;
+	if (s_actionSheetBackgroundColor) composed.view.backgroundColor = s_actionSheetBackgroundColor;
 	return composed;
 }
 

@@ -13,6 +13,7 @@ typedef void (^actionSheetButtonSelectedBlock)(NSInteger buttonIndex);
 @interface UIActionSheet (SA_AdditionsForButtons)
 
 + (void) setActionSheetTintColor: (UIColor *) color;
++ (void) setActionSheetBackgroundColor: (UIColor *) color;
 
 @property (nonatomic, copy) actionSheetButtonSelectedBlock SA_buttonSelectBlock;
 @property (nonatomic) BOOL shouldRunBlockAfterDismissal;
