@@ -13,6 +13,22 @@
 static UIColor			*s_actionSheetTintColor = nil;
 static UIColor			*s_actionSheetBackgroundColor = nil;
 
+@interface SA_ActionSheetViewController: UIAlertController
+@property (nonatomic, strong) UIColor *originalTintColor;
+@end
+
+@implementation SA_ActionSheetViewController
+- (void) viewDidLayoutSubviews {
+	[super viewDidLayoutSubviews];
+	self.originalTintColor = self.view.window.tintColor;
+	self.view.window.tintColor = s_actionSheetTintColor ?: [UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0];
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear: animated];
+	self.view.window.tintColor = self.originalTintColor;
+}
+@end
 
 #define					kButtonTagsKey				@"buttonTags:SAI"
 #define					kButtonBlockKey				@"ClickedButtonAtIndex:SAI"
@@ -57,7 +73,7 @@ static UIColor			*s_actionSheetBackgroundColor = nil;
 }
 
 - (UIAlertController *) composedAlertController {
-	UIAlertController			*composed = [NSClassFromString(@"UIAlertController") alertControllerWithTitle: self.title message: nil preferredStyle: UIAlertControllerStyleActionSheet];
+	UIAlertController			*composed = [SA_ActionSheetViewController alertControllerWithTitle: self.title message: nil preferredStyle: UIAlertControllerStyleActionSheet];
 	
 	for (NSInteger index = 0; index < self.numberOfButtons; index++) {
 		if (index != self.cancelButtonIndex && index != self.destructiveButtonIndex)
