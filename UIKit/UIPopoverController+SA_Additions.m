@@ -39,7 +39,7 @@ static NSMutableArray					*s_activePopovers = nil;
 	if ([content respondsToSelector: @selector(preferredContentSize)]) size = [content preferredContentSize];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-	else if ([content respondsToSelector: @selector(contentSizeForViewInPopover)]) size = [content contentSizeForViewInPopover];
+	else if ([content respondsToSelector: @selector(preferredContentSize)]) size = [content preferredContentSize];
 #pragma clang diagnostic pop
 	if (size.width && size.height)
 		controller.popoverContentSize = size;
@@ -172,7 +172,7 @@ static NSMutableArray					*s_activePopovers = nil;
 		{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-		dummyController.contentSizeForViewInPopover = subject.bounds.size;
+		dummyController.preferredContentSize = subject.bounds.size;
 #pragma clang diagnostic pop
 		}
 	dummyController.view = parent;
@@ -194,7 +194,7 @@ static NSMutableArray					*s_activePopovers = nil;
 		{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-			dummyController.contentSizeForViewInPopover = subject.bounds.size;
+			dummyController.preferredContentSize = subject.bounds.size;
 #pragma clang diagnostic pop
 		}
 	dummyController.view = parent;
