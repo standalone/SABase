@@ -203,7 +203,7 @@
 
 - (CGSize) SA_sizeWithFont: (UIFont *) font {
 	if (RUNNING_ON_70) {
-		return [self sizeWithAttributes: @{ @"NSFontAttributeName": font }];
+		return [self sizeWithAttributes: @{ NSFontAttributeName: font }];
 	}
 	
 #pragma clang diagnostic push
@@ -213,7 +213,7 @@
 }
 - (CGSize) SA_sizeWithFont: (UIFont *)font constrainedToSize: (CGSize) size lineBreakMode: (NSLineBreakMode) lineBreakMode {
 	if (RUNNING_ON_70) {
-		NSDictionary				*attr = @{ @"NSFontAttributeName": font };
+		NSDictionary				*attr = @{ NSFontAttributeName: font };
 		
 		return [self boundingRectWithSize: size options: NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesLineFragmentOrigin attributes: attr context: nil].size;
 	}
@@ -225,7 +225,7 @@
 }
 #else
 - (CGSize) sizeWithFont:(NSFont *)font {
-	NSSize				size = [self sizeWithAttributes: @{@"NSFontAttributeName": font} ];
+	NSSize				size = [self sizeWithAttributes: @{NSFontAttributeName: font} ];
 	
 	return NSSizeToCGSize(size);
 }
