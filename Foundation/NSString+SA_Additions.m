@@ -223,12 +223,43 @@
 	return [self sizeWithFont: font constrainedToSize: size lineBreakMode: lineBreakMode];
 #pragma clang diagnostic pop
 }
+
+- (void) SA_drawAtPoint: (CGPoint) point withFont: (UIFont *) font {
+	if (RUNNING_ON_70) {
+		NSDictionary				*attr = @{ NSFontAttributeName: font };
+		
+		[self drawAtPoint: point withAttributes: attr];
+	}
+}
+
+- (void) SA_drawInRect: (CGRect) rect withFont: (UIFont *) font {
+	if (RUNNING_ON_70) {
+		NSDictionary				*attr = @{ NSFontAttributeName: font };
+		
+		[self drawInRect: rect withAttributes: attr];
+	}
+}
+
+- (void) SA_drawInRect: (CGRect) rect withFont: (UIFont *) font lineBreakMode: (NSLineBreakMode) lineBreakMode alignment: (NSTextAlignment) alignment {
+	if (RUNNING_ON_70) {
+		NSMutableParagraphStyle	*style = [[NSMutableParagraphStyle alloc] init];
+		
+		style.alignment = alignment;
+		style.lineBreakMode = lineBreakMode;
+		
+		NSDictionary				*attr = @{ NSFontAttributeName: font, NSParagraphStyleAttributeName: style };
+		[self drawInRect: rect withAttributes: attr];
+	}
+}
+
+
 #else
 - (CGSize) sizeWithFont:(NSFont *)font {
 	NSSize				size = [self sizeWithAttributes: @{NSFontAttributeName: font} ];
 	
 	return NSSizeToCGSize(size);
 }
+
 #endif
 
 - (NSString *) truncateToLength: (int) length {

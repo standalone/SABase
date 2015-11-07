@@ -57,6 +57,12 @@
 	- (CGSize) SA_sizeWithFont: (UIFont *) font;
 	- (CGSize) SA_sizeWithFont: (UIFont *)font constrainedToSize: (CGSize) size lineBreakMode: (NSLineBreakMode) lineBreakMode;
 
+	- (void) SA_drawAtPoint: (CGPoint) point withFont: (UIFont *) font;
+	- (void) SA_drawInRect: (CGRect) rect withFont: (UIFont *) font;
+	- (void) SA_drawInRect: (CGRect) rect withFont: (UIFont *) font lineBreakMode: (NSLineBreakMode) lineBreakMode alignment: (NSTextAlignment) alignment;
+
+//	- (CGSize)drawAtPoint:(CGPoint)point forWidth:(CGFloat)width withFont:(UIFont *)font lineBreakMode:(NSLineBreakMode)lineBreakMode  NS_DEPRECATED_IOS(2_0, 7_0, "Use -drawInRect:withAttributes:") __TVOS_PROHIBITED;
+
 #else
 	- (CGSize) sizeWithFont: (NSFont *) font;
 #endif
