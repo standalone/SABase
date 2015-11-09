@@ -57,6 +57,7 @@ typedef enum {
 - (void) removeAllSubviews;
 - (void) recursiveSetFont: (UIFont *) font;
 
++ (BOOL) externalKeyboardPresent;
 - (void) positionInView: (UIView *) view withContentMode: (UIViewContentMode) mode;
 
 //implement - (void) slideDidFinishForView: (UIView *) view if you want callbacks 
@@ -75,6 +76,7 @@ typedef enum {
 
 + (void) maskedTransitionFromView: (UIView *) initialView toView: (UIView *) finalView duration: (NSTimeInterval) duration options: (UIViewAnimationOptions) options completion: (booleanArgumentBlock) completion;
 
+- (CGRect) convertRectToScreenCoordinates: (CGRect) incoming;
 
 #if BLUR_SUPPORTED
 - (BOOL) isBlurred;

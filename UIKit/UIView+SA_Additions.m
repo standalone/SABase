@@ -736,6 +736,16 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 }
 
 
+//================================================================================================================
+#pragma mark Accessibility
+- (CGRect) convertRectToScreenCoordinates: (CGRect) incoming {
+	return UIAccessibilityConvertFrameToScreenCoordinates(incoming, self);
+	//	CGRect			frameInWindow = [self convertRect: incoming toView: self.window];
+	//	CGRect			absFrame = [self.window convertRect: frameInWindow toWindow: nil];
+	//
+	//	return absFrame;
+}
+
 
 //================================================================================================================
 #pragma mark Keyboard Observing
@@ -777,6 +787,23 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 	
 	[UIView animateWithDuration: duration animations: ^{ self.center = originalCenter; }];
 }
+
++ (BOOL) externalKeyboardPresent {
+	Class				class = NSClassFromString(@"HVXrlobneqVzcy".rot13);		//UIKeyboardImpl
+	SEL					sel = NSSelectorFromString(@"npgvirVafgnapr".rot13);			//activeInstance
+	
+	if (![class respondsToSelector: sel]) return NO;
+	id					instance;
+	SUPPRESS_LEAK_WARNING(instance = [class performSelector: sel]);
+	
+	sel = NSSelectorFromString(@"vfVaUneqjnerXrlobneqZbqr".rot13);			//isInHardwareKeyboardMode
+	if (![instance respondsToSelector: sel]) return NO;
+	SUPPRESS_LEAK_WARNING(return (BOOL) [instance performSelector: sel]);
+}
+
+
+
+
 
 @end
 
