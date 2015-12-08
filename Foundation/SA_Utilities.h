@@ -14,7 +14,7 @@
 #import <UIKit/UIKit.h>
 #endif
 
-@import CoreData;
+#import <CoreData/CoreData.h>
 
 extern const NSUInteger				g_sa_base_version;
 

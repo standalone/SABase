@@ -224,30 +224,30 @@
 #pragma clang diagnostic pop
 }
 
-- (void) SA_drawAtPoint: (CGPoint) point withFont: (UIFont *) font {
+- (void) SA_drawAtPoint: (CGPoint) point withFont: (UIFont *) font color: (UIColor *) color {
 	if (RUNNING_ON_70) {
-		NSDictionary				*attr = @{ NSFontAttributeName: font };
+		NSDictionary				*attr = @{ NSFontAttributeName: font, NSForegroundColorAttributeName: color };
 		
 		[self drawAtPoint: point withAttributes: attr];
 	}
 }
 
-- (void) SA_drawInRect: (CGRect) rect withFont: (UIFont *) font {
+- (void) SA_drawInRect: (CGRect) rect withFont: (UIFont *) font color: (UIColor *) color {
 	if (RUNNING_ON_70) {
-		NSDictionary				*attr = @{ NSFontAttributeName: font };
+		NSDictionary				*attr = @{ NSFontAttributeName: font, NSForegroundColorAttributeName: color };
 		
 		[self drawInRect: rect withAttributes: attr];
 	}
 }
 
-- (void) SA_drawInRect: (CGRect) rect withFont: (UIFont *) font lineBreakMode: (NSLineBreakMode) lineBreakMode alignment: (NSTextAlignment) alignment {
+- (void) SA_drawInRect: (CGRect) rect withFont: (UIFont *) font lineBreakMode: (NSLineBreakMode) lineBreakMode alignment: (NSTextAlignment) alignment color: (UIColor *) color {
 	if (RUNNING_ON_70) {
 		NSMutableParagraphStyle	*style = [[NSMutableParagraphStyle alloc] init];
 		
 		style.alignment = alignment;
 		style.lineBreakMode = lineBreakMode;
 		
-		NSDictionary				*attr = @{ NSFontAttributeName: font, NSParagraphStyleAttributeName: style };
+		NSDictionary				*attr = @{ NSFontAttributeName: font, NSForegroundColorAttributeName: color, NSParagraphStyleAttributeName: style };
 		[self drawInRect: rect withAttributes: attr];
 	}
 }

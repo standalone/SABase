@@ -5,8 +5,8 @@
 //  Copyright 2009 Stand Alone, Inc.. All rights reserved.
 //
 
-@import Foundation;
-@import SystemConfiguration;
+#import <Foundation/Foundation.h>
+#import <SystemConfiguration/SystemConfiguration.h>
 
 @class SA_ThreadsafeMutableDictionary, SA_ThreadsafeMutableArray;
 

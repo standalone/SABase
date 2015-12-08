@@ -8,7 +8,7 @@
 
 #import "SA_ErrorManager.h"
 #import "NSError+SA_Additions.h"
-@import UIKit;
+#import <UIKit/UIKit.h>
 #import "SA_AlertView.h"
 
 @implementation SA_ErrorManager

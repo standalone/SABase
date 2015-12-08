@@ -6,7 +6,7 @@
 //
 //
 
-@import UIKit;
+#import <UIKit/UIKit.h>
 
 @interface TestAppDelegate : NSObject
 @property (nonatomic, readwrite, strong) IBOutlet UINavigationController *navigationController;
