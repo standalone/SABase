@@ -12,22 +12,16 @@
 
 #define		SA_ALERT_CANCEL_BUTTON_INDEX				NSUIntegerMax
 
-@interface SA_AlertView : UIAlertView
+@interface SA_AlertView : NSObject
 
-@property (nonatomic, copy) booleanArgumentBlock alertCancelButtonHitBlock;
-@property (nonatomic, copy) intArgumentBlock alertButtonHitBlock;
++ (void) showAlertWithTitle: (NSString *)title message: (NSString *)message tag: (NSUInteger) tag delegate: (id) delegate button: (NSString *) buttonTitle;
++ (void) showAlertWithTitle: (NSString *) title message: (NSString *) message tag: (NSUInteger) tag;
++ (void) showAlertWithTitle: (NSString *) title message: (NSString *) message, ...;
++ (void) showAlertWithTitle: (NSString *) title	error: (NSError *) error;
++ (void) showAlertWithException: (NSException *) e;
 
-
-+ (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *)message tag: (NSUInteger) tag delegate: (id) delegate button: (NSString *) buttonTitle;
-+ (SA_AlertView *) showAlertWithTitle: (NSString *) title message: (NSString *) message tag: (NSUInteger) tag;
-+ (SA_AlertView *) showAlertWithTitle: (NSString *) title message: (NSString *) message, ...;
-+ (SA_AlertView *) showAlertWithTitle: (NSString *) title	error: (NSError *) error;
-+ (SA_AlertView *) showAlertWithException: (NSException *) e;
-
-+ (SA_AlertView *) alertWithTitle: (NSString *)title message: (NSString *) message tag: (NSUInteger) tag button: (NSString *) buttonTitle;
-
-+ (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *) message button: (NSString *) button buttonBlock: (booleanArgumentBlock) buttonHitBlock;
-+ (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *) message buttons: (NSArray *) buttons buttonBlock: (intArgumentBlock) buttonHitBlock;
++ (void) showAlertWithTitle: (NSString *)title message: (NSString *) message button: (NSString *) button buttonBlock: (booleanArgumentBlock) buttonHitBlock;
++ (void) showAlertWithTitle: (NSString *)title message: (NSString *) message buttons: (NSArray *) buttons buttonBlock: (intArgumentBlock) buttonHitBlock;
 @end
 
 

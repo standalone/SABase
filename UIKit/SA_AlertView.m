@@ -16,6 +16,14 @@ static NSInteger				g_alertsVisible = 0;
 
 NSMutableArray			*s_displayedAlerts = nil;
 
+@interface SA_AlertViewImplementation: UIAlertView
+@property (nonatomic, copy) booleanArgumentBlock alertCancelButtonHitBlock;
+@property (nonatomic, copy) intArgumentBlock alertButtonHitBlock;
+
++ (SA_AlertViewImplementation *) alertWithTitle: (NSString *) title message: (NSString *) message tag: (NSUInteger) tag button: (NSString *) buttonTitle;
++ (SA_AlertViewImplementation *) showAlertWithTitle: (NSString *)title message: (NSString *)message tag: (NSUInteger) tag delegate: (id) delegate button: (NSString *) buttonTitle;
+@end
+
 @implementation NSError (SA_Alert)
 
 - (NSString *) fullDescription {
@@ -36,15 +44,15 @@ NSMutableArray			*s_displayedAlerts = nil;
 //=============================================================================================================================
 #pragma mark Convenience Methods
 
-+ (SA_AlertView *) showAlertWithException: (NSException *) e {
-	return [self showAlertWithTitle: [e name] message: [e reason]];
++ (void) showAlertWithException: (NSException *) e {
+	[self showAlertWithTitle: [e name] message: [e reason]];
 }
 
-+ (SA_AlertView *) showAlertWithTitle: (NSString *) title message: (NSString *) message tag: (NSUInteger) tag {
-	return [self showAlertWithTitle: title message: message tag: tag delegate: nil button: nil];
++ (void) showAlertWithTitle: (NSString *) title message: (NSString *) message tag: (NSUInteger) tag {
+	[self showAlertWithTitle: title message: message tag: tag delegate: nil button: nil];
 }
 
-+ (SA_AlertView *) showAlertWithTitle: (NSString *) title message: (NSString *) message, ... {
++ (void) showAlertWithTitle: (NSString *) title message: (NSString *) message, ... {
 	va_list					list;
 	NSString				*fullMessage = @"";
 	
@@ -54,50 +62,58 @@ NSMutableArray			*s_displayedAlerts = nil;
 		va_end(list);
 	}
 
-	return [self showAlertWithTitle: title message: fullMessage tag: 0];
+	[self showAlertWithTitle: title message: fullMessage tag: 0];
 }
 
-+ (SA_AlertView *) showAlertWithTitle: (NSString *) title	error: (NSError *) error {
-	return [self showAlertWithTitle: title message: [error fullDescription]];
++ (void) showAlertWithTitle: (NSString *) title	error: (NSError *) error {
+	[self showAlertWithTitle: title message: [error fullDescription]];
 }
 
-+ (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *)message tag: (NSUInteger) tag delegate: (id) delegate button: (NSString *) buttonTitle {
-	if (![NSThread isMainThread]) {
-		dispatch_async_main_queue(^{
-			[self showAlertWithTitle: title message: message tag: tag delegate: delegate button: buttonTitle];
-		});
-		return nil;
-	}
-	SA_AlertView		*alert = [self alertWithTitle: title message: message tag: tag button: buttonTitle];
-	
-	alert.delegate = delegate;
-	[alert performSelector: @selector(showOnMainThread) withObject: nil afterDelay: 0.0];
-	return alert;
-}
-
-- (void) showOnMainThread {
-	[self performSelectorOnMainThread: @selector(show) withObject: nil waitUntilDone: NO];
-}
-
-+ (SA_AlertView *) alertWithTitle: (NSString *) title message: (NSString *) message tag: (NSUInteger) tag button: (NSString *) buttonTitle {
-	if ([s_displayedAlerts containsObject: @(tag)]) return nil;
-	
-	if (message == nil) message = @"";
-	if (title == nil) title = @"";
-	
-	NSString						*cancelTitle = buttonTitle.length ? NSLocalizedString(@"Cancel", @"Cancel") : NSLocalizedString(@"OK", @"OK");
-	SA_AlertView					*alert = [[SA_AlertView alloc] initWithTitle: title message: message delegate: nil cancelButtonTitle: cancelTitle otherButtonTitles: buttonTitle, nil];
-	
-    alert.tag = tag;
-	if (tag) {
-		if (s_displayedAlerts == nil) s_displayedAlerts = [[NSMutableArray alloc] init];
-		[s_displayedAlerts addObject: @(tag)];
-	}
-	return alert;
++ (void) showAlertWithTitle: (NSString *)title message: (NSString *)message tag: (NSUInteger) tag delegate: (id) delegate button: (NSString *) buttonTitle {
+	[SA_AlertViewImplementation showAlertWithTitle: title message: message tag: tag delegate: delegate button: buttonTitle];
 }
 
 //=============================================================================================================================
 #pragma mark Please Wait interactions
+
+//=============================================================================================================================
++ (void) showAlertWithTitle: (NSString *)title message: (NSString *) message button: (NSString *) button buttonBlock: (booleanArgumentBlock) buttonHitBlock {
+	if (![NSThread isMainThread]) {
+		dispatch_async_main_queue(^{
+			[self showAlertWithTitle: title message: message button: button buttonBlock: buttonHitBlock];
+		});
+		return;
+	}
+	SA_AlertViewImplementation				*alert = [SA_AlertViewImplementation showAlertWithTitle: title message: message tag: 0 delegate: nil button: button];
+	
+	alert.delegate = alert;
+	alert.alertCancelButtonHitBlock = (buttonHitBlock);
+}
+
++ (void) showAlertWithTitle: (NSString *)title message: (NSString *) message buttons: (NSArray *) buttons buttonBlock: (intArgumentBlock) buttonHitBlock {
+	if (![NSThread isMainThread]) {
+		dispatch_async_main_queue(^{
+			[self showAlertWithTitle: title message: message buttons: buttons buttonBlock: buttonHitBlock];
+		});
+		return;
+	}
+
+	SA_AlertViewImplementation			*alert = [[SA_AlertViewImplementation alloc] initWithTitle: title ?: @"" message: message ?: @"" delegate: nil cancelButtonTitle: nil otherButtonTitles: nil];
+	
+	for (NSString *title in buttons) [alert addButtonWithTitle: title];
+	
+	alert.delegate = alert;
+	alert.alertButtonHitBlock = (buttonHitBlock);
+	[alert performSelector: @selector(showOnMainThread) withObject: nil afterDelay: 0.0];
+}
+
+@end
+
+@implementation SA_AlertViewImplementation
+
+- (void) showOnMainThread {
+	[self performSelectorOnMainThread: @selector(show) withObject: nil waitUntilDone: NO];
+}
 
 - (void) show {
 	if (![NSThread isMainThread]) {
@@ -116,6 +132,15 @@ NSMutableArray			*s_displayedAlerts = nil;
 	[s_displayedAlerts removeObject: @(self.tag)];
 }
 
+
+- (void) alertView: (UIAlertView *) alertView clickedButtonAtIndex: (NSInteger) buttonIndex {
+	if (self.alertCancelButtonHitBlock) self.alertCancelButtonHitBlock(buttonIndex == alertView.cancelButtonIndex);
+	if (self.alertButtonHitBlock) self.alertButtonHitBlock(buttonIndex);
+	
+	self.alertButtonHitBlock = nil;
+	self.alertCancelButtonHitBlock = nil;
+}
+
 //=============================================================================================================================
 #pragma mark Properties
 - (void) setAlertButtonHitBlock: (intArgumentBlock) alertButtonHitBlock {
@@ -128,45 +153,33 @@ NSMutableArray			*s_displayedAlerts = nil;
 	self.delegate = self;
 }
 
-//=============================================================================================================================
-#pragma mark Overrides
-
-+ (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *) message button: (NSString *) button buttonBlock: (booleanArgumentBlock) buttonHitBlock {
-	if (![NSThread isMainThread]) {
-		dispatch_async_main_queue(^{
-			[self showAlertWithTitle: title message: message button: button buttonBlock: buttonHitBlock];
-		});
-		return nil;
-	}
-	SA_AlertView				*alert = [self showAlertWithTitle: title message: message tag: 0 delegate: nil button: button];
++ (SA_AlertViewImplementation *) alertWithTitle: (NSString *) title message: (NSString *) message tag: (NSUInteger) tag button: (NSString *) buttonTitle {
+	if ([s_displayedAlerts containsObject: @(tag)]) return nil;
 	
-	alert.delegate = alert;
-	alert.alertCancelButtonHitBlock = (buttonHitBlock);
+	if (message == nil) message = @"";
+	if (title == nil) title = @"";
+	
+	NSString						*cancelTitle = buttonTitle.length ? NSLocalizedString(@"Cancel", @"Cancel") : NSLocalizedString(@"OK", @"OK");
+	SA_AlertViewImplementation			*alert = [[SA_AlertViewImplementation alloc] initWithTitle: title message: message delegate: nil cancelButtonTitle: cancelTitle otherButtonTitles: buttonTitle, nil];
+	
+	alert.tag = tag;
+	if (tag) {
+		if (s_displayedAlerts == nil) s_displayedAlerts = [[NSMutableArray alloc] init];
+		[s_displayedAlerts addObject: @(tag)];
+	}
 	return alert;
 }
 
-- (void) alertView: (UIAlertView *) alertView clickedButtonAtIndex: (NSInteger) buttonIndex {
-	if (self.alertCancelButtonHitBlock) self.alertCancelButtonHitBlock(buttonIndex == alertView.cancelButtonIndex);
-	if (self.alertButtonHitBlock) self.alertButtonHitBlock(buttonIndex);
-	
-	self.alertButtonHitBlock = nil;
-	self.alertCancelButtonHitBlock = nil;
-}
-
-+ (SA_AlertView *) showAlertWithTitle: (NSString *)title message: (NSString *) message buttons: (NSArray *) buttons buttonBlock: (intArgumentBlock) buttonHitBlock {
++ (SA_AlertViewImplementation *) showAlertWithTitle: (NSString *)title message: (NSString *)message tag: (NSUInteger) tag delegate: (id) delegate button: (NSString *) buttonTitle {
 	if (![NSThread isMainThread]) {
 		dispatch_async_main_queue(^{
-			[self showAlertWithTitle: title message: message buttons: buttons buttonBlock: buttonHitBlock];
+			[self showAlertWithTitle: title message: message tag: tag delegate: delegate button: buttonTitle];
 		});
 		return nil;
 	}
-
-	SA_AlertView			*alert = [[SA_AlertView alloc] initWithTitle: title ?: @"" message: message ?: @"" delegate: nil cancelButtonTitle: nil otherButtonTitles: nil];
+	SA_AlertViewImplementation		*alert = [SA_AlertViewImplementation alertWithTitle: title message: message tag: tag button: buttonTitle];
 	
-	for (NSString *title in buttons) [alert addButtonWithTitle: title];
-	
-	alert.delegate = alert;
-	alert.alertButtonHitBlock = (buttonHitBlock);
+	alert.delegate = delegate;
 	[alert performSelector: @selector(showOnMainThread) withObject: nil afterDelay: 0.0];
 	return alert;
 }
