@@ -14,14 +14,18 @@
 
 @interface SA_AlertView : NSObject
 
-+ (void) showAlertWithTitle: (NSString *)title message: (NSString *)message tag: (NSUInteger) tag delegate: (id) delegate button: (NSString *) buttonTitle;
-+ (void) showAlertWithTitle: (NSString *) title message: (NSString *) message tag: (NSUInteger) tag;
-+ (void) showAlertWithTitle: (NSString *) title message: (NSString *) message, ...;
-+ (void) showAlertWithTitle: (NSString *) title	error: (NSError *) error;
-+ (void) showAlertWithException: (NSException *) e;
++ (id) showAlertWithTitle: (NSString *)title message: (NSString *)message tag: (NSUInteger) tag delegate: (id) delegate button: (NSString *) buttonTitle;
++ (id) showAlertWithTitle: (NSString *) title message: (NSString *) message tag: (NSUInteger) tag;
++ (id) showAlertWithTitle: (NSString *) title message: (NSString *) message, ...;
++ (id) showAlertWithTitle: (NSString *) title	error: (NSError *) error;
++ (id) showAlertWithException: (NSException *) e;
 
-+ (void) showAlertWithTitle: (NSString *)title message: (NSString *) message button: (NSString *) button buttonBlock: (booleanArgumentBlock) buttonHitBlock;
-+ (void) showAlertWithTitle: (NSString *)title message: (NSString *) message buttons: (NSArray *) buttons buttonBlock: (intArgumentBlock) buttonHitBlock;
++ (id) showAlertWithTitle: (NSString *)title message: (NSString *) message button: (NSString *) button buttonBlock: (booleanArgumentBlock) buttonHitBlock;
++ (id) showAlertWithTitle: (NSString *)title message: (NSString *) message buttons: (NSArray *) buttons buttonBlock: (intArgumentBlock) buttonHitBlock;
+
+- (void) dismissWithClickedButtonIndex: (NSInteger) buttonIndex animated: (BOOL) animated;
+- (void) clearAlertCancelButtonHitBlock;
+- (void) cancel;
 @end
 
 
