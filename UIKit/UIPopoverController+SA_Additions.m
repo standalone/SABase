@@ -22,7 +22,7 @@ static NSMutableArray					*s_activePopovers = nil;
 @implementation UIPopoverController (SA_PopoverAdditions)
 @dynamic SA_didDismissBlock;
 
-+ (UIPopoverController *) SA_PopoverControllerWithContentController: (UIViewController *) content {
++ (instancetype) SA_PopoverControllerWithContentController: (UIViewController *) content {
 	UIPopoverController				*controller = [[UIPopoverController alloc] initWithContentViewController: content];
 	UIViewController				*root = ([content isKindOfClass: [UINavigationController class]] && [[(id) content viewControllers] count]) ? [[(id) content viewControllers] objectAtIndex: 0] : content;
 	
@@ -63,14 +63,14 @@ static NSMutableArray					*s_activePopovers = nil;
 	return NO;
 }
 
-+ (UIPopoverController *) presentSA_PopoverForViewController: (UIViewController *) controller fromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
++ (instancetype) presentSA_PopoverForViewController: (UIViewController *) controller fromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
 	Class							class = [controller class];
 	
 	if (view.window == nil) return nil;		//no window to pop from
 	if ([class isEqual: [UINavigationController class]]) class = [[(id) controller rootViewController] class];
 	if (controller.onlyAllowOneInstanceInAnSA_Popover && [self didCloseExistingSA_PopoverWithClass: class]) return nil;
 	
-	UIPopoverController			*pc = [self SA_PopoverControllerWithContentController: controller];
+	UIPopoverController			*pc = (UIPopoverController *) [self SA_PopoverControllerWithContentController: controller];
 	
 	if ([controller respondsToSelector: @selector(willAppearInSA_Popover:animated::)]) [controller willAppearInSA_Popover: pc animated: animated];
 	[pc presentPopoverFromRect: rect inView: view permittedArrowDirections: arrowDirections animated:animated];
@@ -78,7 +78,7 @@ static NSMutableArray					*s_activePopovers = nil;
 	return pc;
 }
 
-+ (UIPopoverController *) presentSA_PopoverForViewController: (UIViewController *) controller fromBarButtonItem: (UIBarButtonItem *) item permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
++ (instancetype) presentSA_PopoverForViewController: (UIViewController *) controller fromBarButtonItem: (UIBarButtonItem *) item permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
 	UIViewController			*root = controller;
 	
 	if ([controller isKindOfClass: [UINavigationController class]]) {
@@ -89,7 +89,7 @@ static NSMutableArray					*s_activePopovers = nil;
 	
 	if (root.onlyAllowOneInstanceInAnSA_Popover && [self didCloseExistingSA_PopoverWithClass: [root class]]) return nil;
 
-	UIPopoverController			*pc = [self SA_PopoverControllerWithContentController: controller];
+	UIPopoverController			*pc = (UIPopoverController *) [self SA_PopoverControllerWithContentController: controller];
 	
 	if ([controller respondsToSelector: @selector(willAppearInSA_Popover:animated::)]) [controller willAppearInSA_Popover: pc animated: animated];
 	@try {
@@ -102,7 +102,10 @@ static NSMutableArray					*s_activePopovers = nil;
 	return pc;
 }
 
-+ (BOOL) popoverControllerShouldDismissSA_Popover: (UIPopoverController *) popoverController {
++ (BOOL) popoverControllerShouldDismissSA_Popover: (id) controller {
+	if (![controller isKindOfClass: [UIPopoverController class]]) return false;
+	
+	UIPopoverController		*popoverController = (UIPopoverController *) controller;
 	if ([popoverController.contentViewController respondsToSelector: @selector(popoverControllerShouldDismissSA_Popover:)])
 		return [(id) popoverController.contentViewController popoverControllerShouldDismissSA_Popover: popoverController];
 	
@@ -115,7 +118,11 @@ static NSMutableArray					*s_activePopovers = nil;
 }
 
 
-+ (void) popoverControllerDidDismissPopover: (UIPopoverController *) popoverController {
++ (void) popoverControllerDidDismissPopover: (id) controller {
+	if (![controller isKindOfClass: [UIPopoverController class]]) return;
+	
+	UIPopoverController		*popoverController = (UIPopoverController *) controller;
+
 	if ([popoverController.contentViewController respondsToSelector: @selector(popoverControllerDidDismissPopover:)])
 		[(id) popoverController.contentViewController popoverControllerDidDismissPopover: popoverController];
 	[s_activePopovers removeObject: popoverController];
@@ -134,10 +141,11 @@ static NSMutableArray					*s_activePopovers = nil;
 
 + (BOOL) isSA_PopoverVisibleWithViewControllerClass: (Class) class {
 	if (class == nil) return s_activePopovers.count > 0;
-	return [[self existingSA_PopoverWithViewControllerClass: class] isPopoverVisible];
+	UIPopoverController			*controller = [self existingSA_PopoverWithViewControllerClass: class];
+	return [controller isPopoverVisible];
 }
 
-+ (UIPopoverController *) existingSA_PopoverWithViewControllerClass: (Class) class {
++ (id) existingSA_PopoverWithViewControllerClass: (Class) class {
 	if (class == nil) return nil;
 	
 	for (UIPopoverController *pop in s_activePopovers) {
@@ -154,10 +162,10 @@ static NSMutableArray					*s_activePopovers = nil;
 	return nil;
 }
 
-+ (UIPopoverController *) existingSA_PopoverWithView: (UIView *) view { return view.SA_PopoverController; }
++ (id) existingSA_PopoverWithView: (UIView *) view { return view.SA_PopoverController; }
 
 
-+ (UIPopoverController *) presentSA_PopoverForView: (UIView *) subject fromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
++ (id) presentSA_PopoverForView: (UIView *) subject fromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
 	UIViewController		*dummyController = [[UIViewController alloc] init];
 	UIView					*parent = [[UIView alloc] initWithFrame: subject.bounds];
 	
@@ -179,7 +187,7 @@ static NSMutableArray					*s_activePopovers = nil;
 	return [self presentSA_PopoverForViewController: dummyController fromRect: rect inView: view permittedArrowDirections: arrowDirections animated: animated];
 }
 
-+ (UIPopoverController *) presentSA_PopoverForView: (UIView *) subject fromBarButtonItem: (UIBarButtonItem *) item permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
++ (id) presentSA_PopoverForView: (UIView *) subject fromBarButtonItem: (UIBarButtonItem *) item permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
 	UIViewController		*dummyController = [[UIViewController alloc] init];
 	UIView					*parent = [[UIView alloc] initWithFrame: subject.bounds];
 	
@@ -215,13 +223,13 @@ static NSMutableArray					*s_activePopovers = nil;
 
 
 @implementation UIView (SA_PopoverAdditions)
-- (UIPopoverController *) SA_PopoverController {
+- (id) SA_PopoverController {
 	return self.viewController.SA_PopoverController;
 }
 @end
 
 @implementation UIViewController (SA_PopoverAdditions)
-- (UIPopoverController *) SA_PopoverController {
+- (id) SA_PopoverController {
 	for (UIPopoverController *controller in s_activePopovers) {
 		UINavigationController			*nav = (id) controller.contentViewController;
 		
@@ -250,8 +258,8 @@ static NSMutableArray					*s_activePopovers = nil;
 	[UIPopoverController presentSA_PopoverForViewController: nav fromBarButtonItem: item permittedArrowDirections: arrowDirections animated: animated];
 }
 
-- (void) willAppearInSA_Popover: (UIPopoverController *) controller animated: (BOOL) animated { }
-- (void) didAppearInSA_Popover: (UIPopoverController *) controller animated: (BOOL) animated { }
+- (void) willAppearInSA_Popover: (id) controller animated: (BOOL) animated { }
+- (void) didAppearInSA_Popover: (id) controller animated: (BOOL) animated { }
 - (BOOL) onlyAllowOneInstanceInAnSA_Popover { return YES; }
 
 @end
