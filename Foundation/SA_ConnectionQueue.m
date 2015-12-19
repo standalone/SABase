@@ -518,7 +518,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 			self.offline = YES;
 	
 			SA_BASE_LOG(@"Tried to push connection: %@, but not connected to the internet", connection);
-			if (!connection.suppressConnectionAlerts) [self queueConnection: nil andPromptIfOffline: YES];
+			if (!connection.suppressConnectionAlerts) [self queueConnection: nil andPromptIfOffline: connection.userInteractionInitiated];
 			
 			[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_NotConnectedToInternet object: self];
 		}

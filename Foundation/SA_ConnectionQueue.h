@@ -60,6 +60,7 @@ typedef enum {
 @property (nonatomic, readwrite) BOOL disableNativeCookieHandling;
 @property (nonatomic, copy) NSArray *sentCookies;
 @property (nonatomic, copy) connectionFinished connectionFinishedBlock;
+@property (nonatomic) BOOL userInteractionInitiated;				//used to determine whether to show the offline alert
 @property (nonatomic) BOOL logPhases;
 @property (nonatomic, copy) NSString *method;						//what HTTP method should be used? Defaults to GET
 @property (nonatomic, copy) NSData *payload;						//data to be pushed up, usually with a PUT or POST call
