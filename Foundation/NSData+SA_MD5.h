@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface NSData (SA_MD5)
-- (NSString *) MD5;
-- (NSUInteger) md5Hash;
+- (NSString *) SA_MD5;
+- (NSUInteger) SA_md5Hash;
 @end

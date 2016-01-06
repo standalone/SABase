@@ -57,8 +57,6 @@
 	return result;
 }
 
-- (NSUInteger) hash { return [self SA_md5Hash]; }
-
 - (NSUInteger) SA_md5Hash {
 	NSUInteger			value = 0;
 	

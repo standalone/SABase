@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface NSSet (SA_Additions)
-@property (nonatomic, readonly) NSUInteger md5Hash;
+@property (nonatomic, readonly) NSUInteger SA_md5Hash;
 - (NSSet *) sa_setByRemovingObject: (id) object;
 @end
