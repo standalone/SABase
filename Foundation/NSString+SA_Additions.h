@@ -64,6 +64,8 @@
 //	- (CGSize)drawAtPoint:(CGPoint)point forWidth:(CGFloat)width withFont:(UIFont *)font lineBreakMode:(NSLineBreakMode)lineBreakMode  NS_DEPRECATED_IOS(2_0, 7_0, "Use -drawInRect:withAttributes:") __TVOS_PROHIBITED;
 
 #else
+	- (CGSize) SA_sizeWithFont: (NSFont *) font;
+	- (CGSize) SA_sizeWithFont: (NSFont *)font constrainedToSize: (CGSize) size lineBreakMode: (NSLineBreakMode) lineBreakMode;
 	- (CGSize) sizeWithFont: (NSFont *) font;
 #endif
 

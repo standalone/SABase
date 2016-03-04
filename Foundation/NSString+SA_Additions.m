@@ -260,6 +260,15 @@
 	return NSSizeToCGSize(size);
 }
 
+- (CGSize) SA_sizeWithFont: (NSFont *) font {
+	return [self sizeWithAttributes: @{ NSFontAttributeName: font }];
+}
+
+- (CGSize) SA_sizeWithFont: (UIFont *)font constrainedToSize: (CGSize) size lineBreakMode: (NSLineBreakMode) lineBreakMode {
+	NSDictionary				*attr = @{ NSFontAttributeName: font };
+	
+	return [self boundingRectWithSize: size options: NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesLineFragmentOrigin attributes: attr context: nil].size;
+}
 #endif
 
 - (NSString *) truncateToLength: (int) length {
