@@ -75,6 +75,18 @@
 	#import "NSString+SA_Additions.h"
 
 	@implementation NSString (SA_MD5)
+	- (uint64_t) SA_md5Hash64 {
+		UInt32 results[4];
+		unsigned char			*utf8 = (unsigned char *) self.UTF8String;
+		CC_MD5((const void *) utf8, (CC_LONG) strlen((const char *) utf8), (unsigned char *) results);
+		
+		uint64_t	results64[4];
+		
+		for (int i = 0; i < 4; i++) { results64[i] = results[i]; }
+		
+		return (results64[0] << (16 * 3)) + (results64[1] << (16 * 2)) + (results64[2] << (16 * 1)) + results64[3];
+	}
+
 	- (NSString *) SA_md5HashString {
 		NSString					*path = [NSString tempFileNameWithSeed: @"md5" ofType: @"txt"];
 		NSError						*error;
