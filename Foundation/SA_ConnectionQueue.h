@@ -131,7 +131,7 @@ SINGLETON_INTERFACE_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 @property (nonatomic, readonly) BOOL connectionsArePending;
 @property (nonatomic, readwrite) BOOL managePleaseWaitDisplay, suppressOfflineAlerts;
 @property (nonatomic, weak) id <SA_ConnectionRouter> router;
-@property (nonatomic, assign) dispatch_queue_t backgroundQueue;
+@property (nonatomic, strong) dispatch_queue_t backgroundQueue;
 @property (nonatomic) BOOL paused;
 @property (nonatomic, readonly) long long bytesDownloaded;
 
