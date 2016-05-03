@@ -23,6 +23,18 @@
 	return fmtr;
 }
 
++ (nullable NSDate *) compiledAtDate {
+	NSString		*compileDate = [NSString stringWithUTF8String: __DATE__];
+	NSDateFormatter *df = [[NSDateFormatter alloc]init];
+	[df setDateFormat :@"MMM d yyyy"];
+	NSLocale		*usLocale = [[NSLocale alloc] initWithLocaleIdentifier: @"en_US"];
+	
+	[df setLocale: usLocale];
+	
+	NSDate *date = [df dateFromString: compileDate];
+	return date;
+}
+
 
 
 - (NSDate *) dateByAddingTimeIntervalAmount: (NSTimeInterval) interval {

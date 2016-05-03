@@ -29,6 +29,7 @@ typedef enum {
 + (BOOL) isIn24HourMode;
 
 - (NSDate *) dateByAddingTimeIntervalAmount: (NSTimeInterval) interval;
++ (NSDate *) compiledAtDate;
 
 - (NSDate *) dateWithHour: (NSUInteger) hour;
 - (NSDate *) dateWithHour: (NSUInteger) hour minute: (NSUInteger) minute second: (NSUInteger) second ;
