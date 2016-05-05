@@ -25,6 +25,18 @@
 	return [self scaledImageOfSize: newSize withBorderOfWidth: 0 andColor: nil];
 }
 
++ (UIImage *) imageNamed: (NSString *) name inBundle: (NSBundle *) bundle {
+	if (RUNNING_ON_80) {
+		return [UIImage imageNamed: name inBundle: bundle compatibleWithTraitCollection: nil];
+	}
+	
+	if (bundle != [NSBundle mainBundle]) {
+		NSLog(@"Trying to load an out-of-bundle image on iOS < 8: %@", name);
+	}
+	
+	return [UIImage imageNamed: name];
+}
+
 - (UIImage *) scaledImageOfSize: (CGSize) newSize withBorderOfWidth: (CGFloat) borderWidth andColor: (UIColor *) borderColor {
 	UIGraphicsBeginImageContextWithOptions(newSize, NO, self.scale);
 	CGContextRef					context = UIGraphicsGetCurrentContext();

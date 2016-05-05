@@ -13,4 +13,6 @@
 
 //user _highlighted.png, _disabled.png, _selected.png, and _highlighted_selected.png for additional button configuration
 + (id) buttonWithImageNamed: (NSString *) imageName;
++ (id) buttonWithImageNamed: (NSString *) imageName inBundle: (NSBundle *) bundle;
+
 @end

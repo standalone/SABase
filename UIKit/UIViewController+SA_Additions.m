@@ -50,7 +50,14 @@ __weak UIViewController *s_frontmostFocusedViewController = nil;
 @implementation UIViewController (UIViewController_SA_Additions)
 
 + (id) controller {
-	return [self new];
+	NSString			*nibName = NSStringFromClass(self);
+	NSBundle			*bundle = [NSBundle bundleForClass: self];
+	
+	if ([bundle pathForResource: nibName ofType: @"nib"] != nil) {
+		return [[self alloc] initWithNibName: nibName bundle: bundle];
+	}
+	
+	return [[self alloc] init];
 }
 
 - (UIViewController *) focusedViewControllerAncestor {

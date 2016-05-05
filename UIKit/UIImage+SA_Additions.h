@@ -27,4 +27,5 @@ typedef void (^CGContextBlock)(CGContextRef ctx);
 
 - (UIImage *) maskWithColor: (UIColor *) color;
 - (instancetype) tintedImageWithColor: (UIColor *) tintColor;
++ (UIImage *) imageNamed: (NSString *) name inBundle: (NSBundle *) bundle;
 @end
