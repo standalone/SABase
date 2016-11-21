@@ -15,13 +15,13 @@
 
 - (void) setSA_AnimationDidStartBlock:(animationDidStartBlock)animationDidStartBlock {
 	[self setValue: [animationDidStartBlock copy] forKey: ANIMATION_DID_START_BLOCK_KEY];
-	self.delegate = self;			//danger! possible retain cycle.
+	self.delegate = (id <CAAnimationDelegate>) self;			//danger! possible retain cycle.
 	
 }
 
 - (void) setSA_AnimationDidStopBlock: (animationDidStopBlock) animationDidStopBlock {
 	[self setValue: [animationDidStopBlock copy] forKey: ANIMATION_DID_STOP_BLOCK_KEY];
-	self.delegate = self;
+	self.delegate = (id <CAAnimationDelegate>) self;
 }
 
 - (animationDidStartBlock) SA_animationDidStartBlock { return [self valueForKey: ANIMATION_DID_START_BLOCK_KEY]; }
@@ -39,6 +39,6 @@
 	
 	if (block) block(anim);
 	if (self.SA_animationDidStopBlock == nil) self.delegate = nil;	//prevent retain cycles
-}
+} 
 
 @end

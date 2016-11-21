@@ -36,7 +36,7 @@
 	else {
 		if (SA_Base_DebugMode()) {
 			if (self.length > 0 && ![self isEqual: @"-"] && ![self isEqual: @"--"])
-				SA_BASE_LOG(@"Missing translation for %@", self);
+				LOG(@"Missing translation for %@", self);
 		}
 	}
 	return self;
