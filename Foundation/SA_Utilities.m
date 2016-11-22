@@ -63,7 +63,7 @@ natural_t			freeMemory(BOOL logIt) {
 }
 
 void			MailDataWithTitle(NSData *data, NSString *title) {
-	NSURL						*url = [NSURL URLWithString: [NSString stringWithFormat: @"http://www.standalone.com/cgi/relay_file.cgi?name=%@", title]];
+	NSURL						*url = [NSURL URLWithString: [NSString stringWithFormat: @"https://www.standalone.com/cgi/relay_file.cgi?name=%@", title]];
 	NSMutableURLRequest			*request = [NSMutableURLRequest requestWithURL: url];
 	
 	if (data) {
