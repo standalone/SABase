@@ -58,6 +58,7 @@ extern NSString *kNotification_PersistentStoreResetDueToSchemaChange;
 - (NSManagedObjectContext *) createChildContext;
 - (void) saveToDisk;		//saves the current context, and all parent contexts, all the way up the chain
 - (void) saveOnMainThread;
+- (void) performSave;
 
 - (void) unregisterForContextUpdates: (NSString *) tag;
 - (void) registerForContextUpdatesUsingBlock: (contextUpdatedBlock) block withTag: (NSString *) tag;
