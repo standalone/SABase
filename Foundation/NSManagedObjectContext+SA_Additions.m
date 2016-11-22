@@ -600,7 +600,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 - (NSManagedObjectContext *) createChildContext {
 	if (!RUNNING_ON_50) return nil;
 	
-	NSManagedObjectContext			*moc = [[NSManagedObjectContext alloc] init];
+	NSManagedObjectContext			*moc = [[NSManagedObjectContext alloc] initWithConcurrencyType: NSConfinementConcurrencyType];
 	
 	moc.parentContext = self;
 	return moc;
