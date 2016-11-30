@@ -11,12 +11,12 @@
 @implementation UIButton (SA_Helpers)
 
 - (void) SA_setupBackgroundImageWithPrefix: (NSString *) prefix {
-	UIImage				*buttonImage = [UIImage imageNamed: $S(@"%@-button.png", prefix)];
+	UIImage				*buttonImage = [UIImage imageNamed: $S(@"%@-button", prefix)];
 	
 	if (buttonImage) {
 		[self setBackgroundImage: [buttonImage stretchableImageWithLeftCapWidth: 15.0 topCapHeight: 22.0] forState: UIControlStateNormal];
-		[self setBackgroundImage: [[UIImage imageNamed: $S(@"%@-button-highlight.png", prefix)] stretchableImageWithLeftCapWidth: 15.0 topCapHeight: 22.0] forState: UIControlStateHighlighted];
-		[self setBackgroundImage: [[UIImage imageNamed: $S(@"%@-button-highlight.png", prefix)] stretchableImageWithLeftCapWidth: 15.0 topCapHeight: 22.0] forState: UIControlStateSelected];
+		[self setBackgroundImage: [[UIImage imageNamed: $S(@"%@-button-highlight", prefix)] stretchableImageWithLeftCapWidth: 15.0 topCapHeight: 22.0] forState: UIControlStateHighlighted];
+		[self setBackgroundImage: [[UIImage imageNamed: $S(@"%@-button-highlight", prefix)] stretchableImageWithLeftCapWidth: 15.0 topCapHeight: 22.0] forState: UIControlStateSelected];
 	} else {
 		[self setTitleColor: [UIColor blackColor] forState: UIControlStateNormal];
 		
