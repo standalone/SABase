@@ -48,6 +48,18 @@ static NSString *s_currentDefaultsGroup = nil;
 	return [def boolForKey: key];
 }
 
++ (float) floatForKey: (NSString *) key {
+	NSUserDefaults		*def = s_groupedUserDefaults ?: [NSUserDefaults standardUserDefaults];
+	
+	return [def floatForKey: key];
+}
+
++ (double) doubleForKey: (NSString *) key {
+	NSUserDefaults		*def = s_groupedUserDefaults ?: [NSUserDefaults standardUserDefaults];
+	
+	return [def doubleForKey: key];
+}
+
 + (NSInteger) integerForKey: (NSString *) key {
 	NSUserDefaults		*def = s_groupedUserDefaults ?: [NSUserDefaults standardUserDefaults];
 	
@@ -56,11 +68,31 @@ static NSString *s_currentDefaultsGroup = nil;
 
 
 + (void) syncBool: (BOOL) b forKey: (NSString *) key {
-	[self syncObject: @(b) forKey: key];
+	NSUserDefaults		*def = s_groupedUserDefaults ?: [NSUserDefaults standardUserDefaults];
+	
+	[def setBool: b forKey: key];
+	[def synchronize];
 }
 
 + (void) syncInteger: (NSInteger) i forKey: (NSString *) key {
-	[self syncObject: @(i) forKey: key];
+	NSUserDefaults		*def = s_groupedUserDefaults ?: [NSUserDefaults standardUserDefaults];
+	
+	[def setInteger: i forKey: key];
+	[def synchronize];
+}
+
++ (void) syncFloat: (float) f forKey: (NSString *) key {
+	NSUserDefaults		*def = s_groupedUserDefaults ?: [NSUserDefaults standardUserDefaults];
+	
+	[def setFloat: f forKey: key];
+	[def synchronize];
+}
+
++ (void) syncDouble: (double) d forKey: (NSString *) key {
+	NSUserDefaults		*def = s_groupedUserDefaults ?: [NSUserDefaults standardUserDefaults];
+	
+	[def setDouble: d forKey: key];
+	[def synchronize];
 }
 
 + (void) syncObject: (id) object forKey: (NSString *) key {

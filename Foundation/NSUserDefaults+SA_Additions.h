@@ -18,10 +18,15 @@
 + (void) syncObject: (id) object forKey: (NSString *) key;
 + (void) syncBool: (BOOL) b forKey: (NSString *) key;
 + (void) syncInteger: (NSInteger) i forKey: (NSString *) key;
++ (void) syncFloat: (float) f forKey: (NSString *) key;
++ (void) syncDouble: (double) d forKey: (NSString *) key;
 + (void) removeObjectForKey: (NSString *) key;
 + (id) objectForKey: (NSString *) key;
 + (BOOL) boolForKey: (NSString *) key;
 + (NSInteger) integerForKey: (NSString *) key;
++ (float) floatForKey: (NSString *) key;
++ (double) doubleForKey: (NSString *) key;
+
 
 - (id) objectForKeyedSubscript: (id) key;
 - (void) setObject: (id) obj forKeyedSubscript: (id) key;
