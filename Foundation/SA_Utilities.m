@@ -27,6 +27,18 @@ BOOL		SA_Base_IsTestFlightBuild(void) { return [[[[NSBundle mainBundle] appStore
 
 const CGPoint		CGPointNone = {-10001.10001, -10001.10001};			
 
+BOOL IsCGPointSane(CGPoint point) {
+	return !isnan(point.x) && !isnan(point.y);
+}
+
+BOOL IsCGSizeSane(CGSize size) {
+	return !isnan(size.width) && !isnan(size.height);
+}
+
+BOOL IsCGRectSane(CGRect rect) {
+	return IsCGPointSane(rect.origin) && IsCGSizeSane(rect.size);
+}
+
 natural_t			freeMemory(BOOL logIt) {
 //    mach_port_t					host_port = mach_host_self();
 //    mach_msg_type_number_t		host_size = sizeof(vm_statistics_data_t) / sizeof(integer_t);
@@ -43,7 +55,7 @@ natural_t			freeMemory(BOOL logIt) {
 //    natural_t					mem_free = vm_stat.free_count * pagesize;
 //    natural_t					mem_total = mem_used + mem_free;
 //    if (logIt) SA_BASE_LOG(@"used: %uk free: %uk total: %uk", mem_used / 1024, mem_free / 1024, mem_total / 1024);
-	if (logIt) SA_BASE_LOG(@"Logging memory no longer supported");
+	if (logIt) LOG(@"Logging memory no longer supported");
 	#if TARGET_OS_IPHONE
 		return [[UIDevice currentDevice] availableMemory];
 	#endif

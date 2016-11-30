@@ -301,7 +301,10 @@ CGRect CGRectPlacedInRectWithContentMode(CGRect child, CGRect parent, UIViewCont
 
 //==========================================================================================
 #pragma mark Graphics
-extern const CGPoint		CGPointNone;			
+extern const CGPoint		CGPointNone;
+BOOL IsCGPointSane(CGPoint point);
+BOOL IsCGSizeSane(CGSize size);
+BOOL IsCGRectSane(CGRect rect);
 
 
 //==========================================================================================
