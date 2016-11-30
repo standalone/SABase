@@ -1004,7 +1004,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 				[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_ConnectionFinished object: self];
 			});
 		} else {
-			dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+			dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0) ?: dispatch_get_main_queue(), ^{
 				if ([_delegate respondsToSelector: @selector(connectionDidFinish:)]) [_delegate connectionDidFinish: self];
 				
 				[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_ConnectionFinished object: self];
