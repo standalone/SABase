@@ -258,7 +258,7 @@
 - (NSString *) internetFormattedDateTimeString {
 	NSCalendar				*calendar = [NSCalendar currentCalendar];
 
-	NSDateComponents		*myComponents = [calendar components: NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSYearCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit fromDate: self];
+	NSDateComponents		*myComponents = [calendar components: NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond | NSCalendarUnitYear | NSCalendarUnitDay | NSCalendarUnitMonth fromDate: self];
 	SInt16						secondsOff = [[NSTimeZone localTimeZone] secondsFromGMT];
 	
 	return [NSString stringWithFormat: @"%d-%02d-%02d %02d:%02d:%02d %c%02d%02d", (int) myComponents.year, (int) myComponents.month, (int) myComponents.day, (int) myComponents.hour, (int) myComponents.minute, (int) myComponents.second, secondsOff < 0 ? '-' : '+', ABS(secondsOff / 3600), ABS(secondsOff % 3600) / 60];
@@ -266,7 +266,7 @@
 
 - (NSString *) internetFormattedTDateTimeString {
 	NSCalendar				*calendar = [NSCalendar currentCalendar];
-	NSDateComponents		*myComponents = [calendar components: NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSYearCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit fromDate: self];
+	NSDateComponents		*myComponents = [calendar components: NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond | NSCalendarUnitYear | NSCalendarUnitDay | NSCalendarUnitMonth fromDate: self];
 	SInt16						secondsOff = [[NSTimeZone localTimeZone] secondsFromGMT];
 	
 	return [NSString stringWithFormat: @"%d-%02d-%02dT%02d:%02d:%02d%c%02d:%02d", (int) myComponents.year, (int) myComponents.month, (int) myComponents.day, (int) myComponents.hour, (int) myComponents.minute, (int) myComponents.second, secondsOff < 0 ? '-' : '+', ABS(secondsOff / 3600), ABS(secondsOff % 3600) / 60];
@@ -312,7 +312,7 @@
 - (NSString *) shortTimeString {
 	NSCalendar				*calendar = [NSCalendar currentCalendar];
 	NSDateFormatter			*formatter = [NSDate dateFormatterInCurrentThread];
-	NSDateComponents		*myComponents = [calendar components: NSHourCalendarUnit | NSMinuteCalendarUnit fromDate: self];
+	NSDateComponents		*myComponents = [calendar components: NSCalendarUnitHour | NSCalendarUnitMinute fromDate: self];
 	NSInteger				hour = [myComponents hour], minute = [myComponents minute];
 	NSInteger				moddedHour = (hour == 0 || hour == 12) ? 12 : (hour % 12);
 	NSString				*pmSymbol = [formatter PMSymbol];
@@ -471,7 +471,7 @@
 
 - (NSDate *) midnight {
 	NSCalendar				*cal = [NSCalendar currentCalendar];
-	NSDateComponents		*components = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
+	NSDateComponents		*components = [cal components: NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate: self];
 	
 	components.hour = 0;
 	components.minute = 0;
@@ -481,7 +481,7 @@
 
 - (NSDate *) noon {
 	NSCalendar				*cal = [NSCalendar currentCalendar];
-	NSDateComponents		*components = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
+	NSDateComponents		*components = [cal components: NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate: self];
 	
 	components.hour = 12;
 	components.minute = 0;
@@ -491,7 +491,7 @@
 
 - (NSDate *) lastSecond {
 	NSCalendar				*cal = [NSCalendar currentCalendar];
-	NSDateComponents		*components = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
+	NSDateComponents		*components = [cal components: NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate: self];
 	
 	components.hour = 23;
 	components.minute = 59;
@@ -501,7 +501,7 @@
 
 - (NSDate *) firstDayOfMonth {
 	NSCalendar				*cal = [NSCalendar currentCalendar];
-	NSDateComponents		*components = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
+	NSDateComponents		*components = [cal components: NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate: self];
 	
 	components.day = 1;
 	return [cal dateFromComponents: components];
@@ -509,7 +509,7 @@
 
 - (NSDate *) lastDayOfMonth {
 	NSCalendar				*cal = [NSCalendar currentCalendar];
-	NSDateComponents		*components = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
+	NSDateComponents		*components = [cal components: NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate: self];
 	
 	components.day = self.numberOfDaysInMonth;
 	return [cal dateFromComponents: components];
@@ -518,7 +518,7 @@
 - (NSUInteger) numberOfDaysInMonth { return [[NSCalendar currentCalendar] rangeOfUnit: NSCalendarUnitDay inUnit: NSCalendarUnitMonth forDate: self].length; }
 //- (NSUInteger) numberOfDaysInMonth {
 //	NSCalendar				*cal = [NSCalendar currentCalendar];
-//	NSDateComponents		*components = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit fromDate: self];
+//	NSDateComponents		*components = [cal components: NSCalendarUnitYear | NSCalendarUnitMonth fromDate: self];
 //	
 //	if (components.month == 1) {			//special case feb
 //		return (components.year % 4 == 0 && (components.year % 100 || components.year % 400 == 0)) ? 29 : 28;
@@ -550,8 +550,8 @@
 
 - (NSDate *) previousDay {
 	NSCalendar				*cal = [NSCalendar currentCalendar];
-	NSDateComponents		*components = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
-	NSDateComponents		*myComponents = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
+	NSDateComponents		*components = [cal components: NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate: self];
+	NSDateComponents		*myComponents = [cal components: NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate: self];
 	
 	components.minute = 0;
 	components.second = 0;
@@ -560,7 +560,7 @@
 	components.year = 0;
 	components.hour = -24;
 	NSDate					*previousDay = [cal dateByAddingComponents: components toDate: self options: 0];
-	NSDateComponents		*prevComponents = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: previousDay];
+	NSDateComponents		*prevComponents = [cal components: NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate: previousDay];
 	
 	if (myComponents.month == prevComponents.month && myComponents.day > (prevComponents.day + 1)) {	//double check DST shift
 		components.hour = -23;
@@ -571,8 +571,8 @@
 
 - (NSDate *) nextDay {
 	NSCalendar				*cal = [NSCalendar currentCalendar];
-	NSDateComponents		*components = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
-	NSDateComponents		*myComponents = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
+	NSDateComponents		*components = [cal components: NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate: self];
+	NSDateComponents		*myComponents = [cal components: NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate: self];
 	
 	components.minute = 0;
 	components.second = 0;
@@ -581,7 +581,7 @@
 	components.year = 0;
 	components.hour = 24;
 	NSDate					*nextDay = [cal dateByAddingComponents: components toDate: self options: 0];
-	NSDateComponents		*nextComponents = [cal components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: nextDay];
+	NSDateComponents		*nextComponents = [cal components: NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate: nextDay];
 	
 	if (myComponents.month == nextComponents.month && myComponents.day > (nextComponents.day - 1)) {	//double check DST shift
 		components.hour = 23;
@@ -739,7 +739,7 @@
 
 - (NSDate *) dateWithHour: (NSUInteger) hour minute: (NSUInteger) minute second: (NSUInteger) second {
 	NSCalendar				*calendar = [NSCalendar currentCalendar];
-	NSDateComponents					*myComponents = [calendar components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
+	NSDateComponents					*myComponents = [calendar components: NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate: self];
 	
 	[myComponents setHour: hour];
 	[myComponents setMinute: minute];
@@ -750,7 +750,7 @@
 
 - (NSDate *) futureDateByAddingDays: (NSUInteger) days months: (NSUInteger) months years: (NSUInteger) years {
 	NSCalendar				*calendar = [NSCalendar currentCalendar];
-	NSDateComponents					*myComponents = [calendar components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: self];
+	NSDateComponents					*myComponents = [calendar components: NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate: self];
 	
 	if (years) myComponents.year = myComponents.year + years;
 	if (months) myComponents.month = myComponents.month + months;
@@ -761,14 +761,14 @@
 
 - (NSString *) monthDayYearDateString: (BOOL) addLeadingZeroes {
 	NSCalendar				*calendar = [NSCalendar currentCalendar];
-	NSDateComponents	*components = [calendar components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate: self];
+	NSDateComponents	*components = [calendar components: NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate: self];
 	
 	return [NSString stringWithFormat: addLeadingZeroes ? @"%02d/%02d/%d" : @"%d/%d/%d", (int) [components month], (int) [components day], (int) [components year]];
 }
 
 - (NSString *) yearMonthDayDateString: (BOOL) addLeadingZeroes {
 	NSCalendar				*calendar = [NSCalendar currentCalendar];
-	NSDateComponents	*components = [calendar components: NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate: self];
+	NSDateComponents	*components = [calendar components: NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate: self];
 	
 	return [NSString stringWithFormat: addLeadingZeroes ? @"%d/%02d/%02d" : @"%d/%d/%d", (int) [components year], (int) [components month], (int) [components day]];
 }

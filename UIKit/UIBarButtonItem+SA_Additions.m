@@ -15,13 +15,13 @@
 @implementation UIBarButtonItem (SA_SA_Additions)
 
 //standard items
-+ (id) SA_itemWithSystemItem: (UIBarButtonSystemItem) item target: (id) target action: (SEL) action { return [UIBarButtonItem SA_itemWithSystemItem: item target: target action: action block: nil style: UIBarButtonItemStyleBordered]; }
-+ (id) SA_itemWithTitle: (NSString *) title target: (id) target action: (SEL) action { return [UIBarButtonItem SA_itemWithTitle: title target: target action: action block: nil style: UIBarButtonItemStyleBordered]; }
-+ (id) SA_itemWithImage: (UIImage *) image target: (id) target action: (SEL) action { return [UIBarButtonItem SA_itemWithImage: image target: target action: action block: nil style: UIBarButtonItemStyleBordered]; }
++ (id) SA_itemWithSystemItem: (UIBarButtonSystemItem) item target: (id) target action: (SEL) action { return [UIBarButtonItem SA_itemWithSystemItem: item target: target action: action block: nil style: UIBarButtonItemStylePlain]; }
++ (id) SA_itemWithTitle: (NSString *) title target: (id) target action: (SEL) action { return [UIBarButtonItem SA_itemWithTitle: title target: target action: action block: nil style: UIBarButtonItemStylePlain]; }
++ (id) SA_itemWithImage: (UIImage *) image target: (id) target action: (SEL) action { return [UIBarButtonItem SA_itemWithImage: image target: target action: action block: nil style: UIBarButtonItemStylePlain]; }
 
-+ (id) SA_itemWithSystemItem: (UIBarButtonSystemItem) item block: (barButtonItemArgumentBlock) block { return [UIBarButtonItem SA_itemWithSystemItem: item target: nil action: nil block: block style: UIBarButtonItemStyleBordered]; }
-+ (id) SA_itemWithTitle: (NSString *) title block: (barButtonItemArgumentBlock) block { return [UIBarButtonItem SA_itemWithTitle: title target: nil action: nil block: block style: UIBarButtonItemStyleBordered]; }
-+ (id) SA_itemWithImage: (UIImage *) image block: (barButtonItemArgumentBlock) block { return [UIBarButtonItem SA_itemWithImage: image target: nil action: nil block: block style: UIBarButtonItemStyleBordered]; }
++ (id) SA_itemWithSystemItem: (UIBarButtonSystemItem) item block: (barButtonItemArgumentBlock) block { return [UIBarButtonItem SA_itemWithSystemItem: item target: nil action: nil block: block style: UIBarButtonItemStylePlain]; }
++ (id) SA_itemWithTitle: (NSString *) title block: (barButtonItemArgumentBlock) block { return [UIBarButtonItem SA_itemWithTitle: title target: nil action: nil block: block style: UIBarButtonItemStylePlain]; }
++ (id) SA_itemWithImage: (UIImage *) image block: (barButtonItemArgumentBlock) block { return [UIBarButtonItem SA_itemWithImage: image target: nil action: nil block: block style: UIBarButtonItemStylePlain]; }
 
 //borderless items
 + (id) SA_borderlessItemWithSystemItem: (UIBarButtonSystemItem) item target: (id) target action: (SEL) action { return [UIBarButtonItem SA_itemWithSystemItem: item target: target action: action block: nil style: UIBarButtonItemStylePlain]; }
