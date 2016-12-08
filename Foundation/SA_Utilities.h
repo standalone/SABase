@@ -161,6 +161,12 @@ extern const NSUInteger				g_sa_base_version;
 		#define				RUNNING_ON_90					([[UIDevice currentDevice].systemVersion intValue] >= 9)
 	#endif
 
+	#ifdef NSFoundationVersionNumber_iOS_10_0
+		#define				RUNNING_ON_10_0					(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_10_0)
+	#else
+		#define				RUNNING_ON_10_0					([[UIDevice currentDevice].systemVersion intValue] >= 10)
+	#endif
+
 
 	#define				IS_RETINA_DEVICE				([UIScreen mainScreen].scale > 1.0)
 	#define				IS_4INCH_SCREEN					(RUNNING_ON_IPHONE && [UIScreen mainScreen].bounds.size.height == 568)

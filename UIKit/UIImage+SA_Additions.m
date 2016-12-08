@@ -6,6 +6,7 @@
 //
 
 #import "UIImage+SA_Additions.h"
+#import "SA_Utilities.h"
 
 
 @implementation UIImage (UIImage_SA_Additions)
@@ -37,31 +38,50 @@
 	return [UIImage imageNamed: name];
 }
 
-- (UIImage *) scaledImageOfSize: (CGSize) newSize withBorderOfWidth: (CGFloat) borderWidth andColor: (UIColor *) borderColor {
-	UIGraphicsBeginImageContextWithOptions(newSize, NO, self.scale);
-	CGContextRef					context = UIGraphicsGetCurrentContext();
-	if (context == nil) {
-		SA_BASE_LOG(@"Got a nil context for -scaledImageOfSize: (size: %@, image: %@", NSStringFromCGSize(newSize), self);
-		return self;
-	}
-	CGRect							rect = CGRectMake(0, 0, newSize.width, newSize.height);
-	
-	CGContextConcatCTM(context, CGAffineTransformMakeScale(1.0, -1.0));
-	CGContextConcatCTM(context, CGAffineTransformMakeTranslation(0, -newSize.height));
-	CGContextDrawImage(context, rect, self.CGImage);
-	
-	if (borderWidth) {
-		CGRect		rect = CGRectMake(borderWidth / 2, borderWidth / 2, newSize.width - borderWidth, newSize.height - borderWidth);
++ (UIImage *) imageOfSize: (CGSize) size fromBlock: (gcContextBlock) block {
+	if (RUNNING_ON_10_0) {
+		UIGraphicsImageRenderer			*renderer = [[UIGraphicsImageRenderer alloc] initWithSize: size];
 		
-		CGContextSetLineWidth(context, borderWidth);
-		[borderColor setStroke];
-		UIRectFrame(rect);
+		return [renderer imageWithActions: ^(UIGraphicsImageRendererContext *render) {
+			CGContextRef					context = UIGraphicsGetCurrentContext();
+			
+			block(context);
+		}];
+	} else {
+		UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+		CGContextRef					context = UIGraphicsGetCurrentContext();
+		
+		if (context == nil) {
+			SA_BASE_LOG(@"Got a nil context for -imageOfSize:fromBlock: %@", NSStringFromCGSize(size));
+			return nil;
+		}
+
+		block(context);
+		UIImage							*newImage = UIGraphicsGetImageFromCurrentImageContext();
+		
+		UIGraphicsEndImageContext();
+		return newImage;
 	}
+}
+
+- (UIImage *) scaledImageOfSize: (CGSize) newSize withBorderOfWidth: (CGFloat) borderWidth andColor: (UIColor *) borderColor {
+	__strong UIImage		*image = self;
 	
-	UIImage							*newImage = UIGraphicsGetImageFromCurrentImageContext();
-	
-	UIGraphicsEndImageContext();
-	return newImage;
+	return [UIImage imageOfSize: newSize fromBlock: ^(CGContextRef context) {
+		CGRect							rect = CGRectMake(0, 0, newSize.width, newSize.height);
+		
+		CGContextConcatCTM(context, CGAffineTransformMakeScale(1.0, -1.0));
+		CGContextConcatCTM(context, CGAffineTransformMakeTranslation(0, -newSize.height));
+		CGContextDrawImage(context, rect, image.CGImage);
+		
+		if (borderWidth) {
+			CGRect		rect = CGRectMake(borderWidth / 2, borderWidth / 2, newSize.width - borderWidth, newSize.height - borderWidth);
+			
+			CGContextSetLineWidth(context, borderWidth);
+			[borderColor setStroke];
+			UIRectFrame(rect);
+		}
+	}] ?: image;
 }
 
 - (NSString *) description {
@@ -158,19 +178,6 @@
 	CGContextRestoreGState(ctx);
 }
 
-#if NS_BLOCKS_AVAILABLE
-+ (UIImage *) imageOfSize: (CGSize) size scale: (CGFloat) scale withBlock: (CGContextBlock) block {
-    UIGraphicsBeginImageContextWithOptions(size, NO, scale);
-    
-    if (block) block(UIGraphicsGetCurrentContext());
-    
-    UIImage						*createdImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-	
-    return createdImage;
-}
-#endif
-
 - (UIImage *) maskWithColor: (UIColor *) color {
 	UIGraphicsBeginImageContext(self.size);
 	
@@ -191,20 +198,15 @@
 }
 
 - (instancetype) tintedImageWithColor: (UIColor *) tintColor {
-    UIGraphicsBeginImageContextWithOptions(self.size, NO, 0.0);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-	
-    CGRect		rect = CGRectFromSize(self.size);
-    CGContextSetBlendMode(context, kCGBlendModeNormal);
-    [self drawInRect: rect];
-	
-    CGContextSetBlendMode(context, kCGBlendModeSourceIn);
-    [tintColor setFill];
-    CGContextFillRect(context, rect);
-	
-    UIImage *image  = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
+	return [UIImage imageOfSize: self.size fromBlock: ^(CGContextRef context) {
+		CGRect		rect = CGRectFromSize(self.size);
+		CGContextSetBlendMode(context, kCGBlendModeNormal);
+		[self drawInRect: rect];
+		
+		CGContextSetBlendMode(context, kCGBlendModeSourceIn);
+		[tintColor setFill];
+		CGContextFillRect(context, rect);
+	}];
 }
 
 

@@ -6,10 +6,13 @@
 //
 
 #import <UIKit/UIKit.h>
+typedef void (^gcContextBlock)(CGContextRef ctx);
+
 
 
 @interface UIImage (UIImage_SA_Additions)
 
++ (UIImage *) imageOfSize: (CGSize) size fromBlock: (gcContextBlock) block;
 + (UIImage *) uncachedImageNamed: (NSString *) name;
 
 - (UIImage *) scaledImageOfSize: (CGSize) newSize;
@@ -22,7 +25,6 @@
 
 typedef void (^CGContextBlock)(CGContextRef ctx);
 
-+ (UIImage *) imageOfSize: (CGSize) size scale: (CGFloat) scale withBlock: (CGContextBlock) block;
 #endif
 
 - (UIImage *) maskWithColor: (UIColor *) color;

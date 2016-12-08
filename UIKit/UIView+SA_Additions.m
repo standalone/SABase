@@ -13,6 +13,7 @@
 #import "CAAnimation+SA_Blocks.h"
 #import "UIImageView+SA_Additions.h"
 #import "dispatch_additions_SA.h"
+#import "UIImage+SA_Additions.h"
 
 #define kSA_OriginalCenterBeforeKeyboardShift			@"SA_OriginalCenterBeforeKeyboardShift"
 
@@ -195,38 +196,25 @@
 
 - (UIImage *) toImageUsingLayer: (BOOL) useLayer { return [self toImageUsingLayer: useLayer fromRect: self.bounds]; }
 - (UIImage *) toImageUsingLayer: (BOOL) useLayer fromRect: (CGRect) rect {
+	CGSize				size = rect.size;
+	
 	if (RUNNING_ON_70 && !useLayer) {
-		CGSize					size = self.bounds.size;
-		UIGraphicsBeginImageContextWithOptions(CGSizeMake(rect.size.width, rect.size.height), YES, 0);
-		
-		CGContextRef		ctx = UIGraphicsGetCurrentContext();
-		CGContextConcatCTM(ctx, CGAffineTransformMakeTranslation(-rect.origin.x, -rect.origin.y));
+		return [UIImage imageOfSize: size fromBlock: ^(CGContextRef ctx) {
+			CGContextConcatCTM(ctx, CGAffineTransformMakeTranslation(-rect.origin.x, -rect.origin.y));
 
-		[self drawViewHierarchyInRect: CGRectMake(0, 0, size.width, size.height) afterScreenUpdates: YES];
-
-		UIImage				*image = UIGraphicsGetImageFromCurrentImageContext();
-		UIGraphicsEndImageContext();
-		
-		return image;
+			[self drawViewHierarchyInRect: CGRectMake(0, 0, size.width, size.height) afterScreenUpdates: YES];
+		}];
 	} else {
-		UIGraphicsBeginImageContext(rect.size);
-		
-		CGContextRef						ctx = UIGraphicsGetCurrentContext();
-		
-		if ([self respondsToSelector: @selector(contentOffset)]) {
-			CGPoint					contentOffset = [(id) self contentOffset];
+		return [UIImage imageOfSize: size fromBlock: ^(CGContextRef ctx) {
+			if ([self respondsToSelector: @selector(contentOffset)]) {
+				CGPoint					contentOffset = [(id) self contentOffset];
+				
+				CGContextTranslateCTM(ctx, -contentOffset.x, -contentOffset.y);
+			}
 			
-			CGContextTranslateCTM(ctx, -contentOffset.x, -contentOffset.y);
-		}
-		
-		CGContextConcatCTM(ctx, CGAffineTransformMakeTranslation(-rect.origin.x, -rect.origin.y));
-		[self.layer renderInContext: ctx];
-		
-		UIImage					*viewImage = UIGraphicsGetImageFromCurrentImageContext();
-		
-		UIGraphicsEndImageContext();
-		
-		return viewImage;
+			CGContextConcatCTM(ctx, CGAffineTransformMakeTranslation(-rect.origin.x, -rect.origin.y));
+			[self.layer renderInContext: ctx];
+		}];
 	}
 }
 
@@ -609,14 +597,11 @@ const NSString			*kBlurredViewKey = @"SA_kBlurredViewKey";
 
 
 	NSTimeInterval		start = [NSDate timeIntervalSinceReferenceDate];
-	UIGraphicsBeginImageContextWithOptions(self.bounds.size, YES, 1);
 	
-	CGContextTranslateCTM(UIGraphicsGetCurrentContext(), -self.frame.origin.x, -self.frame.origin.y);
-	[self.superview.layer renderInContext: UIGraphicsGetCurrentContext()];
-
-	
-	UIImage					*image = UIGraphicsGetImageFromCurrentImageContext();
-	UIGraphicsEndImageContext();
+	UIImage *image = [UIImage imageOfSize: self.bounds.size fromBlock: ^(CGContextRef ctx) {
+		CGContextTranslateCTM(UIGraphicsGetCurrentContext(), -self.frame.origin.x, -self.frame.origin.y);
+		[self.superview.layer renderInContext: ctx];
+	}];
 	
 	SA_BASE_LOG(@"Took %.5f to generate image", [NSDate timeIntervalSinceReferenceDate] - start);
 	start = [NSDate timeIntervalSinceReferenceDate];
