@@ -72,7 +72,7 @@
 		
 		CGContextConcatCTM(context, CGAffineTransformMakeScale(1.0, -1.0));
 		CGContextConcatCTM(context, CGAffineTransformMakeTranslation(0, -newSize.height));
-		CGContextDrawImage(context, rect, image.CGImage);
+		[image drawInRect: rect];
 		
 		if (borderWidth) {
 			CGRect		rect = CGRectMake(borderWidth / 2, borderWidth / 2, newSize.width - borderWidth, newSize.height - borderWidth);
