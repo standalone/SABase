@@ -71,11 +71,19 @@ static NSMutableArray *s_fireAndForgetNotificationBlocks = nil;
 }
 
 + (void) postNotificationNamed: (NSString *) name object: (id) object {
-	[[NSNotificationCenter defaultCenter] postNotificationName: name object: object];
+	if ([NSThread isMainThread]) {
+		[[NSNotificationCenter defaultCenter] postNotificationName: name object: object];
+	} else dispatch_async(dispatch_get_main_queue(), ^{
+		[[NSNotificationCenter defaultCenter] postNotificationName: name object: object];
+	});
 }
 
 + (void) postNotificationNamed: (NSString *) name {
-	[[NSNotificationCenter defaultCenter] postNotificationName: name object: nil];
+	if ([NSThread isMainThread]) {
+		[[NSNotificationCenter defaultCenter] postNotificationName: name object: nil];
+	} else dispatch_async(dispatch_get_main_queue(), ^{
+		[[NSNotificationCenter defaultCenter] postNotificationName: name object: nil];
+	});
 }
 
 

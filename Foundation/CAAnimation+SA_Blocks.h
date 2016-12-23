@@ -11,7 +11,7 @@ typedef void (^animationDidStopBlock)(CAAnimation *anim, BOOL finished);
 typedef void (^animationDidStartBlock)(CAAnimation *anim);
 
 
-@interface CAAnimation (SA_Blocks)
+@interface CAAnimation (SA_Blocks) <CAAnimationDelegate>
 
 @property (nonatomic, copy) animationDidStartBlock SA_animationDidStartBlock;
 @property (nonatomic, copy) animationDidStopBlock SA_animationDidStopBlock;

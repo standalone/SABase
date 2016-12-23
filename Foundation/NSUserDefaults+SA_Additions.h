@@ -22,10 +22,12 @@
 + (void) syncDouble: (double) d forKey: (NSString *) key;
 + (void) removeObjectForKey: (NSString *) key;
 + (id) objectForKey: (NSString *) key;
++ (id) stringForKey: (NSString *) key;
 + (BOOL) boolForKey: (NSString *) key;
 + (NSInteger) integerForKey: (NSString *) key;
 + (float) floatForKey: (NSString *) key;
 + (double) doubleForKey: (NSString *) key;
++ (NSUserDefaults *) currentDefaults;
 
 
 - (id) objectForKeyedSubscript: (id) key;
