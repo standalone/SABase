@@ -204,8 +204,7 @@ static void NSFileManagerKQueueCallback(CFFileDescriptorRef kqRef, CFOptionFlags
 
 - (BOOL) copyFileOfVersion: (NSUInteger) currentFileVersion from: (NSString *) srcPath to: (NSString *) dstPath error: (NSError	**) outError {
 	NSString			*userDefaultsKey = $S(@"%s_file_version", [srcPath fileSystemRepresentation]);
-	NSUserDefaults		*defaults = [NSUserDefaults standardUserDefaults];
-	NSUInteger			existingVersion = [defaults integerForKey: userDefaultsKey];
+	NSUInteger			existingVersion = [NSUserDefaults integerForKey: userDefaultsKey];
 	NSError				*error;
 	
 	if (existingVersion	>= currentFileVersion) return YES;			//all set, ignore it
@@ -220,8 +219,7 @@ static void NSFileManagerKQueueCallback(CFFileDescriptorRef kqRef, CFOptionFlags
 		return NO;
 	}
 	
-	[defaults setInteger: currentFileVersion forKey: userDefaultsKey];
-	[defaults synchronize];
+	[NSUserDefaults syncInteger: currentFileVersion forKey: userDefaultsKey];
 	return YES;
 }
 
