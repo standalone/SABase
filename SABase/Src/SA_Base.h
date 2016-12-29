@@ -74,3 +74,4 @@
 #import "SA_Keychain.h"
 #import "SA_SubtleStatusDisplay.h"
 
+#import "SA_Gestalt.h"

@@ -56,6 +56,10 @@
 		B52550AE1915DF5400411D4B /* SA_ThreadsafeMutableCollections.h in Headers */ = {isa = PBXBuildFile; fileRef = B52550AC1915DF5300411D4B /* SA_ThreadsafeMutableCollections.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B52550AF1915DF5400411D4B /* SA_ThreadsafeMutableCollections.m in Sources */ = {isa = PBXBuildFile; fileRef = B52550AD1915DF5400411D4B /* SA_ThreadsafeMutableCollections.m */; };
 		B52550B01915DF5F00411D4B /* SA_ThreadsafeMutableCollections.m in Sources */ = {isa = PBXBuildFile; fileRef = B52550AD1915DF5400411D4B /* SA_ThreadsafeMutableCollections.m */; };
+		B5263FE41E15749B007C30DF /* SA_Gestalt.h in Headers */ = {isa = PBXBuildFile; fileRef = B5263FE21E15749B007C30DF /* SA_Gestalt.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B5263FE51E15749B007C30DF /* SA_Gestalt.h in Headers */ = {isa = PBXBuildFile; fileRef = B5263FE21E15749B007C30DF /* SA_Gestalt.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B5263FE61E15749B007C30DF /* SA_Gestalt.m in Sources */ = {isa = PBXBuildFile; fileRef = B5263FE31E15749B007C30DF /* SA_Gestalt.m */; };
+		B5263FE71E15749B007C30DF /* SA_Gestalt.m in Sources */ = {isa = PBXBuildFile; fileRef = B5263FE31E15749B007C30DF /* SA_Gestalt.m */; };
 		B5288DCD198199160076DB31 /* TestAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B5288DCA198198A90076DB31 /* TestAppDelegate.m */; };
 		B52BF7E71871CD2C009F4A4C /* NSError+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B52BF7E51871CD2C009F4A4C /* NSError+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B52BF7E81871CD2C009F4A4C /* NSError+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B52BF7E51871CD2C009F4A4C /* NSError+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -444,6 +448,8 @@
 		B523D5BC1933EBC900FC2C4E /* CGContextRef_additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CGContextRef_additions.h; sourceTree = "<group>"; };
 		B52550AC1915DF5300411D4B /* SA_ThreadsafeMutableCollections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SA_ThreadsafeMutableCollections.h; path = Foundation/SA_ThreadsafeMutableCollections.h; sourceTree = SOURCE_ROOT; };
 		B52550AD1915DF5400411D4B /* SA_ThreadsafeMutableCollections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SA_ThreadsafeMutableCollections.m; path = Foundation/SA_ThreadsafeMutableCollections.m; sourceTree = SOURCE_ROOT; };
+		B5263FE21E15749B007C30DF /* SA_Gestalt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SA_Gestalt.h; sourceTree = "<group>"; };
+		B5263FE31E15749B007C30DF /* SA_Gestalt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SA_Gestalt.m; sourceTree = "<group>"; };
 		B5288DC9198198A90076DB31 /* TestAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestAppDelegate.h; sourceTree = "<group>"; };
 		B5288DCA198198A90076DB31 /* TestAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestAppDelegate.m; sourceTree = "<group>"; };
 		B52BF7E51871CD2C009F4A4C /* NSError+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+SA_Additions.h"; sourceTree = "<group>"; };
@@ -675,6 +681,8 @@
 		B55E0834151660DD0097CC69 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				B5263FE21E15749B007C30DF /* SA_Gestalt.h */,
+				B5263FE31E15749B007C30DF /* SA_Gestalt.m */,
 				B5C6E35A1B2CD16000BB366A /* SA_ErrorManager.h */,
 				B5C6E35B1B2CD16000BB366A /* SA_ErrorManager.m */,
 				B5C6E3601B2CD42B00BB366A /* SA_Keychain.h */,
@@ -921,6 +929,7 @@
 				B58307291516548600CC57DE /* NSURL Tests.h in Headers */,
 				B55AA63A181C515C00C5B0EE /* UIFont+SA_Additions.h in Headers */,
 				B58307311516548600CC57DE /* RunTimeAppDelegate.h in Headers */,
+				B5263FE51E15749B007C30DF /* SA_Gestalt.h in Headers */,
 				B58307371516548600CC57DE /* TestController.h in Headers */,
 				B55E0889151660DD0097CC69 /* dispatch_additions_SA.h in Headers */,
 				B55E088F151660DD0097CC69 /* NSBundle+SA_Additions.h in Headers */,
@@ -1038,6 +1047,7 @@
 				B58CA477183AD4DA0038753A /* SA_ScreenshotFeedback.h in Headers */,
 				B55E0966151660DD0097CC69 /* UITableViewCell+SA_Additions.h in Headers */,
 				B55E096C151660DD0097CC69 /* UIToolbar+SA_Additions.h in Headers */,
+				B5263FE41E15749B007C30DF /* SA_Gestalt.h in Headers */,
 				B55E0972151660DD0097CC69 /* UIView+SA_Additions.h in Headers */,
 				B52550AE1915DF5400411D4B /* SA_ThreadsafeMutableCollections.h in Headers */,
 				B55E09A215166D3C0097CC69 /* SA_BackgroundThread.h in Headers */,
@@ -1299,6 +1309,7 @@
 				B55E0903151660DD0097CC69 /* SA_PleaseWaitDisplay.m in Sources */,
 				B55E0909151660DD0097CC69 /* SA_SelfDrawingView.m in Sources */,
 				B55E090F151660DD0097CC69 /* SA_SplashScreenImageView.m in Sources */,
+				B5263FE71E15749B007C30DF /* SA_Gestalt.m in Sources */,
 				B55E0915151660DD0097CC69 /* SA_StackedScrollView.m in Sources */,
 				B55E0921151660DD0097CC69 /* UIActionSheet+SA_Additions.m in Sources */,
 				B55E0927151660DD0097CC69 /* UIBarButtonItem+SA_Additions.m in Sources */,
@@ -1493,6 +1504,7 @@
 				B55E0902151660DD0097CC69 /* SA_PleaseWaitDisplay.m in Sources */,
 				B55E0908151660DD0097CC69 /* SA_SelfDrawingView.m in Sources */,
 				B55E090E151660DD0097CC69 /* SA_SplashScreenImageView.m in Sources */,
+				B5263FE61E15749B007C30DF /* SA_Gestalt.m in Sources */,
 				B523D5B71933EA7F00FC2C4E /* UIWindow+SA_Additions.m in Sources */,
 				B55E0914151660DD0097CC69 /* SA_StackedScrollView.m in Sources */,
 				B55E0920151660DD0097CC69 /* UIActionSheet+SA_Additions.m in Sources */,
