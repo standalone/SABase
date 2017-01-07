@@ -22,6 +22,7 @@ typedef enum {
 @property (nonatomic, readonly) UIPageViewController *sa_pageViewController;
 
 + (id) controller;
++ (NSString *) nibName;
 
 - (NSSet *) childControllers;
 
