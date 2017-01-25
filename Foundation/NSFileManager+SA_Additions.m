@@ -7,6 +7,7 @@
 
 #import "NSFileManager+SA_Additions.h"
 #import "NSBundle+SA_Additions.h"
+#import "NSUserDefaults+SA_Additions.h"
 
 #if TARGET_OS_IPHONE
 
@@ -210,7 +211,9 @@ static void NSFileManagerKQueueCallback(CFFileDescriptorRef kqRef, CFOptionFlags
 	if (existingVersion	>= currentFileVersion) return YES;			//all set, ignore it
 	
 	if ([self fileExistsAtPath: dstPath]) {
-		if (![self removeItemAtPath: dstPath error: &error]) SA_BASE_LOG(@"Error while deleting %@: %@", [dstPath lastPathComponent], error);
+        if (![self removeItemAtPath: dstPath error: &error]) {
+         //   SA_BASE_LOG(@"Error while deleting %@: %@", [dstPath lastPathComponent], error);
+        }
 	}
 	
 	if (![self copyItemAtPath: srcPath toPath: dstPath error: &error]) {

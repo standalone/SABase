@@ -14,7 +14,7 @@
 - (void) associateValue: (id) value forKey: (id) key;
 - (id) associatedValueForKey: (id) key;
 - (void) removeAssociateValueForKey: (id) key;
-- (id) performSelector: (SEL) selector withObject: (id) arg1 withObject: (id) arg2 withObject: (id) arg3;
+//- (id) performSelector: (SEL) selector withObject: (id) arg1 withObject: (id) arg2 withObject: (id) arg3;
 - (void) associateValueCopy: (id) value forKey: (id) key;
 - (void) addAsObserverForName: (NSString *) note selector: (SEL) selector;
 - (void) removeAsObserver;

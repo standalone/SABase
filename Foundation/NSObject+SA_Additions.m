@@ -66,9 +66,9 @@
 	return NO;
 }
 
-- (id) performSelector: (SEL) selector withObject: (id) arg1 withObject: (id) arg2 withObject: (id) arg3 {
-	return (id) objc_msgSend(self, selector, arg1, arg2, arg3);
-}
+//- (id) performSelector: (SEL) selector withObject: (id) arg1 withObject: (id) arg2 withObject: (id) arg3 {
+//	return (id) objc_msgSend(self, selector, arg1, arg2, arg3);
+//}
 
 - (void) addAsObserverForNotificationName: (NSString *) note selector: (SEL) selector object: (id) object {
 	if (![self respondsToSelector: selector]) {

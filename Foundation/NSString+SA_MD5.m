@@ -107,7 +107,7 @@
 - (NSUInteger) SA_md5Hash {
 	UInt32 results[4];
 	unsigned char			*utf8 = (unsigned char *) self.UTF8String;
-	CC_MD5((const void *) utf8, strlen((const char *) utf8), (unsigned char *) results);
+	CC_MD5((const void *) utf8, (CC_LONG) strlen((const char *) utf8), (unsigned char *) results);
 	
 	return results[0] + results[1] + results[2] + results[3];
 }
