@@ -21,7 +21,8 @@ static NSUInteger					s_displayHeight = 30.0;
 
 @implementation SA_SubtleStatusDisplay
 - (void) dealloc {
-	IF_NOTARC(self.label = nil; self.activityIndicator = nil; [super dealloc]);
+	self.label = nil;
+	self.activityIndicator = nil;
 }
 
 + (void) dismissAfter: (NSTimeInterval) seconds {

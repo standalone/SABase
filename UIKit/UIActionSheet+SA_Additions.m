@@ -20,13 +20,15 @@ static UIColor			*s_actionSheetBackgroundColor = nil;
 @implementation SA_ActionSheetViewController
 - (void) viewDidLayoutSubviews {
 	[super viewDidLayoutSubviews];
-	self.originalTintColor = self.view.window.tintColor;
-	self.view.window.tintColor = s_actionSheetTintColor ?: [UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0];
+	if (RUNNING_ON_70) {
+		self.originalTintColor = self.view.window.tintColor;
+		self.view.window.tintColor = s_actionSheetTintColor ?: [UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0];
+	}
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear: animated];
-	self.view.window.tintColor = self.originalTintColor;
+	if (RUNNING_ON_70) { self.view.window.tintColor = self.originalTintColor; }
 }
 @end
 
@@ -97,7 +99,7 @@ static UIColor			*s_actionSheetBackgroundColor = nil;
 		}]];
 	}
 	
-	if (s_actionSheetTintColor) composed.view.tintColor = s_actionSheetTintColor;
+	if (s_actionSheetTintColor && RUNNING_ON_70) composed.view.tintColor = s_actionSheetTintColor;
 	if (s_actionSheetBackgroundColor) composed.view.backgroundColor = s_actionSheetBackgroundColor;
 	return composed;
 }
