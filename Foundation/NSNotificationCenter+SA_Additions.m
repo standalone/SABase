@@ -21,29 +21,17 @@ static NSMutableArray *s_fireAndForgetNotificationBlocks = nil;
 }
 
 - (void) postNotificationOnMainThreadName: (NSString *) name object: (id) object {
-	if ([NSThread isMainThread]) {
-		[[NSNotificationCenter defaultCenter] postNotificationName: name object: object userInfo: nil];
-	} else dispatch_async(dispatch_get_main_queue(), ^{
-		[[NSNotificationCenter defaultCenter] postNotificationName: name object: object userInfo: nil];
-	});
+	[self postNotificationOnMainThreadName: name object: object info: nil];
 }
 
 - (void) postDeferredNotificationOnMainThreadName: (NSString *) name object: (id) object info: (NSDictionary *) info {
-	NSNotification				*note = [NSNotification notificationWithName: name object: object userInfo: info];
-
-	if ([NSThread isMainThread]) {
-		[self performSelectorOnMainThread: @selector(postDeferredNotification:) withObject: note waitUntilDone: NO];
-	} else dispatch_async(dispatch_get_main_queue(), ^{
-		[self performSelectorOnMainThread: @selector(postDeferredNotification:) withObject: note waitUntilDone: NO];
+	dispatch_async_main_queue(^{
+		[[NSNotificationCenter defaultCenter] postNotificationName: name object: object userInfo: info];
 	});
 }
 
 - (void) postDeferredNotificationOnMainThreadName: (NSString *) name object: (id) object {
 	[self postDeferredNotificationOnMainThreadName: name object: object info: nil];
-}
-
-- (void) postDeferredNotification: (NSNotification *) note {
-	[self performSelector: @selector(postNotification:) withObject: note afterDelay: 0.0];
 }
 
 - (id) addFireAndForgetBlockFor: (NSString *) name object: (id) object block: (notificationArgumentBlock) block {

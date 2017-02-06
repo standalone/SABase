@@ -19,7 +19,6 @@ typedef void (^notificationArgumentBlock)(NSNotification *note);
 - (void) postDeferredNotificationOnMainThreadName: (NSString *) name object: (id) object;
 - (void) postNotificationOnMainThreadName: (NSString *) name object: (id) object info: (NSDictionary *) info;
 - (void) postDeferredNotificationOnMainThreadName: (NSString *) name object: (id) object info: (NSDictionary *) info;
-- (void) postDeferredNotification: (NSNotification *) note;	
 
 - (id) addFireAndForgetBlockFor: (NSString *) name object: (id) object block: (notificationArgumentBlock) block;
 - (void) removeFireAndForgetNotification: (id) notificationInfo;
