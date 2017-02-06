@@ -105,7 +105,7 @@ NSMutableArray			*s_displayedAlerts = nil;
 	
 	alert.delegate = alert;
 	alert.alertButtonHitBlock = (buttonHitBlock);
-	[alert performSelector: @selector(showOnMainThread) withObject: nil afterDelay: 0.0];
+	dispatch_async_main_queue(^{ [alert show]; });
 	return alert;
 }
 
@@ -193,7 +193,7 @@ NSMutableArray			*s_displayedAlerts = nil;
 	SA_AlertViewImplementation		*alert = [SA_AlertViewImplementation alertWithTitle: title message: message tag: tag button: buttonTitle];
 	
 	alert.delegate = delegate;
-	[alert performSelector: @selector(showOnMainThread) withObject: nil afterDelay: 0.0];
+	dispatch_async_main_queue(^{ [alert show]; });
 	return alert;
 }
 
