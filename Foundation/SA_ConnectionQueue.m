@@ -881,6 +881,10 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	return (self.connection != nil);
 }
 
+- (void) setDelegate: (id <SA_ConnectionDelegate>) delegate {
+	_delegate = delegate;
+}
+
 //=============================================================================================================================
 #pragma mark Ending connections
 - (void) cancel: (BOOL) clearDelegate {
@@ -999,19 +1003,19 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	} else if (self.completeInBackground) {
 		if ([SA_ConnectionQueue sharedQueue].backgroundQueue) {
 			dispatch_async([SA_ConnectionQueue sharedQueue].backgroundQueue,  ^{
-				if ([_delegate respondsToSelector: @selector(connectionDidFinish:)]) [_delegate connectionDidFinish: self];
+				if ([self.delegate respondsToSelector: @selector(connectionDidFinish:)]) [self.delegate connectionDidFinish: self];
 				
 				[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_ConnectionFinished object: self];
 			});
 		} else {
 			dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0) ?: dispatch_get_main_queue(), ^{
-				if ([_delegate respondsToSelector: @selector(connectionDidFinish:)]) [_delegate connectionDidFinish: self];
+				if ([self.delegate respondsToSelector: @selector(connectionDidFinish:)]) [self.delegate connectionDidFinish: self];
 				
 				[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_ConnectionFinished object: self];
 			});
 		}
 	} else {
-		if ([_delegate respondsToSelector: @selector(connectionDidFinish:)]) [_delegate connectionDidFinish: self];
+		if ([self.delegate respondsToSelector: @selector(connectionDidFinish:)]) [self.delegate connectionDidFinish: self];
 	} 
 	
 	[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kConnectionNotification_ConnectionFinished object: self];
