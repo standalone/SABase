@@ -89,8 +89,7 @@
 }
 
 + (void) performBlock: (simpleBlock) block afterDelay: (NSTimeInterval) delay {
-	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC);
-	dispatch_after(popTime, dispatch_get_main_queue(), block);
+	dispatch_after_main_queue(delay, block);
 }
 
 - (void) sa_callBlock {
