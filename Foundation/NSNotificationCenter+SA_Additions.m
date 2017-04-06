@@ -6,6 +6,7 @@
 //
 
 #import "NSNotificationCenter+SA_Additions.h"
+#import "dispatch_additions_SA.h"
 
 
 static NSMutableArray *s_fireAndForgetNotificationBlocks = nil;

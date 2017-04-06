@@ -9,6 +9,7 @@
 #import "SA_Utilities.h"
 #import <objc/runtime.h>
 #import <objc/message.h>
+#import "dispatch_additions_SA.h"
 
 @implementation NSObject (SA_SA_Additions)
 

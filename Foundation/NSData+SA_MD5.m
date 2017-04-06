@@ -6,7 +6,7 @@
 //  Copyright 2010 Stand Alone, Inc. All rights reserved.
 //
 
-#import "NSdata+SA_MD5.h"
+#import "NSData+SA_MD5.h"
 
 
 #if TARGET_OS_IPHONE
