@@ -134,8 +134,12 @@ static NSMutableArray					*s_activePopovers = nil;
 }
 
 + (void) dismissAllVisibleSA_PopoversAnimated: (BOOL) animated {
+	[self dismissAllVisibleSA_PopoversAnimated: animated except: nil];
+}
+
++ (void) dismissAllVisibleSA_PopoversAnimated: (BOOL) animated except: (UIPopoverController *) exception {
 	for (UIPopoverController *controller in s_activePopovers.copy) {
-		[controller dismissSA_PopoverAnimated: animated];
+		if (exception != controller) { [controller dismissSA_PopoverAnimated: animated]; }
 	}
 }
 
@@ -237,7 +241,12 @@ static NSMutableArray					*s_activePopovers = nil;
 		
 		if ([nav respondsToSelector: @selector(viewControllers)] && nav.viewControllers.count > 0 && [nav.viewControllers objectAtIndex: 0] == self) return controller;
 	}
-	return nil;
+	
+	return self.parentViewController.SA_PopoverController;
+}
+
+- (void) dismissOtherSA_PopoversAnimated: (BOOL) animated {
+	[UIPopoverController dismissAllVisibleSA_PopoversAnimated: animated except: self.SA_PopoverController];
 }
 
 - (void) presentSA_PopoverFromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
