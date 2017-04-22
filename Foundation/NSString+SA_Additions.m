@@ -231,23 +231,27 @@
 }
 
 - (void) SA_drawInRect: (CGRect) rect withFont: (UIFont *) font color: (UIColor *) color {
+	NSDictionary				*attr = @{ NSFontAttributeName: font, NSForegroundColorAttributeName: color };
+	
+	[self SA_drawInRect: rect withAttributes: attr];
+}
+
+- (void) SA_drawInRect: (CGRect) rect withAttributes: (NSDictionary *) attributes {
 	if (RUNNING_ON_70) {
-		NSDictionary				*attr = @{ NSFontAttributeName: font, NSForegroundColorAttributeName: color };
-		
-		[self drawInRect: rect withAttributes: attr];
+		[self drawInRect: rect withAttributes: attributes];
+	} else {
+		[[[NSAttributedString alloc] initWithString: self attributes: attributes] drawInRect: rect];
 	}
 }
 
 - (void) SA_drawInRect: (CGRect) rect withFont: (UIFont *) font lineBreakMode: (NSLineBreakMode) lineBreakMode alignment: (NSTextAlignment) alignment color: (UIColor *) color {
-	if (RUNNING_ON_70) {
-		NSMutableParagraphStyle	*style = [[NSMutableParagraphStyle alloc] init];
-		
-		style.alignment = alignment;
-		style.lineBreakMode = lineBreakMode;
-		
-		NSDictionary				*attr = @{ NSFontAttributeName: font, NSForegroundColorAttributeName: color, NSParagraphStyleAttributeName: style };
-		[self drawInRect: rect withAttributes: attr];
-	}
+	NSMutableParagraphStyle	*style = [[NSMutableParagraphStyle alloc] init];
+	
+	style.alignment = alignment;
+	style.lineBreakMode = lineBreakMode;
+	
+	NSDictionary				*attr = @{ NSFontAttributeName: font, NSForegroundColorAttributeName: color, NSParagraphStyleAttributeName: style };
+	[self SA_drawInRect: rect withAttributes: attr];
 }
 
 

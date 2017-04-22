@@ -91,6 +91,7 @@
 #if TARGET_OS_IPHONE
 @interface NSString (SA_NSStringDrawing)
 - (CGSize) SA_sizeWithAttributes: (NSDictionary *) attrs;
+- (void) SA_drawInRect: (CGRect) rect withAttributes: (NSDictionary *) attributes;
 #if !OS_70_BUILD
 - (void) drawAtPoint: (CGPoint) point withAttributes: (NSDictionary *) attrs;
 - (void) drawInRect: (CGRect) rect withAttributes: (NSDictionary *) attrs;
