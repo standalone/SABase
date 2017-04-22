@@ -223,10 +223,12 @@
 }
 
 - (void) SA_drawAtPoint: (CGPoint) point withFont: (UIFont *) font color: (UIColor *) color {
+	NSDictionary				*attr = @{ NSFontAttributeName: font ?: [UIFont systemFontOfSize: 12], NSForegroundColorAttributeName: color ?: [UIColor blackColor] };
+
 	if (RUNNING_ON_70) {
-		NSDictionary				*attr = @{ NSFontAttributeName: font ?: [UIFont systemFontOfSize: 12], NSForegroundColorAttributeName: color ?: [UIColor blackColor] };
-		
 		[self drawAtPoint: point withAttributes: attr];
+	} else {
+		[[[NSAttributedString alloc] initWithString: self attributes: attr] drawAtPoint: point];
 	}
 }
 
