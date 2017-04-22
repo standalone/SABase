@@ -14,17 +14,6 @@
 - (NSString *) getCharsFound;
 @end
 
-#if !OS_70_BUILD
-#if !TARGET_OS_MAC
-@interface NSString(NSStringDrawing)
-- (CGSize) sizeWithAttributes: (NSDictionary *) attrs;
-- (void) drawAtPoint: (CGPoint) point withAttributes: (NSDictionary *) attrs;
-- (void) drawInRect: (CGRect) rect withAttributes: (NSDictionary *) attrs;
-- (CGRect) boundingRectWithSize: (CGSize) size options: (NSStringDrawingOptions) options attributes: (NSDictionary *) attributes context: (NSStringDrawingContext *) context;
-@end
-#endif
-#endif
-
 
 @implementation NSString (SA_Additions)
 @dynamic characters;
@@ -203,7 +192,7 @@
 
 - (CGSize) SA_sizeWithFont: (UIFont *) font {
 	if (RUNNING_ON_70) {
-		return [self sizeWithAttributes: @{ NSFontAttributeName: font }];
+		return [self SA_sizeWithAttributes: @{ NSFontAttributeName: font }];
 	}
 	
 #pragma clang diagnostic push
@@ -222,6 +211,15 @@
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	return [self sizeWithFont: font constrainedToSize: size lineBreakMode: lineBreakMode];
 #pragma clang diagnostic pop
+}
+
+- (CGSize) SA_sizeWithAttributes: (NSDictionary *) attributes {
+	if (RUNNING_ON_70) {
+		return [self sizeWithAttributes: attributes];
+	}
+	
+	NSAttributedString		*str = [[NSAttributedString alloc]  initWithString: self attributes: attributes];
+	return str.size;
 }
 
 - (void) SA_drawAtPoint: (CGPoint) point withFont: (UIFont *) font color: (UIColor *) color {
@@ -255,13 +253,13 @@
 
 #else
 - (CGSize) sizeWithFont:(NSFont *)font {
-	NSSize				size = [self sizeWithAttributes: @{NSFontAttributeName: font} ];
+	NSSize				size = [self SA_sizeWithAttributes: @{NSFontAttributeName: font} ];
 	
 	return NSSizeToCGSize(size);
 }
 
 - (CGSize) SA_sizeWithFont: (NSFont *) font {
-	return [self sizeWithAttributes: @{ NSFontAttributeName: font }];
+	return [self SA_sizeWithAttributes: @{ NSFontAttributeName: font }];
 }
 
 - (CGSize) SA_sizeWithFont: (NSFont *)font constrainedToSize: (CGSize) size lineBreakMode: (NSLineBreakMode) lineBreakMode {
@@ -625,7 +623,7 @@
 	CGFloat			currentSize = maxSize, halfSize = floorf(maxSize * 0.5);
 	
 	while (halfSize > 1) {
-		CGFloat						textWidth = [self sizeWithAttributes: @{ NSFontAttributeName: font }].width;
+		CGFloat						textWidth = [self SA_sizeWithAttributes: @{ NSFontAttributeName: font }].width;
 		
 		
 		if (textWidth < width) {

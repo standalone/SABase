@@ -88,3 +88,15 @@
 #endif
 @end
 
+#if TARGET_OS_IPHONE
+@interface NSString (SA_NSStringDrawing)
+- (CGSize) SA_sizeWithAttributes: (NSDictionary *) attrs;
+#if !OS_70_BUILD
+- (void) drawAtPoint: (CGPoint) point withAttributes: (NSDictionary *) attrs;
+- (void) drawInRect: (CGRect) rect withAttributes: (NSDictionary *) attrs;
+- (CGRect) boundingRectWithSize: (CGSize) size options: (NSStringDrawingOptions) options attributes: (NSDictionary *) attributes context: (NSStringDrawingContext *) context;
+#endif
+@end
+#endif
+
+
