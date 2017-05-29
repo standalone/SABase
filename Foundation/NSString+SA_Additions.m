@@ -259,13 +259,13 @@
 
 #else
 - (CGSize) sizeWithFont:(NSFont *)font {
-	NSSize				size = [self SA_sizeWithAttributes: @{NSFontAttributeName: font} ];
+	NSSize				size = [self sizeWithAttributes: @{NSFontAttributeName: font} ];
 	
 	return NSSizeToCGSize(size);
 }
 
 - (CGSize) SA_sizeWithFont: (NSFont *) font {
-	return [self SA_sizeWithAttributes: @{ NSFontAttributeName: font }];
+	return [self sizeWithAttributes: @{ NSFontAttributeName: font }];
 }
 
 - (CGSize) SA_sizeWithFont: (NSFont *)font constrainedToSize: (CGSize) size lineBreakMode: (NSLineBreakMode) lineBreakMode {
