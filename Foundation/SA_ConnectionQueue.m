@@ -812,7 +812,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 		_payload = payload;
 	}
 	
-	if (payload && (self.method == nil || [self.method isEqual: @"GET"])) self.method = @"POST";
+	if (payload.length > 0 && (self.method == nil || [self.method isEqual: @"GET"])) self.method = @"POST";
 }
 
 - (NSComparisonResult) comparePriorities: (SA_Connection *) other {
