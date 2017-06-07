@@ -24,4 +24,11 @@
 	return isatty(STDERR_FILENO) != 0;
 }
 
++ (BOOL) isInExtension {
+	NSBundle			*bundle = [NSBundle mainBundle];
+	NSDictionary		*info = [bundle infoDictionary];
+	
+	return info[@"NSExtension"] != nil;
+}
+
 @end

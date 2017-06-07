@@ -17,4 +17,5 @@ typedef NS_ENUM(UInt8, sa_provisioningType) {
 @interface SA_Gestalt : NSObject
 @property (class, nonatomic, readonly) sa_provisioningType provisioningType;
 @property (class, nonatomic, readonly) BOOL isInDebugger;
+@property (class, nonatomic, readonly) BOOL isInExtension;
 @end
