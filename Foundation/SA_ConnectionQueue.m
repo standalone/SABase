@@ -481,7 +481,11 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 			[[SA_ConnectionQueue sharedQueue] performSelector: @selector(hideActivityIndicator) withObject: nil afterDelay: 0.05];
 		});
 	} else {
-		IF_IOS([UIApplication sharedApplication].networkActivityIndicatorVisible = YES);
+		IF_IOS(
+			   dispatch_on_main_queue(^{
+					[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+				});
+	   );
 	}
 }
 
@@ -489,7 +493,9 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 
 - (void) hideActivityIndicator {
 	IF_IOS(
-		   if (self.activityIndicatorCount <= 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+		   dispatch_async_main_queue(^{
+				if (self.activityIndicatorCount <= 0) [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+			});
 		   );
 }
 
