@@ -241,14 +241,9 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 - (void) saveToDisk {
 	NSManagedObjectContext		*parent = self;
 	
-	if (!RUNNING_ON_50) {
-		[self save];;
-		return;
-	}
-
 	while (parent) {
 		if (parent.concurrencyType == NSPrivateQueueConcurrencyType) {
-			[parent performBlockAndWait: ^{ [parent save]; }];
+			[parent performBlockAndWait: ^{ [parent performSave]; }];
 		} else if (parent.concurrencyType == NSMainQueueConcurrencyType && ![NSThread isMainThread]) {
 			dispatch_sync(dispatch_get_main_queue(), ^{ [parent save]; });
 		} else
@@ -268,7 +263,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 }
 
 - (void) performSave {
-	NSManagedObjectContextConcurrencyType		concurrencyType = RUNNING_ON_50 ? self.concurrencyType : NSConfinementConcurrencyType;
+	NSManagedObjectContextConcurrencyType		concurrencyType = self.concurrencyType;
 	
 	if (concurrencyType == NSConfinementConcurrencyType && self.saveThread.isExecuting && [NSThread currentThread] != self.saveThread) {
 		[self performSelector: @selector(performSave) onThread: self.saveThread withObject: nil waitUntilDone: ![NSThread isMainThread]];
@@ -320,7 +315,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 }
  
 - (void) save {
-	if (RUNNING_ON_50 && self.concurrencyType == NSPrivateQueueConcurrencyType) {
+	if (self.concurrencyType == NSPrivateQueueConcurrencyType) {
 		[self performBlockAndWait: ^{ [self performSave]; }];
 	} else {
 		[self performSave];
@@ -328,7 +323,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 }
  
 - (void) _saveOnMainThread {
-	if (RUNNING_ON_50 && self.concurrencyType == NSPrivateQueueConcurrencyType) {
+	if (self.concurrencyType == NSPrivateQueueConcurrencyType) {
 		[self performBlock: ^{ [self performSave]; }];
 	} else if ([NSThread isMainThread])	{
 		[self performSave];
@@ -338,7 +333,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 } 
 
 - (void) saveOnMainThread {
-	if (RUNNING_ON_50 && self.concurrencyType == NSPrivateQueueConcurrencyType) {
+	if (self.concurrencyType == NSPrivateQueueConcurrencyType) {
 		[self performBlock: ^{ [self performSave]; }];
 	} else if ([NSThread isMainThread])	{
 		[self performSave];
@@ -598,8 +593,6 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 #endif
 
 - (NSManagedObjectContext *) createChildContext {
-	if (!RUNNING_ON_50) return nil;
-	
 	NSManagedObjectContext			*moc = [[NSManagedObjectContext alloc] initWithConcurrencyType: NSConfinementConcurrencyType];
 	
 	moc.parentContext = self;

@@ -140,7 +140,7 @@ __weak UIViewController *s_frontmostFocusedViewController = nil;
 	
 	controller.view.center = newCenter;
 	[view addSubview: controller.view];
-	if (RUNNING_ON_50) [(id) self addChildViewController: controller];
+	[(id) self addChildViewController: controller];
 	[UIView animateWithDuration: 0.2 animations: ^{
 		if (direction == viewControllerAnimationDirection_dropDown) {
 			controller.view.alpha = 1.0;
@@ -183,7 +183,7 @@ __weak UIViewController *s_frontmostFocusedViewController = nil;
 				break;
 		}
 	} completion: ^(BOOL completed) {
-		if (RUNNING_ON_50) [(id) controller removeFromParentViewController];
+		[(id) controller removeFromParentViewController];
 		[controller.view removeFromSuperview];
 	}];
 }
@@ -191,7 +191,7 @@ __weak UIViewController *s_frontmostFocusedViewController = nil;
 - (void) removeAllChildViewControllers {
 	if ([self isKindOfClass: [UINavigationController class]]) {
 		[(id) self popToRootViewControllerAnimated: NO];
-	} else if (RUNNING_ON_50) {
+	} else {
 		for (UIViewController *child in [[(id) self childViewControllers] copy]) {
 			[child.view removeFromSuperview];
 			[(id) child removeFromParentViewController];
