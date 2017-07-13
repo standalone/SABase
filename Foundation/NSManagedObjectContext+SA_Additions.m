@@ -239,8 +239,10 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 
 
 - (void) saveToDisk {
-	NSManagedObjectContext		*parent = self;
+	NSManagedObjectContext		*parent = self.parentContext;
 	
+	[self performSave];
+
 	while (parent) {
 		if (parent.concurrencyType == NSPrivateQueueConcurrencyType) {
 			[parent performBlockAndWait: ^{ [parent performSave]; }];
