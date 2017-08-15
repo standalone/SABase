@@ -176,7 +176,10 @@ extern const NSUInteger				g_sa_base_version;
 	#define				RUNNING_ON_40					NO
     #define				RUNNING_ON_50					NO
     #define				RUNNING_ON_60					NO
-    #define				RUNNING_ON_70					NO
+	#define				RUNNING_ON_70					NO
+
+	#define				RUNNING_ON_10_11				([[NSProcessInfo processInfo] operatingSystemVersion].minorVersion >= 11)
+	#define				RUNNING_ON_10_12				([[NSProcessInfo processInfo] operatingSystemVersion].minorVersion >= 12)
     #define				MULTITASKING_AVAILABLE			NO
 	#define				MAJOR_OS_VERSION				10
 	#define				GCD_AVAILABLE					YES
