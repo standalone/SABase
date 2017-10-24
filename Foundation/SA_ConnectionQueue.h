@@ -16,6 +16,12 @@
 
 @class SA_Connection;
 
+
+#if !TARGET_OS_IPHONE
+	typedef NSUInteger 		UIBackgroundTaskIdentifier;
+	#define					UIBackgroundTaskInvalid				0
+#endif
+
 typedef void (^connectionFinished)(SA_Connection *incoming, NSInteger resultCode, id error);
 typedef void (^SA_ConnectionBlock)(SA_Connection *found);
 
@@ -48,7 +54,26 @@ typedef enum {
 @end
 
 
-@interface SA_Connection : NSObject <NSCopying>
+@interface SA_Connection : NSObject <NSCopying> {
+	NSString			*_tag, *_filename, *_method;
+	NSURL				*_url;
+	NSInteger			_priority, _order, _statusCode;
+	BOOL				_replaceOlder, _ignoreLater, _showsPleaseWait, _resumable, _completeInBackground, _prefersFileStorage, _suppressConnectionAlerts, _canceled;
+	BOOL				_allowRepeatedKeys, _discardIfOffline, _inProgress, _logPhases, _userInteractionInitiated;
+	NSFileHandle 		*_file;
+	NSDictionary 		*_responseHeaders;
+	connectionFinished 	_connectionFinishedBlock;
+	NSTimeInterval 		_timeoutInterval;
+	NSDate 				*_requestStartedAt, *_responseReceivedAt, *_finishedLoadingAt;
+	NSURLRequest 		*_request;
+	NSArray				*_receivedCookies, *_sentCookies;
+	NSData 				*_payload;
+	id <SA_ConnectionDelegate> _delegate;
+	NSMutableData		 *_mutableData;
+	NSMutableDictionary 	*_connectionHeaders, *_extraKeyValues;
+	BOOL				_disableNativeCookieHandling;
+	NSURLConnection 	*_connection;
+}
 
 @property (nonatomic, copy) NSString *tag;							//a tag, broken down into different.segment.types, for filtering and identification
 @property (nonatomic, readwrite) NSInteger priority;									//where in the pending queue should this transaction fall?
@@ -114,7 +139,32 @@ typedef enum {
 
 
 
-@interface SA_ConnectionQueue : NSObject <SA_ConnectionRouter>
+@interface SA_ConnectionQueue : NSObject <SA_ConnectionRouter> {
+	BOOL		_offline, _paused, _wifiAvailable, _wlanAvailable, _suppressPleaseWaitDisplay, _shouldPleaseWaitBeVisible;
+	BOOL		_managePleaseWaitDisplay, _suppressOfflineAlerts, _dontProcessFailedStatusCodes, _logAllConnections;
+	NSUInteger 	_maxSimultaneousConnections;
+	NSInteger	_activityIndicatorCount, _defaultPriorityLevel, _minimumIndicatedPriorityLevel, _fileSwitchOverLimit;
+	long long 	_bytesDownloaded;
+	NSOperationQueue *_privateQueue;
+#if __OBJC2__
+	__weak dispatch_queue_t _backgroundQueue;
+#else
+	dispatch_queue_t _backgroundQueue;
+#endif
+	__weak id <SA_ConnectionRouter> _router;
+	NSSet		*_active;
+	SCNetworkReachabilityRef _reachabilityRef;
+	__weak SA_Connection			*_currentTopPleaseWaitConnection;
+	NSArray *_pending;
+	float _highwaterMark;
+	BOOL _asyncConnectionHandling, _offlineAlertShown;
+	SA_ThreadsafeMutableArray *_pleaseWaitConnections;
+	SA_ThreadsafeMutableDictionary *_headers;
+	__weak NSTimer *_queueProcessingTimer;
+	UIBackgroundTaskIdentifier _backgroundTaskID;
+	BOOL		_showProgressInPleaseWaitDisplay;
+	NSArray		*_connectionSortDescriptors;
+}
 
 SINGLETON_INTERFACE_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 
@@ -131,7 +181,13 @@ SINGLETON_INTERFACE_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 @property (nonatomic, readonly) BOOL connectionsArePending;
 @property (nonatomic, readwrite) BOOL managePleaseWaitDisplay, suppressOfflineAlerts;
 @property (nonatomic, weak) id <SA_ConnectionRouter> router;
-@property (nonatomic, strong) dispatch_queue_t backgroundQueue;
+
+#if __OBJC2__
+	@property (nonatomic, weak) dispatch_queue_t backgroundQueue;
+#else
+	@property (nonatomic, assign) dispatch_queue_t backgroundQueue;
+#endif
+
 @property (nonatomic) BOOL paused;
 @property (nonatomic, readonly) long long bytesDownloaded;
 

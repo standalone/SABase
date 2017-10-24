@@ -12,7 +12,7 @@
 @end
 
 @implementation SA_ThreadsafeMutableArray
-
+@synthesize backingArray = _backingArray;
 - (id) init {
 	if (self = [super init]) {
 		self.backingArray = [NSMutableArray new];
@@ -99,6 +99,7 @@
 @end
 
 @implementation SA_ThreadsafeMutableSet
+@synthesize backingSet = _backingSet;
 
 - (id) init {
 	if (self = [super init]) {
@@ -167,7 +168,7 @@
 @end
 
 @implementation SA_ThreadsafeMutableDictionary
-
+@synthesize backingDictionary = _backingDictionary;
 - (id) init {
 	if (self = [super init]) {
 		self.backingDictionary = [NSMutableDictionary new];

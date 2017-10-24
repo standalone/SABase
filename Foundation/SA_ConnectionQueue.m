@@ -25,11 +25,6 @@
 #define			LOG_UPLOAD(connection, name)			if (SA_Base_DebugMode()) [connection.uploadedDataStream writeToFile: [[NSString stringWithFormat: @"~/Library/Downloads/%@ up.txt", name] stringByExpandingTildeInPath] options: 0 error: nil]
 #define			LOG_DOWNLOAD(connection, name)			if (SA_Base_DebugMode()) [connection.downloadedDataStream writeToFile: [[NSString stringWithFormat: @"~/Library/Downloads/%@ down.txt", name] stringByExpandingTildeInPath] options: 0 error: nil]
 
-#if !TARGET_OS_IPHONE
-	typedef NSUInteger 		UIBackgroundTaskIdentifier;
-	#define					UIBackgroundTaskInvalid				0
-#endif
-
 
 #if VALIDATE_XML_UPLOADS
 	#import "SA_XMLGenerator.h"
@@ -106,6 +101,15 @@ NSString *kConnectionNotification_ConnectionReachabilityChanged = @"SA_Connectio
 #pragma mark SA_ConnectionQueue
 @implementation SA_ConnectionQueue
 @synthesize offline = _offline, maxSimultaneousConnections = _maxSimultaneousConnections, activityIndicatorCount = _activityIndicatorCount;
+@synthesize privateQueue = _privateQueue, reachabilityRef = _reachabilityRef, suppressOfflineAlerts = _suppressOfflineAlerts, dontProcessFailedStatusCodes = _dontProcessFailedStatusCodes;
+@synthesize bytesDownloaded = _bytesDownloaded, currentTopPleaseWaitConnection = _currentTopPleaseWaitConnection, backgroundQueue = _backgroundQueue, paused = _paused;
+@synthesize wifiAvailable = _wifiAvailable, wlanAvailable = _wlanAvailable, pending = _pending, highwaterMark = _highwaterMark, router = _router;
+@synthesize asyncConnectionHandling = _asyncConnectionHandling, queueProcessingTimer = _queueProcessingTimer;
+@synthesize active = _active, fileSwitchOverLimit = _fileSwitchOverLimit, offlineAlertShown = _offlineAlertShown, suppressPleaseWaitDisplay = _suppressPleaseWaitDisplay, pleaseWaitConnections = _pleaseWaitConnections, managePleaseWaitDisplay = _managePleaseWaitDisplay, headers = _headers, logAllConnections = _logAllConnections;
+@synthesize defaultPriorityLevel = _defaultPriorityLevel, minimumIndicatedPriorityLevel = _minimumIndicatedPriorityLevel;
+@synthesize showProgressInPleaseWaitDisplay = _showProgressInPleaseWaitDisplay, connectionSortDescriptors = _connectionSortDescriptors;
+
+@synthesize backgroundTaskID = _backgroundTaskID;
 SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 
 + (NSString *) logDirectoryPath {
@@ -711,11 +715,12 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 #pragma mark SA_Connection
 
 @implementation SA_Connection
-@synthesize tag = _tag, priority = _priority;
+@synthesize delegate = _delegate, mutableData = _mutableData, disableNativeCookieHandling = _disableNativeCookieHandling, logPhases = _logPhases;
+@synthesize tag = _tag, priority = _priority, method = _method, url = _url, userInteractionInitiated = _userInteractionInitiated, sentCookies = _sentCookies, receivedCookies = _receivedCookies;
 @synthesize order = _order, file = _file, filename = _filename, allResponseHeaders = _responseHeaders, statusCode = _statusCode;
-@synthesize replaceOlder = _replaceOlder, ignoreLater = _ignoreLater, showsPleaseWait = _showsPleaseWait, resumable = _resumable, completeInBackground = _completeInBackground, prefersFileStorage = _prefersFileStorage;
+@synthesize replaceOlder = _replaceOlder, ignoreLater = _ignoreLater, showsPleaseWait = _showsPleaseWait, resumable = _resumable, completeInBackground = _completeInBackground, prefersFileStorage = _prefersFileStorage, connectionHeaders = _connectionHeaders, connection = _connection;
 @synthesize suppressConnectionAlerts = _suppressConnectionAlerts, canceled = _canceled, inProgress = _inProgress, request = _request;
-@synthesize allowRepeatedKeys = _allowRepeatedKeys, discardIfOffline = _discardIfOffline, connectionFinishedBlock = _connectionFinishedBlock, timeoutInterval = _timeoutInterval;
+@synthesize allowRepeatedKeys = _allowRepeatedKeys, discardIfOffline = _discardIfOffline, connectionFinishedBlock = _connectionFinishedBlock, timeoutInterval = _timeoutInterval, extraKeyValues = _extraKeyValues, payload = _payload;
 
 @synthesize requestStartedAt = _requestStartedAt, responseReceivedAt = _responseReceivedAt, finishedLoadingAt = _finishedLoadingAt;
 
@@ -857,7 +862,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	if (self.prefersFileStorage) {
 		[self switchToFileStorage];
 		if (self.resumable) {
-			NSUInteger						offset = [_file seekToEndOfFile];
+			unsigned long long						offset = [_file seekToEndOfFile];
 			
 			if (offset) {
 				if (self.connectionHeaders == nil) self.connectionHeaders = [[NSMutableDictionary alloc] init];

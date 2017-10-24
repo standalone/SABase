@@ -15,7 +15,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SA_KeychainEntry : NSObject
+@interface SA_KeychainEntry : NSObject {
+	NSString *_username, *_password, *_identifier;
+	NSData *_data;
+}
 @property (nonatomic, strong) NSString *username, *password, *identifier;
 @property (nonatomic, strong) NSData *data;
 @property (nonatomic, readonly) BOOL isDataEntry;

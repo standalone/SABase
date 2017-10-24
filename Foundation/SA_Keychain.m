@@ -17,6 +17,7 @@
 @end
 
 @implementation SA_KeychainEntry
+@synthesize data = _data, username = _username, password = _password, identifier = _identifier;
 
 + (instancetype) keychainEntryWithUsername: (NSString *) username password: (NSString *) password andIdentifier: (NSString *) identifier {
     SA_KeychainEntry *entry = [[SA_KeychainEntry alloc] init];

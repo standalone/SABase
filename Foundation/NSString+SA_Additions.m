@@ -8,7 +8,9 @@
 #import "NSString+SA_Additions.h"
 #import <CommonCrypto/CommonDigest.h>
 
-@interface NSString_HTMLStringDelegate : NSObject<NSXMLParserDelegate>
+@interface NSString_HTMLStringDelegate : NSObject<NSXMLParserDelegate> {
+	NSMutableArray 			*_strings;
+}
 @property (nonatomic, strong) NSMutableArray* strings;
 
 - (NSString *) getCharsFound;
@@ -265,13 +267,26 @@
 }
 
 - (CGSize) SA_sizeWithFont: (NSFont *) font {
-	return [self sizeWithAttributes: @{ NSFontAttributeName: font }];
+	
+	#if TARGET_OS_IPHONE
+		CGSize			size = [self sizeWithAttributes: @{ NSFontAttributeName: font }];
+		return size;
+	#else
+		NSSize			size = [self sizeWithAttributes: @{ NSFontAttributeName: font }];
+		return CGSizeMake(size.width, size.height);
+	#endif
 }
 
 - (CGSize) SA_sizeWithFont: (NSFont *)font constrainedToSize: (CGSize) size lineBreakMode: (NSLineBreakMode) lineBreakMode {
 	NSDictionary				*attr = @{ NSFontAttributeName: font };
 	
+#if TARGET_OS_IPHONE
 	return [self boundingRectWithSize: size options: NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesLineFragmentOrigin attributes: attr context: nil].size;
+#else
+	NSSize		result = [self boundingRectWithSize: NSSizeFromCGSize(size) options: NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesLineFragmentOrigin attributes: attr context: nil].size;
+	
+	return CGSizeMake(result.width, result.height);
+#endif
 }
 #endif
 
@@ -368,19 +383,19 @@
 		else if (c == '>') [result appendString: @"&gt;"];
 		else if (c == '\"') [result appendString: @"&quot;"];
 		else if ((c & 0xF0) == 0xF0) {											//start of a 4 byte sequence
-			l1 = c, l2 = (unsigned char) raw[i + 1], l3 = (unsigned char) raw[i + 2], l4 = (unsigned char) raw[i + 3];
+			l1 = c; l2 = (unsigned char) raw[i + 1]; l3 = (unsigned char) raw[i + 2]; l4 = (unsigned char) raw[i + 3];
 			utfLong = ((l1 & 0x0F) << 18) | ((l2 & 0x3F) << 12) | ((l3 & 0x3F) << 6) | ((l4 & 0x3F));
 			[result appendFormat: @"&#%d;", utfLong];
 			i += 3;
 			length += 3;
 		} else if ((c & 0xE0) == 0xE0) {										//start of a 3 byte sequence
-			l1 = c, l2 = (unsigned char) raw[i + 1], l3 = (unsigned char) raw[i + 2];
+			l1 = c; l2 = (unsigned char) raw[i + 1]; l3 = (unsigned char) raw[i + 2];
 			utfLong = ((l1 & 0x1F) << 12) | ((l2 & 0x3F) << 6) | (l3 & 0x3F);
 			[result appendFormat: @"&#%d;", utfLong];
 			i += 2;
 			length += 2;
 		} else if ((c & 0xC0) == 0xC0) {
-			l1 = c, l2 = (unsigned char) raw[i + 1];
+			l1 = c; l2 = (unsigned char) raw[i + 1];
 			utfLong = ((l1 & 0x1F) << 6) | (l2 & 0x3F);
 			[result appendFormat: @"&#%d;", utfLong];
 			i += 1;
@@ -656,6 +671,7 @@
 //=============================================================================================================================
 #pragma mark
 @implementation NSString_HTMLStringDelegate
+@synthesize strings = _strings;
 - (id)init {
     if((self = [super init])) {
         self.strings = [[NSMutableArray alloc] init];
