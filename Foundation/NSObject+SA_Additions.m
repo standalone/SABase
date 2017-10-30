@@ -86,6 +86,9 @@
 }
 
 - (void) removeAsObserver {
+#if TARGET_OS_IPHONE
+	if (RUNNING_ON_90) { return; }
+#endif
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
 }
 
