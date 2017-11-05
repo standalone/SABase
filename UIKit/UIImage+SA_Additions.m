@@ -70,8 +70,8 @@
 	return [UIImage imageOfSize: newSize fromBlock: ^(CGContextRef context) {
 		CGRect							rect = CGRectMake(0, 0, newSize.width, newSize.height);
 		
-		CGContextConcatCTM(context, CGAffineTransformMakeScale(1.0, -1.0));
-		CGContextConcatCTM(context, CGAffineTransformMakeTranslation(0, -newSize.height));
+//		CGContextConcatCTM(context, CGAffineTransformMakeScale(1.0, -1.0));
+//		CGContextConcatCTM(context, CGAffineTransformMakeTranslation(0, -newSize.height));
 		[image drawInRect: rect];
 		
 		if (borderWidth) {
