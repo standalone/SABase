@@ -110,13 +110,20 @@
 }
 
 - (void) setNormalizedFrame: (CGRect) bounds {
-	CGRect						newBounds = CGRectMake(0, 0, bounds.size.width, bounds.size.height);
-	CGPoint						newCenter = CGPointMake(bounds.origin.x + bounds.size.width / 2, bounds.origin.y + bounds.size.height / 2);
+	CGFloat						width = isnan(bounds.size.width) || isinf(bounds.size.width) ? 0 : bounds.size.width;
+	CGFloat						height = isnan(bounds.size.height) || isinf(bounds.size.height) ? 0 : bounds.size.height;
+	CGFloat						x = isnan(bounds.origin.x) || isinf(bounds.origin.x) ? 0 : bounds.origin.x;
+	CGFloat						y = isnan(bounds.origin.y) || isinf(bounds.origin.y) ? 0 : bounds.origin.y;
+	CGRect						newBounds = CGRectMake(0, 0, width, height);
+	CGPoint						newCenter = CGPointMake(x + width / 2, y + height / 2);
 	
-	if (!CGSizeEqualToSize(self.bounds.size, newBounds.size)) 
+	if (!CGSizeEqualToSize(self.bounds.size, newBounds.size)) {
 		self.bounds = newBounds;
-	if (!CGPointEqualToPoint(self.center, newCenter)) 
+	}
+	
+	if (!CGPointEqualToPoint(self.center, newCenter)) {
 		self.center = newCenter;
+	}
 }
 
 //- (CGSize) size {
