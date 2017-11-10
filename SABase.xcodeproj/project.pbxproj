@@ -1160,6 +1160,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0810;
+				TargetAttributes = {
+					B5E39B71123BA9EE00FC1FE7 = {
+						DevelopmentTeam = YY6CWUX533;
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "SABase" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1778,8 +1784,11 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Ben Gottlieb (JW8DK48L4U)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEFINES_MODULE = NO;
+				DEVELOPMENT_TEAM = YY6CWUX533;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1797,7 +1806,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.rtt;
 				PRODUCT_NAME = "Run-Time Tests";
-				PROVISIONING_PROFILE = "7922cc8a-c09a-41ca-ac84-9cbf3a580edf";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1808,9 +1818,12 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = NO;
+				DEVELOPMENT_TEAM = YY6CWUX533;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SABase/Src/Run-Time/Run-TimePrefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -1826,6 +1839,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.rtt;
 				PRODUCT_NAME = "Run-Time Tests";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				ZERO_LINK = NO;
