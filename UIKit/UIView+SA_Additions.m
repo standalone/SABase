@@ -110,8 +110,8 @@
 }
 
 - (void) setNormalizedFrame: (CGRect) bounds {
-	BOOL						invalidWidth = isnan(bounds.size.width) || isinf(bounds.size.width);
-	BOOL						invalidHeight = isnan(bounds.size.height) || isinf(bounds.size.height);
+	BOOL						invalidWidth = isnan(bounds.size.width) || isinf(bounds.size.width) || bounds.size.width == 0;
+	BOOL						invalidHeight = isnan(bounds.size.height) || isinf(bounds.size.height) || bounds.size.height == 0;
 	BOOL						invalidXOrigin = isnan(bounds.origin.x) || isinf(bounds.origin.x);
 	BOOL						invalidYOrigin = isnan(bounds.origin.y) || isinf(bounds.origin.y);
 	
