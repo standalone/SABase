@@ -399,6 +399,7 @@ BOOL		SA_Base_IsTestFlightBuild(void);
 
 CGRect 	CGRectNormalized(CGRect bounds, CGRect base);
 CGPoint	CGPointNormalized(CGPoint point, CGPoint base);
+CGPoint CGPointMakeNormalized(CGFloat x, CGFloat y, CGPoint base);
 
 typedef NS_ENUM(UInt8, XCodeBuildType) {
 	XCodeBuildType_dev,

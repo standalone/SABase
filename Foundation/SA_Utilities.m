@@ -39,6 +39,10 @@ BOOL IsCGRectSane(CGRect rect) {
 	return IsCGPointSane(rect.origin) && IsCGSizeSane(rect.size);
 }
 
+CGPoint CGPointMakeNormalized(CGFloat x, CGFloat y, CGPoint base) {
+	return CGPointNormalized(CGPointMake(x, y), base);
+}
+
 CGPoint	CGPointNormalized(CGPoint point, CGPoint base) {
 	BOOL						invalidXOrigin = isnan(point.x) || isinf(point.x);
 	BOOL						invalidYOrigin = isnan(point.y) || isinf(point.y);
