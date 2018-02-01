@@ -39,6 +39,17 @@ BOOL IsCGRectSane(CGRect rect) {
 	return IsCGPointSane(rect.origin) && IsCGSizeSane(rect.size);
 }
 
+CGPoint	CGPointNormalized(CGPoint point, CGPoint base) {
+	BOOL						invalidXOrigin = isnan(point.x) || isinf(point.x);
+	BOOL						invalidYOrigin = isnan(point.y) || isinf(point.y);
+	
+	if (invalidXOrigin || invalidYOrigin) {
+		return base;
+	}
+	
+	return point;
+}
+
 CGRect 	CGRectNormalized(CGRect bounds, CGRect base) {
 	BOOL						invalidWidth = isnan(bounds.size.width) || isinf(bounds.size.width) || bounds.size.width == 0;
 	BOOL						invalidHeight = isnan(bounds.size.height) || isinf(bounds.size.height) || bounds.size.height == 0;
