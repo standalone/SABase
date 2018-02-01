@@ -114,6 +114,11 @@
 	CGRect						newBounds = CGRectMake(0, 0, normalized.size.width, normalized.size.height);
 	CGPoint						newCenter = CGPointMake(normalized.origin.x + normalized.size.width / 2, normalized.origin.y + normalized.size.height / 2);
 	
+	if (CGRectEqualToRect(bounds, CGRectZero)) {
+		self.bounds = bounds;
+		return;
+	}
+	
 	if (!CGSizeEqualToSize(self.bounds.size, newBounds.size)) {
 		self.bounds = newBounds;
 	}
