@@ -110,27 +110,9 @@
 }
 
 - (void) setNormalizedFrame: (CGRect) bounds {
-	BOOL						invalidWidth = isnan(bounds.size.width) || isinf(bounds.size.width) || bounds.size.width == 0;
-	BOOL						invalidHeight = isnan(bounds.size.height) || isinf(bounds.size.height) || bounds.size.height == 0;
-	BOOL						invalidXOrigin = isnan(bounds.origin.x) || isinf(bounds.origin.x);
-	BOOL						invalidYOrigin = isnan(bounds.origin.y) || isinf(bounds.origin.y);
-	
-	if (invalidWidth || invalidHeight || invalidXOrigin || invalidYOrigin) {
-		NSMutableString			*message = [@"Invalid frame: " mutableCopy];
-		if (invalidXOrigin) { [message appendString: @"x-origin, "]; }
-		if (invalidYOrigin) { [message appendString: @"y-origin, "]; }
-		if (invalidWidth) { [message appendString: @"width, "]; }
-		if (invalidHeight) { [message appendString: @"height, "]; }
-		[message appendFormat: @"%@", NSStringFromCGRect(bounds)];
-		NSLog(@"%@", message);
-	}
-	
-	CGFloat						width = invalidWidth ? self.frame.size.width : bounds.size.width;
-	CGFloat						height = invalidHeight ? self.frame.size.height : bounds.size.height;
-	CGFloat						x = invalidXOrigin ? self.frame.origin.x : bounds.origin.x;
-	CGFloat						y = invalidYOrigin ? self.frame.origin.y : bounds.origin.y;
-	CGRect						newBounds = CGRectMake(0, 0, width, height);
-	CGPoint						newCenter = CGPointMake(x + width / 2, y + height / 2);
+	CGRect						normalized = CGRectNormalized(bounds, self.frame);
+	CGRect						newBounds = CGRectMake(0, 0, normalized.size.width, normalized.size.height);
+	CGPoint						newCenter = CGPointMake(normalized.origin.x + normalized.size.width / 2, normalized.origin.y + normalized.size.height / 2);
 	
 	if (!CGSizeEqualToSize(self.bounds.size, newBounds.size)) {
 		self.bounds = newBounds;

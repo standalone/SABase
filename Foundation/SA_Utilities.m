@@ -39,6 +39,31 @@ BOOL IsCGRectSane(CGRect rect) {
 	return IsCGPointSane(rect.origin) && IsCGSizeSane(rect.size);
 }
 
+CGRect 	CGRectNormalized(CGRect bounds, CGRect base) {
+	BOOL						invalidWidth = isnan(bounds.size.width) || isinf(bounds.size.width) || bounds.size.width == 0;
+	BOOL						invalidHeight = isnan(bounds.size.height) || isinf(bounds.size.height) || bounds.size.height == 0;
+	BOOL						invalidXOrigin = isnan(bounds.origin.x) || isinf(bounds.origin.x);
+	BOOL						invalidYOrigin = isnan(bounds.origin.y) || isinf(bounds.origin.y);
+	
+	if (invalidWidth || invalidHeight || invalidXOrigin || invalidYOrigin) {
+		NSMutableString			*message = [@"Invalid frame: " mutableCopy];
+		if (invalidXOrigin) { [message appendString: @"x-origin, "]; }
+		if (invalidYOrigin) { [message appendString: @"y-origin, "]; }
+		if (invalidWidth) { [message appendString: @"width, "]; }
+		if (invalidHeight) { [message appendString: @"height, "]; }
+		[message appendFormat: @"%@", NSStringFromCGRect(bounds)];
+		NSLog(@"%@", message);
+		return base;
+	}
+	
+	CGFloat						width = invalidWidth ? base.size.width : bounds.size.width;
+	CGFloat						height = invalidHeight ? base.size.height : bounds.size.height;
+	CGFloat						x = invalidXOrigin ? base.origin.x : bounds.origin.x;
+	CGFloat						y = invalidYOrigin ? base.origin.y : bounds.origin.y;
+	
+	return CGRectMake(x, y, width, height);
+}
+
 natural_t			freeMemory(BOOL logIt) {
 //    mach_port_t					host_port = mach_host_self();
 //    mach_msg_type_number_t		host_size = sizeof(vm_statistics_data_t) / sizeof(integer_t);

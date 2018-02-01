@@ -397,6 +397,8 @@ BOOL		SA_Base_IsTestFlightBuild(void);
 
 #define	DEFAULT_VIEW_INIT_METHODS - (id) initWithFrame: (CGRect) frame { return [[super initWithFrame: frame] postInitSetup]; } - (id) initWithCoder: (NSCoder *) aDecoder { return [[super initWithCoder: aDecoder] postInitSetup]; }
 
+CGRect 	CGRectNormalized(CGRect bounds, CGRect base);
+
 typedef NS_ENUM(UInt8, XCodeBuildType) {
 	XCodeBuildType_dev,
 	XCodeBuildType_adhoc,
