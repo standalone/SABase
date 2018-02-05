@@ -66,7 +66,7 @@ CGRect 	CGRectNormalized(CGRect bounds, CGRect base) {
 		if (invalidYOrigin) { [message appendString: @"y-origin, "]; }
 		if (invalidWidth) { [message appendString: @"width, "]; }
 		if (invalidHeight) { [message appendString: @"height, "]; }
-		[message appendFormat: @"%@", NSStringFromCGRect(bounds)];
+		//[message appendFormat: @"%@", NSStringFromCGRect(bounds)];
 		NSLog(@"%@", message);
 		return base;
 	}
