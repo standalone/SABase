@@ -146,7 +146,7 @@ typedef enum {
 	NSInteger	_activityIndicatorCount, _defaultPriorityLevel, _minimumIndicatedPriorityLevel, _fileSwitchOverLimit;
 	long long 	_bytesDownloaded;
 	NSOperationQueue *_privateQueue;
-	__unsafe_unretained dispatch_queue_t _backgroundQueue;
+	dispatch_queue_t _backgroundQueue;
 	__weak id <SA_ConnectionRouter> _router;
 	NSSet		*_active;
 	SCNetworkReachabilityRef _reachabilityRef;
@@ -179,9 +179,9 @@ SINGLETON_INTERFACE_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 @property (nonatomic, weak) id <SA_ConnectionRouter> router;
 
 #if __OBJC2__
-	@property (nonatomic, assign) dispatch_queue_t backgroundQueue;
+	@property (nonatomic, strong) dispatch_queue_t backgroundQueue;
 #else
-	@property (nonatomic, assign) dispatch_queue_t backgroundQueue;
+	@property (nonatomic, strong) dispatch_queue_t backgroundQueue;
 #endif
 
 @property (nonatomic) BOOL paused;
