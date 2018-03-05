@@ -134,7 +134,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	@try {
 		results = [self executeFetchRequest: request error: &error];
 	} @catch (NSException *e) {
-		[[NSNotificationCenter defaultCenter] postNotificationName: kNotification_SA_ErrorWhileGeneratingFetchRequest object: e userInfo: [NSDictionary dictionaryWithObjectsAndKeys: request.entityName, @"entity", request.predicate, @"predicate", nil]];
+		[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kNotification_SA_ErrorWhileGeneratingFetchRequest object: e info: [NSDictionary dictionaryWithObjectsAndKeys: request.entityName, @"entity", request.predicate, @"predicate", nil]];
 	}
 
 	if (error) NSLog(@"Error while attempting to fetch %@ matching (%@): %@", request.entityName, request.predicate, error);
@@ -186,7 +186,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 		if (sortBy) [request setSortDescriptors: sortBy];
 		if (fetchLimit) [request setFetchLimit: fetchLimit];
 	} @catch (NSException *e) {
-		[[NSNotificationCenter defaultCenter] postNotificationName: kNotification_SA_ErrorWhileGeneratingFetchRequest object: e userInfo: [NSDictionary dictionaryWithObjectsAndKeys: entityName, @"entity", predicate, @"predicate", sortBy, @"sortBy", nil]];
+		[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kNotification_SA_ErrorWhileGeneratingFetchRequest object: e info: [NSDictionary dictionaryWithObjectsAndKeys: entityName, @"entity", predicate, @"predicate", sortBy, @"sortBy", nil]];
 	}
 	
 	return request;

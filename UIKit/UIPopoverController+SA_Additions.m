@@ -109,7 +109,7 @@ static NSMutableArray					*s_activePopovers = nil;
 	if ([popoverController.contentViewController respondsToSelector: @selector(popoverControllerShouldDismissSA_Popover:)])
 		return [(id) popoverController.contentViewController popoverControllerShouldDismissSA_Popover: popoverController];
 	
-	[[NSNotificationCenter defaultCenter] postNotificationName: kNotification_PopoverWasDismissed object: popoverController];
+	[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName: kNotification_PopoverWasDismissed object: popoverController];
 	
 	idArgumentBlock				block = popoverController.SA_didDismissBlock;
 	
