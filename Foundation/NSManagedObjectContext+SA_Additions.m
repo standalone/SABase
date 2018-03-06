@@ -10,6 +10,10 @@
 #import "NSObject+SA_Additions.h"
 #import "NSNotificationCenter+SA_Additions.h"
 
+#if XW_BUILD && TARGET_OS_IPHONE
+	#import "XW_ErrorTracker.h"
+#endif
+
 #if TARGET_OS_IPHONE
 	#import "SA_AlertView.h"
 #endif
@@ -285,6 +289,9 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 		@try {  
 			[self save: &error];
 		} @catch (id e) {
+			#if XW_BUILD && TARGET_OS_IPHONE
+				[[XW_ErrorTracker instance] logException: e label: @"Problem saving database (internal)"];
+			#endif
 			NSLog(@"Problem while saving database: %@", e);
 		}
 		if (error) {
