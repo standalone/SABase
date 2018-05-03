@@ -48,7 +48,7 @@ CGPoint	CGPointNormalized(CGPoint point, CGPoint base) {
 	BOOL						invalidYOrigin = isnan(point.y) || isinf(point.y);
 	
 	if (invalidXOrigin || invalidYOrigin) {
-		return base;
+		return CGPointNormalized(base, CGPointZero);
 	}
 	
 	return point;
@@ -68,7 +68,7 @@ CGRect 	CGRectNormalized(CGRect bounds, CGRect base) {
 		if (invalidHeight) { [message appendString: @"height, "]; }
 		//[message appendFormat: @"%@", NSStringFromCGRect(bounds)];
 		NSLog(@"%@", message);
-		return base;
+		return CGRectNormalized(base, CGRectZero);
 	}
 	
 	CGFloat						width = invalidWidth ? base.size.width : bounds.size.width;
