@@ -31,7 +31,7 @@ const NSString			*SA_BaseErrorDomain = @"SA_BaseErrorDomain";
 	if ([self.domain isEqual: @"CKErrorDomain"] && self.code == 4) return YES;		// CloudKit CKErrorNetworkFailure
 //	if ([self.domain isEqual: @"CKErrorDomain"] && self.code == kCFURLErrorBadServerResponse) return YES;		// CloudKit CKErrorNetworkFailure
 	
-	if ([self.domain isEqual: NSURLErrorDomain] && (self.code == NSURLErrorNotConnectedToInternet || Sself.code == NSURLErrorNetworkConnectionLost)) return YES;
+	if ([self.domain isEqual: NSURLErrorDomain] && (self.code == NSURLErrorNotConnectedToInternet || self.code == NSURLErrorNetworkConnectionLost)) return YES;
 	
 	for (NSError *error in self.sa_underlyingErrors) {
 		if (error.isNoInternetConnectionError) return YES;
