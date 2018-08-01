@@ -61,6 +61,7 @@ CGRect 	CGRectNormalized(CGRect bounds, CGRect base) {
 	BOOL						invalidYOrigin = isnan(bounds.origin.y) || isinf(bounds.origin.y);
 	
 	if (invalidWidth || invalidHeight || invalidXOrigin || invalidYOrigin) {
+		if (CGRectEqualToRect(bounds, CGRectZero)) { return CGRectZero; }
 		NSMutableString			*message = [@"Invalid frame: " mutableCopy];
 		if (invalidXOrigin) { [message appendString: @"x-origin, "]; }
 		if (invalidYOrigin) { [message appendString: @"y-origin, "]; }
