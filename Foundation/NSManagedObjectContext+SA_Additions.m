@@ -9,6 +9,7 @@
 #import "NSString+SA_Additions.h"
 #import "NSObject+SA_Additions.h"
 #import "NSNotificationCenter+SA_Additions.h"
+#import "UIViewController+SA_Additions.h"
 
 #if XW_BUILD && TARGET_OS_IPHONE
 	#import "XW_ErrorTracker.h"
@@ -91,7 +92,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 
 + (void) displayFailedDatabaseCreationMessage: (NSString *) message {
 	#if TARGET_OS_IPHONE
-		if (SA_Base_DebugMode()) [SA_AlertView showAlertWithTitle: message message: @"A new database will be created."];
+		if (SA_Base_DebugMode()) [SA_AlertView showAlertIn: [UIViewController frontmostViewController] withTitle: message message: @"A new database will be created."];
 	#endif
 	NSLog(@"*******************\n%@\nA new database will be created.\n********************************", message);
 }
@@ -311,7 +312,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 			if (failCount >= maxFailsBeforeReset) {
 				SA_BASE_LOG(@"******************************* Too many fails, rolling database back to last safe version *******************************");
 				#if DEBUG && TARGET_OS_IPHONE
-					[SA_AlertView showAlertWithTitle: @"There was a problem saving the database. Recent changes will be discarded." message: [error fullDescription] tag: self.hash];
+				[SA_AlertView showAlertIn: [UIViewController frontmostViewController] withTitle: @"There was a problem saving the database. Recent changes will be discarded." message: [error fullDescription] tag: self.hash];
 				#endif
 				[self performSelector: @selector(rollback) withObject: nil afterDelay: 0.0];
 				failCount = 0;
@@ -524,7 +525,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 	[self associateValue: table forKey: TABLE_FOR_FETCHED_RESULTS_CONTROLLER_KEY];
 	
 	if (error) {
-		[SA_AlertView showAlertWithTitle: $S(@"Problem Fetching %@", request.entity.name) error: error];
+		[SA_AlertView showAlertIn: [UIViewController frontmostViewController] withTitle: $S(@"Problem Fetching %@", request.entity.name) error: error];
 		NSLog(@"Error while preparing fetchedResultsController with request: %@: %@", request, error);
 	}
 	return controller;

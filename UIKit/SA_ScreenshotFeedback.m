@@ -9,6 +9,7 @@
 #import "SA_AlertView.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <MessageUI/MessageUI.h>
+#import "UIViewController+SA_Additions.h"
 
 @interface SA_ScreenshotFeedback () <UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
 @property (nonatomic, strong) UIAlertView *currentAlert;
@@ -73,17 +74,18 @@ static SA_ScreenshotFeedback			*s_screenshotFeedback = nil;
 		
 		if (!notified) {
 			NSLog(@"There is no mail account enabled on this device; Screen Shot Feedback disabled");
-			[SA_AlertView showAlertWithTitle: NSLocalizedString(@"Unable to Send Screenshot Feedback", nil) message: NSLocalizedString(@"No mail account has been configured, so we can't send feedback email.", nil)];
+			[SA_AlertView showAlertIn: [UIViewController frontmostViewController] withTitle: NSLocalizedString(@"Unable to Send Screenshot Feedback", nil) message: NSLocalizedString(@"No mail account has been configured, so we can't send feedback email.", nil)];
 		}
 		notified = true;
 		return;
 	}
 	
-	self.currentAlert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Screenshot Taken", nil)
+	self.currentAlert = [[SA_AlertView alloc] initWithTitle: NSLocalizedString(@"Screenshot Taken", nil)
 												   message: NSLocalizedString(@"Would you like to submit this screenshot as feedback?", nil)
-												  delegate: self
-										 cancelButtonTitle: NSLocalizedString(@"No, Thanks", nil)
-										 otherButtonTitles: NSLocalizedString(@"Yes", nil), nil];
+												  buttons: @[NSLocalizedString(@"No, Thanks", nil), NSLocalizedString(@"Yes", nil)]
+															  buttonBlock: ^(int index) {
+		
+																}];
 	
 	self.screenshotTakenAt = [NSDate date];
 	[self.currentAlert show];

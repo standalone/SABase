@@ -11,7 +11,7 @@
 #import <mach/mach_host.h>
 
 #if TARGET_OS_IPHONE
-	
+	#import "UIViewController+SA_Additions.h"
 	#import "SA_AlertView.h"
 #endif
 
@@ -117,7 +117,7 @@ void			MailDataWithTitle(NSData *data, NSString *title) {
 
 #if TARGET_OS_IPHONE
 	void						displayAlert(NSString *title, NSString *message) {
-		[SA_AlertView showAlertWithTitle: title message: message];
+		[SA_AlertView showAlertIn: [UIViewController frontmostViewController] withTitle: title message: message];
 	}
 #endif
 

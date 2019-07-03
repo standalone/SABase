@@ -243,7 +243,7 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ConnectionQueue, sharedQueue);
 		NSString		*title = NSLocalizedString(@"Connection Error", @"Connection Error");
 		NSString		*body = NSLocalizedString(@"Unable to connect. Please try again later.", @"Unable to connect. Please try again later.");
 	
-		[SA_AlertView showAlertWithTitle: title message: body buttons: @[ NSLocalizedString(@"Cancel", @"Cancel back online"), NSLocalizedString(@"Retry", @"Retry online") ] buttonBlock: ^(NSInteger buttonIndex) {
+	[SA_AlertView showAlertIn: nil withTitle: title message: body buttons: @[ NSLocalizedString(@"Cancel", @"Cancel back online"), NSLocalizedString(@"Retry", @"Retry online") ] buttonBlock: ^(NSInteger buttonIndex) {
 
 			if (buttonIndex != 0) {
 				self.offline = NO;
@@ -628,7 +628,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 	} else {
 		SA_BASE_LOG(@"SCNetworkReachabilityGetFlags failed");
 		#if TARGET_OS_IPHONE
-			if (SA_Base_DebugMode()) [SA_AlertView showAlertWithTitle: @"SCNetworkReachabilityGetFlags failed" message: @"Failed to update connection status"];
+		if (SA_Base_DebugMode()) [SA_AlertView showAlertIn: nil withTitle: @"SCNetworkReachabilityGetFlags failed" message: @"Failed to update connection status"];
 		#endif
 	}
 }
@@ -663,7 +663,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 		} else if (self.reachabilityRef == nil) {
 			SA_BASE_LOG(@"Failed to create a ReachabilityRef");
 			#if TARGET_OS_IPHONE
-				if (SA_Base_DebugMode()) [SA_AlertView showAlertWithTitle: @"Failed to create a ReachabilityRef" message: @"Unable to track connection status"];
+			if (SA_Base_DebugMode()) [SA_AlertView showAlertIn: nil withTitle: @"Failed to create a ReachabilityRef" message: @"Unable to track connection status"];
 			#endif
 		}
 	} else {

@@ -68,8 +68,12 @@
 	LOG(@"Today: %@ / %@", today, yesterday);
 
 	[super viewDidAppear: animated];
-	
-	[SA_ProgressDisplay showProgressStyle: SA_ProgressDisplay_style_activityIndicator withTitle: @"Test Display" detail: @"Some more detail"];
+
+	[SA_AlertView showAlertIn: nil withTitle: @"Hello" message: @"There" buttons: @[@"Zero", @"One"] buttonBlock:^(NSInteger index) {
+		NSLog(@"%d", index);
+	}];
+
+//	[SA_ProgressDisplay showProgressStyle: SA_ProgressDisplay_style_activityIndicator withTitle: @"Test Display" detail: @"Some more detail"];
 //	[SA_PleaseWaitDisplay showPleaseWaitDisplayWithMajorText: @"Please" 
 //												   minorText: @"Minor Text Label" cancelLabel: @"Cancel Button" showProgressBar: NO delegate: nil];
 

@@ -60,6 +60,12 @@ __weak UIViewController *s_frontmostFocusedViewController = nil;
 	return [[self alloc] init];
 }
 
++ (UIViewController *) frontmostViewController {
+	if (s_frontmostFocusedViewController != nil) { return s_frontmostFocusedViewController; }
+	
+	return [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+}
+
 + (NSString *) nibName { return NSStringFromClass(self); }
 
 - (UIViewController *) focusedViewControllerAncestor {

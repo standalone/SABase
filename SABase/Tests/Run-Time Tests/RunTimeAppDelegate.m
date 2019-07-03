@@ -10,6 +10,7 @@
 #import "TestController.h"
 #import "SA_CustomAlert.h"
 #import "SA_ConnectionQueue.h"
+#import "SA_AlertView.h"
 
 @interface TestingAppDelegate () <SA_ConnectionDelegate>
 @property (nonatomic, strong) NSMutableArray *queues;
@@ -24,7 +25,8 @@
 
 	[self.window makeKeyAndVisible];
 	
-	[self stressTestConnections];
+//	[self stressTestConnections];
+	
 	
 //	[UIWindow alertWindow];
 //	[SA_CustomAlert showAlertWithTitle: @"Test Alert" message: @"Alert Message"];

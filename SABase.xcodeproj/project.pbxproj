@@ -380,10 +380,6 @@
 		B58488C21ABED9790045FEC7 /* SA_FullScreenBlockingView.h in Headers */ = {isa = PBXBuildFile; fileRef = B58488BF1ABED9790045FEC7 /* SA_FullScreenBlockingView.h */; };
 		B58488C31ABED9790045FEC7 /* SA_FullScreenBlockingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B58488C01ABED9790045FEC7 /* SA_FullScreenBlockingView.m */; };
 		B58488C41ABED9790045FEC7 /* SA_FullScreenBlockingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B58488C01ABED9790045FEC7 /* SA_FullScreenBlockingView.m */; };
-		B58CA477183AD4DA0038753A /* SA_ScreenshotFeedback.h in Headers */ = {isa = PBXBuildFile; fileRef = B58CA475183AD4DA0038753A /* SA_ScreenshotFeedback.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B58CA478183AD4DA0038753A /* SA_ScreenshotFeedback.h in Headers */ = {isa = PBXBuildFile; fileRef = B58CA475183AD4DA0038753A /* SA_ScreenshotFeedback.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B58CA479183AD4DA0038753A /* SA_ScreenshotFeedback.m in Sources */ = {isa = PBXBuildFile; fileRef = B58CA476183AD4DA0038753A /* SA_ScreenshotFeedback.m */; };
-		B58CA47A183AD4DA0038753A /* SA_ScreenshotFeedback.m in Sources */ = {isa = PBXBuildFile; fileRef = B58CA476183AD4DA0038753A /* SA_ScreenshotFeedback.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		B592127018D374BD00FBC16D /* NSAttributedString+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B592126E18D374BD00FBC16D /* NSAttributedString+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B592127118D374BD00FBC16D /* NSAttributedString+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B592126F18D374BD00FBC16D /* NSAttributedString+SA_Additions.m */; };
 		B592127218D37A6600FBC16D /* NSAttributedString+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B592126F18D374BD00FBC16D /* NSAttributedString+SA_Additions.m */; };
@@ -967,7 +963,6 @@
 				B55E092B151660DD0097CC69 /* UIButton+SA_Additions.h in Headers */,
 				B55E0931151660DD0097CC69 /* UIColor+SA_Additions.h in Headers */,
 				B55E0937151660DD0097CC69 /* UIDevice+SA_Additions.h in Headers */,
-				B58CA478183AD4DA0038753A /* SA_ScreenshotFeedback.h in Headers */,
 				B55E093D151660DD0097CC69 /* UIImage+SA_Additions.h in Headers */,
 				B55E0943151660DD0097CC69 /* UIImageView+SA_Additions.h in Headers */,
 				B5C6E3691B2CD49D00BB366A /* SA_SubtleStatusDisplay.h in Headers */,
@@ -1047,7 +1042,6 @@
 				B55E0954151660DD0097CC69 /* UIPopoverController+SA_Additions.h in Headers */,
 				B55E095A151660DD0097CC69 /* UIScrollView+SA_Additions.h in Headers */,
 				B55E0960151660DD0097CC69 /* UISegmentedControl+SA_Additions.h in Headers */,
-				B58CA477183AD4DA0038753A /* SA_ScreenshotFeedback.h in Headers */,
 				B55E0966151660DD0097CC69 /* UITableViewCell+SA_Additions.h in Headers */,
 				B55E096C151660DD0097CC69 /* UIToolbar+SA_Additions.h in Headers */,
 				B5263FE41E15749B007C30DF /* SA_Gestalt.h in Headers */,
@@ -1162,7 +1156,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 1100;
 				TargetAttributes = {
 					B5E39B71123BA9EE00FC1FE7 = {
 						DevelopmentTeam = YY6CWUX533;
@@ -1336,7 +1330,6 @@
 				B55E094B151660DD0097CC69 /* UILabel+SA_Additions.m in Sources */,
 				B55E0957151660DD0097CC69 /* UIPopoverController+SA_Additions.m in Sources */,
 				B55E095D151660DD0097CC69 /* UIScrollView+SA_Additions.m in Sources */,
-				B58CA47A183AD4DA0038753A /* SA_ScreenshotFeedback.m in Sources */,
 				B55E0963151660DD0097CC69 /* UISegmentedControl+SA_Additions.m in Sources */,
 				B5C6E36B1B2CD49D00BB366A /* SA_SubtleStatusDisplay.m in Sources */,
 				B55E0969151660DD0097CC69 /* UITableViewCell+SA_Additions.m in Sources */,
@@ -1532,7 +1525,6 @@
 				B55E094A151660DD0097CC69 /* UILabel+SA_Additions.m in Sources */,
 				B55E0956151660DD0097CC69 /* UIPopoverController+SA_Additions.m in Sources */,
 				B55E095C151660DD0097CC69 /* UIScrollView+SA_Additions.m in Sources */,
-				B58CA479183AD4DA0038753A /* SA_ScreenshotFeedback.m in Sources */,
 				B5C6E36A1B2CD49D00BB366A /* SA_SubtleStatusDisplay.m in Sources */,
 				B55E0962151660DD0097CC69 /* UISegmentedControl+SA_Additions.m in Sources */,
 				B55E0968151660DD0097CC69 /* UITableViewCell+SA_Additions.m in Sources */,
@@ -1792,6 +1784,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = YY6CWUX533;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1802,6 +1795,7 @@
 				INFOPLIST_FILE = "SABase/Tests/Run-Time Tests-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MARKETING_VERSION = 1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1826,6 +1820,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = YY6CWUX533;
@@ -1835,6 +1830,7 @@
 				INFOPLIST_FILE = "SABase/Tests/Run-Time Tests-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MARKETING_VERSION = 1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-framework",
