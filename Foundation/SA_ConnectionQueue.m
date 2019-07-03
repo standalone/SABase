@@ -1279,7 +1279,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 		
 		for (id component in value) {
 			if (encode) 
-				[string appendFormat: @"%@%@=%@", string.length ? @"&" : @"", [[key description] stringByPrettyingForURL], [[component description] stringByPrettyingForURL]];
+				[string appendFormat: @"%@%@=%@", string.length ? @"&" : @"", [[key description] stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLQueryAllowedCharacterSet]], [[component description] stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLQueryAllowedCharacterSet]]];
 			else
 				[string appendFormat: @"%@%@=%@", string.length ? @"&" : @"", [key description], [component description]];
 		}
@@ -1297,7 +1297,7 @@ void ReachabilityChanged(SCNetworkReachabilityRef target, SCNetworkReachabilityF
 		NSString				*key = (elements.count > 0) ? [elements objectAtIndex: 0] : nil;
 		NSString				*value = (elements.count > 1) ? [elements objectAtIndex: 1] : nil;
 		
-		if (value && key) [dict setObject: [value stringByReplacingPercentEscapesUsingEncoding: NSASCIIStringEncoding] forKey: [key stringByReplacingPercentEscapesUsingEncoding: NSASCIIStringEncoding]];
+		if (value && key) [dict setObject: [value stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLQueryAllowedCharacterSet]] forKey: [key stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLQueryAllowedCharacterSet]]];
 	}
 	
 	return dict;

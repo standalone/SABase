@@ -42,8 +42,6 @@
 - (BOOL) ensurePathExists;
 - (BOOL) endsWith: (NSString *) suffix;
 - (BOOL) endsWith: (NSString *) suffix options: (int) options;
-- (NSString *) stringByPrettyingForURL;
-- (NSString *) stringByPrettyingForPOSTBody;
 - (NSRange) fullRange;
 - (NSString *) stringByStrippingFirstNWords: (int) n;
 - (NSString *) truncateToLength: (int) length;

@@ -27,7 +27,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 @dynamic primaryStoreMetadata, saveThread;
 
 + (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator {
-	return [self contextAtPath: path inPersistentStoreCoordinator: coordinator model: nil concurrencyType: NSConfinementConcurrencyType  turningOffTemporaryFiles: false];
+	return [self contextAtPath: path inPersistentStoreCoordinator: coordinator model: nil concurrencyType: NSPrivateQueueConcurrencyType  turningOffTemporaryFiles: false];
 }
 
 + (id) contextAtPath: (NSString *) path inPersistentStoreCoordinator: (NSPersistentStoreCoordinator *) coordinator concurrencyType: (NSInteger) type turningOffTemporaryFiles: (BOOL) turnOff {
@@ -271,10 +271,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 - (void) performSave {
 	NSManagedObjectContextConcurrencyType		concurrencyType = self.concurrencyType;
 	
-	if (concurrencyType == NSConfinementConcurrencyType && self.saveThread.isExecuting && [NSThread currentThread] != self.saveThread) {
-		[self performSelector: @selector(performSave) onThread: self.saveThread withObject: nil waitUntilDone: ![NSThread isMainThread]];
-		return;
-	} else if (concurrencyType == NSMainQueueConcurrencyType && ![NSThread isMainThread]) {
+	if (concurrencyType == NSMainQueueConcurrencyType && ![NSThread isMainThread]) {
 		[self performSelector: @selector(performSave) onThread: [NSThread mainThread] withObject: nil waitUntilDone: YES];
 		return;
 	}
@@ -602,7 +599,7 @@ NSString *SA_CONTEXT_SAVE_THREAD_KEY = @"SA_CONTEXT_SAVE_THREAD_KEY";
 #endif
 
 - (NSManagedObjectContext *) createChildContext {
-	NSManagedObjectContext			*moc = [[NSManagedObjectContext alloc] initWithConcurrencyType: NSConfinementConcurrencyType];
+	NSManagedObjectContext			*moc = [[NSManagedObjectContext alloc] initWithConcurrencyType: NSPrivateQueueConcurrencyType];
 	
 	moc.parentContext = self;
 	return moc;

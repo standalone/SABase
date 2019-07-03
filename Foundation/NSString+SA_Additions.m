@@ -406,18 +406,6 @@
 	return result;
 }
 
-- (NSString *) stringByPrettyingForURL {
-	
-	NSString *string = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)self, NULL, CFSTR("!*'();:@&=+$,/?%#[]"), kCFStringEncodingUTF8));
-	return string;
-}
-
-- (NSString *) stringByPrettyingForPOSTBody {
-	
-	NSString *string = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)self, NULL, CFSTR("&="), kCFStringEncodingUTF8));
-	return string;
-}
-
 - (NSRange) fullRange {return NSMakeRange(0, [self length]);}
 
 - (NSString *) stringByStrippingFirstNWords: (int) n {
