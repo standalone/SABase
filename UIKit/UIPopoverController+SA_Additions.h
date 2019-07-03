@@ -9,36 +9,17 @@
 
 #define kNotification_PopoverWasDismissed				@"kNotification_PopoverWasDismissed"
 
-@interface UIPopoverController (SA_PopoverAdditions)
-+ (instancetype) presentSA_PopoverForViewController: (UIViewController *) controller fromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated;
-+ (instancetype) presentSA_PopoverForViewController: (UIViewController *) controller fromBarButtonItem: (UIBarButtonItem *) item permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated;
-
-+ (instancetype) presentSA_PopoverForView: (UIView *) subject fromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated;
-+ (instancetype) presentSA_PopoverForView: (UIView *) subject fromBarButtonItem: (UIBarButtonItem *) item permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated;
-
-+ (void) dismissAllVisibleSA_PopoversAnimated: (BOOL) animated;
-- (void) dismissSA_PopoverAnimated: (BOOL) animated;
-
-+ (BOOL) isSA_PopoverVisibleWithViewControllerClass: (Class) cls;
-+ (instancetype) existingSA_PopoverWithViewControllerClass: (Class) cls;
-+ (instancetype) existingSA_PopoverWithView: (UIView *) view;
-
-@property (nonatomic, copy) idArgumentBlock SA_didDismissBlock;
+@interface SA_PopoverController: NSObject
++ (BOOL) isPopoverVisibleWithViewControllerClass: (Class) class;
++ (void) dismissAllVisiblePopoversAnimated: (BOOL) animated;
 @end
 
-@interface UIViewController (SA_PopoverAdditions)
-@property (nonatomic, readonly) BOOL onlyAllowOneInstanceInAnSA_Popover;								//if set, trying to present a controller that's already presented will simply dismiss the existing one
-- (void) willAppearInSA_Popover: (id) controller animated: (BOOL) animated;			//these two methods will only be called when using the popover methods in these categories
-- (void) didAppearInSA_Popover: (id) controller animated: (BOOL) animated;
-- (id) SA_PopoverController;
-
-- (void) presentSA_PopoverFromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated;
-- (void) presentSA_PopoverFromBarButtonItem: (UIBarButtonItem *) item permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated;
-- (void) presentInSA_NavigationPopoverFromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated;
-- (void) presentInSA_NavigationPopoverFromBarButtonItem: (UIBarButtonItem *) item permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated;
-- (void) dismissOtherSA_PopoversAnimated: (BOOL) animated;
+@interface UIViewController (SA_PopoverViewController)
+- (void) presentAsPopoverIn: (UIViewController *) parent from: (UIView *) view rect: (CGRect) rect;
+- (void) presentAsPopoverIn: (UIViewController *) parent from: (UIBarButtonItem *) item;
 @end
 
-@interface UIView (SA_PopoverAdditions)
-- (id) SA_PopoverController;
+@interface UIView (SA_PopoverViewController)
+- (void) presentAsPopoverIn: (UIViewController *) parent from: (UIView *) view rect: (CGRect) rect;
+- (void) presentAsPopoverIn: (UIViewController *) parent from: (UIBarButtonItem *) item;
 @end

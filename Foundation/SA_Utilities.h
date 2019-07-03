@@ -330,7 +330,7 @@ typedef enum {dir_left, dir_up, dir_right, dir_down} direction;
 
 
 
-void					MailDataWithTitle(NSData *data, NSString *title);
+//void					MailDataWithTitle(NSData *data, NSString *title);
 
 #define				UIInterfaceOrientationUnknown				((UIInterfaceOrientation) 0)
 

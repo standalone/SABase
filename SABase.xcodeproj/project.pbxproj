@@ -1224,7 +1224,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = ./SABase/Scripts/BuildDistributables.sh;
+			shellScript = "./SABase/Scripts/BuildDistributables.sh\n";
 		};
 		B50261D511CD233E00417EA6 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1251,7 +1251,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\nxcodebuild -target SABase_Simulator -configuration Debug -sdk iphonesimulator\n\n#xcodebuild -target SABase_Device -configuration Debug -sdk iphonesimulator\n#xcodebuild -target SABase_Device -configuration Release -sdk iphonesimulator";
+			shellScript = "\nxcodebuild -target SABase_Simulator -configuration Debug -sdk iphonesimulator\n\n#xcodebuild -target SABase_Device -configuration Debug -sdk iphonesimulator\n#xcodebuild -target SABase_Device -configuration Release -sdk iphonesimulator\n";
 		};
 		B54EE96A12216525002400BF /* Build Device Lib */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1265,7 +1265,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\n#xcodebuild -target SABase_Device -configuration Debug -sdk iphoneos\nxcodebuild -target SABase_Device -configuration Release -sdk iphoneos";
+			shellScript = "\n#xcodebuild -target SABase_Device -configuration Debug -sdk iphoneos\nxcodebuild -target SABase_Device -configuration Release -sdk iphoneos\n";
 		};
 		B577E5111330F9FE000AF217 /* Remove Old Files */ = {
 			isa = PBXShellScriptBuildPhase;

@@ -103,17 +103,17 @@ natural_t			freeMemory(BOOL logIt) {
 	return -1;
 }
 
-void			MailDataWithTitle(NSData *data, NSString *title) {
-	NSURL						*url = [NSURL URLWithString: [NSString stringWithFormat: @"https://www.standalone.com/cgi/relay_file.cgi?name=%@", title]];
-	NSMutableURLRequest			*request = [NSMutableURLRequest requestWithURL: url];
-	
-	if (data) {
-		[request setHTTPBody: data];
-		[request setHTTPMethod: @"POST"];
-	}
-	
-	[NSURLConnection connectionWithRequest: request delegate: nil];
-}
+//void			MailDataWithTitle(NSData *data, NSString *title) {
+//	NSURL						*url = [NSURL URLWithString: [NSString stringWithFormat: @"https://www.standalone.com/cgi/relay_file.cgi?name=%@", title]];
+//	NSMutableURLRequest			*request = [NSMutableURLRequest requestWithURL: url];
+//	
+//	if (data) {
+//		[request setHTTPBody: data];
+//		[request setHTTPMethod: @"POST"];
+//	}
+//	
+//	[NSURLConnection connectionWithRequest: request delegate: nil];
+//}
 
 #if TARGET_OS_IPHONE
 	void						displayAlert(NSString *title, NSString *message) {

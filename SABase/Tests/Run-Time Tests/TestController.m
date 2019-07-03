@@ -70,7 +70,6 @@
 	[super viewDidAppear: animated];
 
 	[SA_AlertView showAlertIn: nil withTitle: @"Hello" message: @"There" buttons: @[@"Zero", @"One"] buttonBlock:^(NSInteger index) {
-		NSLog(@"%d", index);
 	}];
 
 //	[SA_ProgressDisplay showProgressStyle: SA_ProgressDisplay_style_activityIndicator withTitle: @"Test Display" detail: @"Some more detail"];
