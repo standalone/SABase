@@ -420,6 +420,7 @@
 		B5D3ABAC15FD3E070052F459 /* CAAnimation+SA_Blocks.h in Headers */ = {isa = PBXBuildFile; fileRef = B5D3ABA915FD3E070052F459 /* CAAnimation+SA_Blocks.h */; };
 		B5D3ABAD15FD3E070052F459 /* CAAnimation+SA_Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = B5D3ABAA15FD3E070052F459 /* CAAnimation+SA_Blocks.m */; };
 		B5D3ABAE15FD3E070052F459 /* CAAnimation+SA_Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = B5D3ABAA15FD3E070052F459 /* CAAnimation+SA_Blocks.m */; };
+		B5E4C58822CD224B00F5A2D7 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5E4C58722CD224B00F5A2D7 /* Default-568h@2x.png */; };
 		B5E703F817A5DB2000435611 /* SA_Switch.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E703F717A5D9B700435611 /* SA_Switch.m */; };
 		B5E703F917A5DB2000435611 /* SA_Switch.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E703F717A5D9B700435611 /* SA_Switch.m */; };
 		B5E703FA17A5DB4900435611 /* SA_Switch.h in Headers */ = {isa = PBXBuildFile; fileRef = B5E703F617A5D9B700435611 /* SA_Switch.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -594,6 +595,7 @@
 		B5D3ABA915FD3E070052F459 /* CAAnimation+SA_Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CAAnimation+SA_Blocks.h"; path = "Foundation/CAAnimation+SA_Blocks.h"; sourceTree = SOURCE_ROOT; };
 		B5D3ABAA15FD3E070052F459 /* CAAnimation+SA_Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CAAnimation+SA_Blocks.m"; path = "Foundation/CAAnimation+SA_Blocks.m"; sourceTree = SOURCE_ROOT; };
 		B5E39B72123BA9EE00FC1FE7 /* Run-Time Tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Run-Time Tests.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B5E4C58722CD224B00F5A2D7 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		B5E703F617A5D9B700435611 /* SA_Switch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SA_Switch.h; sourceTree = "<group>"; };
 		B5E703F717A5D9B700435611 /* SA_Switch.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SA_Switch.m; sourceTree = "<group>"; };
 		B5ED0B9216431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MFMailComposeViewController+SA_Additions.h"; path = "UIKit/MFMailComposeViewController+SA_Additions.h"; sourceTree = SOURCE_ROOT; };
@@ -654,6 +656,7 @@
 		0867D691FE84028FC02AAC07 /* SABase */ = {
 			isa = PBXGroup;
 			children = (
+				B5E4C58722CD224B00F5A2D7 /* Default-568h@2x.png */,
 				B55E099F1516682A0097CC69 /* Headers */,
 				B55E0834151660DD0097CC69 /* Foundation */,
 				B55E0855151660DD0097CC69 /* UIKit */,
@@ -1169,13 +1172,14 @@
 			};
 			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "SABase" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
+				ja,
+				de,
+				fr,
+				Base,
+				en,
 			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* SABase */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
@@ -1207,6 +1211,7 @@
 			files = (
 				B583072F1516548600CC57DE /* MainWindow.xib in Resources */,
 				B583073D1516548600CC57DE /* TestController.xib in Resources */,
+				B5E4C58822CD224B00F5A2D7 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
