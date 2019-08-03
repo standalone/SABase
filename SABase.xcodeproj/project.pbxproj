@@ -273,7 +273,7 @@
 		B55E094C151660DD0097CC69 /* UILabel+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0877151660DD0097CC69 /* UILabel+SA_Additions.m */; };
 		B55E094D151660DD0097CC69 /* UILabel+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0877151660DD0097CC69 /* UILabel+SA_Additions.m */; };
 		B55E0954151660DD0097CC69 /* UIPopoverController+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E087A151660DD0097CC69 /* UIPopoverController+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B55E0955151660DD0097CC69 /* UIPopoverController+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E087A151660DD0097CC69 /* UIPopoverController+SA_Additions.h */; };
+		B55E0955151660DD0097CC69 /* UIPopoverController+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E087A151660DD0097CC69 /* UIPopoverController+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B55E0956151660DD0097CC69 /* UIPopoverController+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E087B151660DD0097CC69 /* UIPopoverController+SA_Additions.m */; };
 		B55E0957151660DD0097CC69 /* UIPopoverController+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E087B151660DD0097CC69 /* UIPopoverController+SA_Additions.m */; };
 		B55E0958151660DD0097CC69 /* UIPopoverController+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E087B151660DD0097CC69 /* UIPopoverController+SA_Additions.m */; };
@@ -1265,7 +1265,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\n#xcodebuild -target SABase_Device -configuration Debug -sdk iphoneos\nxcodebuild -target SABase_Device -configuration Release -sdk iphoneos\n";
+			shellScript = "\n#xcodebuild -target SABase_Device -configuration Debug -sdk iphoneos\n\nxcodebuild -target SABase_Device -configuration Release -sdk iphoneos\n";
 		};
 		B577E5111330F9FE000AF217 /* Remove Old Files */ = {
 			isa = PBXShellScriptBuildPhase;

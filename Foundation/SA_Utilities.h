@@ -207,7 +207,7 @@ void		ClearConsoleLog(void);
 	#define			SA_AssertAndReturnNO(condition, desc, ...)		IF_SIM(NSAssert(condition, desc, ##  __VA_ARGS__)); if (!(condition)) return NO;
 
 	#if TARGET_OS_IPHONE
-		#define			SA_TRY(a)										@try {a;} @catch (id e) {[SA_AlertView showAlertWithException: e];}
+		#define			SA_TRY(a)										@try {a;} @catch (id e) {NSLog(@"%@", e);}
 	#else
 		#define			SA_TRY(a)										@try {a;} @catch (id e) {LOG(@"%@", e);}
 	#endif

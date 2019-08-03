@@ -293,7 +293,7 @@ static NSMutableArray					*s_activePopovers = nil;
 //}
 //
 //- (void) dismissOtherSA_PopoversAnimated: (BOOL) animated {
-//	[UIPopoverController dismissAllVisibleSA_PopoversAnimated: animated except: self.SA_PopoverController];
+//	[SA_PopoverController dismissAllVisiblePopoversAnimated: animated except: self.SA_PopoverController];
 //}
 //
 //- (void) presentSA_PopoverFromRect: (CGRect) rect inView: (UIView *) view permittedArrowDirections: (UIPopoverArrowDirection) arrowDirections animated: (BOOL) animated {
