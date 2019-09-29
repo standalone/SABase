@@ -167,6 +167,36 @@ extern const NSUInteger				g_sa_base_version;
 		#define				RUNNING_ON_10_0					([[UIDevice currentDevice].systemVersion intValue] >= 10)
 	#endif
 
+	#ifdef NSFoundationVersionNumber_iOS_11_0
+		#define				RUNNING_ON_11_0					(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_11_0)
+	#else
+		#define				RUNNING_ON_11_0					([[UIDevice currentDevice].systemVersion intValue] >= 11)
+	#endif
+
+	#ifdef NSFoundationVersionNumber_iOS_12_0
+		#define				RUNNING_ON_12_0					(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_12_0)
+	#else
+		#define				RUNNING_ON_12_0					([[UIDevice currentDevice].systemVersion intValue] >= 12)
+	#endif
+
+	#ifdef NSFoundationVersionNumber_iOS_13_0
+		#define				RUNNING_ON_13_0					(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_13_0)
+	#else
+		#define				RUNNING_ON_13_0					([[UIDevice currentDevice].systemVersion intValue] >= 13)
+	#endif
+
+	#ifdef NSFoundationVersionNumber_iOS_14_0
+		#define				RUNNING_ON_14_0					(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_14_0)
+	#else
+		#define				RUNNING_ON_14_0					([[UIDevice currentDevice].systemVersion intValue] >= 14)
+	#endif
+
+	#ifdef NSFoundationVersionNumber_iOS_15_0
+		#define				RUNNING_ON_15_0					(NSFoundationVersionNumber >= NSFoundationVersionNumber_iOS_15_0)
+	#else
+		#define				RUNNING_ON_15_0					([[UIDevice currentDevice].systemVersion intValue] >= 15)
+	#endif
+
 
 	#define				IS_RETINA_DEVICE				([UIScreen mainScreen].scale > 1.0)
 	#define				IS_4INCH_SCREEN					(RUNNING_ON_IPHONE && [UIScreen mainScreen].bounds.size.height == 568)
