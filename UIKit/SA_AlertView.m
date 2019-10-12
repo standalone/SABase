@@ -88,7 +88,7 @@ NSMutableArray			*s_displayedAlerts = nil;
 	[buttons addObject: cancelTitle];
 	
 	SA_AlertView				*alert = [SA_AlertView showAlertIn: parent withTitle: title message: message buttons: buttons buttonBlock:^(NSInteger index) {
-		buttonHitBlock(index == 0);
+		buttonHitBlock(index == 1);
 	}];
 
 	return alert;
