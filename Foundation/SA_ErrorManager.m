@@ -11,6 +11,7 @@
 #import <UIKit/UIKit.h>
 #import "SA_AlertView.h"
 #import "UIViewController+SA_Additions.h"
+@import SA_Base;
 
 @implementation SA_ErrorManager
 SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ErrorManager, defaultManager);
@@ -59,10 +60,12 @@ SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ErrorManager, defaultManager);
 - (void) reportTitle: (NSString *) title error: (NSError *) error devNote: (NSString *) devNote {
 //	if (error.shouldProbablyBeSupressedForMostUsers) return;
 	
-	if (self.delegate && [self.delegate respondsToSelector: _cmd])
-		[self.delegate reportTitle: title error: error devNote: devNote];
-	else
-		[[self alertClass] showAlertIn: [UIViewController frontmostViewController] withTitle: title error: error];
+	dispatch_async_main_queue(^{
+		if (self.delegate && [self.delegate respondsToSelector: _cmd])
+			[self.delegate reportTitle: title error: error devNote: devNote];
+		else
+			[[self alertClass] showAlertIn: [UIViewController frontmostViewController] withTitle: title error: error];
+	});
 }
 
 - (Class) alertClass { return _alertClass ?: [SA_AlertView class]; }
