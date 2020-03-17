@@ -237,17 +237,19 @@ static NSString *g_auxButtonImagePressedName = @"black-button-highlight";
 
 - (CGRect) majorLabelFrame {
 	CGRect							contentFrame = self.contentFrame;
-	float							labelTop = contentFrame.origin.y + (RUNNING_ON_IPAD ? contentFrame.size.height * 0.1 :  contentFrame.size.height * 0.3);
+	float								labelTop = contentFrame.origin.y + (RUNNING_ON_IPAD ? contentFrame.size.height * 0.1 :  contentFrame.size.height * 0.3);
 	CGRect							bounds = CGRectMake(contentFrame.origin.x + 10, labelTop, contentFrame.size.width - 20, 21);
 
-	[_majorLabel sizeToFit];
-
 	if (_majorLabelPositionedWithSpinner) {
+		[_majorLabel sizeToFit];
+
 		float						textWidth = _majorLabel.bounds.size.width;
 		float						spinnerWidth = 20, space = 10;
 		float						textLeft = contentFrame.origin.x + (contentFrame.size.width - (textWidth + spinnerWidth + space)) / 2;
 		
 		bounds = CGRectMake(textLeft, labelTop, textWidth, 21);
+	} else {
+		_majorLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
 	}
 	
 	return bounds;
