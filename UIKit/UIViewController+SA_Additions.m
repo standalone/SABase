@@ -63,7 +63,11 @@ __weak UIViewController *s_frontmostFocusedViewController = nil;
 + (UIViewController *) frontmostViewController {
 	if (s_frontmostFocusedViewController != nil) { return s_frontmostFocusedViewController; }
 	
-	return [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+	UIViewController	*root = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+	
+	if (root.view.window != nil) { return root; }
+	
+	return root.presentedViewController;
 }
 
 + (NSString *) nibName { return NSStringFromClass(self); }
