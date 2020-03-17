@@ -82,13 +82,12 @@ NSMutableArray			*s_displayedAlerts = nil;
 	
 	NSString						*cancelTitle = button.length ? NSLocalizedString(@"Cancel", @"Cancel") : NSLocalizedString(@"OK", @"OK");
 
-	NSMutableArray				*buttons = [NSMutableArray array];
+	NSMutableArray				*buttons = [@[cancelTitle] mutableCopy];
 	
 	if (button != nil) { [buttons addObject: button]; }
-	[buttons addObject: cancelTitle];
 	
 	SA_AlertView				*alert = [SA_AlertView showAlertIn: parent withTitle: title message: message buttons: buttons buttonBlock:^(NSInteger index) {
-		buttonHitBlock(index == 1);
+		buttonHitBlock(index == 0);
 	}];
 
 	return alert;
