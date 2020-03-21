@@ -11,7 +11,7 @@
 #import <UIKit/UIKit.h>
 #import "SA_AlertView.h"
 #import "UIViewController+SA_Additions.h"
-@import SA_Base;
+#import "dispatch_additions_SA.h"
 
 @implementation SA_ErrorManager
 SINGLETON_IMPLEMENTATION_FOR_CLASS_AND_METHOD(SA_ErrorManager, defaultManager);
