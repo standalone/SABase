@@ -7,6 +7,7 @@
 //
 
 #import "UILabel+SA_Additions.h"
+#import "SA_Utilities.h"
 
 @implementation UILabel  (SA_textAdditions)
 - (CGSize) sizeOfCurrentTextInExistingWidth {

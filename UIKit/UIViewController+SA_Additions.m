@@ -6,7 +6,7 @@
 //
 
 #import "UIViewController+SA_Additions.h"
-
+#import "UIView+SA_Additions.h"
 
 __weak UIViewController *s_frontmostFocusedViewController = nil;
 

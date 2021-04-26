@@ -7,7 +7,9 @@
 //
 
 
+#import "UIGestureRecognizer+SA_Additions.h"
 #import "NSObject+SA_Additions.h"
+#import "SA_Utilities.h"
 
 
 #define GESTURE_BLOCK_KEY			@"SA_GESTURE_BLOCK_KEY"

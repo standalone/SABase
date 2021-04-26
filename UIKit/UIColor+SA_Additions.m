@@ -6,7 +6,7 @@
 //
 
 #import "UIColor+SA_Additions.h"
-
+#import "SA_Utilities.h"
 
 @implementation UIColor (UIColor_SA_Additions)
 

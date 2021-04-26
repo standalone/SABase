@@ -72,6 +72,144 @@
 		B54A7E7C1916E0F6002B06B0 /* SA_ThreadsafeMutableCollections.h in Headers */ = {isa = PBXBuildFile; fileRef = B52550AC1915DF5300411D4B /* SA_ThreadsafeMutableCollections.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B54EE31119E0073100887A94 /* SA_ThreadsafeMutableCollections.m in Sources */ = {isa = PBXBuildFile; fileRef = B52550AD1915DF5400411D4B /* SA_ThreadsafeMutableCollections.m */; };
 		B54EE31219E0086000887A94 /* NSSet+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B51F6FE11615CAB90015A037 /* NSSet+SA_Additions.m */; };
+		B55470A826372BF000A34672 /* Framework.h in Headers */ = {isa = PBXBuildFile; fileRef = B55470A626372BF000A34672 /* Framework.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470AB26372BF000A34672 /* SA_Base.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55470A426372BF000A34672 /* SA_Base.framework */; };
+		B55470AC26372BF000A34672 /* SA_Base.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B55470A426372BF000A34672 /* SA_Base.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B55470B12637337400A34672 /* NSManagedObject+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0841151660DD0097CC69 /* NSManagedObject+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470B22637337400A34672 /* SA_PleaseWaitDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E085E151660DD0097CC69 /* SA_PleaseWaitDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470B32637337400A34672 /* UIPopoverController+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E087A151660DD0097CC69 /* UIPopoverController+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470B42637337400A34672 /* NSSortDescriptor+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0849151660DD0097CC69 /* NSSortDescriptor+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470B52637337400A34672 /* SA_ThreadsafeMutableCollections.m in Sources */ = {isa = PBXBuildFile; fileRef = B52550AD1915DF5400411D4B /* SA_ThreadsafeMutableCollections.m */; };
+		B55470B62637337400A34672 /* UIViewController+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0886151660DD0097CC69 /* UIViewController+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470B72637337400A34672 /* SA_ConnectionQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0853151660DD0097CC69 /* SA_ConnectionQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470B82637337400A34672 /* NSTimer+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0986151661790097CC69 /* NSTimer+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470B92637337400A34672 /* NSDictionary+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B5095CAC15F4063400EC3C8F /* NSDictionary+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470BA2637337400A34672 /* SA_SelfDrawingView.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0860151660DD0097CC69 /* SA_SelfDrawingView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470BB2637337400A34672 /* SA_NavigationController.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E085C151660DD0097CC69 /* SA_NavigationController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470BC2637337400A34672 /* NSSet+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B51F6FE01615CAB90015A037 /* NSSet+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470BD2637337400A34672 /* CAAnimation+SA_Blocks.h in Headers */ = {isa = PBXBuildFile; fileRef = B5D3ABA915FD3E070052F459 /* CAAnimation+SA_Blocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470BE2637337400A34672 /* UIBarButtonItem+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E086A151660DD0097CC69 /* UIBarButtonItem+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470BF2637337400A34672 /* dispatch_additions_SA.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0835151660DD0097CC69 /* dispatch_additions_SA.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470C02637337400A34672 /* NSDate+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E083D151660DD0097CC69 /* NSDate+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470C12637337400A34672 /* UIView+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0884151660DD0097CC69 /* UIView+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470C22637337400A34672 /* SA_SplashScreenImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0862151660DD0097CC69 /* SA_SplashScreenImageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470C32637337400A34672 /* NSNotificationCenter+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0845151660DD0097CC69 /* NSNotificationCenter+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470C42637337400A34672 /* NSBundle+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0837151660DD0097CC69 /* NSBundle+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470C52637337400A34672 /* SA_StackedScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0864151660DD0097CC69 /* SA_StackedScrollView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470C62637337400A34672 /* SA_LazyLoadingScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E085A151660DD0097CC69 /* SA_LazyLoadingScrollView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470C72637337400A34672 /* UIToolbar+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0882151660DD0097CC69 /* UIToolbar+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470C82637337400A34672 /* NSUserDefaults+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E098E151661920097CC69 /* NSUserDefaults+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470C92637337400A34672 /* NSString+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E084B151660DD0097CC69 /* NSString+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470CA2637337400A34672 /* UIColor+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E086E151660DD0097CC69 /* UIColor+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470CB2637337400A34672 /* UIScrollView+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E087C151660DD0097CC69 /* UIScrollView+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470CC2637337400A34672 /* NSURL+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0851151660DD0097CC69 /* NSURL+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470CD2637337400A34672 /* NSData+SA_MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E083B151660DD0097CC69 /* NSData+SA_MD5.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470CE2637337400A34672 /* UIFont+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55AA637181C515C00C5B0EE /* UIFont+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470CF2637337400A34672 /* NSData+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0839151660DD0097CC69 /* NSData+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470D02637337400A34672 /* UISegmentedControl+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E087E151660DD0097CC69 /* UISegmentedControl+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470D12637337400A34672 /* SA_Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = B5A12A1F152FEF4A0081FAAD /* SA_Utilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470D22637337400A34672 /* UIImageView+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0874151660DD0097CC69 /* UIImageView+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470D32637337400A34672 /* UITableViewCell+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0880151660DD0097CC69 /* UITableViewCell+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470D42637337400A34672 /* UIImage+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0872151660DD0097CC69 /* UIImage+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470D52637337400A34672 /* NSString+SA_MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E084D151660DD0097CC69 /* NSString+SA_MD5.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470D62637337400A34672 /* NSFileManager+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E083F151660DD0097CC69 /* NSFileManager+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470D72637337400A34672 /* UIGestureRecognizer+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B542238D15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470D82637337400A34672 /* NSString+UniqueStrings.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E084F151660DD0097CC69 /* NSString+UniqueStrings.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470D92637337400A34672 /* NSObject+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0847151660DD0097CC69 /* NSObject+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470DA2637337400A34672 /* UILabel+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0876151660DD0097CC69 /* UILabel+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470DB2637337400A34672 /* UIActionSheet+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0868151660DD0097CC69 /* UIActionSheet+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470DC2637337400A34672 /* UIDevice+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0870151660DD0097CC69 /* UIDevice+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470DD2637337400A34672 /* SA_ThreadsafeMutableCollections.h in Headers */ = {isa = PBXBuildFile; fileRef = B52550AC1915DF5300411D4B /* SA_ThreadsafeMutableCollections.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470DE2637337400A34672 /* UIButton+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E086C151660DD0097CC69 /* UIButton+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470DF2637337400A34672 /* SA_BlockButton.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E097E151661110097CC69 /* SA_BlockButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470E02637337400A34672 /* SA_AlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0858151660DD0097CC69 /* SA_AlertView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470E12637337400A34672 /* NSManagedObjectContext+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0843151660DD0097CC69 /* NSManagedObjectContext+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470E22637337400A34672 /* NSArray+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E0996151661C10097CC69 /* NSArray+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470E32637337400A34672 /* SA_BackgroundThread.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E09A015166D3C0097CC69 /* SA_BackgroundThread.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470E4263733A500A34672 /* NSError+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B52BF7E51871CD2C009F4A4C /* NSError+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470E5263733A500A34672 /* NSDate+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E083E151660DD0097CC69 /* NSDate+SA_Additions.m */; };
+		B55470E6263733A500A34672 /* SA_Keychain.m in Sources */ = {isa = PBXBuildFile; fileRef = B5C6E3611B2CD42B00BB366A /* SA_Keychain.m */; };
+		B55470E7263733A500A34672 /* NSURL+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0852151660DD0097CC69 /* NSURL+SA_Additions.m */; };
+		B55470E8263733A500A34672 /* SA_Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A12A20152FEF4A0081FAAD /* SA_Utilities.m */; };
+		B55470E9263733A500A34672 /* SA_BackgroundThread.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E09A115166D3C0097CC69 /* SA_BackgroundThread.m */; };
+		B55470EA263733A500A34672 /* SA_Gestalt.h in Headers */ = {isa = PBXBuildFile; fileRef = B5263FE21E15749B007C30DF /* SA_Gestalt.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470EB263733A500A34672 /* NSParagraphStyle+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B522F1D119378333006A934F /* NSParagraphStyle+SA_Additions.m */; };
+		B55470EC263733A500A34672 /* NSUserDefaults+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E098F151661920097CC69 /* NSUserDefaults+SA_Additions.m */; };
+		B55470ED263733A500A34672 /* NSObject+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0848151660DD0097CC69 /* NSObject+SA_Additions.m */; };
+		B55470EE263733A500A34672 /* NSArray+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0997151661C10097CC69 /* NSArray+SA_Additions.m */; };
+		B55470EF263733A500A34672 /* NSSortDescriptor+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E084A151660DD0097CC69 /* NSSortDescriptor+SA_Additions.m */; };
+		B55470F0263733A500A34672 /* NSBundle+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0838151660DD0097CC69 /* NSBundle+SA_Additions.m */; };
+		B55470F1263733A500A34672 /* NSFileManager+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0840151660DD0097CC69 /* NSFileManager+SA_Additions.m */; };
+		B55470F2263733A500A34672 /* NSError+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B52BF7E61871CD2C009F4A4C /* NSError+SA_Additions.m */; };
+		B55470F3263733A500A34672 /* NSManagedObjectContext+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0844151660DD0097CC69 /* NSManagedObjectContext+SA_Additions.m */; };
+		B55470F4263733A500A34672 /* SA_Sentinel.m in Sources */ = {isa = PBXBuildFile; fileRef = B510288D19000A6C001B32A9 /* SA_Sentinel.m */; };
+		B55470F5263733A500A34672 /* CGContextRef_additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B523D5B91933EBBB00FC2C4E /* CGContextRef_additions.m */; };
+		B55470F6263733A500A34672 /* NSSet+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B51F6FE11615CAB90015A037 /* NSSet+SA_Additions.m */; };
+		B55470F7263733A500A34672 /* SA_ErrorManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C6E35A1B2CD16000BB366A /* SA_ErrorManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B55470F8263733A500A34672 /* NSTimer+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0987151661790097CC69 /* NSTimer+SA_Additions.m */; };
+		B55470F9263733A500A34672 /* NSData+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E083A151660DD0097CC69 /* NSData+SA_Additions.m */; };
+		B55470FA263733A500A34672 /* SA_ConnectionQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0854151660DD0097CC69 /* SA_ConnectionQueue.m */; };
+		B55470FB263733A500A34672 /* SA_Gestalt.m in Sources */ = {isa = PBXBuildFile; fileRef = B5263FE31E15749B007C30DF /* SA_Gestalt.m */; };
+		B55470FC263733A500A34672 /* NSData+SA_MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E083C151660DD0097CC69 /* NSData+SA_MD5.m */; };
+		B55470FD263733A500A34672 /* NSAttributedString+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B592126F18D374BD00FBC16D /* NSAttributedString+SA_Additions.m */; };
+		B55470FE263733A500A34672 /* NSString+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E084C151660DD0097CC69 /* NSString+SA_Additions.m */; };
+		B55470FF263733A500A34672 /* MFMailComposeViewController+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B5ED0B9216431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B5547100263733A500A34672 /* NSNotificationCenter+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0846151660DD0097CC69 /* NSNotificationCenter+SA_Additions.m */; };
+		B5547101263733A500A34672 /* SA_Keychain.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C6E3601B2CD42B00BB366A /* SA_Keychain.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B5547102263733A500A34672 /* SA_Sentinel.h in Headers */ = {isa = PBXBuildFile; fileRef = B510288C19000A6C001B32A9 /* SA_Sentinel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B5547103263733A500A34672 /* NSManagedObject+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0842151660DD0097CC69 /* NSManagedObject+SA_Additions.m */; };
+		B5547104263733A500A34672 /* NSParagraphStyle+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B522F1D019378333006A934F /* NSParagraphStyle+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B5547105263733A500A34672 /* SA_ErrorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B5C6E35B1B2CD16000BB366A /* SA_ErrorManager.m */; };
+		B5547106263733A500A34672 /* MFMailComposeViewController+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B5ED0B9316431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.m */; };
+		B5547107263733A500A34672 /* dispatch_additions_SA.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0836151660DD0097CC69 /* dispatch_additions_SA.m */; };
+		B5547108263733A500A34672 /* NSDictionary+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B5095CAD15F4063400EC3C8F /* NSDictionary+SA_Additions.m */; };
+		B5547109263733A500A34672 /* NSString+SA_MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E084E151660DD0097CC69 /* NSString+SA_MD5.m */; };
+		B554710A263733A500A34672 /* NSString+UniqueStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0850151660DD0097CC69 /* NSString+UniqueStrings.m */; };
+		B554710B263733A500A34672 /* NSAttributedString+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B592126E18D374BD00FBC16D /* NSAttributedString+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B554710C263733A500A34672 /* CGContextRef_additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B523D5BC1933EBC900FC2C4E /* CGContextRef_additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B554710D263733A500A34672 /* CAAnimation+SA_Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = B5D3ABAA15FD3E070052F459 /* CAAnimation+SA_Blocks.m */; };
+		B554710E263733AD00A34672 /* UITableViewCell+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0881151660DD0097CC69 /* UITableViewCell+SA_Additions.m */; };
+		B554710F263733AD00A34672 /* SA_FullScreenBlockingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B58488C01ABED9790045FEC7 /* SA_FullScreenBlockingView.m */; };
+		B5547110263733AD00A34672 /* UIButton+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E086D151660DD0097CC69 /* UIButton+SA_Additions.m */; };
+		B5547111263733AD00A34672 /* SA_BlockButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E097F151661110097CC69 /* SA_BlockButton.m */; };
+		B5547112263733AD00A34672 /* UIImage+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0873151660DD0097CC69 /* UIImage+SA_Additions.m */; };
+		B5547113263733AD00A34672 /* UIScrollView+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E087D151660DD0097CC69 /* UIScrollView+SA_Additions.m */; };
+		B5547114263733AD00A34672 /* UILocalNotification+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B59F32C9181DCB1F0096DF9A /* UILocalNotification+SA_Additions.m */; };
+		B5547115263733AD00A34672 /* SA_ProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = B555CDA0193941300077396A /* SA_ProgressView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B5547116263733AD00A34672 /* SA_CustomAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = B5645160193A7736008E0B0A /* SA_CustomAlert.m */; };
+		B5547117263733AD00A34672 /* SA_NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E085D151660DD0097CC69 /* SA_NavigationController.m */; };
+		B5547118263733AD00A34672 /* UIDevice+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0871151660DD0097CC69 /* UIDevice+SA_Additions.m */; };
+		B5547119263733AD00A34672 /* UIWindow+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B523D5B51933EA7F00FC2C4E /* UIWindow+SA_Additions.m */; };
+		B554711A263733AD00A34672 /* UIImageView+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0875151660DD0097CC69 /* UIImageView+SA_Additions.m */; };
+		B554711B263733AD00A34672 /* UIPopoverController+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E087B151660DD0097CC69 /* UIPopoverController+SA_Additions.m */; };
+		B554711C263733AD00A34672 /* SA_ProgressDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = B555CDA2193941300077396A /* SA_ProgressDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B554711D263733AD00A34672 /* SA_Switch.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E703F717A5D9B700435611 /* SA_Switch.m */; };
+		B554711E263733AD00A34672 /* SA_LazyLoadingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E085B151660DD0097CC69 /* SA_LazyLoadingScrollView.m */; };
+		B554711F263733AD00A34672 /* UIActionSheet+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0869151660DD0097CC69 /* UIActionSheet+SA_Additions.m */; };
+		B5547120263733AD00A34672 /* UIView+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0885151660DD0097CC69 /* UIView+SA_Additions.m */; };
+		B5547121263733AD00A34672 /* SA_Switch.h in Headers */ = {isa = PBXBuildFile; fileRef = B5E703F617A5D9B700435611 /* SA_Switch.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B5547122263733AD00A34672 /* SA_StackedScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0865151660DD0097CC69 /* SA_StackedScrollView.m */; };
+		B5547123263733AD00A34672 /* UIWindow+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B523D5B41933EA7F00FC2C4E /* UIWindow+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B5547124263733AD00A34672 /* SA_SubtleStatusDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = B5C6E3661B2CD49D00BB366A /* SA_SubtleStatusDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B5547125263733AD00A34672 /* SA_CustomAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = B564515F193A7736008E0B0A /* SA_CustomAlert.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B5547126263733AD00A34672 /* SA_FullScreenBlockingView.h in Headers */ = {isa = PBXBuildFile; fileRef = B58488BF1ABED9790045FEC7 /* SA_FullScreenBlockingView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B5547127263733AD00A34672 /* UIGestureRecognizer+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B542238E15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m */; };
+		B5547128263733AD00A34672 /* UIToolbar+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0883151660DD0097CC69 /* UIToolbar+SA_Additions.m */; };
+		B5547129263733AD00A34672 /* UILocalNotification+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B59F32C8181DCB1F0096DF9A /* UILocalNotification+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B554712A263733AD00A34672 /* SA_PleaseWaitDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E085F151660DD0097CC69 /* SA_PleaseWaitDisplay.m */; };
+		B554712B263733AD00A34672 /* UIViewController+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0887151660DD0097CC69 /* UIViewController+SA_Additions.m */; };
+		B554712C263733AD00A34672 /* SA_SplashScreenImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0863151660DD0097CC69 /* SA_SplashScreenImageView.m */; };
+		B554712E263733AD00A34672 /* UIColor+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E086F151660DD0097CC69 /* UIColor+SA_Additions.m */; };
+		B554712F263733AD00A34672 /* UIBarButtonItem+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E086B151660DD0097CC69 /* UIBarButtonItem+SA_Additions.m */; };
+		B5547130263733AD00A34672 /* SA_ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B555CDA1193941300077396A /* SA_ProgressView.m */; };
+		B5547131263733AD00A34672 /* SA_ProgressDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = B555CDA3193941300077396A /* SA_ProgressDisplay.m */; };
+		B5547132263733AD00A34672 /* UISegmentedControl+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E087F151660DD0097CC69 /* UISegmentedControl+SA_Additions.m */; };
+		B5547133263733AD00A34672 /* UILabel+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0877151660DD0097CC69 /* UILabel+SA_Additions.m */; };
+		B5547134263733AD00A34672 /* SA_SubtleStatusDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = B5C6E3671B2CD49D00BB366A /* SA_SubtleStatusDisplay.m */; };
+		B5547135263733AD00A34672 /* UIFont+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B55AA638181C515C00C5B0EE /* UIFont+SA_Additions.m */; };
+		B5547136263733AD00A34672 /* SA_AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0859151660DD0097CC69 /* SA_AlertView.m */; };
+		B5547137263733AD00A34672 /* SA_SelfDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E0861151660DD0097CC69 /* SA_SelfDrawingView.m */; };
+		B554713D263741B000A34672 /* SA_Base.h in Headers */ = {isa = PBXBuildFile; fileRef = B58306FD1516548600CC57DE /* SA_Base.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B555CDA4193941300077396A /* SA_ProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = B555CDA0193941300077396A /* SA_ProgressView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B555CDA5193941300077396A /* SA_ProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = B555CDA0193941300077396A /* SA_ProgressView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B555CDA6193941300077396A /* SA_ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B555CDA1193941300077396A /* SA_ProgressView.m */; };
@@ -427,6 +565,30 @@
 		B5ED0B9716431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B5ED0B9316431C3A00C40F52 /* MFMailComposeViewController+SA_Additions.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		B55470A926372BF000A34672 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B55470A326372BF000A34672;
+			remoteInfo = Framework;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B55470AD26372BF000A34672 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B55470AC26372BF000A34672 /* SA_Base.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B50260B811CC68DE00417EA6 /* libSABase.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSABase.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -453,6 +615,9 @@
 		B52BF7E61871CD2C009F4A4C /* NSError+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+SA_Additions.m"; sourceTree = "<group>"; };
 		B542238D15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+SA_Additions.h"; sourceTree = "<group>"; };
 		B542238E15B64FB8001776BA /* UIGestureRecognizer+SA_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+SA_Additions.m"; sourceTree = "<group>"; };
+		B55470A426372BF000A34672 /* SA_Base.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SA_Base.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B55470A626372BF000A34672 /* Framework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Framework.h; sourceTree = "<group>"; };
+		B55470A726372BF000A34672 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B555CDA0193941300077396A /* SA_ProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SA_ProgressView.h; sourceTree = "<group>"; };
 		B555CDA1193941300077396A /* SA_ProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SA_ProgressView.m; sourceTree = "<group>"; };
 		B555CDA2193941300077396A /* SA_ProgressDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SA_ProgressDisplay.h; sourceTree = "<group>"; };
@@ -614,6 +779,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B55470A126372BF000A34672 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B5E39B70123BA9EE00FC1FE7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -623,6 +795,7 @@
 				B598E670124081CA00E7B7CF /* Foundation.framework in Frameworks */,
 				B598E674124081D200E7B7CF /* QuartzCore.framework in Frameworks */,
 				B598E679124081EB00E7B7CF /* CoreGraphics.framework in Frameworks */,
+				B55470AB26372BF000A34672 /* SA_Base.framework in Frameworks */,
 				B598E67D124081F800E7B7CF /* CoreData.framework in Frameworks */,
 				B598E6811240820400E7B7CF /* SystemConfiguration.framework in Frameworks */,
 			);
@@ -645,6 +818,7 @@
 				B50260B811CC68DE00417EA6 /* libSABase.a */,
 				B50261D711CD233E00417EA6 /* Unit Tests.octest */,
 				B5E39B72123BA9EE00FC1FE7 /* Run-Time Tests.app */,
+				B55470A426372BF000A34672 /* SA_Base.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -657,6 +831,7 @@
 				B55E0834151660DD0097CC69 /* Foundation */,
 				B55E0855151660DD0097CC69 /* UIKit */,
 				B58306F41516548600CC57DE /* SABase */,
+				B55470A526372BF000A34672 /* Framework */,
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
 			);
@@ -675,6 +850,15 @@
 				AACBBE490F95108600F1A2B1 /* Foundation.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B55470A526372BF000A34672 /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				B55470A626372BF000A34672 /* Framework.h */,
+				B55470A726372BF000A34672 /* Info.plist */,
+			);
+			path = Framework;
 			sourceTree = "<group>";
 		};
 		B55E0834151660DD0097CC69 /* Foundation */ = {
@@ -996,6 +1180,82 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B554709F26372BF000A34672 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B55470CF2637337400A34672 /* NSData+SA_Additions.h in Headers */,
+				B55470BC2637337400A34672 /* NSSet+SA_Additions.h in Headers */,
+				B55470BE2637337400A34672 /* UIBarButtonItem+SA_Additions.h in Headers */,
+				B55470CD2637337400A34672 /* NSData+SA_MD5.h in Headers */,
+				B55470CA2637337400A34672 /* UIColor+SA_Additions.h in Headers */,
+				B554713D263741B000A34672 /* SA_Base.h in Headers */,
+				B55470C22637337400A34672 /* SA_SplashScreenImageView.h in Headers */,
+				B55470BD2637337400A34672 /* CAAnimation+SA_Blocks.h in Headers */,
+				B55470BA2637337400A34672 /* SA_SelfDrawingView.h in Headers */,
+				B55470D32637337400A34672 /* UITableViewCell+SA_Additions.h in Headers */,
+				B55470C32637337400A34672 /* NSNotificationCenter+SA_Additions.h in Headers */,
+				B55470E32637337400A34672 /* SA_BackgroundThread.h in Headers */,
+				B55470E02637337400A34672 /* SA_AlertView.h in Headers */,
+				B55470CC2637337400A34672 /* NSURL+SA_Additions.h in Headers */,
+				B55470B22637337400A34672 /* SA_PleaseWaitDisplay.h in Headers */,
+				B55470C12637337400A34672 /* UIView+SA_Additions.h in Headers */,
+				B55470D12637337400A34672 /* SA_Utilities.h in Headers */,
+				B55470E22637337400A34672 /* NSArray+SA_Additions.h in Headers */,
+				B55470B12637337400A34672 /* NSManagedObject+SA_Additions.h in Headers */,
+				B55470D02637337400A34672 /* UISegmentedControl+SA_Additions.h in Headers */,
+				B55470D92637337400A34672 /* NSObject+SA_Additions.h in Headers */,
+				B55470B72637337400A34672 /* SA_ConnectionQueue.h in Headers */,
+				B55470C02637337400A34672 /* NSDate+SA_Additions.h in Headers */,
+				B55470D42637337400A34672 /* UIImage+SA_Additions.h in Headers */,
+				B55470C52637337400A34672 /* SA_StackedScrollView.h in Headers */,
+				B55470BB2637337400A34672 /* SA_NavigationController.h in Headers */,
+				B55470B82637337400A34672 /* NSTimer+SA_Additions.h in Headers */,
+				B55470DA2637337400A34672 /* UILabel+SA_Additions.h in Headers */,
+				B55470C42637337400A34672 /* NSBundle+SA_Additions.h in Headers */,
+				B55470D62637337400A34672 /* NSFileManager+SA_Additions.h in Headers */,
+				B55470C62637337400A34672 /* SA_LazyLoadingScrollView.h in Headers */,
+				B55470CB2637337400A34672 /* UIScrollView+SA_Additions.h in Headers */,
+				B55470E12637337400A34672 /* NSManagedObjectContext+SA_Additions.h in Headers */,
+				B55470C82637337400A34672 /* NSUserDefaults+SA_Additions.h in Headers */,
+				B55470CE2637337400A34672 /* UIFont+SA_Additions.h in Headers */,
+				B55470B32637337400A34672 /* UIPopoverController+SA_Additions.h in Headers */,
+				B55470C72637337400A34672 /* UIToolbar+SA_Additions.h in Headers */,
+				B55470B62637337400A34672 /* UIViewController+SA_Additions.h in Headers */,
+				B55470BF2637337400A34672 /* dispatch_additions_SA.h in Headers */,
+				B5547123263733AD00A34672 /* UIWindow+SA_Additions.h in Headers */,
+				B55470EA263733A500A34672 /* SA_Gestalt.h in Headers */,
+				B5547121263733AD00A34672 /* SA_Switch.h in Headers */,
+				B554710B263733A500A34672 /* NSAttributedString+SA_Additions.h in Headers */,
+				B5547101263733A500A34672 /* SA_Keychain.h in Headers */,
+				B55470F7263733A500A34672 /* SA_ErrorManager.h in Headers */,
+				B554711C263733AD00A34672 /* SA_ProgressDisplay.h in Headers */,
+				B5547115263733AD00A34672 /* SA_ProgressView.h in Headers */,
+				B5547124263733AD00A34672 /* SA_SubtleStatusDisplay.h in Headers */,
+				B55470FF263733A500A34672 /* MFMailComposeViewController+SA_Additions.h in Headers */,
+				B5547125263733AD00A34672 /* SA_CustomAlert.h in Headers */,
+				B5547126263733AD00A34672 /* SA_FullScreenBlockingView.h in Headers */,
+				B5547104263733A500A34672 /* NSParagraphStyle+SA_Additions.h in Headers */,
+				B554710C263733A500A34672 /* CGContextRef_additions.h in Headers */,
+				B55470E4263733A500A34672 /* NSError+SA_Additions.h in Headers */,
+				B5547129263733AD00A34672 /* UILocalNotification+SA_Additions.h in Headers */,
+				B5547102263733A500A34672 /* SA_Sentinel.h in Headers */,
+				B55470D22637337400A34672 /* UIImageView+SA_Additions.h in Headers */,
+				B55470B92637337400A34672 /* NSDictionary+SA_Additions.h in Headers */,
+				B55470DB2637337400A34672 /* UIActionSheet+SA_Additions.h in Headers */,
+				B55470DF2637337400A34672 /* SA_BlockButton.h in Headers */,
+				B55470D82637337400A34672 /* NSString+UniqueStrings.h in Headers */,
+				B55470B42637337400A34672 /* NSSortDescriptor+SA_Additions.h in Headers */,
+				B55470D72637337400A34672 /* UIGestureRecognizer+SA_Additions.h in Headers */,
+				B55470DC2637337400A34672 /* UIDevice+SA_Additions.h in Headers */,
+				B55470C92637337400A34672 /* NSString+SA_Additions.h in Headers */,
+				B55470DD2637337400A34672 /* SA_ThreadsafeMutableCollections.h in Headers */,
+				B55470D52637337400A34672 /* NSString+SA_MD5.h in Headers */,
+				B55470DE2637337400A34672 /* UIButton+SA_Additions.h in Headers */,
+				B55470A826372BF000A34672 /* Framework.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D2AAC07A0554694100DB518D /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -1116,6 +1376,24 @@
 			productReference = B50261D711CD233E00417EA6 /* Unit Tests.octest */;
 			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
+		B55470A326372BF000A34672 /* SA_Base */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B55470B026372BF000A34672 /* Build configuration list for PBXNativeTarget "SA_Base" */;
+			buildPhases = (
+				B554709F26372BF000A34672 /* Headers */,
+				B55470A026372BF000A34672 /* Sources */,
+				B55470A126372BF000A34672 /* Frameworks */,
+				B55470A226372BF000A34672 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SA_Base;
+			productName = Framework;
+			productReference = B55470A426372BF000A34672 /* SA_Base.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		B5E39B71123BA9EE00FC1FE7 /* Run-Time Tests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B5E39B77123BA9EE00FC1FE7 /* Build configuration list for PBXNativeTarget "Run-Time Tests" */;
@@ -1123,10 +1401,12 @@
 				B5E39B6E123BA9EE00FC1FE7 /* Resources */,
 				B5E39B6F123BA9EE00FC1FE7 /* Sources */,
 				B5E39B70123BA9EE00FC1FE7 /* Frameworks */,
+				B55470AD26372BF000A34672 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				B55470AA26372BF000A34672 /* PBXTargetDependency */,
 			);
 			name = "Run-Time Tests";
 			productName = "Run-Time Tests";
@@ -1156,8 +1436,14 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				DefaultBuildSystemTypeForWorkspace = Latest;
 				LastUpgradeCheck = 1200;
 				TargetAttributes = {
+					B55470A326372BF000A34672 = {
+						CreatedOnToolsVersion = 12.5;
+						DevelopmentTeam = YY6CWUX533;
+						ProvisioningStyle = Automatic;
+					};
 					B5E39B71123BA9EE00FC1FE7 = {
 						DevelopmentTeam = YY6CWUX533;
 						ProvisioningStyle = Automatic;
@@ -1185,6 +1471,7 @@
 				B50260BA11CC68FC00417EA6 /* Build Combined Library */,
 				B50261D611CD233E00417EA6 /* Unit Tests */,
 				B5E39B71123BA9EE00FC1FE7 /* Run-Time Tests */,
+				B55470A326372BF000A34672 /* SA_Base */,
 			);
 		};
 /* End PBXProject section */
@@ -1196,6 +1483,13 @@
 			files = (
 				B583072E1516548600CC57DE /* MainWindow.xib in Resources */,
 				B583073C1516548600CC57DE /* TestController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B55470A226372BF000A34672 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1414,6 +1708,80 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B55470A026372BF000A34672 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B5547132263733AD00A34672 /* UISegmentedControl+SA_Additions.m in Sources */,
+				B5547120263733AD00A34672 /* UIView+SA_Additions.m in Sources */,
+				B5547122263733AD00A34672 /* SA_StackedScrollView.m in Sources */,
+				B55470F3263733A500A34672 /* NSManagedObjectContext+SA_Additions.m in Sources */,
+				B55470F1263733A500A34672 /* NSFileManager+SA_Additions.m in Sources */,
+				B55470FB263733A500A34672 /* SA_Gestalt.m in Sources */,
+				B55470EE263733A500A34672 /* NSArray+SA_Additions.m in Sources */,
+				B55470E8263733A500A34672 /* SA_Utilities.m in Sources */,
+				B55470F8263733A500A34672 /* NSTimer+SA_Additions.m in Sources */,
+				B554710D263733A500A34672 /* CAAnimation+SA_Blocks.m in Sources */,
+				B554710A263733A500A34672 /* NSString+UniqueStrings.m in Sources */,
+				B554710F263733AD00A34672 /* SA_FullScreenBlockingView.m in Sources */,
+				B5547135263733AD00A34672 /* UIFont+SA_Additions.m in Sources */,
+				B5547131263733AD00A34672 /* SA_ProgressDisplay.m in Sources */,
+				B554711F263733AD00A34672 /* UIActionSheet+SA_Additions.m in Sources */,
+				B55470F5263733A500A34672 /* CGContextRef_additions.m in Sources */,
+				B55470F2263733A500A34672 /* NSError+SA_Additions.m in Sources */,
+				B5547130263733AD00A34672 /* SA_ProgressView.m in Sources */,
+				B5547109263733A500A34672 /* NSString+SA_MD5.m in Sources */,
+				B554712F263733AD00A34672 /* UIBarButtonItem+SA_Additions.m in Sources */,
+				B554712C263733AD00A34672 /* SA_SplashScreenImageView.m in Sources */,
+				B554711B263733AD00A34672 /* UIPopoverController+SA_Additions.m in Sources */,
+				B55470EF263733A500A34672 /* NSSortDescriptor+SA_Additions.m in Sources */,
+				B5547116263733AD00A34672 /* SA_CustomAlert.m in Sources */,
+				B55470E9263733A500A34672 /* SA_BackgroundThread.m in Sources */,
+				B55470ED263733A500A34672 /* NSObject+SA_Additions.m in Sources */,
+				B5547119263733AD00A34672 /* UIWindow+SA_Additions.m in Sources */,
+				B5547107263733A500A34672 /* dispatch_additions_SA.m in Sources */,
+				B55470E7263733A500A34672 /* NSURL+SA_Additions.m in Sources */,
+				B5547105263733A500A34672 /* SA_ErrorManager.m in Sources */,
+				B554711E263733AD00A34672 /* SA_LazyLoadingScrollView.m in Sources */,
+				B55470E6263733A500A34672 /* SA_Keychain.m in Sources */,
+				B554710E263733AD00A34672 /* UITableViewCell+SA_Additions.m in Sources */,
+				B5547110263733AD00A34672 /* UIButton+SA_Additions.m in Sources */,
+				B55470F9263733A500A34672 /* NSData+SA_Additions.m in Sources */,
+				B5547100263733A500A34672 /* NSNotificationCenter+SA_Additions.m in Sources */,
+				B55470FA263733A500A34672 /* SA_ConnectionQueue.m in Sources */,
+				B554711D263733AD00A34672 /* SA_Switch.m in Sources */,
+				B55470EB263733A500A34672 /* NSParagraphStyle+SA_Additions.m in Sources */,
+				B5547103263733A500A34672 /* NSManagedObject+SA_Additions.m in Sources */,
+				B55470FC263733A500A34672 /* NSData+SA_MD5.m in Sources */,
+				B55470EC263733A500A34672 /* NSUserDefaults+SA_Additions.m in Sources */,
+				B554711A263733AD00A34672 /* UIImageView+SA_Additions.m in Sources */,
+				B55470FE263733A500A34672 /* NSString+SA_Additions.m in Sources */,
+				B5547133263733AD00A34672 /* UILabel+SA_Additions.m in Sources */,
+				B55470F6263733A500A34672 /* NSSet+SA_Additions.m in Sources */,
+				B5547108263733A500A34672 /* NSDictionary+SA_Additions.m in Sources */,
+				B5547134263733AD00A34672 /* SA_SubtleStatusDisplay.m in Sources */,
+				B55470FD263733A500A34672 /* NSAttributedString+SA_Additions.m in Sources */,
+				B55470E5263733A500A34672 /* NSDate+SA_Additions.m in Sources */,
+				B5547111263733AD00A34672 /* SA_BlockButton.m in Sources */,
+				B5547112263733AD00A34672 /* UIImage+SA_Additions.m in Sources */,
+				B5547136263733AD00A34672 /* SA_AlertView.m in Sources */,
+				B5547113263733AD00A34672 /* UIScrollView+SA_Additions.m in Sources */,
+				B55470F4263733A500A34672 /* SA_Sentinel.m in Sources */,
+				B5547106263733A500A34672 /* MFMailComposeViewController+SA_Additions.m in Sources */,
+				B5547117263733AD00A34672 /* SA_NavigationController.m in Sources */,
+				B554712A263733AD00A34672 /* SA_PleaseWaitDisplay.m in Sources */,
+				B554712E263733AD00A34672 /* UIColor+SA_Additions.m in Sources */,
+				B55470F0263733A500A34672 /* NSBundle+SA_Additions.m in Sources */,
+				B5547128263733AD00A34672 /* UIToolbar+SA_Additions.m in Sources */,
+				B5547118263733AD00A34672 /* UIDevice+SA_Additions.m in Sources */,
+				B554712B263733AD00A34672 /* UIViewController+SA_Additions.m in Sources */,
+				B5547114263733AD00A34672 /* UILocalNotification+SA_Additions.m in Sources */,
+				B5547127263733AD00A34672 /* UIGestureRecognizer+SA_Additions.m in Sources */,
+				B55470B52637337400A34672 /* SA_ThreadsafeMutableCollections.m in Sources */,
+				B5547137263733AD00A34672 /* SA_SelfDrawingView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B5E39B6F123BA9EE00FC1FE7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1553,6 +1921,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B55470AA26372BF000A34672 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B55470A326372BF000A34672 /* SA_Base */;
+			targetProxy = B55470A926372BF000A34672 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1DEB921F08733DC00010E9CD /* Debug */ = {
@@ -1775,6 +2151,149 @@
 			};
 			name = Release;
 		};
+		B55470AE26372BF000A34672 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ben Gottlieb (JW8DK48L4U)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = YY6CWUX533;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = SABase/Src/SABase_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = Framework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.standalone.SA_Base;
+				PRODUCT_MODULE_NAME = SA_Base;
+				PRODUCT_NAME = SA_Base;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		B55470AF26372BF000A34672 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = YY6CWUX533;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = SABase/Src/SABase_Prefix.pch;
+				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = Framework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.standalone.SA_Base;
+				PRODUCT_MODULE_NAME = SA_Base;
+				PRODUCT_NAME = SA_Base;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		B5E39B75123BA9EE00FC1FE7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1795,6 +2314,7 @@
 				INFOPLIST_FILE = "SABase/Tests/Run-Time Tests-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -1830,6 +2350,7 @@
 				INFOPLIST_FILE = "SABase/Tests/Run-Time Tests-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -1891,6 +2412,15 @@
 			buildConfigurations = (
 				B50261D911CD233E00417EA6 /* Debug */,
 				B50261DA11CD233E00417EA6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B55470B026372BF000A34672 /* Build configuration list for PBXNativeTarget "SA_Base" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B55470AE26372BF000A34672 /* Debug */,
+				B55470AF26372BF000A34672 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

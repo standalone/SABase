@@ -6,7 +6,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SA_Utilities.h"
 
 @interface NSObject (SA_SA_Additions)
 - (void) cancelAndPerformSelector: (SEL)aSelector withObject: (id)anArgument afterDelay: (NSTimeInterval) delay;
