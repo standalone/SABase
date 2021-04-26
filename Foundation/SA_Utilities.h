@@ -375,6 +375,7 @@ typedef void (^simpleBlock)(void);
 typedef void (^booleanArgumentBlock)(BOOL value);
 typedef void (^intArgumentBlock)(NSInteger index);
 typedef void (^floatArgumentBlock)(float value);
+typedef void (^doubleArgumentBlock)(double value);
 typedef void (^idArgumentBlock)(id arg);
 typedef void (^stringArgumentBlock)(NSString *arg);
 typedef void (^errorArgumentBlock)(NSError *error);

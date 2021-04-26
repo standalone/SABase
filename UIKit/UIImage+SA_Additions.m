@@ -85,7 +85,7 @@
 }
 
 - (NSString *) description {
-	return [NSString stringWithFormat: @"<%@: 0x%x, (%.0f, %.0f)>", [self class], (int) self, self.size.width, self.size.height];
+	return [NSString stringWithFormat: @"<%@: 0x%lx, (%.0f, %.0f)>", [self class], (long) self, self.size.width, self.size.height];
 }
 
 - (void) drawInRect: (CGRect) rect withContentMode: (UIViewContentMode) mode {

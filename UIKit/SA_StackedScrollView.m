@@ -260,5 +260,5 @@
 	return self.bounds.size.height;
 }
 
-- (NSString *) stackedScrollViewHeightKey { return [NSString stringWithFormat: @"%x", (unsigned int) self]; }
+- (NSString *) stackedScrollViewHeightKey { return [NSString stringWithFormat: @"%lx", (long) self]; }
 @end
