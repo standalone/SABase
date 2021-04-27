@@ -2,6 +2,9 @@
 #import "dispatch_additions_SA.h"
 #import "CGContextRef_additions.h"
 
+FOUNDATION_EXPORT double FrameworkVersionNumber;
+FOUNDATION_EXPORT const unsigned char FrameworkVersionString[];
+
 #import "SA_Utilities.h"
 #import "SA_AlertView.h"
 #import "SA_BackgroundThread.h"
@@ -75,3 +78,4 @@
 #import "SA_SubtleStatusDisplay.h"
 
 #import "SA_Gestalt.h"
+#import "NSSet+Additions.h"

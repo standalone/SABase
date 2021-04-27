@@ -13,13 +13,13 @@ xcodebuild archive \
     -scheme "SA_Base" \
     -archivePath "./build/iphonesimulator/SA_Base.xcarchive" SKIP_INSTALL=NO
 
-#echo "Building for Catalyst..."
-#xcodebuild archive \
-#    MACOSX_DEPLOYMENT_TARGET=10.15 \
-#    -destination "platform=macOS,variant=Mac Catalyst" \
-#    BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
-#    -scheme "SA_Base" \
-#    -archivePath "./build/maccatalyst/SA_Base.xcarchive" SKIP_INSTALL=NO
+echo "Building for Catalyst..."
+xcodebuild archive \
+    MACOSX_DEPLOYMENT_TARGET=10.15 \
+    -destination "platform=macOS,variant=Mac Catalyst" \
+    BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
+    -scheme "SA_Base" \
+    -archivePath "./build/maccatalyst/SA_Base.xcarchive" SKIP_INSTALL=NO
 
 #echo "Building for macOS..."
 #xcodebuild archive \
@@ -32,5 +32,5 @@ echo "Building XCFramework..."
 xcodebuild -create-xcframework -output ./SA_Base.xcframework \
     -framework "./build/iphoneos/SA_Base.xcarchive/Products/Library/Frameworks/SA_Base.framework" \
     -framework "./build/iphonesimulator/SA_Base.xcarchive/Products/Library/Frameworks/SA_Base.framework"
-#    -framework "./build/maccatalyst/SA_Base.xcarchive/Products/Library/Frameworks/SA_Base.framework" 
+    -framework "./build/maccatalyst/SA_Base.xcarchive/Products/Library/Frameworks/SA_Base.framework" 
 #    -framework "./build/macosx/SA_Base.xcarchive/Products/Library/Frameworks/SA_Base.framework"
