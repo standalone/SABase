@@ -33,7 +33,7 @@
 		B510289019000A6C001B32A9 /* SA_Sentinel.m in Sources */ = {isa = PBXBuildFile; fileRef = B510288D19000A6C001B32A9 /* SA_Sentinel.m */; };
 		B510289119000A6C001B32A9 /* SA_Sentinel.m in Sources */ = {isa = PBXBuildFile; fileRef = B510288D19000A6C001B32A9 /* SA_Sentinel.m */; };
 		B51F6FE21615CAB90015A037 /* NSSet+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B51F6FE01615CAB90015A037 /* NSSet+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B51F6FE31615CAB90015A037 /* NSSet+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B51F6FE01615CAB90015A037 /* NSSet+SA_Additions.h */; };
+		B51F6FE31615CAB90015A037 /* NSSet+SA_Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B51F6FE01615CAB90015A037 /* NSSet+SA_Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B51F6FE41615CAB90015A037 /* NSSet+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B51F6FE11615CAB90015A037 /* NSSet+SA_Additions.m */; };
 		B51F6FE51615CAB90015A037 /* NSSet+SA_Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B51F6FE11615CAB90015A037 /* NSSet+SA_Additions.m */; };
 		B520E7F119C0564D00848525 /* SA_CustomAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = B5645160193A7736008E0B0A /* SA_CustomAlert.m */; };
@@ -1435,7 +1435,7 @@
 			isa = PBXProject;
 			attributes = {
 				DefaultBuildSystemTypeForWorkspace = Latest;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1250;
 				TargetAttributes = {
 					B55470A326372BF000A34672 = {
 						CreatedOnToolsVersion = 12.5;
@@ -2180,7 +2180,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Ben Gottlieb (JW8DK48L4U)";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
@@ -2212,7 +2212,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.standalone.SA_Base;
+				PRODUCT_BUNDLE_IDENTIFIER = com.standalone.sabase;
 				PRODUCT_MODULE_NAME = SA_Base;
 				PRODUCT_NAME = SA_Base;
 				SKIP_INSTALL = YES;
@@ -2253,7 +2253,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
@@ -2281,7 +2281,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.standalone.SA_Base;
+				PRODUCT_BUNDLE_IDENTIFIER = com.standalone.sabase;
 				PRODUCT_MODULE_NAME = SA_Base;
 				PRODUCT_NAME = SA_Base;
 				SKIP_INSTALL = YES;

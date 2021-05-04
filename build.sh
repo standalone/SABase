@@ -1,3 +1,5 @@
+rm -r SA_Base.xcframework
+
 echo "Building for iOS..."
 xcodebuild archive \
     -sdk iphoneos IPHONEOS_DEPLOYMENT_TARGET=9.0 \
